@@ -1,0 +1,167 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title = 'Get someone ready for work' %}
+
+{#
+Data supplied to this template:
+
+  *
+#}
+
+{% block beforeContent %}
+    {% set breadCrumbList = [ {href: '/work-Profile', title: title } ] %}
+    {{ breadCrumb('Work readiness', breadCrumbList) }}
+{% endblock %}
+
+{% block content %}
+
+    {% set offenders = [
+        {
+            offenderNo: "AB1234",
+            offenderName: "John Smith 1st",
+            releaseType: "HDC",
+            releaseDate: "2022-10-14",
+            status: "NOT STARTED",
+            workSummary: ['Looking for work in: Construction and trade','Driving','Outdoors'],
+            updatedOn: "2022-07-10"
+        },
+        {
+            offenderNo: "AB1235",
+            offenderName: "John Smith 2nd",
+            releaseType: "",
+            releaseDate: "2022-11-11",
+            status: "NEEDS SUPPORT",
+            workSummary: ['N/A'],
+            updatedOn: "2022-07-11"
+        }
+    ] %}
+
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-7">{{ title }}</h1>
+    <div class="govuk-form-group">
+        <div class="govuk-form-group filter-box govuk-!-margin-top-4">
+
+            <div action="" method="post">
+                <input type="hidden" name="_csrf" value="" />
+
+                <div class="govuk-grid-row govuk-!-display-none-print">
+                    {# This whole section has a grey background colour #}
+                    <div class="govuk-grid-column-full">
+                        <div class="govuk-!-padding-left-3 govuk-!-padding-right-3 filter-box-color">
+                            <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+                                {{ govukRadios({
+                                    classes: "govuk-radios--inline govuk-radios--small",
+                                    idPrefix: "status",
+                                    name: "selectStatus",
+                                    fieldset: {
+                                        attributes: { 'data-test': 'status-input' },
+                                        legend: {
+                                            text: 'Status',
+                                            classes: "govuk-fieldset__legend--s govuk-!-margin-bottom-0"
+                                        }
+                                    },
+                                    items: [
+                                        {
+                                            value: "all",
+                                            text: "all",
+                                            checked: "true"
+                                        },
+                                        {
+                                            value: "noStarted",
+                                            text: "No started"
+                                        },
+                                        {
+                                            value: "needsSupport",
+                                            text: "Needs support"
+                                        },
+                                        {
+                                            value: "readyToWork",
+                                            text: "Ready to work"
+                                        },
+                                        {
+                                            value: "doesNotWantSupport",
+                                            text: "Does not want to support"
+                                        },
+                                        {
+                                            value: "noRightToWork",
+                                            text: "No right to work"
+                                        }
+                                    ]
+                                }) }}
+
+                                {{ govukInput({
+                                    classes: "govuk-input--width-20",
+                                    id: "filterByName",
+                                    name: "filterByName"
+                                }) }}
+
+                            </div>
+
+                            {{ govukButton({ text: "Search",
+                                type: "Apply",
+                                classes: 'govuk-!-margin-bottom-0 filter-panel-apply-button',
+                                attributes: {'data-qa': 'filter-panel-apply-button'},
+                                preventDoubleClick: true
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ offenderList(offenders) }}
+
+{% endblock %}
+
+{# ------------------------------------------------------------- #}
+{# Present list of offenders table pre-filtered based on choices #}
+{# ------------------------------------------------------------- #}
+
+{% macro offenderList(offenders) %}
+    <div id="offender-container">
+        <table id="view-offender" class="govuk-table view-offender">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header sortable">Prisoner</th>
+                <th scope="col" class="govuk-table__header sortable">Release type and date</th>
+                <th scope="col" class="govuk-table__header sortable">Status</th>
+                <th scope="col" class="govuk-table__header">Work summary</th>
+                <th scope="col" class="govuk-table__header sortable">Updated on</th>
+            </tr>
+            </thead>
+
+            <tbody class="govuk-table__body">
+            {% set rowClass = cycler("odd", "even") %}
+
+            {% for offender in offenders %}
+
+                <tr class="govuk-table__row {{ rowClass.next() }}">
+                    <td class="govuk-table__cell">
+                        <a href="{{ '/personal/' + offender.offenderNo }}"
+                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.offenderName }}</a>
+                        <p>{{ offender.offenderNo }}</p>
+                    </td>
+                    <td class="govuk-table__cell">{{ offender.releaseType or '' }}
+                        <p>{{ offender.releaseDate or 'N/A' }}</p>
+                    </td>
+                    <td class="govuk-table__cell">{{ offender.Status }}</td>
+                    <td class="govuk-table__cell">{{ offender.workSummary or 'N/A' }}</td>
+                    <td class="govuk-table__cell">{{ offender.updatedOn or 'N/A' }}</td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+{% endmacro %}
