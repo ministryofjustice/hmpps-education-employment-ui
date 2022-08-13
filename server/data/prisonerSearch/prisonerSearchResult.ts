@@ -1,4 +1,5 @@
-import { Expose, Type } from 'class-transformer'
+import { Expose, Transform, Type } from 'class-transformer'
+import { formatShortDate } from '../../utils/utils'
 
 export default class PrisonerSearchResult {
   @Expose()

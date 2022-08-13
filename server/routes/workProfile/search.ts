@@ -1,12 +1,12 @@
 import type { ValidationResult } from 'joi'
-import joi from 'joi'
+import joi, { date } from 'joi'
 import { isNil } from 'ramda'
-
 import type { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
 import { format as formatDate } from 'date-fns'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
+import { twelveWeeksFromNow, formatDateToyyyyMMdd } from '../../utils/utils'
 
 const format = (date: Date) => date && formatDate(date, 'yyyy-MM-dd')
 
@@ -43,26 +43,27 @@ export default class SearchRoutes {
     res.render('pages/workProfile/viewWorkProfile', { errors, errorKeys })
   }
 
+  // TODO: REFACTOR + VALIDATE!!
   public prisonerSearch: RequestHandler = async (req, res): Promise<void> => {
-    const { searchTerm, page } = req.query
+    const { searchTerm, status, offenderName, page } = req.query
 
-    if (isNil(searchTerm)) {
-      res.render('pages/workProfile/viewWorkProfile')
-      return
-    }
+    // if (isNil(searchTerm)) {
+    //   res.render('pages/workProfile/viewWorkProfile')
+    //   return
+    // }
     const pageNumber = page ? +page - 1 : 0
 
-    const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
-
-    if (validationResult.error) {
-      const { errors, errorKeys } = this.getSearchScreenErrors(validationResult, '#searchTerm')
-      res.render('pages/workProfile/viewWorkProfile', { searchTerm, errors, errorKeys })
-      return
-    }
+    // const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
+    //
+    // if (validationResult.error) {
+    //   const { errors, errorKeys } = this.getSearchScreenErrors(validationResult, '#searchTerm')
+    //   res.render('pages/workProfile/viewWorkProfile', { searchTerm, errors, errorKeys })
+    //   return
+    // }
 
     const results = await this.prisonerSearchService.search({
-      searchTerm: searchTerm as string,
-      user: res.locals.user.userDetails,
+      searchTerm: 'smith',
+      user: res.locals.user,
       pageNumber,
     })
 
@@ -70,6 +71,45 @@ export default class SearchRoutes {
     const paginationData = this.paginationService.getPagination(results, paginationUrl)
 
     res.render('pages/workProfile/viewWorkProfile', { searchTerm, prisonerSearchResults: results, paginationData })
+  }
+
+  // TODO: REFACTOR + VALIDATE!!!
+  public prisonerSearchByReleaseDate: RequestHandler = async (req, res): Promise<void> => {
+    const { searchTerm, prisonIds, page } = req.query
+
+    // if (isNil(searchTerm)) {
+    //   res.render('pages/workProfile/viewWorkProfile')
+    //   return
+    // }
+    const pageNumber = page ? +page - 1 : 0
+
+    // const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
+
+    // if (validationResult.error) {
+    //   const { errors, errorKeys } = this.getSearchScreenErrors(validationResult, '#searchTerm')
+    //   res.render('pages/workProfile/viewWorkProfile', { searchTerm, errors, errorKeys })
+    //   return
+    // }
+
+    const dateFilter = `${twelveWeeksFromNow()},${formatDateToyyyyMMdd(new Date())}`
+
+    /*
+      TODO
+      This is a 1st stab at populating main screen, parameters are hard-coded here for that
+      purpose. MUST BE REFACTORED!!
+      Retrieve caseload from prisonSearchService to determine prison ids?!
+     */
+    const results = await this.prisonerSearchService.searchByReleaseDate(
+      res.locals.user.username,
+      dateFilter,
+      ['LEI', 'MDI'],
+      res.locals.user.token,
+    )
+
+    const paginationUrl = new URL(`${req.protocol}://${req.get('host')}/work-profile/viewWorkProfile`)
+    const paginationData = this.paginationService.getPagination(results, paginationUrl)
+
+    res.render('pages/workProfile/viewWorkProfile', { prisonerSearchResults: results, paginationData })
   }
 
   private getSearchScreenErrors(validationResult: ValidationResult, pageErrorKey: string) {

@@ -36,7 +36,47 @@ export function parseUTCDate(val: string): Date {
   if (RegExp(slashSeparatedDatePattern).test(val)) return parse(`${val} Z`, 'dd/MM/yyyy X', new Date())
   return val ? parseISO(val) : undefined
 }
+export function parseISODate(val: string): Date {
+  if (RegExp(slashSeparatedDatePattern).test(val)) return parse(`${val} Z`, 'yyyy-MM-dd', new Date())
+  return val ? parseISO(val) : undefined
+}
 
 export function transformUTCDate(params: TransformFnParams): Date {
   return parseUTCDate(params.value)
+}
+export function transformISODate(params: TransformFnParams): Date {
+  return parseISODate(params.value)
+}
+
+/**
+ * Calculate release date 12 weeks from now.
+ * With Date.now() you get the actual unix timestamp as milliseconds and then you add as many milliseconds
+ * as you want to add days to.
+ * One day is 24h60min60s*1000ms = 86400000 ms or 864E5.
+ */
+export function twelveWeeksFromNow(): string {
+  const oneWeek = 7 * 86400000
+  const d = new Date(Date.now() - 12 * oneWeek)
+  const newDate = parseISODate(d.toISOString())
+  return formatDateToyyyyMMdd(newDate)
+}
+
+export function formatShortDate(val: Date): string {
+  return val.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/London',
+  })
+}
+export function formatDateToyyyyMMdd(date: Date) {
+  const d = new Date(date)
+  let month = `${d.getMonth() + 1}`
+  let day = `${d.getDate()}`
+  const year = d.getFullYear()
+
+  if (month.length < 2) month = `0${month}`
+  if (day.length < 2) day = `0${day}`
+
+  return [year, month, day].join('-')
 }

@@ -6,7 +6,9 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "moj/components/pagination/macro.njk" import mojPagination %}
 
+{% set offenderToBeReleased = prisonerSearchResults.content %}
 {% set title = 'Get someone ready for work' %}
 
 {#
@@ -22,30 +24,11 @@ Data supplied to this template:
 
 {% block content %}
 
-    {% set offenders = [
-        {
-            offenderNo: "AB1234",
-            offenderName: "John Smith 1st",
-            releaseType: "HDC",
-            releaseDate: "2022-10-14",
-            status: "NOT STARTED",
-            workSummary: ['Looking for work in: Construction and trade','Driving','Outdoors'],
-            updatedOn: "2022-07-10"
-        },
-        {
-            offenderNo: "AB1235",
-            offenderName: "John Smith 2nd",
-            releaseType: "",
-            releaseDate: "2022-11-11",
-            status: "NEEDS SUPPORT",
-            workSummary: ['N/A'],
-            updatedOn: "2022-07-11"
-        }
-    ] %}
-
     <h1 class="govuk-heading-l govuk-!-margin-bottom-7">{{ title }}</h1>
-    <div class="govuk-form-group">
-        <div class="govuk-form-group filter-box govuk-!-margin-top-4">
+{#    <div class="govuk-form-group">#}
+{#        <div class="govuk-form-group filter-box govuk-!-margin-top-4">#}
+       <form novalidate="novalidate" class="prisoner-search__form" data-test="prisoner-search-form">
+        <div class="horizontal-form govuk-!-margin-bottom-3">
 
             <div action="" method="post">
                 <input type="hidden" name="_csrf" value="" />
@@ -98,25 +81,33 @@ Data supplied to this template:
                                 {{ govukInput({
                                     classes: "govuk-input--width-20",
                                     id: "filterByName",
-                                    name: "filterByName"
+                                    name: "filterByName",
+                                    errorMessage: errors | findError('filterByName'),
+                                    label: {
+                                        text: "Search by prisoner's name",
+                                        classes: "govuk-label--s",
+                                        isPageHeading: true
+                                    }
                                 }) }}
-
+                                {{ govukButton({ text: "Search",
+                                    type: "Apply",
+                                    classes: 'govuk-!-margin-bottom-0 filter-panel-apply-button',
+                                    attributes: {'data-qa': 'filter-panel-apply-button'},
+                                    preventDoubleClick: true
+                                }) }}
                             </div>
-
-                            {{ govukButton({ text: "Search",
-                                type: "Apply",
-                                classes: 'govuk-!-margin-bottom-0 filter-panel-apply-button',
-                                attributes: {'data-qa': 'filter-panel-apply-button'},
-                                preventDoubleClick: true
-                            }) }}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    {{ offenderList(offenders) }}
+        </div>
+       </form>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    {{ mojPagination( paginationData ) }}
+    {{ offenderList(offenderToBeReleased) }}
+    {{ mojPagination( paginationData ) }}
 
 {% endblock %}
 
@@ -144,16 +135,16 @@ Data supplied to this template:
 
                 <tr class="govuk-table__row {{ rowClass.next() }}">
                     <td class="govuk-table__cell">
-                        <a href="{{ '/personal/' + offender.offenderNo }}"
-                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.offenderName }}</a>
-                        <p>{{ offender.offenderNo }}</p>
+                        <a href="{{ '/personal/' + offender.prisonerNumber }}"
+                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.lastName + ', ' + offender.firstName }}</a>
+                        <p>{{ offender.prisonerNumber }}</p>
                     </td>
-                    <td class="govuk-table__cell">{{ offender.releaseType or '' }}
+                    <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                         <p>{{ offender.releaseDate or 'N/A' }}</p>
                     </td>
-                    <td class="govuk-table__cell">{{ offender.Status }}</td>
-                    <td class="govuk-table__cell">{{ offender.workSummary or 'N/A' }}</td>
-                    <td class="govuk-table__cell">{{ offender.updatedOn or 'N/A' }}</td>
+                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
+                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
+                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
                 </tr>
 
             {% endfor %}

@@ -1,5 +1,9 @@
 import { Readable } from 'stream'
-import type { PrisonerSearchByName, PrisonerSearchByPrisonerNumber } from '../data/prisonerSearch/prisonerSearchClient'
+import type {
+  PrisonerSearchByName,
+  PrisonerSearchByPrisonerNumber,
+  ReleaseDateSearch,
+} from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
@@ -8,6 +12,7 @@ import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import { UserDetails } from './userService'
 import PagedResponse from '../data/domain/types/pagedResponse'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
+import SearchByReleaseDateFilters from '../data/prisonerSearch/SearchByReleaseDateFilters'
 
 export interface PrisonerSearchSummary extends PrisonerSearchResult {
   displayName?: string
@@ -37,9 +42,21 @@ function searchByPrisonerIdentifier(searchTerm: string, prisonIds: string[]): Pr
   }
 }
 
+function searchPrisonersByReleaseDate(searchTerm: string, prisonIds: string[]): ReleaseDateSearch {
+  const [earliestReleaseDate, latestReleaseDate] = searchTerm.split(',')
+  return { earliestReleaseDate, latestReleaseDate, prisonIds }
+}
+
 interface PrisonerSearch {
   searchTerm: string
   user: UserDetails
+  pageNumber?: number
+}
+
+export interface PrisonerSearchByReleaseDate {
+  user: UserDetails
+  searchTerm: string
+  prisonIds: string[]
   pageNumber?: number
 }
 
@@ -51,7 +68,7 @@ export default class PrisonerSearchService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
   async search({ searchTerm, user, pageNumber = 0 }: PrisonerSearch): Promise<PagedResponse<PrisonerSearchSummary>> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(user.name)
+    const token = await this.hmppsAuthClient.getSystemClientToken(user.username)
     const sanitisedSearch = sanitise(searchTerm)
     const prisonIds = await this.getUserPrisonCaseload(user)
     const searchRequest = isPrisonerIdentifier(sanitisedSearch)
@@ -75,6 +92,25 @@ export default class PrisonerSearchService {
     return results
   }
 
+  async searchByReleaseDate(
+    username: string,
+    searchTerm: string,
+    prisonIds?: string[],
+    token?: string,
+    filters?: SearchByReleaseDateFilters,
+    pageNumber = 0,
+  ): Promise<PagedResponse<PrisonerSearchSummary>> {
+    // const token = await this.hmppsAuthClient.getSystemClientToken(username)
+    const searchRequest = searchPrisonersByReleaseDate(searchTerm, prisonIds)
+
+    const results: PagedResponse<PrisonerSearchSummary> = await new PrisonerSearchClient(token).searchByReleaseDate(
+      searchRequest,
+    )
+
+    results.content = await this.decoratePrisonerSearchResults(username, results.content)
+    return results
+  }
+
   async getPrisoners(
     username: string,
     prisonerNumbers: Array<string>,
@@ -91,7 +127,7 @@ export default class PrisonerSearchService {
   }
 
   async getUserPrisonCaseload(user: UserDetails) {
-    const token = await this.hmppsAuthClient.getSystemClientToken(user.name)
+    const token = await this.hmppsAuthClient.getSystemClientToken(user.username)
     const userCaseloads = await new NomisUserRolesApiClient(token).getUserCaseLoads(user)
 
     const prisonIds = userCaseloads

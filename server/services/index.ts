@@ -8,11 +8,13 @@ export const services = () => {
 
   const userService = new UserService(hmppsAuthClient)
   const prisonerSearch = new PrisonerSearchService(hmppsAuthClient)
+  const prisonerSearchByReleaseDate = new PrisonerSearchService(hmppsAuthClient)
   const paginationService = new PaginationService()
   return {
     userService,
     prisonerSearch,
     paginationService,
+    prisonerSearchByReleaseDate,
   }
 }
 

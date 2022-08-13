@@ -10,8 +10,12 @@ export default function createRoutes(service: Services): Router {
   })
 
   const searchRoute = new SearchRoutes(service.prisonerSearch, service.paginationService)
+  // const searchByReleaseDateRoute = new SearchRoutes(service.prisonerSearchByReleaseDate, service.paginationService)
 
   router.get('/work-profile/search', searchRoute.prisonerSearch, (req, res) => {
+    res.render('pages/workProfile/viewWorkProfile', { searchRoute })
+  })
+  router.get('/work-profile/releaseByDate', searchRoute.prisonerSearchByReleaseDate, (req, res) => {
     res.render('pages/workProfile/viewWorkProfile', { searchRoute })
   })
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
