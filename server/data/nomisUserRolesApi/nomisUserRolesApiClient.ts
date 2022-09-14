@@ -1,9 +1,6 @@
 import config from '../../config'
-import logger from '../../log'
 import RestClient from '../restClient'
 import { UserDetails } from '../../services/userService'
-import PagedResponse from '../domain/types/pagedResponse'
-import AuthRole from '../../middleware/authorisationMiddleware'
 
 interface UserCaseLoad {
   caseloads: [
@@ -34,7 +31,7 @@ export default class NomisUserRolesApiClient {
 
   async getUserCaseLoads(user: UserDetails): Promise<string[]> {
     return this.restClient
-      .get<UserCaseLoad>({ path: `/users/${user}/caseloads` })
+      .get<UserCaseLoad>({ path: `/users/${user.username}/caseloads` })
       .then(userCaseload => userCaseload.caseloads.map(caseload => caseload.id))
   }
 

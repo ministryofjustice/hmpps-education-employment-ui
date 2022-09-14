@@ -5,7 +5,7 @@ import type {
   ReleaseDateSearch,
 } from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
-import { convertToTitleCase } from '../utils/utils'
+import { convertToTitleCase, formatDateToyyyyMMdd } from '../utils/utils'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 import PrisonApiClient, { Prison } from '../data/prisonApi/prisonApiClient'
 import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
@@ -53,8 +53,8 @@ interface PrisonerSearch {
   pageNumber?: number
 }
 
-export interface PrisonerSearchByReleaseDate {
-  user: UserDetails
+export interface PrisonerSearchByReleaseDate extends PrisonerSearchResult {
+  displayName?: string
   searchTerm: string
   prisonIds: string[]
   pageNumber?: number
@@ -88,7 +88,7 @@ export default class PrisonerSearchService {
       )
     }
 
-    results.content = await this.decoratePrisonerSearchResults(user.name, results.content)
+    results.content = await this.decoratePrisonerSearchResults(user.name, results.content, token)
     return results
   }
 
@@ -97,17 +97,14 @@ export default class PrisonerSearchService {
     searchTerm: string,
     prisonIds?: string[],
     token?: string,
-    filters?: SearchByReleaseDateFilters,
     pageNumber = 0,
   ): Promise<PagedResponse<PrisonerSearchSummary>> {
-    // const token = await this.hmppsAuthClient.getSystemClientToken(username)
     const searchRequest = searchPrisonersByReleaseDate(searchTerm, prisonIds)
-
     const results: PagedResponse<PrisonerSearchSummary> = await new PrisonerSearchClient(token).searchByReleaseDate(
       searchRequest,
     )
 
-    results.content = await this.decoratePrisonerSearchResults(username, results.content)
+    results.content = await this.decoratePrisonerSearchResults(username, results.content, token)
     return results
   }
 
@@ -118,7 +115,7 @@ export default class PrisonerSearchService {
   ): Promise<PrisonerSearchSummary[]> {
     const token = await this.hmppsAuthClient.getSystemClientToken(username)
     const results = await new PrisonerSearchClient(token).findByPrisonerNumbers(prisonerNumbers)
-    return this.decoratePrisonerSearchResults(username, results, retrieveLastPrison)
+    return this.decoratePrisonerSearchResults(username, results, token, retrieveLastPrison)
   }
 
   async getPrisonerImage(username: string, prisonerNumber: string): Promise<Readable> {
@@ -138,19 +135,35 @@ export default class PrisonerSearchService {
     return prisonIds
   }
 
-  async getLastPrison(username: string, prisonerNumber: string): Promise<Prison> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(username)
+  async getUserPrisonCaseloads(user: UserDetails, token: string) {
+    const userCaseloads = await new NomisUserRolesApiClient(token).getUserCaseLoads(user)
+
+    const prisonIds = userCaseloads
+
+    if (!prisonIds.includes(GLOBAL_SEARCH)) {
+      prisonIds.push('OUT')
+    }
+    return prisonIds
+  }
+
+  async getLastPrison(username: string, prisonerNumber: string, token: string): Promise<Prison> {
+    // const token = await this.hmppsAuthClient.getSystemClientToken(username)
     const lastMovement = await new PrisonApiClient(token).getLastMovement(prisonerNumber)
     return { agencyId: lastMovement[0].fromAgency, description: lastMovement[0].fromAgencyDescription }
   }
 
-  async decoratePrisonerSearchResults(username: string, prisoners: PrisonerSearchResult[], retrieveLastPrison = true) {
+  async decoratePrisonerSearchResults(
+    username: string,
+    prisoners: PrisonerSearchResult[],
+    token: string,
+    retrieveLastPrison = true,
+  ) {
     return Promise.all(
       prisoners.map(async prisoner => {
         let lastPrisonId
         let lastPrisonDescription
         if (prisoner.prisonId === 'OUT' && retrieveLastPrison) {
-          const lastPrison = await this.getLastPrison(username, prisoner.prisonerNumber)
+          const lastPrison = await this.getLastPrison(username, prisoner.prisonerNumber, token)
           lastPrisonId = lastPrison.agencyId
           lastPrisonDescription = lastPrison.description
         }

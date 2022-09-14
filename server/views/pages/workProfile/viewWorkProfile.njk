@@ -31,7 +31,7 @@ Data supplied to this template:
         <div class="horizontal-form govuk-!-margin-bottom-3">
 
             <div action="" method="post">
-                <input type="hidden" name="_csrf" value="" />
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
                 <div class="govuk-grid-row govuk-!-display-none-print">
                     {# This whole section has a grey background colour #}
@@ -51,46 +51,52 @@ Data supplied to this template:
                                     },
                                     items: [
                                         {
-                                            value: "all",
-                                            text: "all",
-                                            checked: "true"
+                                            id: 'allStatusFilter',
+                                            value: 'all',
+                                            text: 'all',
+                                            checked: 'true'
                                         },
                                         {
-                                            value: "noStarted",
-                                            text: "No started"
+                                            id: 'notStartedStatusFilter',
+                                            value: 'noStarted',
+                                            text: 'No started'
                                         },
                                         {
-                                            value: "needsSupport",
-                                            text: "Needs support"
+                                            id: 'needsSupportStatusFilter',
+                                            value: 'needsSupport',
+                                            text: 'Needs support'
                                         },
                                         {
-                                            value: "readyToWork",
-                                            text: "Ready to work"
+                                            id: 'readyToWorkStatusFilter',
+                                            value: 'readyToWork',
+                                            text: 'Ready to work'
                                         },
                                         {
-                                            value: "doesNotWantSupport",
-                                            text: "Does not want to support"
+                                            id: 'doesNotWantSupportStatusFilter',
+                                            value: 'doesNotWantSupport',
+                                            text: 'Does not want to support'
                                         },
                                         {
-                                            value: "noRightToWork",
-                                            text: "No right to work"
+                                            id: 'noRightToWorkStatusFilter',
+                                            value: 'noRightToWork',
+                                            text: 'No right to work'
                                         }
                                     ]
                                 }) }}
 
                                 {{ govukInput({
-                                    classes: "govuk-input--width-20",
-                                    id: "filterByName",
-                                    name: "filterByName",
+                                    classes: 'govuk-input--width-20',
+                                    id: 'filterByName',
+                                    name: 'filterByName',
                                     errorMessage: errors | findError('filterByName'),
                                     label: {
-                                        text: "Search by prisoner's name",
-                                        classes: "govuk-label--s",
+                                        text: 'Search by prisoner name',
+                                        classes: 'govuk-label--s',
                                         isPageHeading: true
                                     }
                                 }) }}
-                                {{ govukButton({ text: "Search",
-                                    type: "Apply",
+                                {{ govukButton({ text: 'Search',
+                                    type: 'Apply',
                                     classes: 'govuk-!-margin-bottom-0 filter-panel-apply-button',
                                     attributes: {'data-qa': 'filter-panel-apply-button'},
                                     preventDoubleClick: true
@@ -134,15 +140,19 @@ Data supplied to this template:
             {% for offender in offenders %}
 
                 <tr class="govuk-table__row {{ rowClass.next() }}">
+                    {% set quickLookUrl = dpsUrl + '/offenders/' + offender.prisonerNumber + '/quick-look' %}
                     <td class="govuk-table__cell">
-                        <a href="{{ '/personal/' + offender.prisonerNumber }}"
-                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.lastName + ', ' + offender.firstName }}</a>
+                        <a href="{{ quickLookUrl }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           data-qa="quick-look-link"
+                           class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
                         <p>{{ offender.prisonerNumber }}</p>
                     </td>
                     <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                         <p>{{ offender.releaseDate or 'N/A' }}</p>
                     </td>
-                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
+                    <td class="govuk-table__cell govuk-tag govuk-tag--red">{{ 'NOT STARTED' }}</td>
                     <td class="govuk-table__cell">{{ 'N/A' }}</td>
                     <td class="govuk-table__cell">{{ 'N/A' }}</td>
                 </tr>

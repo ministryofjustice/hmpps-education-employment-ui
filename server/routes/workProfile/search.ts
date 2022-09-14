@@ -7,8 +7,10 @@ import { format as formatDate } from 'date-fns'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
 import { twelveWeeksFromNow, formatDateToyyyyMMdd } from '../../utils/utils'
+import NomisUserRolesApiClient from '../../data/nomisUserRolesApi/nomisUserRolesApiClient'
 
 const format = (date: Date) => date && formatDate(date, 'yyyy-MM-dd')
+const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/releaseByDate'
 
 export default class SearchRoutes {
   constructor(
@@ -53,7 +55,7 @@ export default class SearchRoutes {
     // }
     const pageNumber = page ? +page - 1 : 0
 
-    // const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
+    const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
     //
     // if (validationResult.error) {
     //   const { errors, errorKeys } = this.getSearchScreenErrors(validationResult, '#searchTerm')
@@ -67,46 +69,31 @@ export default class SearchRoutes {
       pageNumber,
     })
 
-    const paginationUrl = new URL(`${req.protocol}://${req.get('host')}/work-profile?searchTerm=${searchTerm}&page=0`)
+    const paginationUrl = new URL(
+      `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}=${searchTerm}&page=0`,
+    )
     const paginationData = this.paginationService.getPagination(results, paginationUrl)
 
     res.render('pages/workProfile/viewWorkProfile', { searchTerm, prisonerSearchResults: results, paginationData })
   }
 
-  // TODO: REFACTOR + VALIDATE!!!
+  // TODO: VALIDATE!!!
   public prisonerSearchByReleaseDate: RequestHandler = async (req, res): Promise<void> => {
-    const { searchTerm, prisonIds, page } = req.query
-
-    // if (isNil(searchTerm)) {
-    //   res.render('pages/workProfile/viewWorkProfile')
-    //   return
-    // }
+    const { page } = req.query
     const pageNumber = page ? +page - 1 : 0
 
-    // const validationResult = this.searchSchema.validate(req.query, { stripUnknown: true, abortEarly: false })
+    const dateFilter = `${twelveWeeksFromNow()},${formatDateToyyyyMMdd(new Date().toString())}`
+    const userCaseLoad = await this.prisonerSearchService.getUserPrisonCaseloads(res.locals.user, res.locals.user.token)
 
-    // if (validationResult.error) {
-    //   const { errors, errorKeys } = this.getSearchScreenErrors(validationResult, '#searchTerm')
-    //   res.render('pages/workProfile/viewWorkProfile', { searchTerm, errors, errorKeys })
-    //   return
-    // }
-
-    const dateFilter = `${twelveWeeksFromNow()},${formatDateToyyyyMMdd(new Date())}`
-
-    /*
-      TODO
-      This is a 1st stab at populating main screen, parameters are hard-coded here for that
-      purpose. MUST BE REFACTORED!!
-      Retrieve caseload from prisonSearchService to determine prison ids?!
-     */
     const results = await this.prisonerSearchService.searchByReleaseDate(
       res.locals.user.username,
       dateFilter,
-      ['LEI', 'MDI'],
+      userCaseLoad,
       res.locals.user.token,
+      pageNumber,
     )
 
-    const paginationUrl = new URL(`${req.protocol}://${req.get('host')}/work-profile/viewWorkProfile`)
+    const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}`)
     const paginationData = this.paginationService.getPagination(results, paginationUrl)
 
     res.render('pages/workProfile/viewWorkProfile', { prisonerSearchResults: results, paginationData })

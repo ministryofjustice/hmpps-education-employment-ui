@@ -2,6 +2,7 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -66,4 +67,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
         selected: entry && entry.value === selected,
       })),
   )
+  njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
 }

@@ -1,0 +1,152 @@
+.status-bar {
+  background-color: lighten(#2b88c8, 45%);
+
+  .govuk-table__cell {
+    border: transparent;
+  }
+}
+
+.status-bar-title {
+  @media screen {
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 19px;
+    white-space: nowrap;
+  }
+}
+
+%status-style {
+  @media screen {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    min-width: 100px;
+    user-select: none;
+  }
+}
+
+.profile-status {
+  @extend %status-style;
+
+  @media screen {
+    text-transform: uppercase;
+    min-height: 10px;
+  }
+
+  img {
+    height: 14px;
+    margin-right: 3px;
+  }
+
+  &--completed {
+    color: #ffffff;
+    background-color: #1d70b8;
+    border: 3px solid #1d70b8 !important;
+    width: 110px;
+  }
+
+  &--not-started{
+    color: #d4351c;
+    background-color: #ffffff;
+    border: 3px solid #1d70b8 !important;
+    padding: 2px;
+    width: 105px;
+  }
+
+  &--support-needed {
+    color: #2771b1;
+    background-color: #ffffff;
+    border: 3px solid #2771b1 !important;
+    width: 110px;
+  }
+
+  &--no-right-to-work {
+    color: #ffffff;
+    background-color: #d4351c;
+    border: 3px solid #d4351c !important;
+    width: 110px;
+  }
+
+  &--support-declined {
+    color: #8a8a8a;
+    background-color: #ffffff;
+    border: 3px solid #8a8a8a !important;
+    width: 110px;
+  }
+
+  &--in-progress {
+    color: #d4351c;
+    background-color: #ffffff;
+    border: 3px solid #d4351c !important;
+    width: 110px;
+  }
+}
+
+.review-status {
+  @extend %status-style;
+
+  @media screen {
+    text-transform: uppercase;
+    min-height: 10px;
+  }
+
+  img {
+    height: 14px;
+    margin-right: 3px;
+  }
+
+  &--scheduled {
+    color: #8a8a8a;
+    background-color: #ffffff;
+    border: 3px solid #8a8a8a !important;
+    width: 110px;
+  }
+
+  &--submitted {
+    color: #2771b1;
+    background-color: #ffffff;
+    border: 3px solid #2771b1 !important;
+    width: 110px;
+  }
+
+  &--requires_amendment{
+    color: #d4351c;
+    background-color: #ffffff;
+    border: 3px solid #1d70b8 !important;
+    padding: 2px;
+    width: 105px;
+  }
+
+  &--requires_overdue{
+    color: #d4351c;
+    background-color: #ffffff;
+    border: 3px solid #d4351c !important;
+    width: 110px;
+  }
+
+  &--authorised {
+    color: #ffffff;
+    background-color: #1d70b8;
+    border: 3px solid #1d70b8 !important;
+    width: 110px;
+  }
+
+  &--cancelled {
+    color: #ffffff;
+    background-color: #B8701DFF;
+    border: 3px solid #B8701DFF !important;
+    width: 110px;
+  }
+
+  &--na{
+    color: #4E8D0BFF;
+    background-color: #ffffff;
+    border: 3px solid #4E8D0BFF !important;
+    width: 110px;
+  }
+}

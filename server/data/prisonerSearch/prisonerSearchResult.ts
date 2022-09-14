@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer'
-import { formatShortDate } from '../../utils/utils'
+import { formatDateStringToyyyyMMdd } from '../../utils/utils'
 
 export default class PrisonerSearchResult {
   @Expose()
@@ -57,5 +57,9 @@ export default class PrisonerSearchResult {
 
   @Type(() => Date)
   @Expose()
-  releaseDate: Date
+  @Transform(formatDateStringToyyyyMMdd)
+  releaseDate: string
+
+  @Expose()
+  nonDtoReleaseDateType: string
 }

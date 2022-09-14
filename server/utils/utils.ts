@@ -58,7 +58,7 @@ export function twelveWeeksFromNow(): string {
   const oneWeek = 7 * 86400000
   const d = new Date(Date.now() - 12 * oneWeek)
   const newDate = parseISODate(d.toISOString())
-  return formatDateToyyyyMMdd(newDate)
+  return formatDateToyyyyMMdd(newDate.toString())
 }
 
 export function formatShortDate(val: Date): string {
@@ -69,8 +69,8 @@ export function formatShortDate(val: Date): string {
     timeZone: 'Europe/London',
   })
 }
-export function formatDateToyyyyMMdd(date: Date) {
-  const d = new Date(date)
+export function formatDateToyyyyMMdd(params: string): string {
+  const d = new Date(params)
   let month = `${d.getMonth() + 1}`
   let day = `${d.getDate()}`
   const year = d.getFullYear()
@@ -79,4 +79,15 @@ export function formatDateToyyyyMMdd(date: Date) {
   if (day.length < 2) day = `0${day}`
 
   return [year, month, day].join('-')
+}
+export function formatDateStringToyyyyMMdd(params: TransformFnParams) {
+  const d = new Date(params.value)
+  let month = `${d.getMonth() + 1}`
+  let day = `${d.getDate()}`
+  const year = d.getFullYear()
+
+  if (month.length < 2) month = `0${month}`
+  if (day.length < 2) day = `0${day}`
+
+  return [day, month, year].join('-')
 }

@@ -4,6 +4,15 @@ import type { RequestHandler } from 'express'
 import logger from '../../logger'
 import asyncMiddleware from './asyncMiddleware'
 
+export enum AuthRole {
+  ROLE_VIEW_PRISONER_DATA = 'ROLE_VIEW_PRISONER_DATA',
+}
+
+export const isAuthorisedRole = (role: string): boolean =>
+  Object.keys(AuthRole)
+    .map(key => AuthRole[key])
+    .includes(role)
+
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
     if (res.locals && res.locals.user && res.locals.user.token) {
