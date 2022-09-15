@@ -147,7 +147,6 @@ export default class PrisonerSearchService {
   }
 
   async getLastPrison(username: string, prisonerNumber: string, token: string): Promise<Prison> {
-    // const token = await this.hmppsAuthClient.getSystemClientToken(username)
     const lastMovement = await new PrisonApiClient(token).getLastMovement(prisonerNumber)
     return { agencyId: lastMovement[0].fromAgency, description: lastMovement[0].fromAgencyDescription }
   }

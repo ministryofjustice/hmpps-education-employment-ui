@@ -4,6 +4,8 @@ import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
 import PagedResponse from '../domain/types/pagedResponse'
 import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
+// eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
+import PrisonerProfileClient from './prisonerProfileClient'
 
 export interface PrisonerSearchByPrisonerNumber {
   prisonerIdentifier: string
@@ -41,8 +43,11 @@ const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison
 export default class PrisonerSearchClient {
   restClient: RestClient
 
+  newToken: string
+
   constructor(token: string) {
     this.restClient = new RestClient('Prisoner Search', config.apis.prisonerSearch, token)
+    this.newToken = token
   }
 
   async search(searchData: PrisonerSearchRequest, pageNumber: number): Promise<PagedResponse<PrisonerSearchResult>> {
@@ -84,6 +89,9 @@ export default class PrisonerSearchClient {
         ...payload,
       },
     })
+
+    const offenderNoList = results.content.map(p => p.prisonerNumber)
+    const offenderProfile = await new PrisonerProfileClient(this.newToken).profileData(offenderNoList)
 
     return {
       ...results,
