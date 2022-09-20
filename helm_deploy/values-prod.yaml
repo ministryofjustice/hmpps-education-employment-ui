@@ -19,7 +19,6 @@ generic-service:
     NOMIS_USER_ROLES_API_URL: "https://nomis-user.aks-dev-1.studio-hosting.service.justice.gov.uk"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
     COMMUNITY_API_URL: "https://community-api-secure.delius.probation.hmpps.dsd.io"
-    OFFENDER_SEARCH_API_URL: "https://prisoner-offender-search.prison.service.justice.gov.uk"
     CURIOUS_API_URL: "https://liveservices.sequation.net/sequation-virtual-campus2-api/"
     PRISONER_SEARCH_URL: "https://prisoner-offender-search.prison.service.justice.gov.uk"
     ESWE_PROFILE_API_URL: "https://education-employment-api.hmpps.service.justice.gov.uk"
