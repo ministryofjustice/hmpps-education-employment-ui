@@ -63,18 +63,18 @@ export default class SearchRoutes {
     //   return
     // }
 
-    const results = await this.prisonerSearchService.search({
-      searchTerm: 'smith',
-      user: res.locals.user,
-      pageNumber,
-    })
+    // const results = await this.prisonerSearchService.search({
+    //   searchTerm: 'smith',
+    //   user: res.locals.user,
+    //   pageNumber,
+    // })
 
     const paginationUrl = new URL(
       `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}=${searchTerm}&page=0`,
     )
-    const paginationData = this.paginationService.getPagination(results, paginationUrl)
-
-    res.render('pages/workProfile/viewWorkProfile', { searchTerm, prisonerSearchResults: results, paginationData })
+    // const paginationData = this.paginationService.getPagination(results, paginationUrl)
+    //
+    // res.render('pages/workProfile/viewWorkProfile', { searchTerm, prisonerSearchResults: results, paginationData })
   }
 
   // TODO: VALIDATE!!!

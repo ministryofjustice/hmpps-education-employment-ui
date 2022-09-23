@@ -60,6 +60,14 @@ export default class PrisonerSearchResult {
   @Transform(formatDateStringToyyyyMMdd)
   releaseDate: string
 
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToyyyyMMdd)
+  updatedOn: string
+
+  @Expose()
+  status: string
+
   @Expose()
   nonDtoReleaseDateType: string
 }

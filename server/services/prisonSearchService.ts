@@ -12,7 +12,6 @@ import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import { UserDetails } from './userService'
 import PagedResponse from '../data/domain/types/pagedResponse'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
-import SearchByReleaseDateFilters from '../data/prisonerSearch/SearchByReleaseDateFilters'
 
 export interface PrisonerSearchSummary extends PrisonerSearchResult {
   displayName?: string
@@ -67,31 +66,6 @@ const GLOBAL_SEARCH = 'GLOBAL_SEARCH'
 export default class PrisonerSearchService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async search({ searchTerm, user, pageNumber = 0 }: PrisonerSearch): Promise<PagedResponse<PrisonerSearchSummary>> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(user.username)
-    const sanitisedSearch = sanitise(searchTerm)
-    const prisonIds = await this.getUserPrisonCaseload(user)
-    const searchRequest = isPrisonerIdentifier(sanitisedSearch)
-      ? searchByPrisonerIdentifier(sanitisedSearch, prisonIds)
-      : searchByName(sanitisedSearch, prisonIds)
-
-    let results: PagedResponse<PrisonerSearchSummary> = await new PrisonerSearchClient(token).search(
-      searchRequest,
-      pageNumber,
-    )
-
-    // if no results then re-run search which first name and last name swapped
-    if (results.content?.length === 0 && 'lastName' in searchRequest) {
-      results = await new PrisonerSearchClient(token).search(
-        searchByNameReverse(sanitisedSearch, prisonIds),
-        pageNumber,
-      )
-    }
-
-    results.content = await this.decoratePrisonerSearchResults(user.name, results.content, token)
-    return results
-  }
-
   async searchByReleaseDate(
     username: string,
     searchTerm: string,
@@ -108,31 +82,9 @@ export default class PrisonerSearchService {
     return results
   }
 
-  async getPrisoners(
-    username: string,
-    prisonerNumbers: Array<string>,
-    retrieveLastPrison = true,
-  ): Promise<PrisonerSearchSummary[]> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(username)
-    const results = await new PrisonerSearchClient(token).findByPrisonerNumbers(prisonerNumbers)
-    return this.decoratePrisonerSearchResults(username, results, token, retrieveLastPrison)
-  }
-
   async getPrisonerImage(username: string, prisonerNumber: string): Promise<Readable> {
     const token = await this.hmppsAuthClient.getSystemClientToken(username)
     return new PrisonApiClient(token).getPrisonerImage(prisonerNumber)
-  }
-
-  async getUserPrisonCaseload(user: UserDetails) {
-    const token = await this.hmppsAuthClient.getSystemClientToken(user.username)
-    const userCaseloads = await new NomisUserRolesApiClient(token).getUserCaseLoads(user)
-
-    const prisonIds = userCaseloads
-
-    if (!prisonIds.includes(GLOBAL_SEARCH)) {
-      prisonIds.push('OUT')
-    }
-    return prisonIds
   }
 
   async getUserPrisonCaseloads(user: UserDetails, token: string) {

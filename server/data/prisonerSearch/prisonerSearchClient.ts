@@ -4,7 +4,6 @@ import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
 import PagedResponse from '../domain/types/pagedResponse'
 import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
-// eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
 import PrisonerProfileClient from './prisonerProfileClient'
 
 export interface PrisonerSearchByPrisonerNumber {
@@ -89,13 +88,26 @@ export default class PrisonerSearchClient {
         ...payload,
       },
     })
+    const { content: offenders = [] } = results
 
-    const offenderNoList = results.content.map(p => p.prisonerNumber)
-    const offenderProfile = await new PrisonerProfileClient(this.newToken).profileData(offenderNoList)
+    const listOfOffenderNumbers = offenders.map(p => p.prisonerNumber)
+    const testAllProfiles = await new PrisonerProfileClient(this.newToken).originalProfileData(listOfOffenderNumbers)
+    console.log(testAllProfiles)
+
+    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).profileData(listOfOffenderNumbers)
+    const matchingProfiles = offenders.map(p => {
+      const offenderWithProfile = offenderProfiles.find((op: any) => op.offenderId === p.prisonerNumber)
+
+      return {
+        ...p,
+        updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
+        status: offenderWithProfile ? offenderWithProfile.profileData.status : 'N/A',
+      }
+    })
 
     return {
       ...results,
-      content: results.content.map(result =>
+      content: matchingProfiles.map(result =>
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
     }

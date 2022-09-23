@@ -81,6 +81,8 @@ export function formatDateToyyyyMMdd(params: string): string {
   return [year, month, day].join('-')
 }
 export function formatDateStringToyyyyMMdd(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
+
   const d = new Date(params.value)
   let month = `${d.getMonth() + 1}`
   let day = `${d.getDate()}`

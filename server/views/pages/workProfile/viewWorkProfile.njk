@@ -152,9 +152,10 @@ Data supplied to this template:
                     <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                         <p>{{ offender.releaseDate or 'N/A' }}</p>
                     </td>
-                    <td class="govuk-table__cell govuk-tag govuk-tag--red">{{ 'NOT STARTED' }}</td>
+{#                    <td class="govuk-table__cell govuk-tag govuk-tag--red">{{ 'NOT STARTED' }}</td>#}
+                    <td {{ statusTag(offender.status) }}></td>
                     <td class="govuk-table__cell">{{ 'N/A' }}</td>
-                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
+                    <td class="govuk-table__cell">{{ offender.updatedOn or 'N/A' }}</td>
                 </tr>
 
             {% endfor %}
@@ -163,6 +164,23 @@ Data supplied to this template:
 
         </table>
     </div>
+{% endmacro %}
 
-
+{# Tab macro to display the correct colour for a given status, defaults to grey #}
+{% macro statusTag(status) %}
+    {%
+        set statusLookup = {
+        'NOT_STARTED': 'red',
+        'SUPPORT_NEEDED': 'yellow',
+        'READY_TO_WORK': 'green',
+        'COMPLETED': 'green',
+        'NO_RIGHT_TO_WORK': 'red',
+        'SUPPORT_DECLINED': 'purple',
+        'IN_PROGRESS': 'IN PROGRESS'
+    }
+    %}
+    {%
+        set colour = statusLookup[status]
+    %}
+    class="govuk-table__cell govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ status }}
 {% endmacro %}
