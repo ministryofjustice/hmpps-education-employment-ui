@@ -40,7 +40,6 @@ export const buildSortUrl = ({
 export const handleSortMiddleware =
   (formFieldName: string, defaultSort: string, defaultOrder?: SortOrder) =>
   (req: Request, res: Response, next: NextFunction): void => {
-    console.log('MIDDLEWARE redirect')
     if (req.body[formFieldName]) {
       res.redirect(
         buildSortUrl({

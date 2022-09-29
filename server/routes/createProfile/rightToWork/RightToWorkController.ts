@@ -1,10 +1,10 @@
 import type { RequestHandler } from 'express'
-import schema from './validationSchema'
+import validateFormSchema from '../../../utils/validateFormSchema'
+import validationSchema from './validationSchema'
 
 export default class RightToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const q = req.query
 
     try {
       // Get record in sessionData
@@ -19,37 +19,27 @@ export default class RightToWorkController {
         },
       }
 
+      // Store page data for use if validation fails
       req.session.data[`rightToWork_${id}_data`] = data
 
-      res.render('pages/createProfile/rightToWork/index', data)
+      res.render('pages/createProfile/rightToWork/index', { ...data })
     } catch (err) {
       next(err)
     }
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { id, mode } = req.params
     const { rightToWork } = req.body
 
     try {
-      const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
-      console.log(error)
-      if (error.details) {
-        console.log(error.details)
-
-        const displayError = error.details.reduce((acc, current) => {
-          const { key } = current.context
-          acc[key] = {
-            text: current.message,
-          }
-          return acc
-        }, {})
-
-        console.log(displayError)
-
+      // If validation errors render errors
+      const data = req.session.data[`rightToWork_${id}_data`]
+      const errors = validateFormSchema(req, validationSchema(data))
+      if (errors) {
         res.render('pages/createProfile/rightToWork/index', {
-          ...req.session.data[`rightToWork_${id}_data`],
-          error: displayError,
+          ...data,
+          errors,
         })
         return
       }
@@ -61,12 +51,18 @@ export default class RightToWorkController {
         rightToWork,
       }
 
+      // If NO redirect to ineligable-to-work
+      if (rightToWork === 'NO') {
+        res.redirect(`/work-profile/create/${id}/ineligable-to-work`)
+        return
+      }
+
       // Redirect to the correct page
-      const nextPage =
-        rightToWork === 'YES'
-          ? `/work-profile/create/${id}/right-to-work`
-          : `/work-profile/create/${id}/ineligable-to-work`
-      res.redirect(nextPage)
+      res.redirect(
+        mode === 'new'
+          ? `/work-profile/create/${id}/right-to-work/${mode}`
+          : `/work-profile/create/${id}/check-answers`,
+      )
     } catch (err) {
       next(err)
     }

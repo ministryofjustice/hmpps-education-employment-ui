@@ -33,7 +33,9 @@ export default function setUpWebSession(): Router {
 
   // Setup an area of session for storing temporary user data
   router.use((req, res, next) => {
-    req.session.data = {}
+    if (!req.session.data) {
+      req.session.data = {}
+    }
     next()
   })
 
