@@ -7,8 +7,10 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "moj/components/pagination/macro.njk" import mojPagination %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{#{% from "./partials/prisonerSearch.njk" import prisonerSearch %}#}
 
-{% set offenderToBeReleased = prisonerSearchResults.content %}
+{% set offendersToBeReleased = prisonerSearchResults.content %}
 {% set title = 'Get someone ready for work' %}
 
 {#
@@ -25,8 +27,6 @@ Data supplied to this template:
 {% block content %}
 
     <h1 class="govuk-heading-l govuk-!-margin-bottom-7">{{ title }}</h1>
-{#    <div class="govuk-form-group">#}
-{#        <div class="govuk-form-group filter-box govuk-!-margin-top-4">#}
        <form novalidate="novalidate" class="prisoner-search__form" data-test="prisoner-search-form">
         <div class="horizontal-form govuk-!-margin-bottom-3">
 
@@ -112,7 +112,7 @@ Data supplied to this template:
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     {{ mojPagination( paginationData ) }}
-    {{ offenderList(offenderToBeReleased) }}
+    {{ offenderList(offendersToBeReleased) }}
     {{ mojPagination( paginationData ) }}
 
 {% endblock %}
@@ -126,8 +126,8 @@ Data supplied to this template:
         <table id="view-offender" class="govuk-table view-offender">
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header sortable">Prisoner</th>
-                <th scope="col" class="govuk-table__header sortable">Release type and date</th>
+                <th scope="col" class="govuk-table__header aria-sort='ascending'">Prisoner</th>
+                <th scope="col" class="govuk-table__header aria-sort='none'">Release type and date</th>
                 <th scope="col" class="govuk-table__header sortable">Status</th>
                 <th scope="col" class="govuk-table__header">Work summary</th>
                 <th scope="col" class="govuk-table__header sortable">Updated on</th>
@@ -147,14 +147,25 @@ Data supplied to this template:
                            rel="noopener noreferrer"
                            data-qa="quick-look-link"
                            class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
-                        <p>{{ offender.prisonerNumber }}</p>
+                    </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                     </td>
                     <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                         <p>{{ offender.releaseDate or 'N/A' }}</p>
                     </td>
-{#                    <td class="govuk-table__cell govuk-tag govuk-tag--red">{{ 'NOT STARTED' }}</td>#}
-                    <td {{ statusTag(offender.status) }}></td>
-                    <td class="govuk-table__cell">{{ 'N/A' }}</td>
+                    <td class="govuk-table__cell"> {{ statusTag(offender.status) }}</td>
+                    {% if offender.status == 'SUPPORT_NEEDED' %}
+                        {{ supportNeeded(offender) }}
+                    {% elseif offender.status == 'READY_TO_WORK' %}
+                        {{ readyToWork(offender) }}
+                    {% elseif offender.status == 'SUPPORT_DECLINED' %}
+                        {{ supportDeclined(offender) }}
+                    {% elseif offender.status == 'NO_RIGHT_TO_WORK' %}
+                        <td {{ noRightToWork(offender) }}</td>
+                    {% elseif offender.status == 'NOT_STARTED' %}
+                        <td {{ notStarted(offender) }}</td>
+                    {% else %}
+                        <td class="govuk-table__cell"></td>
+                    {% endif %}
                     <td class="govuk-table__cell">{{ offender.updatedOn or 'N/A' }}</td>
                 </tr>
 
@@ -169,18 +180,79 @@ Data supplied to this template:
 {# Tab macro to display the correct colour for a given status, defaults to grey #}
 {% macro statusTag(status) %}
     {%
-        set statusLookup = {
+        set statusColourLookup = {
         'NOT_STARTED': 'red',
         'SUPPORT_NEEDED': 'yellow',
         'READY_TO_WORK': 'green',
         'COMPLETED': 'green',
-        'NO_RIGHT_TO_WORK': 'red',
-        'SUPPORT_DECLINED': 'purple',
-        'IN_PROGRESS': 'IN PROGRESS'
+        'IN_PROGRESS': 'yellow'
     }
     %}
     {%
-        set colour = statusLookup[status]
+        set statusLookup = {
+        'NOT_STARTED': 'NOT STARTED',
+        'SUPPORT_NEEDED': 'SUPPORT NEEDED',
+        'READY_TO_WORK': 'READY TO WORK',
+        'COMPLETED': 'COMPLETED',
+        'NO_RIGHT_TO_WORK': 'NO RIGHT TO WORK',
+        'SUPPORT_DECLINED': 'SUPPORT DECLINED',
+        'IN_PROGRESS': 'IN PROGRESS'
+        }
     %}
-    class="govuk-table__cell govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ status }}
+    {%
+        set colour = statusColourLookup[status]
+    %}
+    <strong class="govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ statusLookup[status] }}</strong>
+{% endmacro %}
+
+{% macro supportNeeded(offender) %}
+    {% set summary = offender.supportNeeded %}
+    <td class="govuk-table__cell">
+    <p class="govuk-body govuk-!-margin-bottom-1">Needs help with:</p>
+    <ul class="govuk-list govuk-list--bullet">
+    {% for item in summary %}
+        <li>
+            <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+    </td>
+{% endmacro %}
+
+{% macro readyToWork(offender) %}
+    {% set summary = offender.workTypeInterests %}
+    <td class="govuk-table__cell">
+    <p class="govuk-body govuk-!-margin-bottom-1">Looking for work in:</p>
+    <ul class="govuk-list govuk-list--bullet">
+    {% for item in summary %}
+        <li>
+            <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+    </td>
+{% endmacro %}
+
+{% macro supportDeclined(offender) %}
+    {% set summary = offender.supportDeclinedReasons %}
+    <td class="govuk-table__cell">
+    <p class="govuk-body govuk-!-margin-bottom-1">Reason:</p>
+    <ul class="govuk-list govuk-list--bullet">
+    {% for item in summary %}
+        <li>
+            <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+    </td>
+{% endmacro %}
+
+{% macro noRightToWork(offender) %}
+    {% set value = offender.noRightToWork %}
+    class="govuk-table__cell">{{ value if value else 'N/A' }}
+{% endmacro %}
+
+{% macro notStarted(offender) %}
+    {% set value = offender.notStarted %}
+    class="govuk-table__cell">{{ value if value else 'N/A' }}
 {% endmacro %}

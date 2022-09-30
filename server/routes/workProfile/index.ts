@@ -5,9 +5,9 @@ import type { Services } from '../../services'
 export default function createRoutes(service: Services): Router {
   const router = express.Router({ mergeParams: true })
 
-  router.get('/work-profile', (req, res) => {
-    res.render('pages/workProfile/viewWorkProfile')
-  })
+  // router.get('/work-profile', (req, res) => {
+  //   res.render('pages/workProfile/viewWorkProfile')
+  // })
 
   const searchRoute = new SearchRoutes(service.prisonerSearch, service.paginationService)
   // const searchByReleaseDateRoute = new SearchRoutes(service.prisonerSearchByReleaseDate, service.paginationService)

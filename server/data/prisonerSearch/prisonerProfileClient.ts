@@ -26,7 +26,7 @@ export default class PrisonerProfileClient {
   async originalProfileData(offenderList: string[]) {
     const searchProfile = PRISONER_EDUCATION_PROFILE_PATH
 
-    const profileResults = await this.restClient.post({
+    const profileResults = await this.restClient.post<string[]>({
       path: `${searchProfile}`,
       data: offenderList,
     })

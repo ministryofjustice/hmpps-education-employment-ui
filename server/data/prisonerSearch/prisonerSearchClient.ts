@@ -5,6 +5,8 @@ import PrisonerSearchResult from './prisonerSearchResult'
 import PagedResponse from '../domain/types/pagedResponse'
 import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
 import PrisonerProfileClient from './prisonerProfileClient'
+import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
+import getActionsRequired from './utils'
 
 export interface PrisonerSearchByPrisonerNumber {
   prisonerIdentifier: string
@@ -91,17 +93,19 @@ export default class PrisonerSearchClient {
     const { content: offenders = [] } = results
 
     const listOfOffenderNumbers = offenders.map(p => p.prisonerNumber)
-    const testAllProfiles = await new PrisonerProfileClient(this.newToken).originalProfileData(listOfOffenderNumbers)
-    console.log(testAllProfiles)
 
-    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).profileData(listOfOffenderNumbers)
+    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).originalProfileData(
+      listOfOffenderNumbers,
+    )
     const matchingProfiles = offenders.map(p => {
       const offenderWithProfile = offenderProfiles.find((op: any) => op.offenderId === p.prisonerNumber)
+      const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
 
       return {
         ...p,
+        ...actionsRequired,
         updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
-        status: offenderWithProfile ? offenderWithProfile.profileData.status : 'N/A',
+        status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
       }
     })
 
