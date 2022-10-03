@@ -1,10 +1,12 @@
 import type { RequestHandler } from 'express'
+import { convertToTitleCase } from '../../../utils/utils'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 
 export default class RightToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
+    const { prisoner } = req.context
 
     try {
       // Get record in sessionData
@@ -13,10 +15,7 @@ export default class RightToWorkController {
       const data = {
         backLocation: mode ? `/work-profile/${id}` : `/work-profile/create/${id}/check-your-answers`,
         rightToWork: record.rightToWork,
-        prisoner: {
-          firstName: 'Joe',
-          lastName: 'Bloggs',
-        },
+        prisoner,
       }
 
       // Store page data for use if validation fails

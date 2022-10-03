@@ -12,6 +12,7 @@ import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import { UserDetails } from './userService'
 import PagedResponse from '../data/domain/types/pagedResponse'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
+import GetPrisonerByIdResult from '../data/prisonerSearch/getPrisonerByIdResult'
 
 export interface PrisonerSearchSummary extends PrisonerSearchResult {
   displayName?: string
@@ -125,5 +126,9 @@ export default class PrisonerSearchService {
         }
       }),
     )
+  }
+
+  async getPrisonerById(userToken: string, id: string): Promise<GetPrisonerByIdResult> {
+    return new PrisonerSearchClient(userToken).getPrisonerById(id)
   }
 }

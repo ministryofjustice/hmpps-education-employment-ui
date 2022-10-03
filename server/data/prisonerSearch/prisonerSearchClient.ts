@@ -1,10 +1,11 @@
-import { plainToClass } from 'class-transformer'
+import { plainToClass, classToClassFromExist } from 'class-transformer'
 import config from '../../config'
 import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
 import PagedResponse from '../domain/types/pagedResponse'
 import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
 import PrisonerProfileClient from './prisonerProfileClient'
+import GetPrisonerByIdResult from './getPrisonerByIdResult'
 
 export interface PrisonerSearchByPrisonerNumber {
   prisonerIdentifier: string
@@ -35,6 +36,7 @@ type PrisonerSearchByReleaseDate = ReleaseDateSearch
 const PRISONER_GLOBAL_SEARCH_PATH = '/global-search'
 const PRISONER_DETAIL_SEARCH_PATH = '/prisoner-detail'
 const PRISONER_NUMBERS_SEARCH_PATH = '/prisoner-search/prisoner-numbers'
+const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
@@ -120,5 +122,13 @@ export default class PrisonerSearchClient {
         prisonerNumbers,
       },
     })
+  }
+
+  async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
+    const prisoner = this.restClient.get<GetPrisonerByIdResult>({
+      path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
+    })
+
+    return plainToClass(GetPrisonerByIdResult, prisoner)
   }
 }
