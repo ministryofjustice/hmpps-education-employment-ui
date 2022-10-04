@@ -1,7 +1,9 @@
 import type { RequestHandler } from 'express'
-import { convertToTitleCase } from '../../../utils/utils'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
+import addressLookup from '../../addressLookup'
+import YesNoValue from '../../../enums/YesNoValue'
 
 export default class RightToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -10,12 +12,12 @@ export default class RightToWorkController {
 
     try {
       // Get record in sessionData
-      const record = req.session.data[`create_profile_${id}`] || {}
+      const record = req.session.data[`createProfile_${id}`] || {}
 
       const data = {
-        backLocation: mode ? `/work-profile/${id}` : `/work-profile/create/${id}/check-your-answers`,
-        rightToWork: record.rightToWork,
+        backLocation: mode === 'new' ? addressLookup.workProfile(id) : addressLookup.createProfile.checkAnswers(id),
         prisoner,
+        rightToWork: record.rightToWork,
       }
 
       // Store page data for use if validation fails
@@ -43,24 +45,25 @@ export default class RightToWorkController {
         return
       }
 
-      // Update record in sessionData
-      const record = req.session.data[`create_profile_${id}`] || {}
-      req.session.data[`create_profile_${id}`] = {
+      // Update record in sessionData and tidy
+      const record = req.session.data[`createProfile_${id}`] || {}
+      req.session.data[`createProfile_${id}`] = {
         ...record,
         rightToWork,
       }
+      delete req.session.data[`rightToWork_${id}_data`]
 
       // If NO redirect to ineligable-to-work
-      if (rightToWork === 'NO') {
-        res.redirect(`/work-profile/create/${id}/ineligable-to-work`)
+      if (rightToWork === YesNoValue.No) {
+        res.redirect(addressLookup.createProfile.ineligableToWork(id))
         return
       }
 
-      // Redirect to the correct page
+      // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? `/work-profile/create/${id}/right-to-work/${mode}`
-          : `/work-profile/create/${id}/check-answers`,
+          ? addressLookup.createProfile.supportOptIn(id, mode)
+          : addressLookup.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

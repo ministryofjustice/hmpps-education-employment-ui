@@ -2,16 +2,18 @@
 {% from "../../../partials/navBar.njk" import navBar with context %}
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
 {% set title = 'Right to work in the UK' %}
 
 {#
-Data supplied to this template:
-  * backLocation - url of the back link
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * rightToWork - YES/NO existing value for field
+    * errors? - validation errors
 #}
 
 {% block beforeContent %}
@@ -23,33 +25,11 @@ Data supplied to this template:
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        {% if errors %}
-          {% 
-            set errorList = []
-          %}
-
-          {% for err in (errors | dictsort) %}
-            {% set errorList = ( errorList.push(err[1]), errorList) %}
-          {% endfor %}
-
-          {{ govukErrorSummary({
-              titleText: "There is a problem",
-              errorList: errorList
-            }) }}
-        {% endif %}
+        {{ errorSummary(errors) }}
 
         <h1 class="govuk-heading-l">{{ title }}</h1>
 
-        <p class="govuk-body">All British and Irish citizens have the right to work in the UK.</p>
-
-        <p class="govuk-body">Non-British and Irish citizens have the right to work if they have:</p>
-
-        <ul class="govuk-list govuk-list--bullet">
-          <li>valid settled status in the UK</li>
-          <li>a work visa</li>
-          <li>indefinite leave to remain or enter (ILR or ILE) in the UK</li>
-          <li>right of abode in the UK</li>
-        </ul>
+        {% include './partials/_pageInfo.njk' %}
 
         <!-- <form class="form" action="/right-to-work-answer" method="post" novalidate> -->
         <form class="form" method="post" novalidate="">
@@ -60,7 +40,7 @@ Data supplied to this template:
               name: "rightToWork",
               fieldset: {
                 legend: {
-                  text: "Does " + prisoner.firstName + " " + prisoner.lastName +" have the right to work in the UK?",
+                  text: "Does " + prisoner.firstName + " " + prisoner.lastName + " have the right to work in the UK?",
                   isPageHeading: true,
                   classes: "govuk-fieldset__legend--m"
                 }
