@@ -41,7 +41,7 @@
               fieldset: {
                 legend: {
                   text: "Does " + prisoner.firstName + " " + prisoner.lastName + " have the right to work in the UK?",
-                  isPageHeading: true,
+                  isPageHeading: false,
                   classes: "govuk-fieldset__legend--m"
                 }
               },
@@ -63,7 +63,8 @@
 
           {{ govukButton({
               text: "Continue",
-              type: "submit"
+              type: "submit",
+              attributes: {'data-qa': 'submit-button'}
             }) }}
         </form>
       </div>

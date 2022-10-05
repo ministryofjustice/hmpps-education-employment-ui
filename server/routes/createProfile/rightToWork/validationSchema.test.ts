@@ -1,4 +1,4 @@
-import YesNoValue from '../../../enums/YesNoValue'
+import YesNoValue from '../../../enums/yesNoValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 

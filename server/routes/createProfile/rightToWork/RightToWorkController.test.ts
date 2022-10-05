@@ -1,8 +1,8 @@
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './RightToWorkController'
+import Controller from './rightToWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/YesNoValue'
+import YesNoValue from '../../../enums/yesNoValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
