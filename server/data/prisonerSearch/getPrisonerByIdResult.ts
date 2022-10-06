@@ -14,6 +14,7 @@ export default class GetPrisonerByIdResult {
 
   croNumber: string
 
+  @Expose()
   bookingId: string
 
   bookNumber: string

@@ -3,8 +3,11 @@ import config from '../../config'
 import RestClient from '../restClient'
 import PagedResponse from '../domain/types/pagedResponse'
 import PrisonerProfileResult from './prisonerProfileResult'
+import { CreateProfileRequest, CreateProfileRequestArgs } from './createProfileRequest'
+import CreateProfileResponse from './createProfileResponse'
 
 const PRISONER_EDUCATION_PROFILE_PATH = '/readiness-profiles/search'
+const CREATE_PROFILE_PATH = '/readiness-profiles'
 
 export default class PrisonerProfileClient {
   restClient: RestClient
@@ -31,6 +34,17 @@ export default class PrisonerProfileClient {
       data: offenderList,
     })
     return profileResults
+  }
+
+  async createProfile(userName: string, newProfile: CreateProfileRequestArgs) {
+    const result = await this.restClient.post<CreateProfileResponse>({
+      path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
+      data: {
+        requestDTO: new CreateProfileRequest(newProfile),
+        oauth2User: userName,
+      },
+    })
+    return result
   }
 
   /*

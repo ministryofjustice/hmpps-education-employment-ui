@@ -46,30 +46,20 @@ describe('IneligableToWorkController', () => {
   })
 
   describe('#post(req, res)', () => {
-    const errors = { details: 'mock_error' }
-
-    beforeEach(() => {
-      res.render.mockReset()
-      res.redirect.mockReset()
-      next.mockReset()
-    })
-
+    // const errors = { details: 'mock_error' }
+    // beforeEach(() => {
+    //   res.render.mockReset()
+    //   res.redirect.mockReset()
+    //   next.mockReset()
+    // })
     // it('On error - Calls next with error', async () => {
     //   validationMock.mockImplementation(() => {
     //     throw new Error('mock_error')
     //   })
-
     //   controller.post(req, res, next)
-
     //   expect(next).toHaveBeenCalledTimes(1)
     //   expect(res.render).toHaveBeenCalledTimes(0)
     // })
-
-    it('On success - Calls api and redirects to work-profile', async () => {
-      controller.post(req, res, next)
-
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
-      expect(req.session.data[`createProfile_${id}`]).toBeFalsy()
-    })
+    //
   })
 })

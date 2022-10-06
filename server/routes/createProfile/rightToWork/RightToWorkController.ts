@@ -55,7 +55,7 @@ export default class RightToWorkController {
 
       // If NO redirect to ineligable-to-work
       if (rightToWork === YesNoValue.No) {
-        res.redirect(addressLookup.createProfile.ineligableToWork(id))
+        res.redirect(addressLookup.createProfile.ineligableToWork(id, mode))
         return
       }
 
