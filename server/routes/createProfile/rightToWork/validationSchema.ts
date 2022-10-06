@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { Request } from 'express'
 import type { ObjectSchema } from 'joi'
-import YesNoValue from '../../../enums/yesNoValue'
+import YesNoValue from '../../../enums/yesNoValue_'
 
 interface RightToWorkData {
   prisoner: { firstName: string; lastName: string }

@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/yesNoValue'
+import YesNoValue from '../../../enums/yesNoValue_'
 
 export default class RightToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
