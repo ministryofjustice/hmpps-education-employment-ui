@@ -6,6 +6,8 @@ export interface CreateProfileRequestArgs {
 
 interface CreateProfileRequestProfileSection {
   status: ProfileStatus
+  supportDeclined: any
+  supportAccepted: any
 }
 
 export class CreateProfileRequest {
@@ -13,6 +15,8 @@ export class CreateProfileRequest {
     this.bookingId = data.bookingId
     this.profileData = {
       status: data.status,
+      supportDeclined: null,
+      supportAccepted: null,
     }
   }
 

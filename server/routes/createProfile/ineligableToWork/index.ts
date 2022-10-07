@@ -5,7 +5,7 @@ import type { Services } from '../../../services'
 import IneligableToWorkController from './ineligableToWorkController'
 
 export default (router: Router, services: Services) => {
-  const controller = new IneligableToWorkController()
+  const controller = new IneligableToWorkController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/ineligable-to-work/:mode',

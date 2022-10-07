@@ -1,11 +1,13 @@
 import { RequestHandler } from 'express'
-import { ProfileStatus } from '../../../data/prisonerSearch/createProfileRequest'
-import PrisonerProfileClient from '../../../data/prisonerSearch/prisonerProfileClient'
 
+import { ProfileStatus } from '../../../data/prisonerSearch/createProfileRequest'
 import YesNoValue from '../../../enums/yesNoValue'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 
 export default class IneligableToWorkController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -34,15 +36,12 @@ export default class IneligableToWorkController {
     const { prisoner } = req.context
 
     try {
-      // Todo: API call to set rightToWork
-      const result = await new PrisonerProfileClient(res.locals.user.userToken).createProfile(
-        res.locals.user.userName,
-        {
-          prisonerId: id,
-          bookingId: prisoner.bookingId,
-          status: ProfileStatus.NO_RIGHT_TO_WORK,
-        },
-      )
+      // API call to create profile
+      await this.prisonerProfileService.createProfile(res.locals.user.token, {
+        prisonerId: id,
+        bookingId: prisoner.bookingId,
+        status: ProfileStatus.NO_RIGHT_TO_WORK,
+      })
 
       // Tidy up record in session
       delete req.session.data[`createProfile_${id}`]

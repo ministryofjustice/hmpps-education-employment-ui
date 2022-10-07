@@ -36,13 +36,10 @@ export default class PrisonerProfileClient {
     return profileResults
   }
 
-  async createProfile(userName: string, newProfile: CreateProfileRequestArgs) {
+  async createProfile(newProfile: CreateProfileRequestArgs) {
     const result = await this.restClient.post<CreateProfileResponse>({
       path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
-      data: {
-        requestDTO: new CreateProfileRequest(newProfile),
-        oauth2User: userName,
-      },
+      data: new CreateProfileRequest(newProfile),
     })
     return result
   }
