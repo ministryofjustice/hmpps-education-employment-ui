@@ -1,8 +1,4 @@
-import cypress from 'cypress'
-import IndexPage from '../pages/index'
-import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
-import AuthManageDetailsPage from '../pages/authManageDetails'
 import RightToWorkPage from '../pages/rightToWork'
 
 context('SignIn', () => {
