@@ -23,7 +23,7 @@ export default class PrisonerProfileClient {
     return profileResults
   }
 
-  async originalProfileData(offenderList: string[]) {
+  async getPrisonerProfileProfileData(offenderList: string[]) {
     const searchProfile = PRISONER_EDUCATION_PROFILE_PATH
 
     const profileResults = await this.restClient.post<string[]>({
@@ -91,6 +91,27 @@ export default class PrisonerProfileClient {
               qualificationsAndTrainingOther: 'Worked on a farm',
             },
           },
+        },
+      },
+      {
+        offenderId: 'G7139UD',
+        bookingId: 123456,
+        createdBy: 'sacintha-raj',
+        createdDateTime: '2022-09-30T12:53:22.111596378',
+        modifiedBy: 'sacintha-raj',
+        modifiedDateTime: '2022-09-30T12:53:22.111608044',
+        schemaVersion: '1.0',
+        profileData: {
+          status: 'SUPPORT_DECLINED',
+          supportDeclined: {
+            modifiedBy: 'me',
+            modifiedDateTime: '2022-07-06T12:00:00',
+            supportToWorkDeclinedReason: ['RETIRED'],
+            supportToWorkDeclinedReasonOther: 'Wants to read the Beano',
+            circumstanceChangesRequiredToWork: ['HOUSING_ON_RELEASE', 'OTHER'],
+            circumstanceChangesRequiredToWorkOther: 'Will need socks',
+          },
+          supportAccepted: '',
         },
       },
     ]

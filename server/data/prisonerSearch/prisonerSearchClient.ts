@@ -7,6 +7,7 @@ import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
 import PrisonerProfileClient from './prisonerProfileClient'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
+import { convertToTitleCase } from '../../utils/utils'
 
 export interface PrisonerSearchByPrisonerNumber {
   prisonerIdentifier: string
@@ -36,10 +37,24 @@ type PrisonerSearchByReleaseDate = ReleaseDateSearch
 
 const PRISONER_GLOBAL_SEARCH_PATH = '/global-search'
 const PRISONER_DETAIL_SEARCH_PATH = '/prisoner-detail'
-const PRISONER_NUMBERS_SEARCH_PATH = '/prisoner-search/prisoner-numbers'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
+
+function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string): PrisonerSearchResult[] {
+  const [status, searchBy] = filterTerm.split(',')
+  const filteredStatus = status && profiles.filter(p => p.status === status)
+  const filteredSearch = () => {
+    if (status && searchBy) {
+      return filteredStatus.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
+    }
+    if (searchBy) {
+      return profiles.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
+    }
+    return filteredStatus
+  }
+  return filteredSearch()
+}
 
 export default class PrisonerSearchClient {
   restClient: RestClient
@@ -94,7 +109,7 @@ export default class PrisonerSearchClient {
 
     const listOfOffenderNumbers = offenders.map(p => p.prisonerNumber)
 
-    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).originalProfileData(
+    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
       listOfOffenderNumbers,
     )
     const matchingProfiles = offenders.map(p => {
@@ -117,12 +132,68 @@ export default class PrisonerSearchClient {
     }
   }
 
-  async findByPrisonerNumbers(prisonerNumbers: Array<string>): Promise<PrisonerSearchResult[]> {
-    return this.restClient.post<PrisonerSearchResult[]>({
-      path: `${PRISONER_NUMBERS_SEARCH_PATH}`,
+  async searchByReleaseDateRaw(
+    searchData: PrisonerSearchByReleaseDate,
+    sortBy?: string,
+    orderBy?: string,
+    searchFilter?: string,
+  ): Promise<PrisonerSearchResult[]> {
+    const searchType = PRISONER_SEARCH_BY_RELEASE_DATE
+
+    const offenders: any = await this.restClient.post<string[]>({
+      path: `${searchType}`,
       data: {
-        prisonerNumbers,
+        ...searchData,
       },
     })
+
+    const listOfOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
+
+    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
+      listOfOffenderNumbers,
+    )
+    let matchingProfiles: PrisonerSearchResult[] = offenders.content?.map((p: any) => {
+      const offenderWithProfile = offenderProfiles.find((op: any) => op.offenderId === p.prisonerNumber)
+      const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
+
+      return {
+        ...p,
+        ...actionsRequired,
+        displayName: convertToTitleCase(`${p.lastName}, ${p.firstName}`),
+        updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
+        status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
+      }
+    })
+
+    /* Filter resultset  */
+    if (searchFilter.length > 1) {
+      const [status, lastName] = searchFilter.split(',')
+      const searchParams = [status && `${status}`, lastName && `${lastName}`]
+      matchingProfiles = filterOffenderProfiles(matchingProfiles, searchParams.toString())
+    }
+
+    /* Sort the combined dataset according to sort parameters */
+    matchingProfiles.sort((a, b) => {
+      if (sortBy === 'lastName') {
+        if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
+        if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
+      }
+      if (sortBy === 'releaseDate') {
+        if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
+        if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
+      }
+      if (sortBy === 'updatedOn') {
+        if (a.updatedOn > b.updatedOn) return orderBy === 'ascending' ? 1 : -1
+        if (b.updatedOn > a.updatedOn) return orderBy === 'ascending' ? -1 : 1
+      }
+      return 0
+    })
+
+    return {
+      ...offenders,
+      content: matchingProfiles.map((result: any) =>
+        plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
+      ),
+    }
   }
 }

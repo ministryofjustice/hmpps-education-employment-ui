@@ -12,6 +12,9 @@ export default class PrisonerSearchResult {
   lastName: string
 
   @Expose()
+  displayName: string
+
+  @Expose()
   prisonId: string
 
   @Expose()

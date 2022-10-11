@@ -1,11 +1,10 @@
-import { Readable } from 'stream'
 import type {
   PrisonerSearchByName,
   PrisonerSearchByPrisonerNumber,
   ReleaseDateSearch,
 } from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
-import { convertToTitleCase, formatDateToyyyyMMdd } from '../utils/utils'
+import { convertToTitleCase } from '../utils/utils'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 import PrisonApiClient, { Prison } from '../data/prisonApi/prisonApiClient'
 import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
@@ -14,7 +13,6 @@ import PagedResponse from '../data/domain/types/pagedResponse'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
 
 export interface PrisonerSearchSummary extends PrisonerSearchResult {
-  displayName?: string
   inUserCaseload?: boolean
   lastPrisonId?: string
   lastPrisonDescription?: string
@@ -53,7 +51,6 @@ interface PrisonerSearch {
 }
 
 export interface PrisonerSearchByReleaseDate extends PrisonerSearchResult {
-  displayName?: string
   searchTerm: string
   prisonIds: string[]
   pageNumber?: number
@@ -82,9 +79,17 @@ export default class PrisonerSearchService {
     return results
   }
 
-  async getPrisonerImage(username: string, prisonerNumber: string): Promise<Readable> {
-    const token = await this.hmppsAuthClient.getSystemClientToken(username)
-    return new PrisonApiClient(token).getPrisonerImage(prisonerNumber)
+  async searchByReleaseDateRaw(
+    username: string,
+    searchTerm: string,
+    prisonIds?: string[],
+    token?: string,
+    sort?: any,
+    order?: any,
+    searchFilter?: string,
+  ) {
+    const searchRequest = searchPrisonersByReleaseDate(searchTerm, prisonIds)
+    return new PrisonerSearchClient(token).searchByReleaseDateRaw(searchRequest, sort, order, searchFilter)
   }
 
   async getUserPrisonCaseloads(user: UserDetails, token: string) {

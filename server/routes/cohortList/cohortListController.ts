@@ -1,9 +1,11 @@
-import type { RequestHandler } from 'express'
+import { RequestHandler, urlencoded } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
-import { twelveWeeksFromNow, formatDateToyyyyMMdd } from '../../utils/utils'
+// eslint-disable-next-line import/named
+import { buildPostUrl, formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
+import config from '../../config'
 
-const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/releaseByDate'
+const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/cohort-list'
 
 export default class CohortListController {
   constructor(
@@ -12,21 +14,48 @@ export default class CohortListController {
   ) {}
 
   public get: RequestHandler = async (req, res): Promise<void> => {
-    const { page } = req.query
+    const { page, sort, order, status, lastName } = req.query
+    const { selectStatus, search } = req.body
     const pageNumber = page ? +page - 1 : 0
-    const dateFilter = `${twelveWeeksFromNow()},${formatDateToyyyyMMdd(new Date().toString())}`
+
+    const searchFilter = [status && `${status}`, lastName && `${lastName}`]
+    const filter = searchFilter && searchFilter.join(',')
+
+    const { weeksBeforeRelease } = config
+    const dateFilter = `${offenderEarliestReleaseDate(weeksBeforeRelease)}, ${formatDateToyyyyMMdd(
+      new Date().toString(),
+    )}`
     const userCaseLoad = await this.prisonerSearchService.getUserPrisonCaseloads(res.locals.user, res.locals.user.token)
 
-    const results = await this.prisonerSearchService.searchByReleaseDate(
+    const results = await this.prisonerSearchService.searchByReleaseDateRaw(
       res.locals.user.username,
       dateFilter,
       userCaseLoad,
       res.locals.user.token,
-      pageNumber,
+      sort,
+      order,
+      filter,
     )
-    const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}`)
-    const paginationData = this.paginationService.getPagination(results, paginationUrl)
 
-    res.render('pages/workProfile/viewWorkProfile', { prisonerSearchResults: results, paginationData })
+    const data = {
+      prisonerSearchResults: results,
+      sort,
+      order,
+    }
+    // TODO: implement pagination
+    // const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}`)
+    // const paginationData = this.paginationService.getPagination(results as any, paginationUrl)
+    // res.render('pages/workProfile/viewWorkProfile', { prisonerSearchResults: data, paginationData })
+
+    res.render('pages/cohortList/index', { ...data })
+  }
+
+  public post: RequestHandler = async (req, res): Promise<void> => {
+    const { page, sort, order } = req.query
+    const { selectStatus, search } = req.body
+    const uri = buildPostUrl([sort, order, selectStatus, search], PRISONER_SEARCH_BY_RELEASE_DATE)
+
+    // req.body.postUrl = postUrl
+    res.redirect(uri.toString())
   }
 }
