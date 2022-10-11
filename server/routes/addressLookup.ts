@@ -5,5 +5,7 @@ export default {
     ineligableToWork: (id: string, mode: string) => `/work-profile/create/${id}/ineligable-to-work/${mode}`,
     rightToWork: (id: string, mode: string) => `/work-profile/create/${id}/right-to-work/${mode}`,
     supportOptIn: (id: string, mode: string) => `/work-profile/create/${id}/support-opt-in/${mode}`,
+    alreadyInPlace: (id: string, mode: string) => `/work-profile/create/${id}/already-in-place/${mode}`,
+    noSupportReason: (id: string, mode: string) => `/work-profile/create/${id}/no-support-reason/${mode}`,
   },
 }
