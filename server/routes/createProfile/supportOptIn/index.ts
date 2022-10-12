@@ -1,6 +1,6 @@
 import type { Router } from 'express'
-import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 
+import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
 import SupportOptInController from './supportOptInController'
 

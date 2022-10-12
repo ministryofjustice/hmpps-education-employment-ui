@@ -33,7 +33,6 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    // Todo: Change to verify on page when pages developed
     cy.url().should('include', 'support-opt-in/new')
   })
 
@@ -47,7 +46,6 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldNo().click()
     rightToWorkPage.submitButton().click()
 
-    // Todo: Change to verify on page when pages developed
     cy.url().should('include', 'ineligable-to-work')
   })
 
@@ -61,7 +59,6 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    // Todo: Change to verify on page when pages developed
     cy.url().should('include', 'check-answers')
   })
 })
