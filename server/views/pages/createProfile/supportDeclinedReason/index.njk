@@ -1,0 +1,133 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = 'Why does ' + prisoner.firstName + ' ' + prisoner.lastName + ' not want support?' %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * supportDeclinedReason - Array existing values for field
+    * supportDeclinedOther - Array existing values for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+
+          {% set otherHtml %}
+            {{ govukInput({
+              id: "supportDeclinedOther",
+              name: "supportDeclinedOther",
+              value: supportDeclinedOther,
+              type: "text",
+              classes: "govuk-!-width-one-third",
+              label: {
+                text: "Give details"
+              },
+              errorMessage: errors.supportDeclinedOther
+            }) }}
+          {% endset -%}
+
+
+          {{ govukCheckboxes({
+            name: "supportDeclinedReason",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "LIMIT_THEIR_ABILITY",
+                text: "Feels type of offence will limit their ability to find work",
+                checked: supportDeclinedReason.indexOf('LIMIT_THEIR_ABILITY') > -1
+              },
+              {
+                value: "CARING_RESPONSIBILITIES",
+                text: "Has full-time caring responsibilities",
+                checked: supportDeclinedReason.indexOf('CARING_RESPONSIBILITIES') > -1
+              },
+              {
+                value: "LACKS_CONFIDENCE",
+                text: "Lacks confidence in their ability to find work",
+                checked: supportDeclinedReason.indexOf('LACKS_CONFIDENCE') > -1
+              },
+              {
+                value: "LACKS_MOTIVATION",
+                text: "Lacks motivation to find work",
+                checked: supportDeclinedReason.indexOf('LACKS_MOTIVATION') > -1
+              },
+              {
+                value: "HEALTH_CONDITION",
+                text: "Not able to work due to a health condition",
+                checked: supportDeclinedReason.indexOf('HEALTH_CONDITION') > -1
+              },
+              {
+                value: "NO_REASON",
+                text: "Refused support with no reason",
+                checked: supportDeclinedReason.indexOf('NO_REASON') > -1
+              },
+              {
+                value: "RETIRED",
+                text: "Retired",
+                checked: supportDeclinedReason.indexOf('RETIRED') > -1
+              },
+              {
+                value: "RETURNING_TO_WORK",
+                text: "Returning to work they had before prison",
+                checked: supportDeclinedReason.indexOf('RETURNING_TO_WORK') > -1
+              },
+              {
+                value: "SELF_EMPLOYED",
+                text: "Self-employed",
+                checked: supportDeclinedReason.indexOf('SELF_EMPLOYED') > -1
+              },
+              {
+                value: "OTHER",
+                text: "Other",
+                checked: supportDeclinedReason.indexOf('OTHER') > -1,
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.supportDeclinedReason
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {'data-qa': 'submit-button'}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

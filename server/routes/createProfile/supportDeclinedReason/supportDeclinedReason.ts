@@ -5,7 +5,7 @@ import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 
-export default class SupportOptInController {
+export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -21,16 +21,17 @@ export default class SupportOptInController {
       const data = {
         backLocation:
           mode === 'new'
-            ? addressLookup.createProfile.rightToWork(id, mode)
+            ? addressLookup.createProfile.supportOptIn(id, mode)
             : addressLookup.createProfile.checkAnswers(id),
         prisoner,
-        supportOptIn: record.supportOptIn,
+        supportDeclinedReason: record.supportDeclinedReason || [],
+        supportDeclinedOther: record.supportDeclinedOther,
       }
 
       // Store page data for use if validation fails
-      req.session.data[`supportOptIn_${id}_data`] = data
+      req.session.data[`supportDeclinedReason_${id}_data`] = data
 
-      res.render('pages/createProfile/supportOptIn/index', { ...data })
+      res.render('pages/createProfile/supportDeclinedReason/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -38,16 +39,20 @@ export default class SupportOptInController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { supportOptIn } = req.body
+    const { supportDeclinedReason = [], supportDeclinedOther } = req.body
+
+    console.log(req.body)
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`supportOptIn_${id}_data`]
+      const data = req.session.data[`supportDeclinedReason_${id}_data`]
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createProfile/supportOptIn/index', {
+        res.render('pages/createProfile/supportDeclinedReason/index', {
           ...data,
           errors,
+          supportDeclinedReason,
+          supportDeclinedOther,
         })
         return
       }
@@ -56,20 +61,15 @@ export default class SupportOptInController {
       const record = req.session.data[`createProfile_${id}`]
       req.session.data[`createProfile_${id}`] = {
         ...record,
-        supportOptIn,
+        supportDeclinedReason,
+        supportDeclinedOther,
       }
-      delete req.session.data[`supportOptIn_${id}_data`]
-
-      // If NO redirect to ineligable-to-work
-      if (supportOptIn === YesNoValue.No) {
-        res.redirect(addressLookup.createProfile.supportDeclinedReason(id, mode))
-        return
-      }
+      delete req.session.data[`supportDeclinedReason_${id}_data`]
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.alreadyInPlace(id, mode)
+          ? addressLookup.createProfile.changeRequiredForSupport(id, mode)
           : addressLookup.createProfile.checkAnswers(id),
       )
     } catch (err) {
