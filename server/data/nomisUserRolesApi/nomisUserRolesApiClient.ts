@@ -15,13 +15,6 @@ interface Role {
   roleCode: string
 }
 
-export interface Prison {
-  agencyId: string
-  description: string
-  agencyType: string
-  active: boolean
-}
-
 export default class NomisUserRolesApiClient {
   restClient: RestClient
 

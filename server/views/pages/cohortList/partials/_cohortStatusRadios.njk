@@ -1,0 +1,69 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+    <div class="govuk-!-padding-right-3">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+            {{ govukRadios({
+                classes: "govuk-radios--inline govuk-radios--small",
+                idPrefix: "status",
+                name: "selectStatus",
+                id: "selectStatus",
+                fieldset: {
+                    attributes: { 'data-test': 'status-input' },
+                    legend: {
+                        text: 'Status',
+                        classes: "govuk-fieldset__legend--s govuk-!-margin-bottom-0"
+                    }
+                },
+                items: [
+                    {
+                        id: 'allStatusFilter',
+                        value: 'ALL',
+                        text: 'all',
+                        checked: 'true'
+                    },
+                    {
+                        id: 'notStartedStatusFilter',
+                        value: 'NOT_STARTED',
+                        text: 'No started'
+                    },
+                    {
+                        id: 'needsSupportStatusFilter',
+                        value: 'SUPPORT_NEEDED',
+                        text: 'Needs support'
+                    },
+                    {
+                        id: 'readyToWorkStatusFilter',
+                        value: 'READY_TO_WORK',
+                        text: 'Ready to work'
+                    },
+                    {
+                        id: 'doesNotWantSupportStatusFilter',
+                        value: 'SUPPORT_DECLINED',
+                        text: 'Does not want to support'
+                    },
+                    {
+                        id: 'noRightToWorkStatusFilter',
+                        value: 'NO_RIGHT_TO_WORK',
+                        text: 'No right to work'
+                    }
+                ]
+            }) }}
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div class="moj-search">
+            <div class="govuk-form-group">
+                <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="search">
+                    Search by prisoner's name
+                </label>
+                <input class="govuk-input moj-search__input " id="search" name="search" type="search" aria-describedby="search-hint">
+            </div>
+
+            <button class="govuk-button moj-search__button " data-module="govuk-button">
+                Search
+            </button>
+        </div>
+    </div>
+</div>

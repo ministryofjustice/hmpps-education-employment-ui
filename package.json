@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.4.2",
+    "@types/qs": "^6.9.7",
     "agentkeepalive": "^4.2.1",
     "applicationinsights": "^2.3.3",
     "axios": "^0.27.2",
@@ -131,6 +132,7 @@
     "@types/express-session": "^1.17.5",
     "@types/http-errors": "^1.8.2",
     "@types/jest": "^28.1.6",
+    "@types/jquery": "^3.5.14",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^18.6.3",
     "@types/nunjucks": "^3.2.1",

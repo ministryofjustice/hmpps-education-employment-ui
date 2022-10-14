@@ -1,0 +1,94 @@
+{# Tab macro to display the correct colour for a given status, defaults to grey #}
+{% macro statusTag(status) %}
+    {%
+        set statusColourLookup = {
+        'NOT_STARTED': 'red',
+        'SUPPORT_NEEDED': 'yellow',
+        'READY_TO_WORK': 'green',
+        'COMPLETED': 'green',
+        'IN_PROGRESS': 'yellow'
+    }
+    %}
+    {%
+        set statusLookup = {
+        'NOT_STARTED': 'NOT STARTED',
+        'SUPPORT_NEEDED': 'NEEDS SUPPORT',
+        'READY_TO_WORK': 'READY TO WORK',
+        'COMPLETED': 'COMPLETED',
+        'NO_RIGHT_TO_WORK': 'NO RIGHT TO WORK',
+        'SUPPORT_DECLINED': 'SUPPORT DECLINED',
+        'IN_PROGRESS': 'IN PROGRESS'
+    }
+    %}
+    {%
+        set colour = statusColourLookup[status]
+    %}
+    <strong class="govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ statusLookup[status] }}</strong>
+{% endmacro %}
+
+{#  -------------------------------------------------------------
+    Sortable column header with button for posting sort value
+    Config values
+        sort - sort field value, fieldname to be sorted on
+        order - order field value, ( ascending, descending, none)
+        formName - html name property of form to be submitted
+        fieldName - field name of this column
+        headerText - Display text for table header
+    ------------------------------------------------------------- #}
+{% macro sortableTableHeader(config) %}
+    <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-test="{ config.fieldName }}-column-header">
+        <button type="submit" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}">{{ config.headerText }}</button>
+    </th>
+{% endmacro %}
+
+{% macro supportNeeded(offender) %}
+    {% set summary = offender.supportNeeded %}
+    <td class="govuk-table__cell">
+        <p class="govuk-body govuk-!-margin-bottom-1">Needs help with:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            {% for item in summary %}
+                <li>
+                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </td>
+{% endmacro %}
+
+{% macro readyToWork(offender) %}
+    {% set summary = offender.workTypeInterests %}
+    <td class="govuk-table__cell">
+        <p class="govuk-body govuk-!-margin-bottom-1">Looking for work in:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            {% for item in summary %}
+                <li>
+                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </td>
+{% endmacro %}
+
+{% macro supportDeclined(offender) %}
+    {% set summary = offender.supportDeclinedReasons %}
+    <td class="govuk-table__cell">
+        <p class="govuk-body govuk-!-margin-bottom-1">Reason:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            {% for item in summary %}
+                <li>
+                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </td>
+{% endmacro %}
+
+{% macro noRightToWork(offender) %}
+    {% set value = offender.noRightToWork %}
+    <td class="govuk-table__cell">{{ value if value else 'N/A' }}</td>
+{% endmacro %}
+
+{% macro notStarted(offender) %}
+    {% set value = offender.notStarted %}
+    <td class="govuk-table__cell">{{ value if value else 'N/A' }}</td>
+{% endmacro %}

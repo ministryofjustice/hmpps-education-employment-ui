@@ -8,5 +8,5 @@ export default (router: Router, services: Services) => {
   router.get('/work-profile/cohort-list', controller.get)
 
   // TODO: implement POST method
-  router.post('/work-profile/cohort-list', [handleSortMiddleware('sortAction', 'lastName')], controller.post)
+  router.post('/work-profile/cohort-list', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
 }

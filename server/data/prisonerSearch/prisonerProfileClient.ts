@@ -1,4 +1,3 @@
-import { plainToClass } from 'class-transformer'
 import config from '../../config'
 import RestClient from '../restClient'
 import PagedResponse from '../domain/types/pagedResponse'

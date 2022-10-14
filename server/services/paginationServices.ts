@@ -76,7 +76,6 @@ export default class PaginationService {
         href: urlForPage(n + 1),
         selected: n === pageData.pageable.pageNumber,
       })) as Array<unknown>
-
     return <MojPaginationObject>{
       results: {
         from: pageData.pageable.offset + 1,

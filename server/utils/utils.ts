@@ -61,6 +61,13 @@ export function twelveWeeksFromNow(): string {
   return formatDateToyyyyMMdd(newDate.toString())
 }
 
+export function offenderEarliestReleaseDate(weeks: number): string {
+  const oneWeek = 7 * 86400000
+  const d = new Date(Date.now() + weeks * oneWeek)
+  const newDate = parseISODate(d.toISOString())
+  return formatDateToyyyyMMdd(newDate.toString())
+}
+
 export function formatShortDate(val: Date): string {
   return val.toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -103,4 +110,18 @@ export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
 
 export function lookUpProfileStatus(status: any) {
   return status.replaceAll('_', ' ')
+}
+
+export function buildPostUrl(uriPart: string[], baseUrl: string) {
+  const [sort, order, status, searchBy, page] = uriPart
+  const queryStringParams = [
+    sort && `sort=${sort}`,
+    order && `order=${order}`,
+    status && status !== 'ALL' && `status=${status}`,
+    searchBy && `lastName=${searchBy}`,
+    page && `page=${page}`,
+  ].filter(val => !!val)
+
+  const url = queryStringParams.length ? `${baseUrl}?${queryStringParams.join('&')}` : baseUrl
+  return url
 }

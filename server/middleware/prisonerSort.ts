@@ -28,7 +28,7 @@ export const buildSortUrl = ({
   const queryStringItems = {
     ...query,
     sort: sort !== sortField ? sortField : sort,
-    order: sort !== sortField ? SortOrder.ascending : newOrder,
+    order: sort !== sortField ? SortOrder.descending : newOrder,
   }
   // Build new url
   let redirectUrl = currentUrl.split('?')[0]

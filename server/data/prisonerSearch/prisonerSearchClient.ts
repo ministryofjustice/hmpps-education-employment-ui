@@ -2,26 +2,10 @@ import { plainToClass } from 'class-transformer'
 import config from '../../config'
 import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
-import PagedResponse from '../domain/types/pagedResponse'
-import SearchByReleaseDateFilters from './SearchByReleaseDateFilters'
 import PrisonerProfileClient from './prisonerProfileClient'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
 import { convertToTitleCase } from '../../utils/utils'
-
-export interface PrisonerSearchByPrisonerNumber {
-  prisonerIdentifier: string
-  nomsNumber: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
-
-export interface PrisonerSearchByName {
-  firstName: string
-  lastName: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
 
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
@@ -32,15 +16,31 @@ export interface ReleaseDateSearch {
   prisonIds: string[]
 }
 
-type PrisonerSearchRequest = PrisonerSearchByPrisonerNumber | PrisonerSearchByName
 type PrisonerSearchByReleaseDate = ReleaseDateSearch
-
-const PRISONER_GLOBAL_SEARCH_PATH = '/global-search'
-const PRISONER_DETAIL_SEARCH_PATH = '/prisoner-detail'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
 
+// Sort dataset, given criteria
+function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
+  // eslint-disable-next-line array-callback-return,consistent-return
+  return profiles.sort((a, b) => {
+    if (sortBy === 'lastName') {
+      if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
+      if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
+    }
+    if (sortBy === 'releaseDate') {
+      if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
+      if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
+    }
+    if (sortBy === 'updatedOn') {
+      if (a.updatedOn > b.updatedOn) return orderBy === 'ascending' ? 1 : -1
+      if (b.updatedOn > a.updatedOn) return orderBy === 'ascending' ? -1 : 1
+    }
+  })
+}
+
+// Filter resultset based on parameters
 function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string): PrisonerSearchResult[] {
   const [status, searchBy] = filterTerm.split(',')
   const filteredStatus = status && profiles.filter(p => p.status === status)
@@ -49,7 +49,7 @@ function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: st
       return filteredStatus.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
     }
     if (searchBy) {
-      return profiles.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
+      return profiles.filter(p => p.lastName.toLowerCase().startsWith(searchBy.toLowerCase()))
     }
     return filteredStatus
   }
@@ -66,80 +66,15 @@ export default class PrisonerSearchClient {
     this.newToken = token
   }
 
-  async search(searchData: PrisonerSearchRequest, pageNumber: number): Promise<PagedResponse<PrisonerSearchResult>> {
-    const searchType = searchData.prisonIds?.includes('GLOBAL_SEARCH')
-      ? `${PRISONER_GLOBAL_SEARCH_PATH}?page=${pageNumber}&size=${config.paginationPageSize}`
-      : PRISONER_DETAIL_SEARCH_PATH
-
-    const payload = searchData.prisonIds?.includes('GLOBAL_SEARCH')
-      ? { includeAliases: false, ...searchData }
-      : { ...searchData, pagination: { page: pageNumber, size: config.paginationPageSize } }
-
-    const results = await this.restClient.post<PagedResponse<PrisonerSearchResult>>({
-      path: `${searchType}`,
-      data: {
-        ...payload,
-      },
-    })
-
-    return {
-      ...results,
-      content: results.content.map(result =>
-        plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
-      ),
-    }
-  }
-
-  async searchByReleaseDate(
-    searchData: PrisonerSearchByReleaseDate,
-    filters?: SearchByReleaseDateFilters,
-    page?: number,
-  ): Promise<PagedResponse<PrisonerSearchResult>> {
-    const searchType = PRISONER_SEARCH_BY_RELEASE_DATE
-
-    const payload = { ...searchData, pagination: { page, size: config.paginationPageSize } }
-
-    const results = await this.restClient.post<PagedResponse<PrisonerSearchResult>>({
-      path: `${searchType}`,
-      data: {
-        ...payload,
-      },
-    })
-    const { content: offenders = [] } = results
-
-    const listOfOffenderNumbers = offenders.map(p => p.prisonerNumber)
-
-    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
-      listOfOffenderNumbers,
-    )
-    const matchingProfiles = offenders.map(p => {
-      const offenderWithProfile = offenderProfiles.find((op: any) => op.offenderId === p.prisonerNumber)
-      const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
-
-      return {
-        ...p,
-        ...actionsRequired,
-        updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
-        status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
-      }
-    })
-
-    return {
-      ...results,
-      content: matchingProfiles.map(result =>
-        plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
-      ),
-    }
-  }
-
   async searchByReleaseDateRaw(
     searchData: PrisonerSearchByReleaseDate,
     sortBy?: string,
     orderBy?: string,
     searchFilter?: string,
+    page?: number,
   ): Promise<PrisonerSearchResult[]> {
-    const searchType = PRISONER_SEARCH_BY_RELEASE_DATE
-
+    const searchType = `${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${page}&size=${config.paginationPageSize}`
+    // const searchType = PRISONER_SEARCH_BY_RELEASE_DATE
     const offenders: any = await this.restClient.post<string[]>({
       path: `${searchType}`,
       data: {
@@ -147,6 +82,7 @@ export default class PrisonerSearchClient {
       },
     })
 
+    /* Combine offender data with their education profile where necessary */
     const listOfOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
 
     const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
@@ -173,24 +109,19 @@ export default class PrisonerSearchClient {
     }
 
     /* Sort the combined dataset according to sort parameters */
-    matchingProfiles.sort((a, b) => {
-      if (sortBy === 'lastName') {
-        if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
-        if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
-      }
-      if (sortBy === 'releaseDate') {
-        if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
-        if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
-      }
-      if (sortBy === 'updatedOn') {
-        if (a.updatedOn > b.updatedOn) return orderBy === 'ascending' ? 1 : -1
-        if (b.updatedOn > a.updatedOn) return orderBy === 'ascending' ? -1 : 1
-      }
-      return 0
-    })
+    if (sortBy) {
+      matchingProfiles = sortOffenderProfile(matchingProfiles, sortBy, orderBy)
+    }
+
+    const data = {
+      prisonerSearchResults: offenders,
+      sortBy,
+      orderBy,
+    }
 
     return {
       ...offenders,
+      data,
       content: matchingProfiles.map((result: any) =>
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
