@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/yesNoValue'
+import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -25,7 +25,7 @@ export default class SupportDeclinedReasonController {
             : addressLookup.createProfile.checkAnswers(id),
         prisoner,
         supportDeclinedReason: record.supportDeclinedReason || [],
-        supportDeclinedOther: record.supportDeclinedOther,
+        supportDeclinedDetails: record.supportDeclinedDetails,
       }
 
       // Store page data for use if validation fails
@@ -39,9 +39,7 @@ export default class SupportDeclinedReasonController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { supportDeclinedReason = [], supportDeclinedOther } = req.body
-
-    console.log(req.body)
+    const { supportDeclinedReason = [], supportDeclinedDetails } = req.body
 
     try {
       // If validation errors render errors
@@ -52,7 +50,7 @@ export default class SupportDeclinedReasonController {
           ...data,
           errors,
           supportDeclinedReason,
-          supportDeclinedOther,
+          supportDeclinedDetails,
         })
         return
       }
@@ -62,7 +60,9 @@ export default class SupportDeclinedReasonController {
       req.session.data[`createProfile_${id}`] = {
         ...record,
         supportDeclinedReason,
-        supportDeclinedOther,
+        supportDeclinedDetails: supportDeclinedReason.includes(supportDeclinedReasonValue.OTHER)
+          ? supportDeclinedDetails
+          : '',
       }
       delete req.session.data[`supportDeclinedReason_${id}_data`]
 

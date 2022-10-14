@@ -3,7 +3,7 @@
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
@@ -14,7 +14,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * supportDeclinedReason - Array existing values for field
-    * supportDeclinedOther - Array existing values for field
+    * supportDeclinedDetails - Array existing values for field
     * errors? - validation errors
 #}
 
@@ -33,21 +33,19 @@
         <div class="govuk-form-group">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-
           {% set otherHtml %}
-            {{ govukInput({
-              id: "supportDeclinedOther",
-              name: "supportDeclinedOther",
-              value: supportDeclinedOther,
+            {{ govukTextarea({
+              id: "supportDeclinedDetails",
+              name: "supportDeclinedDetails",
+              rows: "2",
+              value: supportDeclinedDetails,
               type: "text",
-              classes: "govuk-!-width-one-third",
               label: {
                 text: "Give details"
               },
-              errorMessage: errors.supportDeclinedOther
+              errorMessage: errors.supportDeclinedDetails
             }) }}
           {% endset -%}
-
 
           {{ govukCheckboxes({
             name: "supportDeclinedReason",

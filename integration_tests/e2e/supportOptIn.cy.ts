@@ -40,7 +40,7 @@ context('SignIn', () => {
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
 
-    cy.url().should('include', 'no-support-reason')
+    cy.url().should('include', 'support-declined-reason/new')
   })
 
   it('Existing record - Select YES - navigates to check-answers page', () => {
