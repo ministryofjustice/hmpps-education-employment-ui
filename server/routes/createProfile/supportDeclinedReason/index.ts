@@ -3,7 +3,7 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import type { Services } from '../../../services'
-import SupportDeclinedReasonController from './supportDeclinedReason'
+import SupportDeclinedReasonController from './supportDeclinedReasonController'
 
 export default (router: Router, services: Services) => {
   const controller = new SupportDeclinedReasonController()

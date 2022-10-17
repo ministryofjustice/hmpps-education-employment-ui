@@ -1,5 +1,5 @@
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './supportDeclinedReason'
+import Controller from './supportDeclinedReasonController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
