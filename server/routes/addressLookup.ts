@@ -7,7 +7,6 @@ export default {
     supportOptIn: (id: string, mode: string) => `/work-profile/create/${id}/support-opt-in/${mode}`,
     alreadyInPlace: (id: string, mode: string) => `/work-profile/create/${id}/already-in-place/${mode}`,
     supportDeclinedReason: (id: string, mode: string) => `/work-profile/create/${id}/support-declined-reason/${mode}`,
-    changeRequiredForSupport: (id: string, mode: string) =>
-      `/work-profile/create/${id}/change-required-for-support/${mode}`,
+    whatNeedsToChange: (id: string, mode: string) => `/work-profile/create/${id}/what-needs-to-change/${mode}`,
   },
 }

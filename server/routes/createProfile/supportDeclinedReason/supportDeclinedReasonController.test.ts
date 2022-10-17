@@ -122,7 +122,7 @@ describe('SupportDeclinedReasonController', () => {
         supportDeclinedReason: supportDeclinedReasonValue.OTHER,
       })
       expect(req.session.data[`supportDeclinedReason_${id}_data`]).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.changeRequiredForSupport(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.whatNeedsToChange(id, 'new'))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
