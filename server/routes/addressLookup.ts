@@ -6,6 +6,7 @@ export default {
     rightToWork: (id: string, mode: string) => `/work-profile/create/${id}/right-to-work/${mode}`,
     supportOptIn: (id: string, mode: string) => `/work-profile/create/${id}/support-opt-in/${mode}`,
     alreadyInPlace: (id: string, mode: string) => `/work-profile/create/${id}/already-in-place/${mode}`,
+    identification: (id: string, mode: string) => `/work-profile/create/${id}/identification/${mode}`,
     supportDeclinedReason: (id: string, mode: string) => `/work-profile/create/${id}/support-declined-reason/${mode}`,
     whatNeedsToChange: (id: string, mode: string) => `/work-profile/create/${id}/what-needs-to-change/${mode}`,
   },
