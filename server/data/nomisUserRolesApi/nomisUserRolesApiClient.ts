@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
 import RestClient from '../restClient'
 import { UserDetails } from '../../services/userService'

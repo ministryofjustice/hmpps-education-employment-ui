@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReleaseDateSearch } from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'

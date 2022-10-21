@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse, parseISO, format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
 

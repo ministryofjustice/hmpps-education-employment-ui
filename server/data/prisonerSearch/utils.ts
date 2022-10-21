@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 
 export default function getActionsRequired(offenderProfile: any) {
