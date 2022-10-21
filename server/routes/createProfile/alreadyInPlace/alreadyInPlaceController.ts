@@ -61,10 +61,15 @@ export default class SupportDeclinedReasonController {
       }
       delete req.session.data[`alreadyInPlace_${id}_data`]
 
+      if (alreadyInPlace.includes(alreadyInPlaceValue.ID)) {
+        res.redirect(addressLookup.createProfile.identification(id, mode))
+        return
+      }
+
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.identification(id, mode)
+          ? addressLookup.createProfile.affectAbilityToWork(id, mode)
           : addressLookup.createProfile.checkAnswers(id),
       )
     } catch (err) {

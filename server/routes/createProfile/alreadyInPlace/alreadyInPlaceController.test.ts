@@ -112,7 +112,33 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new - Sets session record then redirects to identification', async () => {
+    it('On success - mode = new and value = ID - Sets session record then redirects to identification', async () => {
+      req.body.alreadyInPlace = alreadyInPlaceValue.ID
+      req.params.mode = 'new'
+
+      controller.post(req, res, next)
+
+      expect(req.session.data[`createProfile_${id}`]).toEqual({
+        alreadyInPlace: alreadyInPlaceValue.ID,
+      })
+      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
+    })
+
+    it('On success - mode = edit and value = ID - Sets session record then redirects to identification', async () => {
+      req.body.alreadyInPlace = alreadyInPlaceValue.ID
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(req.session.data[`createProfile_${id}`]).toEqual({
+        alreadyInPlace: alreadyInPlaceValue.ID,
+      })
+      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'edit'))
+    })
+
+    it('On success - mode = new and value != ID - Sets session record then redirects to identification', async () => {
       req.body.alreadyInPlace = alreadyInPlaceValue.HOUSING
       req.params.mode = 'new'
 
@@ -122,10 +148,10 @@ describe('SupportDeclinedReasonController', () => {
         alreadyInPlace: alreadyInPlaceValue.HOUSING,
       })
       expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.affectAbilityToWork(id, 'new'))
     })
 
-    it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
       req.body.alreadyInPlace = alreadyInPlaceValue.HOUSING
       req.params.mode = 'edit'
 
