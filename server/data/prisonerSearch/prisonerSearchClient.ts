@@ -40,7 +40,7 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
   })
 }
 
-// Filter resultset based on parameters
+// Filter result set based on parameters
 function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string): PrisonerSearchResult[] {
   const [status, searchBy] = filterTerm.split(',')
   const filteredStatus = status && profiles.filter(p => p.status === status)
@@ -73,8 +73,19 @@ export default class PrisonerSearchClient {
     searchFilter?: string,
     page?: number,
   ): Promise<PrisonerSearchResult[]> {
-    const searchType = `${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${page}&size=${config.paginationPageSize}`
-    // const searchType = PRISONER_SEARCH_BY_RELEASE_DATE
+    const [status, lastName] = searchFilter.split(',')
+    const uri = [
+      sortBy && `sortBy=${sortBy}`,
+      orderBy && `order=${orderBy}`,
+      status && status !== 'ALL' && `status=${status}`,
+      searchFilter && `searchTerm=${decodeURIComponent(lastName)}`,
+      page && `page=${page}`,
+    ].filter(val => !!val)
+
+    const searchType = uri.length
+      ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}`
+      : PRISONER_SEARCH_BY_RELEASE_DATE
+
     const offenders: any = await this.restClient.post<string[]>({
       path: `${searchType}`,
       data: {
@@ -82,14 +93,15 @@ export default class PrisonerSearchClient {
       },
     })
 
-    /* Combine offender data with their education profile where necessary */
-    const listOfOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
+    const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
 
+    /* Combine offender data with their education profile where necessary */
     const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
-      listOfOffenderNumbers,
+      filteredOffenderNumbers,
     )
+
     let matchingProfiles: PrisonerSearchResult[] = offenders.content?.map((p: any) => {
-      const offenderWithProfile = offenderProfiles.find((op: any) => op.offenderId === p.prisonerNumber)
+      const offenderWithProfile = offenderProfiles?.find((op: any) => op.offenderId === p.prisonerNumber)
       const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
 
       return {
@@ -122,7 +134,7 @@ export default class PrisonerSearchClient {
     return {
       ...offenders,
       data,
-      content: matchingProfiles.map((result: any) =>
+      content: matchingProfiles?.map((result: any) =>
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
     }

@@ -11,7 +11,7 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
 {% set offendersToBeReleased = prisonerSearchResults.content %}
-{% set title = 'Get someone ready for work' %}
+{% set title = 'Get someone ready to work' %}
 
 {% block beforeContent %}
     {{ govukBreadcrumbs({
@@ -30,6 +30,15 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if errors.length > 0 %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errors,
+            attributes: { 'data-qa': 'error-summary' }
+        }) }}
+    {% endif %}
+
     <div class="govuk-grid-row govuk-!-display-none-print">
         {#                     This whole section has a grey background colour #}
         <div class="govuk-grid-column-full">

@@ -33,4 +33,8 @@ export default class NomisUserRolesApiClient {
       .get<Role[]>({ path: `/users/${username}/roles` })
       .then(roles => roles.map(role => `ROLE_${role.roleCode}`))
   }
+
+  async getUserActiveCaseLoad(user: UserDetails): Promise<any> {
+    return this.restClient.get<any>({ path: `/users/${user.username}/caseloads` })
+  }
 }

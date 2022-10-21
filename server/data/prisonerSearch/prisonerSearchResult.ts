@@ -47,4 +47,9 @@ export default class PrisonerSearchResult {
 
   @Expose()
   nonDtoReleaseDateType: string
+
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToddMMMyyyy)
+  nonDtoReleaseDate: string
 }

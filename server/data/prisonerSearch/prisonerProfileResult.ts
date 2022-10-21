@@ -17,19 +17,3 @@ export default class PrisonerProfileResult {
   @Expose()
   status: string
 }
-
-export class EducationProfile {
-  @Expose()
-  offenderId: string
-
-  @Expose()
-  bookingId: string
-
-  @Expose()
-  @Type(() => Date)
-  @Transform(formatDateStringToyyyyMMdd)
-  modifiedDateTime: string
-
-  @Expose()
-  profileData: object
-}

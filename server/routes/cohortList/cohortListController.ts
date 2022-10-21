@@ -1,10 +1,8 @@
 import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
-// eslint-disable-next-line import/named
-import { buildPostUrl, formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
+import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
 import config from '../../config'
-import PagedResponse from '../../data/domain/types/pagedResponse'
 
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/cohort-list'
 
@@ -15,10 +13,10 @@ export default class CohortListController {
   ) {}
 
   public get: RequestHandler = async (req, res): Promise<void> => {
-    const { page, sort, order, status, lastName } = req.query
+    const { page, sort, order, status = '', lastName = '' } = req.query
     const pageNumber = page ? +page - 1 : 0
 
-    const searchFilter = [status && `${status}`, lastName && `${lastName}`]
+    const searchFilter = [status && `${status}`, lastName && `${decodeURIComponent(lastName.toString())}`]
     const filter = searchFilter && searchFilter.join(',')
 
     const { weeksBeforeRelease } = config
@@ -26,41 +24,64 @@ export default class CohortListController {
       weeksBeforeRelease,
     )}`
 
-    const userCaseLoad = await this.prisonerSearchService.getUserPrisonCaseloads(res.locals.user, res.locals.user.token)
+    const userActiveCaseLoad: any = await this.prisonerSearchService.getUserActiveCaseLoad(
+      res.locals.user,
+      res.locals.user.token,
+    )
 
     const results = await this.prisonerSearchService.searchByReleaseDateRaw(
       res.locals.user.username,
       dateFilter,
-      userCaseLoad,
+      [userActiveCaseLoad.caseLoadId],
       res.locals.user.token,
       sort,
       order,
-      filter,
+      filter.length === 1 ? '' : filter,
       pageNumber,
     )
 
-    // TODO: implement pagination
-    // const uri = buildPostUrl([sortParamFilter, filter], PRISONER_SEARCH_BY_RELEASE_DATE)
-    const paginationUrl = new URL(
-      `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${pageNumber}`,
-    )
-    const paginationData = this.paginationService.getPagination(results as unknown as PagedResponse<any>, paginationUrl)
+    // Paginate where necessary
+    const arrSearchCriteria = []
+    arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
+    arrSearchCriteria.push(status && ` Status = ${status}`)
+    const notFoundMsg = arrSearchCriteria.length && [
+      `0 results for [${arrSearchCriteria.toString()}]`,
+      'Check your spelling and search again, or clear the search and browse for the prisoner.',
+    ]
+
+    let paginationData = {}
+    if ((results as any).content.length) {
+      const paginationUrl = new URL(
+        `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${pageNumber}`,
+      )
+
+      paginationData = this.paginationService.getPagination(results as any, paginationUrl)
+    }
 
     const data = {
       prisonerSearchResults: results,
       sort,
       order,
       paginationData,
+      userActiveCaseLoad,
+      notFoundMsg,
+      lastName: `${decodeURIComponent(lastName as string)}`,
     }
     res.render('pages/cohortList/index', { ...data })
   }
 
   public post: RequestHandler = async (req, res): Promise<void> => {
     const { page, sort, order } = req.query
-    const { selectStatus, search } = req.body
-    const uri = buildPostUrl([sort, order, selectStatus, search, page], PRISONER_SEARCH_BY_RELEASE_DATE)
+    const { selectStatus, searchTerm } = req.body
 
-    // req.body.postUrl = postUrl
-    res.redirect(uri.toString())
+    const uri = [
+      sort && `sort=${sort}`,
+      order && `order=${order}`,
+      selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+      searchTerm && `lastName=${encodeURIComponent(searchTerm)}`,
+      page && `page=${page}`,
+    ].filter(val => !!val)
+
+    res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)
   }
 }

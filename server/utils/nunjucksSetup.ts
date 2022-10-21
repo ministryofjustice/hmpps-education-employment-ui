@@ -2,9 +2,7 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
-import querystring from 'querystring'
 import config from '../config'
-import { PageMetaData } from './page'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -70,30 +68,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
       })),
   )
 
-  njkEnv.addFilter('toPagination', (pageData: PageMetaData, query: Record<string, unknown> = {}) => {
-    const urlForPage = (n: any) => `?${querystring.stringify({ ...query, page: n })}`
-    const items = [...Array(pageData.totalPages).keys()].map(n => ({
-      text: n + 1,
-      href: urlForPage(n + 1),
-      selected: n + 1 === pageData.page,
-    }))
-    return {
-      results: {
-        from: pageData.min,
-        to: pageData.max,
-        count: pageData.totalCount,
-      },
-      previous: pageData.previousPage && {
-        text: 'Previous',
-        href: urlForPage(pageData.previousPage),
-      },
-      next: pageData.nextPage && {
-        text: 'Next',
-        href: urlForPage(pageData.nextPage),
-      },
-      items,
-    }
-  })
-
   njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
+  njkEnv.addGlobal('phaseName', config.phaseName)
 }

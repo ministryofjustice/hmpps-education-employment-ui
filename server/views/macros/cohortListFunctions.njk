@@ -1,31 +1,3 @@
-{# Tab macro to display the correct colour for a given status, defaults to grey #}
-{% macro statusTag(status) %}
-    {%
-        set statusColourLookup = {
-        'NOT_STARTED': 'red',
-        'SUPPORT_NEEDED': 'yellow',
-        'READY_TO_WORK': 'green',
-        'COMPLETED': 'green',
-        'IN_PROGRESS': 'yellow'
-    }
-    %}
-    {%
-        set statusLookup = {
-        'NOT_STARTED': 'NOT STARTED',
-        'SUPPORT_NEEDED': 'NEEDS SUPPORT',
-        'READY_TO_WORK': 'READY TO WORK',
-        'COMPLETED': 'COMPLETED',
-        'NO_RIGHT_TO_WORK': 'NO RIGHT TO WORK',
-        'SUPPORT_DECLINED': 'SUPPORT DECLINED',
-        'IN_PROGRESS': 'IN PROGRESS'
-    }
-    %}
-    {%
-        set colour = statusColourLookup[status]
-    %}
-    <strong class="govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ statusLookup[status] }}</strong>
-{% endmacro %}
-
 {#  -------------------------------------------------------------
     Sortable column header with button for posting sort value
     Config values
@@ -74,9 +46,9 @@
     <td class="govuk-table__cell">
         <p class="govuk-body govuk-!-margin-bottom-1">Reason:</p>
         <ul class="govuk-list govuk-list--bullet">
-            {% for item in summary %}
+            {% for reason in summary %}
                 <li>
-                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                    <span class="govuk-!-font-weight-regular">{{ reason | capitalize }}</span>
                 </li>
             {% endfor %}
         </ul>

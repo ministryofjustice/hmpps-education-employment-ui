@@ -1,4 +1,3 @@
-import { number } from 'joi'
 import type { ReleaseDateSearch } from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
@@ -11,6 +10,11 @@ function searchPrisonersByReleaseDate(searchTerm: string, prisonIds: string[]): 
 }
 
 const GLOBAL_SEARCH = 'GLOBAL_SEARCH'
+
+export interface UserActiveCaseLoad {
+  caseLoadId: string
+  description: string
+}
 
 export default class PrisonerSearchService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -38,5 +42,13 @@ export default class PrisonerSearchService {
       prisonIds.push('OUT')
     }
     return prisonIds
+  }
+
+  async getUserActiveCaseLoad(user: UserDetails, token: string): Promise<UserActiveCaseLoad> {
+    const userActiveCaseLoad = await new NomisUserRolesApiClient(token).getUserActiveCaseLoad(user)
+    return {
+      caseLoadId: userActiveCaseLoad.activeCaseload.id,
+      description: userActiveCaseLoad.activeCaseload.name,
+    }
   }
 }

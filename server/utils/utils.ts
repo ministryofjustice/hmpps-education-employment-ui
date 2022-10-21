@@ -49,18 +49,11 @@ export function transformISODate(params: TransformFnParams): Date {
 }
 
 /**
- * Calculate release date 12 weeks from now.
+ * Return a date that is a number of weeks away from today.
  * With Date.now() you get the actual unix timestamp as milliseconds and then you add as many milliseconds
  * as you want to add days to.
  * One day is 24h60min60s*1000ms = 86400000 ms or 864E5.
  */
-export function twelveWeeksFromNow(): string {
-  const oneWeek = 7 * 86400000
-  const d = new Date(Date.now() - 12 * oneWeek)
-  const newDate = parseISODate(d.toISOString())
-  return formatDateToyyyyMMdd(newDate.toString())
-}
-
 export function offenderEarliestReleaseDate(weeks: number): string {
   const oneWeek = 7 * 86400000
   const d = new Date(Date.now() + weeks * oneWeek)
@@ -110,18 +103,4 @@ export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
 
 export function lookUpProfileStatus(status: any) {
   return status.replaceAll('_', ' ')
-}
-
-export function buildPostUrl(uriPart: string[], baseUrl: string) {
-  const [sort, order, status, searchBy, page] = uriPart
-  const queryStringParams = [
-    sort && `sort=${sort}`,
-    order && `order=${order}`,
-    status && status !== 'ALL' && `status=${status}`,
-    searchBy && `lastName=${searchBy}`,
-    page && `page=${page}`,
-  ].filter(val => !!val)
-
-  const url = queryStringParams.length ? `${baseUrl}?${queryStringParams.join('&')}` : baseUrl
-  return url
 }

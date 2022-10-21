@@ -28,7 +28,7 @@ export const buildSortUrl = ({
   const queryStringItems = {
     ...query,
     sort: sort !== sortField ? sortField : sort,
-    order: sort !== sortField ? SortOrder.descending : newOrder,
+    order: sort !== sortField ? SortOrder.ascending : newOrder,
   }
   // Build new url
   let redirectUrl = currentUrl.split('?')[0]
@@ -45,7 +45,6 @@ export const handleSortMiddleware =
   (formFieldName: string, defaultSort: string, defaultOrder?: SortOrder) =>
   // eslint-disable-next-line @typescript-eslint/ban-types
   (req: Request, res: Response, next: Function): void => {
-    // console.log(`req.body: ${req.body}`)
     if (req.body[formFieldName]) {
       res.redirect(
         buildSortUrl({

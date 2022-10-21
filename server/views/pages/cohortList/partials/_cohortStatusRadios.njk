@@ -58,7 +58,13 @@
                 <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="search">
                     Search by prisoner's name
                 </label>
-                <input class="govuk-input moj-search__input " id="search" name="search" type="search" aria-describedby="search-hint">
+                <input class="govuk-input moj-search__input "
+                       id="searchTerm"
+                       name="searchTerm"
+                       type="search"
+                       value="{{ lastName }}"
+                       aria-describedby="search-hint"
+                       maxlength="20">
             </div>
 
             <button class="govuk-button moj-search__button " data-module="govuk-button">
