@@ -7,7 +7,7 @@ interface SupportOptInData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function (data: SupportOptInData): ObjectSchema {
+export default function validationSchema(data: SupportOptInData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data
