@@ -26,6 +26,7 @@ Rules:
  */
 
 import PageableResponse from '../data/domain/types/pagedResponse'
+import config from '../config'
 
 interface PaginationLink {
   text: string
@@ -45,7 +46,7 @@ interface MojPaginationObject {
 }
 
 export default class PaginationService {
-  constructor(private readonly paginationPageSize: number = 10) {}
+  constructor(private readonly paginationPageSize: number = config.paginationPageSize) {}
 
   public getPagination<T>(pageData: PageableResponse<T>, url: URL): MojPaginationObject {
     const urlForPage = (n: number) => {
@@ -76,7 +77,6 @@ export default class PaginationService {
         href: urlForPage(n + 1),
         selected: n === pageData.pageable.pageNumber,
       })) as Array<unknown>
-
     return <MojPaginationObject>{
       results: {
         from: pageData.pageable.offset + 1,

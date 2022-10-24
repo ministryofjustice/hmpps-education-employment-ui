@@ -1,4 +1,5 @@
-import { parse, parseISO } from 'date-fns'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { parse, parseISO, format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
 
 function properCase(word: string): string {
@@ -49,14 +50,14 @@ export function transformISODate(params: TransformFnParams): Date {
 }
 
 /**
- * Calculate release date 12 weeks from now.
+ * Return a date that is a number of weeks away from today.
  * With Date.now() you get the actual unix timestamp as milliseconds and then you add as many milliseconds
  * as you want to add days to.
  * One day is 24h60min60s*1000ms = 86400000 ms or 864E5.
  */
-export function twelveWeeksFromNow(): string {
+export function offenderEarliestReleaseDate(weeks: number): string {
   const oneWeek = 7 * 86400000
-  const d = new Date(Date.now() - 12 * oneWeek)
+  const d = new Date(Date.now() + weeks * oneWeek)
   const newDate = parseISODate(d.toISOString())
   return formatDateToyyyyMMdd(newDate.toString())
 }
@@ -92,4 +93,15 @@ export function formatDateStringToyyyyMMdd(params: TransformFnParams) {
   if (day.length < 2) day = `0${day}`
 
   return [day, month, year].join('-')
+}
+
+export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
+  const date = new Date(params.value)
+
+  return format(date, 'dd MMM yyyy')
+}
+
+export function lookUpProfileStatus(status: any) {
+  return status.replaceAll('_', ' ')
 }

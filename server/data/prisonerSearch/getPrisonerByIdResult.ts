@@ -1,4 +1,4 @@
-import { Exclude, Expose, Transform, Type } from 'class-transformer'
+import { Exclude, Expose, Transform } from 'class-transformer'
 import { convertToTitleCase } from '../../utils/utils'
 
 // Exclude all by default expose properties when needed
