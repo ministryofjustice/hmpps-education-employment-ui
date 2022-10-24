@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default class CreateProfileResponse {
   offenderId: string
 
@@ -13,5 +14,5 @@ export default class CreateProfileResponse {
 
   schemaVersion: string
 
-  profileData: any
+  profileData: any // Not firm schema yet
 }
