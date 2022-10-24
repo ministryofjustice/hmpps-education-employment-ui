@@ -7,7 +7,7 @@ interface AlreadyInPlaceData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function (data: AlreadyInPlaceData): ObjectSchema {
+export default function validationSchema(data: AlreadyInPlaceData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data
