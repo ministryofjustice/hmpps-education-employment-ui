@@ -1,5 +1,4 @@
 import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
-import YesNoValue from '../../../enums/yesNoValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 

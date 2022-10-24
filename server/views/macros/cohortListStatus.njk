@@ -1,0 +1,27 @@
+{# Tab macro to display the correct colour for a given status, defaults to grey #}
+{% macro statusTag(status) %}
+    {%
+        set statusColourLookup = {
+        'NOT_STARTED': 'red',
+        'SUPPORT_NEEDED': 'yellow',
+        'READY_TO_WORK': 'green',
+        'COMPLETED': 'green',
+        'IN_PROGRESS': 'yellow'
+    }
+    %}
+    {%
+        set statusLookup = {
+        'NOT_STARTED': 'NOT STARTED',
+        'SUPPORT_NEEDED': 'NEEDS SUPPORT',
+        'READY_TO_WORK': 'READY TO WORK',
+        'COMPLETED': 'COMPLETED',
+        'NO_RIGHT_TO_WORK': 'NO RIGHT TO WORK',
+        'SUPPORT_DECLINED': 'SUPPORT DECLINED',
+        'IN_PROGRESS': 'IN PROGRESS'
+    }
+    %}
+    {%
+        set colour = statusColourLookup[status]
+    %}
+    <strong class="govuk-tag govuk-tag--{{ colour if colour else 'grey' }}">{{ statusLookup[status] }}</strong>
+{% endmacro %}

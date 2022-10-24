@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer'
-import { formatDateStringToyyyyMMdd } from '../../utils/utils'
+import { formatDateStringToddMMMyyyy } from '../../utils/utils'
 
 export default class PrisonerSearchResult {
   @Expose()
@@ -12,57 +12,34 @@ export default class PrisonerSearchResult {
   lastName: string
 
   @Expose()
+  displayName: string
+
+  @Expose()
   prisonId: string
 
   @Expose()
-  prisonName: string
+  workTypeInterests: string
 
   @Expose()
-  cellLocation: string
+  supportNeeded: string
 
   @Expose()
-  pncNumber: string
+  noRightToWork: string
 
   @Expose()
-  croNumber: string
-
-  @Type(() => Date)
-  @Expose()
-  dateOfBirth: Date
+  notStarted: string
 
   @Expose()
-  mostSeriousOffence: string
-
-  @Expose()
-  category: string
-
-  @Expose()
-  nationality: string
+  supportDeclinedReasons: string
 
   @Type(() => Date)
   @Expose()
-  sentenceExpiryDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  licenceExpiryDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  paroleEligibilityDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  homeDetentionCurfewEligibilityDate: Date
-
-  @Type(() => Date)
-  @Expose()
-  @Transform(formatDateStringToyyyyMMdd)
+  @Transform(formatDateStringToddMMMyyyy)
   releaseDate: string
 
   @Type(() => Date)
   @Expose()
-  @Transform(formatDateStringToyyyyMMdd)
+  @Transform(formatDateStringToddMMMyyyy)
   updatedOn: string
 
   @Expose()
@@ -70,4 +47,9 @@ export default class PrisonerSearchResult {
 
   @Expose()
   nonDtoReleaseDateType: string
+
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToddMMMyyyy)
+  nonDtoReleaseDate: string
 }

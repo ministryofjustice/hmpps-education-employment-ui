@@ -7,7 +7,7 @@ interface RightToWorkData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function (data: RightToWorkData): ObjectSchema {
+export default function validationSchema(data: RightToWorkData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data
