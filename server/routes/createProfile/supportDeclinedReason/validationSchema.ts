@@ -7,7 +7,7 @@ interface SupportDeclinedReasonData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function (data: SupportDeclinedReasonData): ObjectSchema {
+export default function validationSchema(data: SupportDeclinedReasonData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data
