@@ -38,7 +38,7 @@ export default class SupportDeclinedReasonController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
     const { whatNeedsToChange = [], whatNeedsToChangeDetails } = req.body
 
     try {

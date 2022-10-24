@@ -1,5 +1,4 @@
 import whatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
-import YesNoValue from '../../../enums/yesNoValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
