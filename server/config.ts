@@ -114,4 +114,6 @@ export default {
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
+  weeksBeforeRelease: Number(get('WEEKS_BEFORE_RELEASE', 12)),
+  phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
 }

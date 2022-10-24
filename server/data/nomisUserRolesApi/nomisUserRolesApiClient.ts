@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
 import RestClient from '../restClient'
 import { UserDetails } from '../../services/userService'
@@ -13,13 +14,6 @@ interface UserCaseLoad {
 
 interface Role {
   roleCode: string
-}
-
-export interface Prison {
-  agencyId: string
-  description: string
-  agencyType: string
-  active: boolean
 }
 
 export default class NomisUserRolesApiClient {
@@ -39,5 +33,9 @@ export default class NomisUserRolesApiClient {
     return this.restClient
       .get<Role[]>({ path: `/users/${username}/roles` })
       .then(roles => roles.map(role => `ROLE_${role.roleCode}`))
+  }
+
+  async getUserActiveCaseLoad(user: UserDetails): Promise<any> {
+    return this.restClient.get<any>({ path: `/users/${user.username}/caseloads` })
   }
 }

@@ -33,3 +33,18 @@
     </nav>
   </div>
 </header>
+
+<div class="location-bar">
+  <span class="location-bar__location" data-test="active-location">
+    {% if phaseName %}
+      {{ govukTag({
+        text: phaseName,
+        classes: 'govuk-!-margin-right-1'
+      }) }}
+    {% endif %}
+    <span class="gtm-active-case-load">{{ userActiveCaseLoad.description }}</span>
+  </span>
+{% if userActiveCaseLoad.description.length > 1 %}
+  <a class="location-bar__link" href="{{ dpsUrl }}/change-caseload" data-test="change-location-link">Change your location</a>
+{% endif %}
+</div>

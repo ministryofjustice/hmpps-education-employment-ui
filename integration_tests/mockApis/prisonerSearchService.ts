@@ -1,4 +1,4 @@
-import { stubFor, getMatchingRequests } from './wiremock'
+import { stubFor } from './wiremock'
 
 const getPrisonerById = () =>
   stubFor({
