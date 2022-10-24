@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
@@ -35,7 +35,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     {
       autoescape: true,
       express: app,
-    },
+    }
   )
 
   njkEnv.addFilter('initialiseName', (fullName: string) => {
@@ -65,7 +65,9 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
       items.map((entry: { value: any }) => ({
         ...entry,
         selected: entry && entry.value === selected,
-      })),
+      }))
   )
+
   njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
+  njkEnv.addGlobal('phaseName', config.phaseName)
 }
