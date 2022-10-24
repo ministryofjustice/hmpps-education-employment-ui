@@ -132,6 +132,7 @@
     "@types/express-session": "^1.17.5",
     "@types/http-errors": "^1.8.2",
     "@types/jest": "^28.1.6",
+    "@types/jquery": "^3.5.14",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^18.6.3",
     "@types/nunjucks": "^3.2.1",

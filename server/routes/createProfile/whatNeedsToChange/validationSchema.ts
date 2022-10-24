@@ -7,7 +7,7 @@ interface WhatNeedsToChangeData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function (data: WhatNeedsToChangeData): ObjectSchema {
+export default function validationSchema(data: WhatNeedsToChangeData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data

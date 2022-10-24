@@ -1,17 +1,16 @@
-import { type RequestHandler, Router } from 'express'
-
-import createProfileRoutes from './createProfile'
+import { Router } from 'express'
 import type { Services } from '../services'
+import cohortListRoutes from './cohortList'
+import createProfileRoutes from './createProfile'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
-
   router.get('/', (req, res, next) => {
     res.render('pages/index')
   })
 
   // Append page routes
+  cohortListRoutes(router, services)
   createProfileRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
