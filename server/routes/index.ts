@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import type { Services } from '../services'
 import cohortListRoutes from './cohortList'
+import type { Services } from '../services'
 import createProfileRoutes from './createProfile'
 
 export default function routes(services: Services): Router {
@@ -8,6 +8,9 @@ export default function routes(services: Services): Router {
   router.get('/', (req, res, next) => {
     res.render('pages/index')
   })
+  // Append page routes
+  cohortListRoutes(router, services)
+  router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
   // Append page routes
   cohortListRoutes(router, services)
