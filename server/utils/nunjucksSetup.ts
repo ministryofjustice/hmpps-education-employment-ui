@@ -1,7 +1,8 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -34,7 +35,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     {
       autoescape: true,
       express: app,
-    },
+    }
   )
 
   njkEnv.addFilter('initialiseName', (fullName: string) => {
@@ -45,4 +46,28 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     const array = fullName.split(' ')
     return `${array[0][0]}. ${array.reverse()[0]}`
   })
+
+  njkEnv.addFilter('findError', (array, formFieldId) => {
+    if (!array) return null
+    const item = array.find((error: { href: string }) => error.href === `#${formFieldId}`)
+    if (item) {
+      return {
+        text: item.text,
+      }
+    }
+    return null
+  })
+
+  njkEnv.addFilter(
+    'setSelected',
+    (items, selected) =>
+      items &&
+      items.map((entry: { value: any }) => ({
+        ...entry,
+        selected: entry && entry.value === selected,
+      }))
+  )
+
+  njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
+  njkEnv.addGlobal('phaseName', config.phaseName)
 }

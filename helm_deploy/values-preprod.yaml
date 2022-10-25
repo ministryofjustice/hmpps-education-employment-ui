@@ -1,0 +1,28 @@
+---
+# Per environment values which override defaults in hmpps-education-employment-ui/values.yaml
+
+generic-service:
+  replicaCount: 2
+
+  ingress:
+    host: hmpps-education-employment-ui-dev.hmpps.service.justice.gov.uk
+    contextColour: green
+
+  env:
+    ENVIRONMENT: dev
+    S3_REGION: eu-west-2
+    INGRESS_URL: "https://hmpps-education-employment-ui-preprod.hmpps.service.justice.gov.uk"
+    DPS_URL: "https://digital-preprod.prison.service.justice.gov.uk"
+    SUPPORT_URL: "https://support-preprod.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in-preprod.hmpps.service.justice.gov.uk/auth"
+    HMPPS_PRISON_API_URL: "https://api-preprod.prison.service.justice.gov.uk"
+    NOMIS_USER_ROLES_API_URL: "https://nomis-user-preprod.aks-dev-1.studio-hosting.service.justice.gov.uk"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
+    COMMUNITY_API_URL: "https://community-api-secure.preprod.delius.probation.hmpps.dsd.io"
+    CURIOUS_API_URL: "https://preprodservices.sequation.net/sequation-virtual-campus2-api/"
+    PRISONER_SEARCH_URL: "https://prisoner-offender-search-preprod.prison.service.justice.gov.uk"
+    ESWE_PROFILE_API_URL: "https://education-employment-api-preprod.hmpps.service.justice.gov.uk"
+
+generic-prometheus-alerts:
+  alertSeverity: digital-prison-service-dev
+
