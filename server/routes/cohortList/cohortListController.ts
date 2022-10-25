@@ -13,76 +13,84 @@ export default class CohortListController {
     private readonly paginationService: PaginationService,
   ) {}
 
-  public get: RequestHandler = async (req, res): Promise<void> => {
+  public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { page, sort, order, status = '', lastName = '' } = req.query
     const pageNumber = page ? +page - 1 : 0
 
-    const searchFilter = [status && `${status}`, lastName && `${decodeURIComponent(lastName.toString())}`]
-    const filter = searchFilter && searchFilter.join(',')
+    try {
+      const searchFilter = [status && `${status}`, lastName && `${decodeURIComponent(lastName.toString())}`]
+      const filter = searchFilter && searchFilter.join(',')
 
-    const { weeksBeforeRelease } = config
-    const dateFilter = `${formatDateToyyyyMMdd(new Date().toString())}, ${offenderEarliestReleaseDate(
-      weeksBeforeRelease,
-    )}`
+      const { weeksBeforeRelease } = config
+      const dateFilter = `${formatDateToyyyyMMdd(new Date().toString())}, ${offenderEarliestReleaseDate(
+        weeksBeforeRelease,
+      )}`
 
-    const userActiveCaseLoad: any = await this.prisonerSearchService.getUserActiveCaseLoad(
-      res.locals.user,
-      res.locals.user.token,
-    )
-
-    const results = await this.prisonerSearchService.searchByReleaseDateRaw(
-      res.locals.user.username,
-      dateFilter,
-      [userActiveCaseLoad.caseLoadId],
-      res.locals.user.token,
-      sort,
-      order,
-      filter.length === 1 ? '' : filter,
-      pageNumber,
-    )
-
-    // Paginate where necessary
-    const arrSearchCriteria = []
-    arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
-    arrSearchCriteria.push(status && ` Status = ${status}`)
-    const notFoundMsg = arrSearchCriteria.length && [
-      `0 results for [${arrSearchCriteria.toString()}]`,
-      'Check your spelling and search again, or clear the search and browse for the prisoner.',
-    ]
-
-    let paginationData = {}
-    if ((results as any).content.length) {
-      const paginationUrl = new URL(
-        `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${pageNumber}`,
+      const userActiveCaseLoad: any = await this.prisonerSearchService.getUserActiveCaseLoad(
+        res.locals.user,
+        res.locals.user.token,
       )
 
-      paginationData = this.paginationService.getPagination(results as any, paginationUrl)
-    }
+      const results = await this.prisonerSearchService.searchByReleaseDateRaw(
+        res.locals.user.username,
+        dateFilter,
+        [userActiveCaseLoad.caseLoadId],
+        res.locals.user.token,
+        sort,
+        order,
+        filter.length === 1 ? '' : filter,
+        pageNumber,
+      )
 
-    const data = {
-      prisonerSearchResults: results,
-      sort,
-      order,
-      paginationData,
-      userActiveCaseLoad,
-      notFoundMsg,
-      lastName: `${decodeURIComponent(lastName as string)}`,
+      // Paginate where necessary
+      const arrSearchCriteria = []
+      arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
+      arrSearchCriteria.push(status && ` Status = ${status}`)
+      const notFoundMsg = arrSearchCriteria.length && [
+        `0 results for [${arrSearchCriteria.toString()}]`,
+        'Check your spelling and search again, or clear the search and browse for the prisoner.',
+      ]
+
+      let paginationData = {}
+      if ((results as any).content.length) {
+        const paginationUrl = new URL(
+          `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${pageNumber}`,
+        )
+
+        paginationData = this.paginationService.getPagination(results as any, paginationUrl)
+      }
+
+      const data = {
+        prisonerSearchResults: results,
+        sort,
+        order,
+        paginationData,
+        userActiveCaseLoad,
+        notFoundMsg,
+        lastName: `${decodeURIComponent(lastName as string)}`,
+      }
+      res.render('pages/cohortList/index', { ...data })
+    } catch (err) {
+      next(err)
     }
-    res.render('pages/cohortList/index', { ...data })
   }
 
-  public post: RequestHandler = async (req, res): Promise<void> => {
+  public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { page, sort, order } = req.query
     const { selectStatus, searchTerm } = req.body
 
-    const uri = [
-      sort && `sort=${sort}`,
-      order && `order=${order}`,
-      selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
-      searchTerm && `lastName=${encodeURIComponent(searchTerm)}`,
-      page && `page=${page}`,
-    ].filter(val => !!val)
+    try {
+      const uri = [
+        sort && `sort=${sort}`,
+        order && `order=${order}`,
+        selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+        searchTerm && `lastName=${encodeURIComponent(searchTerm)}`,
+        page && `page=${page}`,
+      ].filter(val => !!val)
 
-    res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)
+      res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)
+    } catch (err) {
+      next(err)
+    }
   }
 }
