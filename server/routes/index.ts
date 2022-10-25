@@ -8,9 +8,6 @@ export default function routes(services: Services): Router {
   router.get('/', (req, res, next) => {
     res.render('pages/index')
   })
-  // Append page routes
-  cohortListRoutes(router, services)
-  router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
   // Append page routes
   cohortListRoutes(router, services)
