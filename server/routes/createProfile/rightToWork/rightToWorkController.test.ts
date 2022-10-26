@@ -110,10 +110,11 @@ describe('RightToWorkController', () => {
 
     it('On success - rightToWork = NO - Sets session record then redirects to ineligableToWork', async () => {
       req.body.rightToWork = YesNoValue.No
+      req.params.mode = 'new'
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.ineligableToWork(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.ineligableToWork(id, 'new'))
       expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
       expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.No })
     })

@@ -10,7 +10,7 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
   })
 
-  it('Validation messages display when do value selected', () => {
+  it('Validation messages display when no value selected', () => {
     cy.signIn()
 
     cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
