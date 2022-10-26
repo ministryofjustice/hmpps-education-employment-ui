@@ -1,13 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { plainToClass } from 'class-transformer'
 import config from '../../config'
 import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
 import PrisonerProfileClient from './prisonerProfileClient'
+import GetPrisonerByIdResult from './getPrisonerByIdResult'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
 import { convertToTitleCase } from '../../utils/utils'
+
+export interface PrisonerSearchByPrisonerNumber {
+  prisonerIdentifier: string
+  nomsNumber: string
+  prisonIds?: string[]
+  includeAliases?: boolean
+}
+
+export interface PrisonerSearchByName {
+  firstName: string
+  lastName: string
+  prisonIds?: string[]
+  includeAliases?: boolean
+}
 
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
@@ -19,6 +33,9 @@ export interface ReleaseDateSearch {
 }
 
 type PrisonerSearchByReleaseDate = ReleaseDateSearch
+
+const PRISONER_NUMBERS_SEARCH_PATH = '/prisoner-search/prisoner-numbers'
+const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
@@ -140,5 +157,22 @@ export default class PrisonerSearchClient {
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
     }
+  }
+
+  async findByPrisonerNumbers(prisonerNumbers: Array<string>): Promise<PrisonerSearchResult[]> {
+    return this.restClient.post<PrisonerSearchResult[]>({
+      path: `${PRISONER_NUMBERS_SEARCH_PATH}`,
+      data: {
+        prisonerNumbers,
+      },
+    })
+  }
+
+  async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
+    const prisoner = this.restClient.get<GetPrisonerByIdResult>({
+      path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
+    })
+
+    return plainToClass(GetPrisonerByIdResult, prisoner)
   }
 }

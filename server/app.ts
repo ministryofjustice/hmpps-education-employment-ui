@@ -17,10 +17,9 @@ import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
-
+import expressContext from './middleware/expressContext'
 import routes from './routes'
 import type { Services } from './services'
-import expressContext from './middleware/expressContext'
 
 export default function createApp(services: Services): express.Application {
   const app = express()

@@ -4,6 +4,7 @@ import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 import { UserDetails } from './userService'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
+import GetPrisonerByIdResult from '../data/prisonerSearch/getPrisonerByIdResult'
 
 function searchPrisonersByReleaseDate(searchTerm: string, prisonIds: string[]): ReleaseDateSearch {
   const [earliestReleaseDate, latestReleaseDate] = searchTerm.split(',')
@@ -51,5 +52,9 @@ export default class PrisonerSearchService {
       caseLoadId: userActiveCaseLoad.activeCaseload.id,
       description: userActiveCaseLoad.activeCaseload.name,
     }
+  }
+
+  async getPrisonerById(userToken: string, id: string): Promise<GetPrisonerByIdResult> {
+    return new PrisonerSearchClient(userToken).getPrisonerById(id)
   }
 }
