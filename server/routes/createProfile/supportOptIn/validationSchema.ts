@@ -3,19 +3,19 @@ import type { ObjectSchema } from 'joi'
 
 import YesNoValue from '../../../enums/yesNoValue'
 
-interface RightToWorkData {
+interface SupportOptInData {
   prisoner: { firstName: string; lastName: string }
 }
 
-export default function validationSchema(data: RightToWorkData): ObjectSchema {
+export default function validationSchema(data: SupportOptInData): ObjectSchema {
   const {
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select if ${firstName} ${lastName} has the right to work in the UK or not`
+  const msg = `Select if ${firstName} ${lastName} wants support to get work or not`
 
   return joi.object({
-    rightToWork: joi.string().valid(YesNoValue.Yes, YesNoValue.No).required().messages({
+    supportOptIn: joi.string().valid(YesNoValue.Yes, YesNoValue.No).required().messages({
       'any.only': msg,
       'any.required': msg,
     }),
