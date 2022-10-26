@@ -1,0 +1,106 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = 'What change in circumstances would make ' + prisoner.firstName + ' ' + prisoner.lastName + ' want to get work?' %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * whatNeedsToChange - Array existing values for field
+    * whatNeedsToChangeDetails - Array existing values for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "whatNeedsToChangeDetails",
+              name: "whatNeedsToChangeDetails",
+              rows: "2",
+              value: whatNeedsToChangeDetails,
+              type: "text",
+              label: {
+                text: "Give details"
+              },
+              errorMessage: errors.whatNeedsToChangeDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "whatNeedsToChange",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "HOUSING_IN_PLACE",
+                text: "Housing in place",
+                checked: whatNeedsToChange.indexOf('HOUSING_IN_PLACE') > -1
+              },
+              {
+                value: "ID_IN_PLACE",
+                text: "ID in place",
+                checked: whatNeedsToChange.indexOf('ID_IN_PLACE') > -1
+              },
+              {
+                value: "SUPPORT_TO_MANAGE_DEPENDENCY",
+                text: "Support to manage a drug or alcohol dependency",
+                checked: whatNeedsToChange.indexOf('SUPPORT_TO_MANAGE_DEPENDENCY') > -1
+              },
+              {
+                value: "SUPPORT_TO_MANAGE_MENTAL_HEALTH",
+                text: "Support to manage a mental health condition or diagnoses",
+                checked: whatNeedsToChange.indexOf('SUPPORT_TO_MANAGE_MENTAL_HEALTH') > -1
+              },
+              {
+                value: "OTHER",
+                text: "Other",
+                checked: whatNeedsToChange.indexOf('OTHER') > -1,
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.whatNeedsToChange
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {'data-qa': 'submit-button'}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

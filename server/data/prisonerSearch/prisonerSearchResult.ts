@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Expose, Transform, Type } from 'class-transformer'
 import { formatDateStringToddMMMyyyy } from '../../utils/utils'
 

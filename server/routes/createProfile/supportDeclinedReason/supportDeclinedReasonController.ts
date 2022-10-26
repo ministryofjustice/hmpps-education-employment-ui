@@ -11,7 +11,7 @@ export default class SupportDeclinedReasonController {
     const { prisoner } = req.context
 
     try {
-      // If no record or incorrect value return to rightToWork
+      // If no record return to rightToWork
       const record = req.session.data[`createProfile_${id}`]
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
@@ -69,7 +69,7 @@ export default class SupportDeclinedReasonController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.changeRequiredForSupport(id, mode)
+          ? addressLookup.createProfile.whatNeedsToChange(id, mode)
           : addressLookup.createProfile.checkAnswers(id),
       )
     } catch (err) {

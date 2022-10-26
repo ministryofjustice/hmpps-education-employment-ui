@@ -21,36 +21,36 @@ context('SignIn', () => {
   })
 
   it('Validation messages display when no value selected', () => {
-    const supportOptIn = Page.verifyOnPage(SupportDeclinedReasonPage)
+    const supportDeclinedReason = Page.verifyOnPage(SupportDeclinedReasonPage)
 
-    supportOptIn.submitButton().click()
+    supportDeclinedReason.submitButton().click()
 
-    supportOptIn.reasonPageErrorMessage().contains('Select the reason why Daniel Craig does not want support')
-    supportOptIn.reasonFieldErrorMessage().contains('Select the reason why Daniel Craig does not want support')
+    supportDeclinedReason.reasonPageErrorMessage().contains('Select the reason why Daniel Craig does not want support')
+    supportDeclinedReason.reasonFieldErrorMessage().contains('Select the reason why Daniel Craig does not want support')
 
-    supportOptIn.checkboxFieldValue('OTHER').click()
-    supportOptIn.submitButton().click()
+    supportDeclinedReason.checkboxFieldValue('OTHER').click()
+    supportDeclinedReason.submitButton().click()
 
-    supportOptIn.detailsPageErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
-    supportOptIn.detailsFieldErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
+    supportDeclinedReason.detailsPageErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
+    supportDeclinedReason.detailsFieldErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
   })
 
-  it('New record - Select YES - navigates to support-opt-in page', () => {
-    const supportOptIn = Page.verifyOnPage(SupportDeclinedReasonPage)
+  it('New record - Select YES - navigates to what-needs-to-change page', () => {
+    const supportDeclinedReason = Page.verifyOnPage(SupportDeclinedReasonPage)
 
-    supportOptIn.checkboxFieldValue('NO_REASON').click()
-    supportOptIn.submitButton().click()
+    supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
+    supportDeclinedReason.submitButton().click()
 
-    cy.url().should('include', 'change-required-for-support/new')
+    cy.url().should('include', 'what-needs-to-change/new')
   })
 
   it('Existing record - Select YES - navigates to check-answers page', () => {
     cy.visit('/work-profile/create/G6115VJ/support-declined-reason/edit')
 
-    const supportOptIn = Page.verifyOnPage(SupportDeclinedReasonPage)
+    const supportDeclinedReason = Page.verifyOnPage(SupportDeclinedReasonPage)
 
-    supportOptIn.checkboxFieldValue('NO_REASON').click()
-    supportOptIn.submitButton().click()
+    supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
+    supportDeclinedReason.submitButton().click()
 
     cy.url().should('include', 'check-answers')
   })
