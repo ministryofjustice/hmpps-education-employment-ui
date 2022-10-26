@@ -1,0 +1,104 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = 'What does ' + prisoner.firstName + ' ' + prisoner.lastName + ' have in place already?' %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * alreadyInPlace - Array existing values for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {{ govukCheckboxes({
+            name: "alreadyInPlace",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "BANK_ACCOUNT",
+                text: "Bank account",
+                checked: alreadyInPlace.indexOf('BANK_ACCOUNT') > -1
+              },
+              {
+                value: "CV",
+                text: "CV",
+                checked: alreadyInPlace.indexOf('CV') > -1
+              },
+              {
+                value: "DISCLOSURE_LETTER",
+                text: "Disclosure letter",
+                checked: alreadyInPlace.indexOf('DISCLOSURE_LETTER') > -1
+              },
+              {
+                value: "EMAIL_OR_PHONE",
+                text: "Email address or phone number",
+                checked: alreadyInPlace.indexOf('EMAIL_OR_PHONE') > -1
+              },
+              {
+                value: "HOUSING",
+                text: "Housing",
+                checked: alreadyInPlace.indexOf('HOUSING') > -1
+              },
+              {
+                value: "ID",
+                text: "ID",
+                checked: alreadyInPlace.indexOf('ID') > -1,
+                hint: {
+                  text: "including things like a passport, UK driving licence or birth certificate"
+                }
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text: "None of these",
+                checked: alreadyInPlace.indexOf('NONE') > -1,
+                behaviour: "exclusive"
+              }
+            ],
+             errorMessage: errors.alreadyInPlace
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {'data-qa': 'submit-button'}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
