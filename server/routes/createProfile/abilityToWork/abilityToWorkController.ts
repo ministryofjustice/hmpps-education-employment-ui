@@ -3,9 +3,10 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
+import abilityToWorkValue from '../../../enums/abilityToWorkValue'
 import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
-export default class AlreadyInPlaceController {
+export default class AbilityToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -18,19 +19,22 @@ export default class AlreadyInPlaceController {
         return
       }
 
+      // Calculate last page based on record in session
+      const lastPage =
+        record.alreadyInPlace === alreadyInPlaceValue.ID
+          ? addressLookup.createProfile.identification(id, mode)
+          : addressLookup.createProfile.alreadyInPlace(id, mode)
+
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
         prisoner,
-        alreadyInPlace: record.alreadyInPlace || [],
+        abilityToWork: record.abilityToWork || [],
       }
 
       // Store page data for use if validation fails
-      req.session.data[`alreadyInPlace_${id}_data`] = data
+      req.session.data[`abilityToWork_${id}_data`] = data
 
-      res.render('pages/createProfile/alreadyInPlace/index', { ...data })
+      res.render('pages/createProfile/abilityToWork/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -38,17 +42,17 @@ export default class AlreadyInPlaceController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { alreadyInPlace = [] } = req.body
+    const { abilityToWork = [] } = req.body
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`alreadyInPlace_${id}_data`]
+      const data = req.session.data[`abilityToWork_${id}_data`]
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createProfile/alreadyInPlace/index', {
+        res.render('pages/createProfile/abilityToWork/index', {
           ...data,
           errors,
-          alreadyInPlace,
+          abilityToWork,
         })
         return
       }
@@ -57,19 +61,19 @@ export default class AlreadyInPlaceController {
       const record = req.session.data[`createProfile_${id}`]
       req.session.data[`createProfile_${id}`] = {
         ...record,
-        alreadyInPlace,
+        abilityToWork,
       }
-      delete req.session.data[`alreadyInPlace_${id}_data`]
+      delete req.session.data[`abilityToWork_${id}_data`]
 
-      if (alreadyInPlace.includes(alreadyInPlaceValue.ID)) {
-        res.redirect(addressLookup.createProfile.identification(id, mode))
+      if (abilityToWork.includes(abilityToWorkValue.DRUGS_OR_ALCOHOL)) {
+        res.redirect(addressLookup.createProfile.manageDrugsAndAlcohol(id, mode))
         return
       }
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.abilityToWork(id, mode)
+          ? addressLookup.createProfile.typeOfWork(id, mode)
           : addressLookup.createProfile.checkAnswers(id),
       )
     } catch (err) {

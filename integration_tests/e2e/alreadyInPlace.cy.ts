@@ -29,13 +29,13 @@ context('SignIn', () => {
     supportDeclinedReason.reasonFieldErrorMessage().contains('Select what Daniel Craig has in place already')
   })
 
-  it('New record - Select BANK_ACCOUNT - navigates to affect-ability-to-work page', () => {
+  it('New record - Select BANK_ACCOUNT - navigates to ability-to-work page', () => {
     const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
 
     supportDeclinedReason.checkboxFieldValue('BANK_ACCOUNT').click()
     supportDeclinedReason.submitButton().click()
 
-    cy.url().should('include', 'affect-ability-to-work/new')
+    cy.url().should('include', 'ability-to-work/new')
   })
 
   it('New record - Select ID - navigates to identification page', () => {

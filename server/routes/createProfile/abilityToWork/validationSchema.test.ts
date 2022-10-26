@@ -1,4 +1,4 @@
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import abilityToWorkValue from '../../../enums/abilityToWorkValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -18,44 +18,44 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select what mock_firstName mock_lastName has in place already',
-      path: ['alreadyInPlace'],
+      message: "Select what might affect mock_firstName mock_lastName's ability to work",
+      path: ['abilityToWork'],
       type: 'any.required',
       context: {
-        key: 'alreadyInPlace',
-        label: 'alreadyInPlace',
+        key: 'abilityToWork',
+        label: 'abilityToWork',
       },
     })
   })
 
   it('On validation error - Valid - Returns the correct error message', () => {
-    req.body.alreadyInPlace = ['SOME_VALUE']
+    req.body.abilityToWork = ['SOME_VALUE']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
       context: {
         key: 0,
-        label: 'alreadyInPlace[0]',
+        label: 'abilityToWork[0]',
         valids: [
-          alreadyInPlaceValue.BANK_ACCOUNT,
-          alreadyInPlaceValue.CV,
-          alreadyInPlaceValue.DISCLOSURE_LETTER,
-          alreadyInPlaceValue.EMAIL_OR_PHONE,
-          alreadyInPlaceValue.HOUSING,
-          alreadyInPlaceValue.ID,
-          alreadyInPlaceValue.NONE,
+          abilityToWorkValue.EDUCATION_OR_TRAINING,
+          abilityToWorkValue.FAMILY_ISSUES,
+          abilityToWorkValue.CARING_RESPONSIBILITIES,
+          abilityToWorkValue.MENTAL_HEALTH_CONDITION,
+          abilityToWorkValue.PHYSICAL_HEALTH_CONDITION,
+          abilityToWorkValue.DRUGS_OR_ALCOHOL,
+          abilityToWorkValue.NONE,
         ],
         value: 'SOME_VALUE',
       },
-      message: 'Select what mock_firstName mock_lastName has in place already',
-      path: ['alreadyInPlace', 0],
+      message: "Select what might affect mock_firstName mock_lastName's ability to work",
+      path: ['abilityToWork', 0],
       type: 'any.only',
     })
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.alreadyInPlace = ['BANK_ACCOUNT']
+    req.body.abilityToWork = ['FAMILY_ISSUES']
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
