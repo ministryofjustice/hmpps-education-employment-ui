@@ -15,7 +15,7 @@ export default class AlreadyInPlacePage extends Page {
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
 
-  reasonPageErrorMessage = (): PageElement => cy.get('[href="#alreadyInPlace"]')
+  pageErrorMessage = (): PageElement => cy.get('[href="#alreadyInPlace"]')
 
-  reasonFieldErrorMessage = (): PageElement => cy.get('#alreadyInPlace-error')
+  fieldErrorMessage = (): PageElement => cy.get('#alreadyInPlace-error')
 }
