@@ -18,7 +18,6 @@ context('SignIn', () => {
     const supportOptIn = Page.verifyOnPage(SupportOptIn)
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
   })
 
   it('Validation messages display when no value selected', () => {
