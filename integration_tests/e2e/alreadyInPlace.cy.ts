@@ -21,28 +21,28 @@ context('SignIn', () => {
   })
 
   it('Validation messages display when no value selected', () => {
-    const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
-    supportDeclinedReason.submitButton().click()
+    alreadyInPlace.submitButton().click()
 
-    supportDeclinedReason.reasonPageErrorMessage().contains('Select what Daniel Craig has in place already')
-    supportDeclinedReason.reasonFieldErrorMessage().contains('Select what Daniel Craig has in place already')
+    alreadyInPlace.pageErrorMessage().contains('Select what Daniel Craig has in place already')
+    alreadyInPlace.fieldErrorMessage().contains('Select what Daniel Craig has in place already')
   })
 
-  it('New record - Select BANK_ACCOUNT - navigates to affect-ability-to-work page', () => {
-    const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
+  it('New record - Select BANK_ACCOUNT - navigates to ability-to-work page', () => {
+    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
-    supportDeclinedReason.checkboxFieldValue('BANK_ACCOUNT').click()
-    supportDeclinedReason.submitButton().click()
+    alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
+    alreadyInPlace.submitButton().click()
 
-    cy.url().should('include', 'affect-ability-to-work/new')
+    cy.url().should('include', 'ability-to-work/new')
   })
 
   it('New record - Select ID - navigates to identification page', () => {
-    const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
-    supportDeclinedReason.checkboxFieldValue('ID').click()
-    supportDeclinedReason.submitButton().click()
+    alreadyInPlace.checkboxFieldValue('ID').click()
+    alreadyInPlace.submitButton().click()
 
     cy.url().should('include', 'identification/new')
   })
@@ -50,10 +50,10 @@ context('SignIn', () => {
   it('Existing record - Select BANK_ACCOUNT - navigates to check-answers page', () => {
     cy.visit('/work-profile/create/G6115VJ/already-in-place/edit')
 
-    const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
-    supportDeclinedReason.checkboxFieldValue('BANK_ACCOUNT').click()
-    supportDeclinedReason.submitButton().click()
+    alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
+    alreadyInPlace.submitButton().click()
 
     cy.url().should('include', 'check-answers')
   })
@@ -61,10 +61,10 @@ context('SignIn', () => {
   it('Existing record - Select ID - navigates to identification page', () => {
     cy.visit('/work-profile/create/G6115VJ/already-in-place/edit')
 
-    const supportDeclinedReason = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
-    supportDeclinedReason.checkboxFieldValue('ID').click()
-    supportDeclinedReason.submitButton().click()
+    alreadyInPlace.checkboxFieldValue('ID').click()
+    alreadyInPlace.submitButton().click()
 
     cy.url().should('include', 'identification/edit')
   })

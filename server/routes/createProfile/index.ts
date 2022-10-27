@@ -7,6 +7,7 @@ import supportOptInRoutes from './supportOptIn'
 import supportDeclinedReasonRoutes from './supportDeclinedReason'
 import whatNeedsToChangeRoutes from './whatNeedsToChange'
 import alreadyInPlaceRoutes from './alreadyInPlace'
+import abilityToWorkRoutes from './abilityToWork'
 
 export default (router: Router, services: Services) => {
   rightToWorkRoutes(router, services)
@@ -15,4 +16,5 @@ export default (router: Router, services: Services) => {
   supportDeclinedReasonRoutes(router, services)
   whatNeedsToChangeRoutes(router, services)
   alreadyInPlaceRoutes(router, services)
+  abilityToWorkRoutes(router, services)
 }
