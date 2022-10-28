@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer'
 import config from '../../config'
 import RestClient from '../restClient'
 import PrisonerSearchResult from './prisonerSearchResult'
-import PrisonerProfileClient from './prisonerProfileClient'
+import PrisonerProfileClient from '../prisonerProfile/prisonerProfileClient'
 import GetPrisonerByIdResult from './getPrisonerByIdResult'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
@@ -173,6 +173,6 @@ export default class PrisonerSearchClient {
       path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
     })
 
-    return plainToClass(GetPrisonerByIdResult, prisoner)
+    return prisoner
   }
 }

@@ -38,9 +38,8 @@
         {% for offender in offendersToBeReleased %}
 
             <tr class="govuk-table__row {{ rowClass.next() }}">
-                {% set quickLookUrl = dpsUrl + '/offenders/' + offender.prisonerNumber + '/quick-look' %}
                 <td class="govuk-table__cell">
-                    <a href="{{ quickLookUrl }}"
+                    <a href="{{ addressLookup.workProfile(offender.prisonerNumber) }}"
                        target="_blank"
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"

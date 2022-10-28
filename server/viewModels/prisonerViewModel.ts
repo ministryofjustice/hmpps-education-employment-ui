@@ -1,4 +1,13 @@
-export default class GetPrisonerByIdResult {
+// Required import for jest
+import 'reflect-metadata'
+import { Exclude, Expose, Transform, Type } from 'class-transformer'
+
+import { convertToTitleCase, formatDateStringToddMMMyyyy } from '../utils/utils'
+
+// Exclude all by default expose properties when needed
+@Exclude()
+export default class PrisonerViewModel {
+  @Expose()
   prisonerNumber: string
 
   pncNumber: string
@@ -9,14 +18,19 @@ export default class GetPrisonerByIdResult {
 
   croNumber: string
 
+  @Expose()
   bookingId: string
 
   bookNumber: string
 
+  @Expose()
+  @Transform(({ value }) => convertToTitleCase(value))
   firstName: string
 
   middleNames: string
 
+  @Expose()
+  @Transform(({ value }) => convertToTitleCase(value))
   lastName: string
 
   dateOfBirth: string
@@ -41,6 +55,7 @@ export default class GetPrisonerByIdResult {
 
   inOutStatus: string
 
+  @Expose()
   prisonId: string
 
   prisonName: string
@@ -85,6 +100,9 @@ export default class GetPrisonerByIdResult {
 
   sentenceStartDate: string
 
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToddMMMyyyy)
   releaseDate: string
 
   confirmedReleaseDate: string
@@ -107,6 +125,7 @@ export default class GetPrisonerByIdResult {
 
   nonDtoReleaseDate: string
 
+  @Expose()
   nonDtoReleaseDateType: string
 
   receptionDate: string

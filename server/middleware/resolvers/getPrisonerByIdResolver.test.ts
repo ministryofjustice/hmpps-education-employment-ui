@@ -12,6 +12,9 @@ describe('validationSchema', () => {
     prisoner: {
       firstName: 'mock_firstName',
       lastName: 'mock_lastName',
+      bookingId: 'mock_bookingId',
+      prisonId: 'mock_prisonId',
+      prisonerNumber: 'mock_prisonerNumber',
     },
   }
 
@@ -35,7 +38,14 @@ describe('validationSchema', () => {
 
     await resolver(req, res, next)
 
-    expect(req.context.prisoner).toEqual(mockData.prisoner)
+    expect(req.context.prisoner).toEqual({
+      firstName: 'Mock_firstname',
+      lastName: 'Mock_lastname',
+      bookingId: 'mock_bookingId',
+      prisonId: 'mock_prisonId',
+      prisonerNumber: 'mock_prisonerNumber',
+      releaseDate: 'N/A',
+    })
     expect(next).toHaveBeenCalledWith()
   })
 })
