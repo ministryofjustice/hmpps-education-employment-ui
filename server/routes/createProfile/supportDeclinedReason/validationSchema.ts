@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
+import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 
 interface SupportDeclinedReasonData {
   prisoner: { firstName: string; lastName: string }
@@ -25,16 +25,16 @@ export default function validationSchema(data: SupportDeclinedReasonData): Objec
           joi
             .any()
             .valid(
-              supportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
-              supportDeclinedReasonValue.CARING_RESPONSIBILITIES,
-              supportDeclinedReasonValue.LACKS_CONFIDENCE,
-              supportDeclinedReasonValue.LACKS_MOTIVATION,
-              supportDeclinedReasonValue.HEALTH_CONDITION,
-              supportDeclinedReasonValue.NO_REASON,
-              supportDeclinedReasonValue.RETIRED,
-              supportDeclinedReasonValue.RETURNING_TO_WORK,
-              supportDeclinedReasonValue.SELF_EMPLOYED,
-              supportDeclinedReasonValue.OTHER,
+              SupportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
+              SupportDeclinedReasonValue.CARING_RESPONSIBILITIES,
+              SupportDeclinedReasonValue.LACKS_CONFIDENCE,
+              SupportDeclinedReasonValue.LACKS_MOTIVATION,
+              SupportDeclinedReasonValue.HEALTH_CONDITION,
+              SupportDeclinedReasonValue.NO_REASON,
+              SupportDeclinedReasonValue.RETIRED,
+              SupportDeclinedReasonValue.RETURNING_TO_WORK,
+              SupportDeclinedReasonValue.SELF_EMPLOYED,
+              SupportDeclinedReasonValue.OTHER,
             ),
         )
         .messages({

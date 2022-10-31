@@ -3,7 +3,7 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './supportDeclinedReasonController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
+import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -62,7 +62,7 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { supportDeclinedReason: supportDeclinedReasonValue.OTHER }
+      req.session.data[`createProfile_${id}`] = { supportDeclinedReason: SupportDeclinedReasonValue.OTHER }
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -70,7 +70,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/supportDeclinedReason/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.checkAnswers(id),
-        supportDeclinedReason: supportDeclinedReasonValue.OTHER,
+        supportDeclinedReason: SupportDeclinedReasonValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -114,26 +114,26 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - mode = new - Sets session record then redirects to changeRequiredForSupport', async () => {
-      req.body.supportDeclinedReason = supportDeclinedReasonValue.OTHER
+      req.body.supportDeclinedReason = SupportDeclinedReasonValue.OTHER
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        supportDeclinedReason: supportDeclinedReasonValue.OTHER,
+        supportDeclinedReason: SupportDeclinedReasonValue.OTHER,
       })
       expect(req.session.data[`supportDeclinedReason_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.whatNeedsToChange(id, 'new'))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
-      req.body.supportDeclinedReason = supportDeclinedReasonValue.OTHER
+      req.body.supportDeclinedReason = SupportDeclinedReasonValue.OTHER
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        supportDeclinedReason: supportDeclinedReasonValue.OTHER,
+        supportDeclinedReason: SupportDeclinedReasonValue.OTHER,
       })
       expect(req.session.data[`supportDeclinedReason_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

@@ -8,6 +8,7 @@ import supportDeclinedReasonRoutes from './supportDeclinedReason'
 import whatNeedsToChangeRoutes from './whatNeedsToChange'
 import alreadyInPlaceRoutes from './alreadyInPlace'
 import abilityToWorkRoutes from './abilityToWork'
+import manageDrugsAndAlcoholRoutes from './manageDrugsAndAlcohol'
 
 export default (router: Router, services: Services) => {
   rightToWorkRoutes(router, services)
@@ -17,4 +18,5 @@ export default (router: Router, services: Services) => {
   whatNeedsToChangeRoutes(router, services)
   alreadyInPlaceRoutes(router, services)
   abilityToWorkRoutes(router, services)
+  manageDrugsAndAlcoholRoutes(router, services)
 }

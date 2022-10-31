@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './alreadyInPlaceController'
+import Controller from './manageDrugsAndAlcoholController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -17,7 +16,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('SupportDeclinedReasonController', () => {
+describe('ManageDrugsAndAlcoholController', () => {
   const { req, res, next } = expressMocks()
 
   req.context.prisoner = {
@@ -30,9 +29,8 @@ describe('SupportDeclinedReasonController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.supportOptIn(id, mode),
+    backLocation: addressLookup.createProfile.abilityToWork(id, mode),
     prisoner: req.context.prisoner,
-    alreadyInPlace: [] as any,
   }
 
   const controller = new Controller()
@@ -41,7 +39,7 @@ describe('SupportDeclinedReasonController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`alreadyInPlace_${id}_data`] = mockData
+      req.session.data[`manageDrugsAndAlcohol_${id}_data`] = mockData
       req.session.data[`createProfile_${id}`] = {}
     })
 
@@ -57,20 +55,19 @@ describe('SupportDeclinedReasonController', () => {
     it('On success - No record found - Calls render with the correct data', async () => {
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createProfile/alreadyInPlace/index', { ...mockData })
+      expect(res.render).toHaveBeenCalledWith('pages/createProfile/manageDrugsAndAlcohol/index', { ...mockData })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { alreadyInPlace: AlreadyInPlaceValue.HOUSING }
-      req.params.mode = 'edit'
+      req.session.data[`createProfile_${id}`] = { manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE }
+      req.params.mode = 'new'
 
       controller.get(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createProfile/alreadyInPlace/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createProfile/manageDrugsAndAlcohol/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
-        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
+        manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -86,7 +83,7 @@ describe('SupportDeclinedReasonController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`alreadyInPlace_${id}_data`] = mockData
+      req.session.data[`manageDrugsAndAlcohol_${id}_data`] = mockData
       req.session.data[`createProfile_${id}`] = {}
     })
 
@@ -106,62 +103,36 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/createProfile/alreadyInPlace/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/createProfile/manageDrugsAndAlcohol/index', {
         ...mockData,
         errors,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new and value = ID - Sets session record then redirects to identification', async () => {
-      req.body.alreadyInPlace = AlreadyInPlaceValue.ID
+    it('On success - Sets session record then redirects to typeOfWork', async () => {
+      req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: AlreadyInPlaceValue.ID,
+        manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
+      expect(req.session.data[`manageDrugsAndAlcohol_${id}_data`]).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
     })
 
-    it('On success - mode = edit and value = ID - Sets session record then redirects to identification', async () => {
-      req.body.alreadyInPlace = AlreadyInPlaceValue.ID
+    it('On success - Sets session record then redirects to checkAnswers', async () => {
+      req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: AlreadyInPlaceValue.ID,
+        manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'edit'))
-    })
-
-    it('On success - mode = new and value != ID - Sets session record then redirects to abilityToWork', async () => {
-      req.body.alreadyInPlace = AlreadyInPlaceValue.HOUSING
-      req.params.mode = 'new'
-
-      controller.post(req, res, next)
-
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
-      })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
-    })
-
-    it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
-      req.body.alreadyInPlace = AlreadyInPlaceValue.HOUSING
-      req.params.mode = 'edit'
-
-      controller.post(req, res, next)
-
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
-      })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(req.session.data[`manageDrugsAndAlcohol_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

@@ -1,4 +1,4 @@
-enum supportDeclinedReasonValue {
+enum SupportDeclinedReasonValue {
   LIMIT_THEIR_ABILITY = 'LIMIT_THEIR_ABILITY',
   CARING_RESPONSIBILITIES = 'CARING_RESPONSIBILITIES',
   LACKS_CONFIDENCE = 'LACKS_CONFIDENCE',
@@ -11,4 +11,4 @@ enum supportDeclinedReasonValue {
   OTHER = 'OTHER',
 }
 
-export default supportDeclinedReasonValue
+export default SupportDeclinedReasonValue

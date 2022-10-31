@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 interface AlreadyInPlaceData {
   prisoner: { firstName: string; lastName: string }
@@ -22,13 +22,13 @@ export default function validationSchema(data: AlreadyInPlaceData): ObjectSchema
         joi
           .any()
           .valid(
-            alreadyInPlaceValue.BANK_ACCOUNT,
-            alreadyInPlaceValue.CV,
-            alreadyInPlaceValue.DISCLOSURE_LETTER,
-            alreadyInPlaceValue.EMAIL_OR_PHONE,
-            alreadyInPlaceValue.HOUSING,
-            alreadyInPlaceValue.ID,
-            alreadyInPlaceValue.NONE,
+            AlreadyInPlaceValue.BANK_ACCOUNT,
+            AlreadyInPlaceValue.CV_AND_COVERING_LETTER,
+            AlreadyInPlaceValue.DISCLOSURE_LETTER,
+            AlreadyInPlaceValue.EMAIL_OR_PHONE,
+            AlreadyInPlaceValue.HOUSING,
+            AlreadyInPlaceValue.ID,
+            AlreadyInPlaceValue.NONE,
           ),
       )
       .messages({

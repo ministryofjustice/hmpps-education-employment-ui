@@ -1,50 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import middleware from './getPrisonerByIdResolver'
+import middleware from './getProfileByIdResolver'
 
-describe('getPrisonerByIdResolver', () => {
+describe('getProfileByIdResolver', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = {}
   req.id = 'mock_ref'
 
   const mockData = {
-    prisoner: {
-      firstName: 'mock_firstName',
-      lastName: 'mock_lastName',
-      bookingId: 'mock_bookingId',
-      prisonId: 'mock_prisonId',
+    profile: {
       prisonerNumber: 'mock_prisonerNumber',
     },
   }
 
   const serviceMock = {
-    getPrisonerById: jest.fn(),
+    getProfileById: jest.fn(),
   }
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
   it('On error - Calls next with error', async () => {
-    serviceMock.getPrisonerById.mockRejectedValue(error)
+    serviceMock.getProfileById.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On success - Attaches data to context and call next', async () => {
-    serviceMock.getPrisonerById.mockResolvedValue(mockData.prisoner)
+  it('On error - 400 error - Calls next without error', async () => {
+    serviceMock.getProfileById.mockRejectedValue({
+      data: {
+        status: 400,
+        userMessage: 'Readiness profile does not exist',
+      },
+    })
 
     await resolver(req, res, next)
 
-    expect(req.context.prisoner).toEqual({
-      firstName: 'Mock_firstname',
-      lastName: 'Mock_lastname',
-      bookingId: 'mock_bookingId',
-      prisonId: 'mock_prisonId',
+    expect(next).toHaveBeenCalledWith()
+  })
+
+  it('On success - Attaches data to context and call next', async () => {
+    serviceMock.getProfileById.mockResolvedValue(mockData.profile)
+
+    await resolver(req, res, next)
+
+    expect(req.context.profile).toEqual({
       prisonerNumber: 'mock_prisonerNumber',
-      releaseDate: 'N/A',
     })
     expect(next).toHaveBeenCalledWith()
   })

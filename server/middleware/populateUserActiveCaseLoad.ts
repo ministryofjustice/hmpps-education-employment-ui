@@ -1,10 +1,11 @@
 import { RequestHandler } from 'express'
-import PrisonerSearchService from '../services/prisonSearchService'
+import PrisonerSearchService, { UserActiveCaseLoad } from '../services/prisonSearchService'
 
-export default function populateUserActiveCaseLoad(prisonerSearchService: PrisonerSearchService): RequestHandler {
+// Adds the users current active case load to the res.locals for the breadcrumbs
+const populateUserActiveCaseLoad = (prisonerSearchService: PrisonerSearchService): RequestHandler => {
   return async (req, res, next) => {
     try {
-      const userActiveCaseLoad: any = await prisonerSearchService.getUserActiveCaseLoad(
+      const userActiveCaseLoad: UserActiveCaseLoad = await prisonerSearchService.getUserActiveCaseLoad(
         res.locals.user,
         res.locals.user.token,
       )
@@ -17,3 +18,5 @@ export default function populateUserActiveCaseLoad(prisonerSearchService: Prison
     }
   }
 }
+
+export default populateUserActiveCaseLoad

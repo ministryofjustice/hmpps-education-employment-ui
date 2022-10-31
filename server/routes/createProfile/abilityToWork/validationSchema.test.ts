@@ -1,4 +1,4 @@
-import abilityToWorkValue from '../../../enums/abilityToWorkValue'
+import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -38,13 +38,13 @@ describe('validationSchema', () => {
         key: 0,
         label: 'abilityToWork[0]',
         valids: [
-          abilityToWorkValue.EDUCATION_OR_TRAINING,
-          abilityToWorkValue.FAMILY_ISSUES,
-          abilityToWorkValue.CARING_RESPONSIBILITIES,
-          abilityToWorkValue.MENTAL_HEALTH_CONDITION,
-          abilityToWorkValue.PHYSICAL_HEALTH_CONDITION,
-          abilityToWorkValue.DRUGS_OR_ALCOHOL,
-          abilityToWorkValue.NONE,
+          AbilityToWorkValue.EDUCATION_ENROLLMENT,
+          AbilityToWorkValue.FAMILY_ISSUES,
+          AbilityToWorkValue.CARING_RESPONSIBILITIES,
+          AbilityToWorkValue.MENTAL_HEALTH_ISSUES,
+          AbilityToWorkValue.PHYSICAL_HEALTH_ISSUES,
+          AbilityToWorkValue.DEPENDENCY_ISSUES,
+          AbilityToWorkValue.NONE,
         ],
         value: 'SOME_VALUE',
       },

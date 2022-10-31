@@ -3,8 +3,8 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import abilityToWorkValue from '../../../enums/abilityToWorkValue'
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 export default class AbilityToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -21,7 +21,7 @@ export default class AbilityToWorkController {
 
       // Calculate last page based on record in session
       const lastPage =
-        record.alreadyInPlace === alreadyInPlaceValue.ID
+        record.alreadyInPlace === AlreadyInPlaceValue.ID
           ? addressLookup.createProfile.identification(id, mode)
           : addressLookup.createProfile.alreadyInPlace(id, mode)
 
@@ -65,7 +65,7 @@ export default class AbilityToWorkController {
       }
       delete req.session.data[`abilityToWork_${id}_data`]
 
-      if (abilityToWork.includes(abilityToWorkValue.DRUGS_OR_ALCOHOL)) {
+      if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
         res.redirect(addressLookup.createProfile.manageDrugsAndAlcohol(id, mode))
         return
       }

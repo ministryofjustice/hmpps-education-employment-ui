@@ -1,5 +1,5 @@
-import { plainToClass } from 'class-transformer'
 import type { RequestHandler } from 'express'
+
 import PrisonerProfileService from '../../services/prisonerProfileService'
 
 // Gets profile based on id parameter and puts it into request context
@@ -12,8 +12,6 @@ const getProfileByIdResolver =
     try {
       const profile = await prisonerProfileService.getProfileById(user.token, id)
       req.context.profile = profile
-
-      console.log(req.context.profile)
 
       next()
     } catch (err) {

@@ -1,4 +1,4 @@
-import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -18,44 +18,36 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select what mock_firstName mock_lastName has in place already',
-      path: ['alreadyInPlace'],
+      message: 'Select whether mock_firstName mock_lastName is able to manage their drug or alcohol dependency or not',
+      path: ['manageDrugsAndAlcohol'],
       type: 'any.required',
       context: {
-        key: 'alreadyInPlace',
-        label: 'alreadyInPlace',
+        key: 'manageDrugsAndAlcohol',
+        label: 'manageDrugsAndAlcohol',
       },
     })
   })
 
   it('On validation error - Valid - Returns the correct error message', () => {
-    req.body.alreadyInPlace = ['SOME_VALUE']
+    req.body.manageDrugsAndAlcohol = 'RUBBISH'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      context: {
-        key: 0,
-        label: 'alreadyInPlace[0]',
-        valids: [
-          AlreadyInPlaceValue.BANK_ACCOUNT,
-          AlreadyInPlaceValue.CV_AND_COVERING_LETTER,
-          AlreadyInPlaceValue.DISCLOSURE_LETTER,
-          AlreadyInPlaceValue.EMAIL_OR_PHONE,
-          AlreadyInPlaceValue.HOUSING,
-          AlreadyInPlaceValue.ID,
-          AlreadyInPlaceValue.NONE,
-        ],
-        value: 'SOME_VALUE',
-      },
-      message: 'Select what mock_firstName mock_lastName has in place already',
-      path: ['alreadyInPlace', 0],
+      message: 'Select whether mock_firstName mock_lastName is able to manage their drug or alcohol dependency or not',
+      path: ['manageDrugsAndAlcohol'],
       type: 'any.only',
+      context: {
+        key: 'manageDrugsAndAlcohol',
+        label: 'manageDrugsAndAlcohol',
+        valids: [ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE, ManageDrugsAndAlcoholValue.NOT_ABLE_TO_MANAGE],
+        value: 'RUBBISH',
+      },
     })
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.alreadyInPlace = ['BANK_ACCOUNT']
+    req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
