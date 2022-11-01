@@ -2,7 +2,7 @@ import Page from './page'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
-export default class ManageDrugsAndAlcohol extends Page {
+export default class ManageDrugsAndAlcoholPage extends Page {
   constructor() {
     super('Is Daniel Craig currently able to manage their drug or alcohol dependency?')
   }

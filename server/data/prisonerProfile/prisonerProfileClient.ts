@@ -24,8 +24,6 @@ export default class PrisonerProfileClient {
       path: `${GET_PROFILE_BY_ID_PATH}/${id}`,
     })
 
-    console.log(`${config.apis.esweProfileApi}${GET_PROFILE_BY_ID_PATH}/${id}`)
-
     return plainToClass(GetProfileByIdResult, profile)
   }
 
