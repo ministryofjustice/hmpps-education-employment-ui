@@ -12,5 +12,7 @@ export default {
     typeOfWork: (id: string, mode = 'new') => `/work-profile/create/${id}/type-of-work/${mode}`,
     supportDeclinedReason: (id: string, mode = 'new') => `/work-profile/create/${id}/support-declined-reason/${mode}`,
     whatNeedsToChange: (id: string, mode = 'new') => `/work-profile/create/${id}/what-needs-to-change/${mode}`,
+    jobOfParticularInterest: (id: string, mode = 'new') =>
+      `/work-profile/create/${id}/job-of-particular-interest/${mode}`,
   },
 }
