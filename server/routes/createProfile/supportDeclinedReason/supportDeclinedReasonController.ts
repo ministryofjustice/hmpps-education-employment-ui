@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
+import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -60,7 +60,7 @@ export default class SupportDeclinedReasonController {
       req.session.data[`createProfile_${id}`] = {
         ...record,
         supportDeclinedReason,
-        supportDeclinedDetails: supportDeclinedReason.includes(supportDeclinedReasonValue.OTHER)
+        supportDeclinedDetails: supportDeclinedReason.includes(SupportDeclinedReasonValue.OTHER)
           ? supportDeclinedDetails
           : '',
       }

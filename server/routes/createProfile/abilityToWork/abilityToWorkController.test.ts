@@ -3,8 +3,8 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './abilityToWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import abilityToWorkValue from '../../../enums/abilityToWorkValue'
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -63,7 +63,7 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING }
+      req.session.data[`createProfile_${id}`] = { abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT }
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -71,15 +71,15 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/abilityToWork/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.checkAnswers(id),
-        abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING,
+        abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
     it('On success - Record found from identification - Calls render with the correct data', async () => {
       req.session.data[`createProfile_${id}`] = {
-        abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING,
-        alreadyInPlace: alreadyInPlaceValue.ID,
+        abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
+        alreadyInPlace: AlreadyInPlaceValue.ID,
       }
       req.params.mode = 'new'
 
@@ -88,7 +88,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/abilityToWork/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.identification(id, 'new'),
-        abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING,
+        abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -131,53 +131,53 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - mode = new and value = DRUGS_OR_ALCOHOL - Sets session record then redirects to manageDrugsAndAlcohol', async () => {
-      req.body.abilityToWork = abilityToWorkValue.DRUGS_OR_ALCOHOL
+    it('On success - mode = new and value = DEPENDENCY_ISSUES - Sets session record then redirects to manageDrugsAndAlcohol', async () => {
+      req.body.abilityToWork = AbilityToWorkValue.DEPENDENCY_ISSUES
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        abilityToWork: abilityToWorkValue.DRUGS_OR_ALCOHOL,
+        abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
       expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'new'))
     })
 
-    it('On success - mode = edit and value = DRUGS_OR_ALCOHOL - Sets session record then redirects to manageDrugsAndAlcohol', async () => {
-      req.body.abilityToWork = abilityToWorkValue.DRUGS_OR_ALCOHOL
+    it('On success - mode = edit and value = DEPENDENCY_ISSUES - Sets session record then redirects to manageDrugsAndAlcohol', async () => {
+      req.body.abilityToWork = AbilityToWorkValue.DEPENDENCY_ISSUES
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        abilityToWork: abilityToWorkValue.DRUGS_OR_ALCOHOL,
+        abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
       expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit'))
     })
 
     it('On success - mode = new and value != ID - Sets session record then redirects to typeOfWork', async () => {
-      req.body.abilityToWork = abilityToWorkValue.EDUCATION_OR_TRAINING
+      req.body.abilityToWork = AbilityToWorkValue.EDUCATION_ENROLLMENT
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING,
+        abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
     })
 
     it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
-      req.body.abilityToWork = abilityToWorkValue.EDUCATION_OR_TRAINING
+      req.body.abilityToWork = AbilityToWorkValue.EDUCATION_ENROLLMENT
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        abilityToWork: abilityToWorkValue.EDUCATION_OR_TRAINING,
+        abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

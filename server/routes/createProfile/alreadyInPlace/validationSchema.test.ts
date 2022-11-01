@@ -1,4 +1,4 @@
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -38,13 +38,13 @@ describe('validationSchema', () => {
         key: 0,
         label: 'alreadyInPlace[0]',
         valids: [
-          alreadyInPlaceValue.BANK_ACCOUNT,
-          alreadyInPlaceValue.CV,
-          alreadyInPlaceValue.DISCLOSURE_LETTER,
-          alreadyInPlaceValue.EMAIL_OR_PHONE,
-          alreadyInPlaceValue.HOUSING,
-          alreadyInPlaceValue.ID,
-          alreadyInPlaceValue.NONE,
+          AlreadyInPlaceValue.BANK_ACCOUNT,
+          AlreadyInPlaceValue.CV_AND_COVERING_LETTER,
+          AlreadyInPlaceValue.DISCLOSURE_LETTER,
+          AlreadyInPlaceValue.EMAIL_OR_PHONE,
+          AlreadyInPlaceValue.HOUSING,
+          AlreadyInPlaceValue.ID,
+          AlreadyInPlaceValue.NONE,
         ],
         value: 'SOME_VALUE',
       },

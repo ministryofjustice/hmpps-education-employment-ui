@@ -8,7 +8,9 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getUserActiveCaseLoad')
     cy.task('createProfile')
+    cy.task('getProfileById')
     cy.task('stubVerifyToken', true)
   })
 

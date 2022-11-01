@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 
-import { ProfileStatus } from '../../../data/prisonerSearch/createProfileRequest'
+import { ProfileStatus } from '../../../data/prisonerProfile/createProfileRequest'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'

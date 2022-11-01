@@ -10,6 +10,7 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.signIn()
     cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
@@ -33,41 +34,41 @@ context('SignIn', () => {
     abilityToWork.fieldErrorMessage().contains("Select what might affect Daniel Craig's ability to work")
   })
 
-  it('New record - Select EDUCATION_OR_TRAINING - navigates to type-of-work page', () => {
+  it('New record - Select EDUCATION_ENROLLMENT - navigates to type-of-work page', () => {
     const abilityToWork = Page.verifyOnPage(AbilityToWorkPage)
 
-    abilityToWork.checkboxFieldValue('EDUCATION_OR_TRAINING').click()
+    abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.submitButton().click()
 
     cy.url().should('include', 'type-of-work/new')
   })
 
-  it('New record - Select DRUGS_OR_ALCOHOL - navigates to manage-drugs-and-alcohol page', () => {
+  it('New record - Select DEPENDENCY_ISSUES - navigates to manage-drugs-and-alcohol page', () => {
     const abilityToWork = Page.verifyOnPage(AbilityToWorkPage)
 
-    abilityToWork.checkboxFieldValue('DRUGS_OR_ALCOHOL').click()
+    abilityToWork.checkboxFieldValue('DEPENDENCY_ISSUES').click()
     abilityToWork.submitButton().click()
 
     cy.url().should('include', 'manage-drugs-and-alcohol/new')
   })
 
-  it('Existing record - Select EDUCATION_OR_TRAINING - navigates to check-answers page', () => {
+  it('Existing record - Select EDUCATION_ENROLLMENT - navigates to check-answers page', () => {
     cy.visit('/work-profile/create/G6115VJ/ability-to-work/edit')
 
     const abilityToWork = Page.verifyOnPage(AbilityToWorkPage)
 
-    abilityToWork.checkboxFieldValue('EDUCATION_OR_TRAINING').click()
+    abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.submitButton().click()
 
     cy.url().should('include', 'check-answers')
   })
 
-  it('Existing record - Select DRUGS_OR_ALCOHOL - navigates to manage-drugs-and-alcohol page', () => {
+  it('Existing record - Select DEPENDENCY_ISSUES - navigates to manage-drugs-and-alcohol page', () => {
     cy.visit('/work-profile/create/G6115VJ/ability-to-work/edit')
 
     const abilityToWork = Page.verifyOnPage(AbilityToWorkPage)
 
-    abilityToWork.checkboxFieldValue('DRUGS_OR_ALCOHOL').click()
+    abilityToWork.checkboxFieldValue('DEPENDENCY_ISSUES').click()
     abilityToWork.submitButton().click()
 
     cy.url().should('include', 'manage-drugs-and-alcohol/edit')

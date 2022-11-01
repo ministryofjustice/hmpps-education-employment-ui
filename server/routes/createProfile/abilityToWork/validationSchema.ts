@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import abilityToWorkValue from '../../../enums/abilityToWorkValue'
+import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 
 interface AlreadyInPlaceData {
   prisoner: { firstName: string; lastName: string }
@@ -22,13 +22,13 @@ export default function validationSchema(data: AlreadyInPlaceData): ObjectSchema
         joi
           .any()
           .valid(
-            abilityToWorkValue.EDUCATION_OR_TRAINING,
-            abilityToWorkValue.FAMILY_ISSUES,
-            abilityToWorkValue.CARING_RESPONSIBILITIES,
-            abilityToWorkValue.MENTAL_HEALTH_CONDITION,
-            abilityToWorkValue.PHYSICAL_HEALTH_CONDITION,
-            abilityToWorkValue.DRUGS_OR_ALCOHOL,
-            abilityToWorkValue.NONE,
+            AbilityToWorkValue.EDUCATION_ENROLLMENT,
+            AbilityToWorkValue.FAMILY_ISSUES,
+            AbilityToWorkValue.CARING_RESPONSIBILITIES,
+            AbilityToWorkValue.MENTAL_HEALTH_ISSUES,
+            AbilityToWorkValue.PHYSICAL_HEALTH_ISSUES,
+            AbilityToWorkValue.DEPENDENCY_ISSUES,
+            AbilityToWorkValue.NONE,
           ),
       )
       .messages({

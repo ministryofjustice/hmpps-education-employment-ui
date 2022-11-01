@@ -3,7 +3,7 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './alreadyInPlaceController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -62,7 +62,7 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { alreadyInPlace: alreadyInPlaceValue.HOUSING }
+      req.session.data[`createProfile_${id}`] = { alreadyInPlace: AlreadyInPlaceValue.HOUSING }
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -70,7 +70,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/alreadyInPlace/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.checkAnswers(id),
-        alreadyInPlace: alreadyInPlaceValue.HOUSING,
+        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -114,52 +114,52 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - mode = new and value = ID - Sets session record then redirects to identification', async () => {
-      req.body.alreadyInPlace = alreadyInPlaceValue.ID
+      req.body.alreadyInPlace = AlreadyInPlaceValue.ID
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: alreadyInPlaceValue.ID,
+        alreadyInPlace: AlreadyInPlaceValue.ID,
       })
       expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
     })
 
     it('On success - mode = edit and value = ID - Sets session record then redirects to identification', async () => {
-      req.body.alreadyInPlace = alreadyInPlaceValue.ID
+      req.body.alreadyInPlace = AlreadyInPlaceValue.ID
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: alreadyInPlaceValue.ID,
+        alreadyInPlace: AlreadyInPlaceValue.ID,
       })
       expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'edit'))
     })
 
     it('On success - mode = new and value != ID - Sets session record then redirects to abilityToWork', async () => {
-      req.body.alreadyInPlace = alreadyInPlaceValue.HOUSING
+      req.body.alreadyInPlace = AlreadyInPlaceValue.HOUSING
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: alreadyInPlaceValue.HOUSING,
+        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
     })
 
     it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
-      req.body.alreadyInPlace = alreadyInPlaceValue.HOUSING
+      req.body.alreadyInPlace = AlreadyInPlaceValue.HOUSING
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        alreadyInPlace: alreadyInPlaceValue.HOUSING,
+        alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

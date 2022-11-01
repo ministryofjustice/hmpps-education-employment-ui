@@ -1,18 +1,30 @@
+import { plainToClass } from 'class-transformer'
+
 import config from '../../config'
 import RestClient from '../restClient'
 import PagedResponse from '../domain/types/pagedResponse'
-import PrisonerProfileResult from './prisonerProfileResult'
+import PrisonerProfileResult from '../prisonerSearch/prisonerProfileResult'
 import { CreateProfileRequest, CreateProfileRequestArgs } from './createProfileRequest'
 import CreateProfileResponse from './createProfileResponse'
+import GetProfileByIdResult from './getProfileByIdResult'
 
 const PRISONER_EDUCATION_PROFILE_PATH = '/readiness-profiles/search'
 const CREATE_PROFILE_PATH = '/readiness-profiles'
+const GET_PROFILE_BY_ID_PATH = '/readiness-profiles'
 
 export default class PrisonerProfileClient {
   restClient: RestClient
 
   constructor(token: string) {
     this.restClient = new RestClient('Prisoner Profile Search', config.apis.esweProfileApi, token)
+  }
+
+  async getProfileById(id: string) {
+    const profile = await this.restClient.get<GetProfileByIdResult>({
+      path: `${GET_PROFILE_BY_ID_PATH}/${id}`,
+    })
+
+    return plainToClass(GetProfileByIdResult, profile)
   }
 
   async profileData(offenderList: string[]) {
@@ -40,6 +52,7 @@ export default class PrisonerProfileClient {
       path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
       data: new CreateProfileRequest(newProfile),
     })
+
     return result
   }
 }

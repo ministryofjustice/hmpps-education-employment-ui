@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import alreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 export default class AlreadyInPlaceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -61,7 +61,7 @@ export default class AlreadyInPlaceController {
       }
       delete req.session.data[`alreadyInPlace_${id}_data`]
 
-      if (alreadyInPlace.includes(alreadyInPlaceValue.ID)) {
+      if (alreadyInPlace.includes(AlreadyInPlaceValue.ID)) {
         res.redirect(addressLookup.createProfile.identification(id, mode))
         return
       }
