@@ -12,6 +12,7 @@ const createProfile = () =>
       jsonBody: {
         firstName: 'Daniel',
         lastName: 'Craig',
+        prisonerNumber: 'G6115VJ',
       },
     },
   })
