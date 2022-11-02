@@ -3,7 +3,7 @@ import expressMocks from '../../../testutils/expressMocks'
 import Controller from './whatNeedsToChangeController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import whatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
+import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -62,7 +62,7 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { whatNeedsToChange: whatNeedsToChangeValue.OTHER }
+      req.session.data[`createProfile_${id}`] = { whatNeedsToChange: WhatNeedsToChangeValue.OTHER }
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -70,7 +70,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/whatNeedsToChange/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.checkAnswers(id),
-        whatNeedsToChange: whatNeedsToChangeValue.OTHER,
+        whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -114,26 +114,26 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - mode = new - Sets session record then redirects to checkAnswers', async () => {
-      req.body.whatNeedsToChange = whatNeedsToChangeValue.OTHER
+      req.body.whatNeedsToChange = WhatNeedsToChangeValue.OTHER
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        whatNeedsToChange: whatNeedsToChangeValue.OTHER,
+        whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(req.session.data[`whatNeedsToChange_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
-      req.body.whatNeedsToChange = whatNeedsToChangeValue.OTHER
+      req.body.whatNeedsToChange = WhatNeedsToChangeValue.OTHER
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        whatNeedsToChange: whatNeedsToChangeValue.OTHER,
+        whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(req.session.data[`whatNeedsToChange_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

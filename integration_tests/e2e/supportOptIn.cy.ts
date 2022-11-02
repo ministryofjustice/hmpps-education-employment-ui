@@ -8,6 +8,7 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.signIn()
     cy.visit('/work-profile/create/G6115VJ/right-to-work/new')

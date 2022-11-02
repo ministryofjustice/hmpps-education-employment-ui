@@ -1,6 +1,6 @@
-enum alreadyInPlaceValue {
+enum AlreadyInPlaceValue {
   BANK_ACCOUNT = 'BANK_ACCOUNT',
-  CV = 'CV',
+  CV_AND_COVERING_LETTER = 'CV_AND_COVERING_LETTER',
   DISCLOSURE_LETTER = 'DISCLOSURE_LETTER',
   EMAIL_OR_PHONE = 'EMAIL_OR_PHONE',
   HOUSING = 'HOUSING',
@@ -8,4 +8,4 @@ enum alreadyInPlaceValue {
   NONE = 'NONE',
 }
 
-export default alreadyInPlaceValue
+export default AlreadyInPlaceValue

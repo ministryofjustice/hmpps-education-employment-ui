@@ -10,6 +10,7 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.signIn()
     cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
@@ -50,7 +51,7 @@ context('SignIn', () => {
   it('New record - Select YES - navigates to check-answers page', () => {
     const whatNeedsToChange = Page.verifyOnPage(WhatNeedsToChangePage)
 
-    whatNeedsToChange.checkboxFieldValue('HOUSING_IN_PLACE').click()
+    whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
     whatNeedsToChange.submitButton().click()
 
     cy.url().should('include', 'check-answers')
@@ -61,7 +62,7 @@ context('SignIn', () => {
 
     const whatNeedsToChange = Page.verifyOnPage(WhatNeedsToChangePage)
 
-    whatNeedsToChange.checkboxFieldValue('HOUSING_IN_PLACE').click()
+    whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
     whatNeedsToChange.submitButton().click()
 
     cy.url().should('include', 'check-answers')

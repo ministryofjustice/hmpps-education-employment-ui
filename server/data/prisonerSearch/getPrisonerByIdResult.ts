@@ -1,8 +1,3 @@
-import { Exclude, Expose, Transform } from 'class-transformer'
-import { convertToTitleCase } from '../../utils/utils'
-
-// Exclude all by default expose properties when needed
-@Exclude()
 export default class GetPrisonerByIdResult {
   prisonerNumber: string
 
@@ -14,19 +9,14 @@ export default class GetPrisonerByIdResult {
 
   croNumber: string
 
-  @Expose()
   bookingId: string
 
   bookNumber: string
 
-  @Expose()
-  @Transform(({ value }) => convertToTitleCase(value))
   firstName: string
 
   middleNames: string
 
-  @Expose()
-  @Transform(({ value }) => convertToTitleCase(value))
   lastName: string
 
   dateOfBirth: string

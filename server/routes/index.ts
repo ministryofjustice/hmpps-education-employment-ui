@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import type { Services } from '../services'
+import workProfileRoutes from './workProfile'
 import cohortListRoutes from './cohortList'
 import createProfileRoutes from './createProfile'
 
@@ -10,6 +11,7 @@ export default function routes(services: Services): Router {
   })
 
   // Append page routes
+  workProfileRoutes(router, services)
   cohortListRoutes(router, services)
   createProfileRoutes(router, services)
 

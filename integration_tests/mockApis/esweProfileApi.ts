@@ -16,6 +16,22 @@ const createProfile = () =>
     },
   })
 
+const getProfileById = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/readiness-profiles/G6115VJ',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'G6115VJ',
+      },
+    },
+  })
+
 export default {
   createProfile,
+  getProfileById,
 }

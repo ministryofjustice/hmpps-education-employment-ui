@@ -1,4 +1,4 @@
-import supportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
+import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -38,16 +38,16 @@ describe('validationSchema', () => {
         key: 0,
         label: 'supportDeclinedReason[0]',
         valids: [
-          supportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
-          supportDeclinedReasonValue.CARING_RESPONSIBILITIES,
-          supportDeclinedReasonValue.LACKS_CONFIDENCE,
-          supportDeclinedReasonValue.LACKS_MOTIVATION,
-          supportDeclinedReasonValue.HEALTH_CONDITION,
-          supportDeclinedReasonValue.NO_REASON,
-          supportDeclinedReasonValue.RETIRED,
-          supportDeclinedReasonValue.RETURNING_TO_WORK,
-          supportDeclinedReasonValue.SELF_EMPLOYED,
-          supportDeclinedReasonValue.OTHER,
+          SupportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
+          SupportDeclinedReasonValue.CARING_RESPONSIBILITIES,
+          SupportDeclinedReasonValue.LACKS_CONFIDENCE,
+          SupportDeclinedReasonValue.LACKS_MOTIVATION,
+          SupportDeclinedReasonValue.HEALTH_CONDITION,
+          SupportDeclinedReasonValue.NO_REASON,
+          SupportDeclinedReasonValue.RETIRED,
+          SupportDeclinedReasonValue.RETURNING_TO_WORK,
+          SupportDeclinedReasonValue.SELF_EMPLOYED,
+          SupportDeclinedReasonValue.OTHER,
         ],
         value: 'SOME_VALUE',
       },

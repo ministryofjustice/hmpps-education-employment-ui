@@ -1,7 +1,7 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import whatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
+import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 
 interface WhatNeedsToChangeData {
   prisoner: { firstName: string; lastName: string }
@@ -25,11 +25,11 @@ export default function validationSchema(data: WhatNeedsToChangeData): ObjectSch
           joi
             .any()
             .valid(
-              whatNeedsToChangeValue.HOUSING_IN_PLACE,
-              whatNeedsToChangeValue.ID_IN_PLACE,
-              whatNeedsToChangeValue.SUPPORT_TO_MANAGE_DEPENDENCY,
-              whatNeedsToChangeValue.SUPPORT_TO_MANAGE_MENTAL_HEALTH,
-              whatNeedsToChangeValue.OTHER,
+              WhatNeedsToChangeValue.HOUSING_ON_RELEASE,
+              WhatNeedsToChangeValue.ID_ON_RELEASE,
+              WhatNeedsToChangeValue.DEPENDENCY_SUPPORT,
+              WhatNeedsToChangeValue.MENTAL_HEALTH_SUPPORT,
+              WhatNeedsToChangeValue.OTHER,
             ),
         )
         .messages({

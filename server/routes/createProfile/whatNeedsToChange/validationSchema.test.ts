@@ -1,4 +1,4 @@
-import whatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
+import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 import expressMocks from '../../../testutils/expressMocks'
 import validationSchema from './validationSchema'
 
@@ -38,11 +38,11 @@ describe('validationSchema', () => {
         key: 0,
         label: 'whatNeedsToChange[0]',
         valids: [
-          whatNeedsToChangeValue.HOUSING_IN_PLACE,
-          whatNeedsToChangeValue.ID_IN_PLACE,
-          whatNeedsToChangeValue.SUPPORT_TO_MANAGE_DEPENDENCY,
-          whatNeedsToChangeValue.SUPPORT_TO_MANAGE_MENTAL_HEALTH,
-          whatNeedsToChangeValue.OTHER,
+          WhatNeedsToChangeValue.HOUSING_ON_RELEASE,
+          WhatNeedsToChangeValue.ID_ON_RELEASE,
+          WhatNeedsToChangeValue.DEPENDENCY_SUPPORT,
+          WhatNeedsToChangeValue.MENTAL_HEALTH_SUPPORT,
+          WhatNeedsToChangeValue.OTHER,
         ],
         value: 'SOME_VALUE',
       },
@@ -95,7 +95,7 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.whatNeedsToChange = ['HOUSING_IN_PLACE']
+    req.body.whatNeedsToChange = ['HOUSING_ON_RELEASE']
     req.body.whatNeedsToChangeDetails = ''
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
