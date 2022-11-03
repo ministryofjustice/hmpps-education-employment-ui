@@ -9,6 +9,7 @@ import whatNeedsToChangeRoutes from './whatNeedsToChange'
 import alreadyInPlaceRoutes from './alreadyInPlace'
 import abilityToWorkRoutes from './abilityToWork'
 import manageDrugsAndAlcoholRoutes from './manageDrugsAndAlcohol'
+import typeOfWorkRoutes from './typeOfWork'
 
 export default (router: Router, services: Services) => {
   rightToWorkRoutes(router, services)
@@ -19,4 +20,5 @@ export default (router: Router, services: Services) => {
   alreadyInPlaceRoutes(router, services)
   abilityToWorkRoutes(router, services)
   manageDrugsAndAlcoholRoutes(router, services)
+  typeOfWorkRoutes(router, services)
 }
