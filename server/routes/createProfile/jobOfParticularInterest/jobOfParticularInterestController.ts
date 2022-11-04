@@ -46,6 +46,8 @@ export default class JobOfParticularInterestController {
         res.render('pages/createProfile/jobOfParticularInterest/index', {
           ...data,
           errors,
+          jobOfParticularInterest,
+          jobOfParticularInterestDetails,
         })
         return
       }

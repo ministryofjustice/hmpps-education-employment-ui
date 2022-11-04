@@ -18,7 +18,7 @@ export default function validationSchema(data: JobOfParticularInterestData): Obj
   return joi
     .object({
       jobOfParticularInterestDetails: joi.string().allow(''),
-      jobOfParticularInterest: joi.array().required().items(joi.any().valid(YesNoValue.Yes, YesNoValue.No)).messages({
+      jobOfParticularInterest: joi.string().required().valid(YesNoValue.Yes, YesNoValue.No).messages({
         'any.only': msg,
         'any.required': msg,
       }),
@@ -26,7 +26,7 @@ export default function validationSchema(data: JobOfParticularInterestData): Obj
     .custom((obj, helper) => {
       const { jobOfParticularInterestDetails, jobOfParticularInterest } = obj
 
-      if (!jobOfParticularInterest.includes('YES')) {
+      if (jobOfParticularInterest !== 'YES') {
         return true
       }
 

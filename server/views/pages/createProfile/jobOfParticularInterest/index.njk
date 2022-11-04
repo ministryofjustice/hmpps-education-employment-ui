@@ -3,6 +3,7 @@
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
@@ -34,15 +35,15 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "supportDeclinedDetails",
-              name: "supportDeclinedDetails",
+              id: "jobOfParticularInterestDetails",
+              name: "jobOfParticularInterestDetails",
               rows: "2",
-              value: supportDeclinedDetails,
+              value: jobOfParticularInterestDetails,
               type: "text",
               label: {
                 text: "Give details"
               },
-              errorMessage: errors.supportDeclinedDetails
+              errorMessage: errors.jobOfParticularInterestDetails
             }) }}
           {% endset -%}
         
