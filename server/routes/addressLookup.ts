@@ -14,5 +14,6 @@ export default {
     whatNeedsToChange: (id: string, mode = 'new') => `/work-profile/create/${id}/what-needs-to-change/${mode}`,
     jobOfParticularInterest: (id: string, mode = 'new') =>
       `/work-profile/create/${id}/job-of-particular-interest/${mode}`,
+    workExperience: (id: string, mode = 'new') => `/work-profile/create/${id}/work-experience/${mode}`,
   },
 }
