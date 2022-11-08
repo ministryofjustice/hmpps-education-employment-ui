@@ -71,11 +71,10 @@
         </tbody>
     </table>
 
-    {% if paginationData.results.count > 1 and prisonerSearchResults.content.length >= 1 %}
+    {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
         {{ mojPagination( paginationData ) }}
-    {% elseif prisonerSearchResults.content.length === 1 %}
     {% else %}
-        <span class="govuk-heading-m">{{ notFoundMsg[0] | replace(',', ' ') | striptags(true) | escape | nl2br }}</span>
+        <span class="govuk-heading-m">{{ notFoundMsg[0] | replace(',', '  ') | striptags(true) | escape | nl2br }}</span>
         <br>
         <span class="govuk-body-l">{{ notFoundMsg[1] }}</span>
     {% endif %}

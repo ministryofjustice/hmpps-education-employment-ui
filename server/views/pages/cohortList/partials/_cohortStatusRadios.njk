@@ -20,33 +20,38 @@
                     {
                         id: 'allStatusFilter',
                         value: 'ALL',
-                        text: 'all',
-                        checked: 'true'
+                        text: 'All',
+                        checked: filterStatus === 'ALL'
                     },
                     {
                         id: 'notStartedStatusFilter',
                         value: 'NOT_STARTED',
-                        text: 'No started'
+                        text: 'Not started',
+                        checked: filterStatus === 'NOT_STARTED'
                     },
                     {
                         id: 'needsSupportStatusFilter',
                         value: 'SUPPORT_NEEDED',
-                        text: 'Needs support'
+                        text: 'Needs support',
+                        checked: filterStatus === 'SUPPORT_NEEDED'
                     },
                     {
                         id: 'readyToWorkStatusFilter',
                         value: 'READY_TO_WORK',
-                        text: 'Ready to work'
+                        text: 'Ready to work',
+                        checked: filterStatus === 'READY_TO_WORK'
                     },
                     {
                         id: 'doesNotWantSupportStatusFilter',
                         value: 'SUPPORT_DECLINED',
-                        text: 'Does not want to support'
+                        text: 'Does not want support',
+                        checked: filterStatus === 'SUPPORT_DECLINED'
                     },
                     {
                         id: 'noRightToWorkStatusFilter',
                         value: 'NO_RIGHT_TO_WORK',
-                        text: 'No right to work'
+                        text: 'No right to work',
+                        checked: filterStatus === 'NO_RIGHT_TO_WORK'
                     }
                 ]
             }) }}

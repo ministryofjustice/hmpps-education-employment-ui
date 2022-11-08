@@ -2,8 +2,8 @@
 import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
-import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
-import config from '../../config'
+import PrisonerSearchResult from '../../data/prisonerSearch/prisonerSearchResult'
+import PagedResponse from '../../data/domain/types/pagedResponse'
 
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/cohort-list'
 
@@ -15,59 +15,59 @@ export default class CohortListController {
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { page, sort, order, status = '', lastName = '' } = req.query
-    const pageNumber = page ? +page - 1 : 0
+    const { userActiveCaseLoad } = res.locals
+    let prisonerSearchResults = req.context.cohortList
 
     try {
       const searchFilter = [status && `${status}`, lastName && `${decodeURIComponent(lastName.toString())}`]
       const filter = searchFilter && searchFilter.join(',')
 
-      const { weeksBeforeRelease } = config
-      const dateFilter = `${formatDateToyyyyMMdd(new Date().toString())}, ${offenderEarliestReleaseDate(
-        weeksBeforeRelease,
-      )}`
-
-      const userActiveCaseLoad: any = await this.prisonerSearchService.getUserActiveCaseLoad(
-        res.locals.user,
-        res.locals.user.token,
-      )
-
-      const results = await this.prisonerSearchService.searchByReleaseDateRaw(
-        res.locals.user.username,
-        dateFilter,
-        [userActiveCaseLoad.caseLoadId],
-        res.locals.user.token,
-        sort,
-        order,
-        filter.length === 1 ? '' : filter,
-        pageNumber,
-      )
-
-      // Paginate where necessary
-      const arrSearchCriteria = []
-      arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
-      arrSearchCriteria.push(status && ` Status = ${status}`)
-      const notFoundMsg = arrSearchCriteria.length && [
-        `0 results for [${arrSearchCriteria.toString()}]`,
-        'Check your spelling and search again, or clear the search and browse for the prisoner.',
-      ]
-
-      let paginationData = {}
-      if ((results as any).content.length) {
-        const paginationUrl = new URL(
-          `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?page=${pageNumber}`,
-        )
-
-        paginationData = this.paginationService.getPagination(results as any, paginationUrl)
+      // Filter result set if required
+      if (filter.length > 1) {
+        const filteredResults: PagedResponse<PrisonerSearchResult[]> =
+          await this.prisonerSearchService.filterOffenderProfiles(req.context.cohortList, filter.toString())
+        prisonerSearchResults = filteredResults as any
       }
 
+      // Paginate where necessary
+      let paginationData = {}
+      let notFoundMsg
+      const uri = [
+        sort && `sort=${sort}`,
+        order && `order=${order}`,
+        status && status !== 'ALL' && `status=${status}`,
+        lastName && `lastName=${decodeURIComponent(lastName as string)}`,
+        page && `page=${page}`,
+      ].filter(val => !!val)
+
+      if (prisonerSearchResults.totalElements) {
+        const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri}`)
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        paginationData = this.paginationService.getPagination(prisonerSearchResults, paginationUrl)
+      } else {
+        const arrSearchCriteria = []
+        arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
+        arrSearchCriteria.push(status && ` Status = ${status}`)
+        notFoundMsg =
+          (arrSearchCriteria.length && [
+            `0 results for [${arrSearchCriteria.toString()}]`,
+            'Check your spelling and search again, or clear the search and browse for the prisoner.',
+          ]) ||
+          ''
+      }
+
+      // Render data
       const data = {
-        prisonerSearchResults: results,
+        prisonerSearchResults,
         sort,
         order,
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
         lastName: `${decodeURIComponent(lastName as string)}`,
+        filterStatus: status || 'ALL',
       }
       res.render('pages/cohortList/index', { ...data })
     } catch (err) {
@@ -83,7 +83,7 @@ export default class CohortListController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+        selectStatus && `status=${selectStatus}`,
         searchTerm && `lastName=${encodeURIComponent(searchTerm)}`,
         page && `page=${page}`,
       ].filter(val => !!val)

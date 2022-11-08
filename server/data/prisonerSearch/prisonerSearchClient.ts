@@ -9,20 +9,6 @@ import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
 import { convertToTitleCase } from '../../utils/utils'
 
-export interface PrisonerSearchByPrisonerNumber {
-  prisonerIdentifier: string
-  nomsNumber: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
-
-export interface PrisonerSearchByName {
-  firstName: string
-  lastName: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
-
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
   earliestReleaseDate: string
@@ -53,26 +39,10 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
       if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
     }
     if (sortBy === 'updatedOn') {
-      if (a.updatedOn > b.updatedOn) return orderBy === 'ascending' ? 1 : -1
-      if (b.updatedOn > a.updatedOn) return orderBy === 'ascending' ? -1 : 1
+      if (new Date(a.updatedOn) > new Date(b.updatedOn)) return orderBy === 'ascending' ? 1 : -1
+      if (new Date(b.updatedOn) > new Date(a.updatedOn)) return orderBy === 'ascending' ? -1 : 1
     }
   })
-}
-
-// Filter result set based on parameters
-function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string): PrisonerSearchResult[] {
-  const [status, searchBy] = filterTerm.split(',')
-  const filteredStatus = status && profiles.filter(p => p.status === status)
-  const filteredSearch = () => {
-    if (status && searchBy) {
-      return filteredStatus.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
-    }
-    if (searchBy) {
-      return profiles.filter(p => p.lastName.toLowerCase().startsWith(searchBy.toLowerCase()))
-    }
-    return filteredStatus
-  }
-  return filteredSearch()
 }
 
 export default class PrisonerSearchClient {
@@ -89,15 +59,15 @@ export default class PrisonerSearchClient {
     searchData: PrisonerSearchByReleaseDate,
     sortBy?: string,
     orderBy?: string,
-    searchFilter?: string,
+    searchTerm?: string,
     page?: number,
   ): Promise<PrisonerSearchResult[]> {
-    const [status, lastName] = searchFilter.split(',')
+    const [status, lastName] = searchTerm.split(',')
     const uri = [
       sortBy && `sortBy=${sortBy}`,
       orderBy && `order=${orderBy}`,
-      status && status !== 'ALL' && `status=${status}`,
-      searchFilter && `searchTerm=${decodeURIComponent(lastName)}`,
+      status && `status=${status}`,
+      searchTerm && `searchTerm=${decodeURIComponent(lastName)}`,
       page && `page=${page}`,
     ].filter(val => !!val)
 
@@ -132,15 +102,8 @@ export default class PrisonerSearchClient {
       }
     })
 
-    /* Filter resultset  */
-    if (searchFilter.length > 1) {
-      const [status, lastName] = searchFilter.split(',')
-      const searchParams = [status && `${status}`, lastName && `${lastName}`]
-      matchingProfiles = filterOffenderProfiles(matchingProfiles, searchParams.toString())
-    }
-
     /* Sort the combined dataset according to sort parameters */
-    if (sortBy) {
+    if (sortBy && matchingProfiles.length) {
       matchingProfiles = sortOffenderProfile(matchingProfiles, sortBy, orderBy)
     }
 
@@ -157,15 +120,6 @@ export default class PrisonerSearchClient {
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
     }
-  }
-
-  async findByPrisonerNumbers(prisonerNumbers: Array<string>): Promise<PrisonerSearchResult[]> {
-    return this.restClient.post<PrisonerSearchResult[]>({
-      path: `${PRISONER_NUMBERS_SEARCH_PATH}`,
-      data: {
-        prisonerNumbers,
-      },
-    })
   }
 
   async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
