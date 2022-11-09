@@ -1,0 +1,85 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = 'Does ' + prisoner.firstName + ' ' + prisoner.lastName + ' have any qualifications or training?' %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * trainingAndQualifications - Array existing values for field
+    * trainingAndQualificationsDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "trainingAndQualificationsDetails",
+              name: "trainingAndQualificationsDetails",
+              rows: "2",
+              value: trainingAndQualificationsDetails,
+              type: "text",
+              label: {
+                text: "Give details"
+              },
+              errorMessage: errors.trainingAndQualificationsDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "trainingAndQualifications",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "OTHER",
+                checked: trainingAndQualifications.indexOf('OTHER') > -1,
+                text: "Other",
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.trainingAndQualifications
+          }) }}
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {'data-qa': 'submit-button'}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
