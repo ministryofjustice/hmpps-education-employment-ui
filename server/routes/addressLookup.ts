@@ -15,5 +15,7 @@ export default {
     jobOfParticularInterest: (id: string, mode = 'new') =>
       `/work-profile/create/${id}/job-of-particular-interest/${mode}`,
     workExperience: (id: string, mode = 'new') => `/work-profile/create/${id}/work-experience/${mode}`,
+    trainingAndQualifications: (id: string, mode = 'new') =>
+      `/work-profile/create/${id}/training-and-qualifications/${mode}`,
   },
 }

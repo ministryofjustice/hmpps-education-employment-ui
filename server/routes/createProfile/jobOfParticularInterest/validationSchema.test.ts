@@ -81,7 +81,7 @@ describe('validationSchema', () => {
           jobOfParticularInterest: 'YES',
         },
       },
-      message: 'Details must be 200 characters or less',
+      message: 'Job details must be 200 characters or less',
       path: [],
       type: 'any.length',
     })
