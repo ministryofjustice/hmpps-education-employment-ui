@@ -18,7 +18,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
-      message: 'Select if mock_firstName mock_lastName has any work or volunteering experience or not',
+      message: 'Select any qualifications or training mock_firstName mock_lastName has',
       path: ['trainingAndQualifications'],
       type: 'any.required',
       context: {
@@ -51,10 +51,11 @@ describe('validationSchema', () => {
           TrainingAndQualificationsValue.TRADE,
           TrainingAndQualificationsValue.SCHOOL_EDUCATION,
           TrainingAndQualificationsValue.OTHER,
+          TrainingAndQualificationsValue.NONE,
         ],
         value: 'SOME_VALUE',
       },
-      message: 'Select if mock_firstName mock_lastName has any work or volunteering experience or not',
+      message: 'Select any qualifications or training mock_firstName mock_lastName has',
       path: ['trainingAndQualifications', 0],
       type: 'any.only',
     })
@@ -73,7 +74,7 @@ describe('validationSchema', () => {
           trainingAndQualifications: ['OTHER'],
         },
       },
-      message: "Enter details of mock_firstName mock_lastName's work or volunteering experience",
+      message: 'Enter details of the qualifications or training mock_firstName mock_lastName has done',
       path: [],
       type: 'any.custom',
     })

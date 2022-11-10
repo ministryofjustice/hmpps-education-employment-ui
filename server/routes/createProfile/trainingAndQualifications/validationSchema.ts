@@ -12,8 +12,8 @@ export default function validationSchema(data: TrainingAndQualificationsData): O
     prisoner: { firstName, lastName },
   } = data
 
-  const msg = `Select if ${firstName} ${lastName} has any work or volunteering experience or not`
-  const msgOther = `Enter details of ${firstName} ${lastName}'s work or volunteering experience`
+  const msg = `Select any qualifications or training ${firstName} ${lastName} has`
+  const msgOther = `Enter details of the qualifications or training ${firstName} ${lastName} has done`
 
   return joi
     .object({
@@ -38,6 +38,7 @@ export default function validationSchema(data: TrainingAndQualificationsData): O
               TrainingAndQualificationsValue.TRADE,
               TrainingAndQualificationsValue.SCHOOL_EDUCATION,
               TrainingAndQualificationsValue.OTHER,
+              TrainingAndQualificationsValue.NONE,
             ),
         )
         .messages({
