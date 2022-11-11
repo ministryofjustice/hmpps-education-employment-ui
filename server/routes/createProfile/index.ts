@@ -12,6 +12,7 @@ import manageDrugsAndAlcoholRoutes from './manageDrugsAndAlcohol'
 import typeOfWorkRoutes from './typeOfWork'
 import jobOfParticularInterestRoutes from './jobOfParticularInterest'
 import workExperienceRoutes from './workExperience'
+import trainingAndQualificationsRoutes from './trainingAndQualifications'
 
 export default (router: Router, services: Services) => {
   rightToWorkRoutes(router, services)
@@ -25,4 +26,5 @@ export default (router: Router, services: Services) => {
   typeOfWorkRoutes(router, services)
   jobOfParticularInterestRoutes(router, services)
   workExperienceRoutes(router, services)
+  trainingAndQualificationsRoutes(router, services)
 }
