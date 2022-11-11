@@ -13,6 +13,7 @@ import typeOfWorkRoutes from './typeOfWork'
 import jobOfParticularInterestRoutes from './jobOfParticularInterest'
 import workExperienceRoutes from './workExperience'
 import trainingAndQualificationsRoutes from './trainingAndQualifications'
+import identificationRoutes from './identification'
 
 export default (router: Router, services: Services) => {
   rightToWorkRoutes(router, services)
@@ -27,4 +28,5 @@ export default (router: Router, services: Services) => {
   jobOfParticularInterestRoutes(router, services)
   workExperienceRoutes(router, services)
   trainingAndQualificationsRoutes(router, services)
+  identificationRoutes(router, services)
 }
