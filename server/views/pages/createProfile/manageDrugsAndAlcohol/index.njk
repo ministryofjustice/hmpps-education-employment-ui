@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Is ' + prisoner.firstName + ' ' + prisoner.lastName + ' currently able to manage their drug or alcohol dependency?' %}
+{% set title = "Is " + prisoner.firstName + " " + prisoner.lastName + " currently able to manage their drug or alcohol dependency?" %}
 
 {#
   Data supplied to this template:
@@ -44,12 +44,12 @@
               {
                 value: "ABLE_TO_MANAGE",
                 text: "Yes, able to manage this with the support they are currently receiving",
-                checked: manageDrugsAndAlcohol === 'ABLE_TO_MANAGE'
+                checked: manageDrugsAndAlcohol === "ABLE_TO_MANAGE"
               },
               {
                 value: "NOT_ABLE_TO_MANAGE",
                 text: "Not able to manage this yet",
-                checked: manageDrugsAndAlcohol === 'NOT_ABLE_TO_MANAGE'
+                checked: manageDrugsAndAlcohol === "NOT_ABLE_TO_MANAGE"
               }
             ],
             errorMessage: errors.manageDrugsAndAlcohol
@@ -59,7 +59,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

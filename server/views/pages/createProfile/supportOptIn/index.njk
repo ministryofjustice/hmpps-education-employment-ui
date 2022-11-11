@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Does ' + prisoner.firstName + ' ' + prisoner.lastName + ' want support to get work?' %}
+{% set title = "Does " + prisoner.firstName + " " + prisoner.lastName + " want support to get work?" %}
 
 {#
   Data supplied to this template:
@@ -44,12 +44,12 @@
               {
                 value: "YES",
                 text: "Yes",
-                checked: supportOptIn === 'YES'
+                checked: supportOptIn === "YES"
               },
               {
                 value: "NO",
                 text: "No",
-                checked: supportOptIn === 'NO'
+                checked: supportOptIn === "NO"
               }
             ],
             errorMessage: errors.supportOptIn
@@ -59,7 +59,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>
