@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'What change in circumstances would make ' + prisoner.firstName + ' ' + prisoner.lastName + ' want to get work?' %}
+{% set title = "What change in circumstances would make " + prisoner.firstName + " " + prisoner.lastName + " want to get work?" %}
 
 {#
   Data supplied to this template:
@@ -63,27 +63,27 @@
               {
                 value: "HOUSING_ON_RELEASE",
                 text: "Housing in place",
-                checked: whatNeedsToChange.indexOf('HOUSING_ON_RELEASE') > -1
+                checked: whatNeedsToChange.indexOf("HOUSING_ON_RELEASE") > -1
               },
               {
                 value: "ID_ON_RELEASE",
                 text: "ID in place",
-                checked: whatNeedsToChange.indexOf('ID_ON_RELEASE') > -1
+                checked: whatNeedsToChange.indexOf("ID_ON_RELEASE") > -1
               },
               {
                 value: "DEPENDENCY_SUPPORT",
                 text: "Support to manage a drug or alcohol dependency",
-                checked: whatNeedsToChange.indexOf('DEPENDENCY_SUPPORT') > -1
+                checked: whatNeedsToChange.indexOf("DEPENDENCY_SUPPORT") > -1
               },
               {
                 value: "MENTAL_HEALTH_SUPPORT",
                 text: "Support to manage a mental health condition or diagnoses",
-                checked: whatNeedsToChange.indexOf('MENTAL_HEALTH_SUPPORT') > -1
+                checked: whatNeedsToChange.indexOf("MENTAL_HEALTH_SUPPORT") > -1
               },
               {
                 value: "OTHER",
                 text: "Other",
-                checked: whatNeedsToChange.indexOf('OTHER') > -1,
+                checked: whatNeedsToChange.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml
                 }
@@ -97,7 +97,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

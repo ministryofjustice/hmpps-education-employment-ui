@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = prisoner.firstName + ' ' + prisoner.lastName +' is not allowed to work in the UK' %}
+{% set title = prisoner.firstName + " " + prisoner.lastName +" is not allowed to work in the UK" %}
 
 {#
   Data supplied to this template:
@@ -36,7 +36,7 @@
             {{ govukButton({
                 text: "Save and return to service home",
                 type: "submit",
-                attributes: {'data-qa': 'submit-button'}
+                attributes: {"data-qa": "submit-button"}
               }) }}
         </form>
       </div>

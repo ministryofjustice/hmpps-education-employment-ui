@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Right to work in the UK' %}
+{% set title = "Right to work in the UK" %}
 
 {#
   Data supplied to this template:
@@ -29,7 +29,7 @@
 
         <h1 class="govuk-heading-l">{{ title }}</h1>
 
-        {% include './partials/_pageInfo.njk' %}
+        {% include "./partials/_pageInfo.njk" %}
 
         <form class="form" method="post" novalidate="">
           <div class="govuk-form-group">
@@ -48,12 +48,12 @@
                 {
                   value: "YES",
                   text: "Yes",
-                  checked: rightToWork === 'YES'
+                  checked: rightToWork === "YES"
                 },
                 {
                   value: "NO",
                   text: "No",
-                  checked: rightToWork === 'NO'
+                  checked: rightToWork === "NO"
                 }
               ],
               errorMessage: errors.rightToWork
@@ -63,7 +63,7 @@
           {{ govukButton({
               text: "Continue",
               type: "submit",
-              attributes: {'data-qa': 'submit-button'}
+              attributes: {"data-qa": "submit-button"}
             }) }}
         </form>
       </div>

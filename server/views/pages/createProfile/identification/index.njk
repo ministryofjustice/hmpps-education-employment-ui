@@ -2,17 +2,18 @@
 {% from "../../../partials/navBar.njk" import navBar with context %}
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "Does " + prisoner.firstName + " " + prisoner.lastName + " want support to get work?" %}
+{% set title = "What type of ID does " + prisoner.firstName + " " + prisoner.lastName + " have?" %}
 
 {#
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * supportOptIn - YES/NO existing value for field
+    * identification - Array existing values for field
     * errors? - validation errors
 #}
 
@@ -30,30 +31,39 @@
       <form class="form" method="post" novalidate="">
         <div class="govuk-form-group">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-        
-          {{ govukRadios({
-            name: "supportOptIn",
+
+          {{ govukCheckboxes({
+            name: "identification",
             fieldset: {
               legend: {
-                text: title,
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
-              }
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
             },
             items: [
               {
-                value: "YES",
-                text: "Yes",
-                checked: supportOptIn === "YES"
+                value: "BIRTH_CERTIFICATE",
+                checked: identification.indexOf("BIRTH_CERTIFICATE") > -1,
+                text: "Birth certificate"
               },
-              {
-                value: "NO",
-                text: "No",
-                checked: supportOptIn === "NO"
+              { 
+                value: "DRIVING_LICENCE",
+                checked: identification.indexOf("DRIVING_LICENCE") > -1,
+                text: "Driving licence"
+              },
+              { 
+                value: "PASSPORT",
+                checked: identification.indexOf("PASSPORT") > -1,
+                text: "Passport"
               }
             ],
-            errorMessage: errors.supportOptIn
+             errorMessage: errors.identification
           }) }}
+
         </div>
 
         {{ govukButton({
