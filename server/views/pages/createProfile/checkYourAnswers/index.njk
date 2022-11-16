@@ -24,10 +24,15 @@
 
         <h1 class="govuk-heading-l">{{ title }}</h1>
 
+        {% include './partials/_personalDetails.njk' %}
+        {% include './partials/_eligibilityForSupport.njk' %}
+        {% include './partials/_alreadyInPlace.njk' %}
+        {% include './partials/_abilityToWork.njk' %}
+        {% include './partials/_workRelatedInfo.njk' %}
+
         <form class="form" method="post" novalidate="">
           <div class="govuk-form-group">
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-          
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}" />          
             {{ govukButton({
                 text: "Save to profile",
                 type: "submit",

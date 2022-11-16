@@ -21,6 +21,7 @@ export default class CheckYourAnswersController {
       }
 
       const data = {
+        id,
         record,
         prisoner,
       }
