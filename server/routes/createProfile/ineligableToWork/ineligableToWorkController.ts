@@ -15,7 +15,7 @@ export default class IneligableToWorkController {
     try {
       // If no record or incorrect value return to rightToWork
       const record = req.session.data[`createProfile_${id}`]
-      if (!record || record.rightToWork !== YesNoValue.No) {
+      if (!record || record.rightToWork !== YesNoValue.NO) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }

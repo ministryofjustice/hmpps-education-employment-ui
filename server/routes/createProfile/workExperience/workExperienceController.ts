@@ -60,7 +60,7 @@ export default class WorkExperienceController {
       req.session.data[`createProfile_${id}`] = {
         ...record,
         workExperience,
-        workExperienceDetails: workExperience === YesNoValue.Yes ? workExperienceDetails : '',
+        workExperienceDetails: workExperience === YesNoValue.YES ? workExperienceDetails : '',
       }
       delete req.session.data[`workExperience_${id}_data`]
 

@@ -40,14 +40,14 @@ describe('validationSchema', () => {
       context: {
         key: 'supportOptIn',
         label: 'supportOptIn',
-        valids: [YesNoValue.Yes, YesNoValue.No],
+        valids: [YesNoValue.YES, YesNoValue.NO],
         value: 'RUBBISH',
       },
     })
   })
 
   it('On validation success - Returns no errors', () => {
-    req.body.supportOptIn = YesNoValue.Yes
+    req.body.supportOptIn = YesNoValue.YES
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

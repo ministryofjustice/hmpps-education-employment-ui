@@ -18,7 +18,7 @@ export default function validationSchema(data: JobOfParticularInterestData): Obj
   return joi
     .object({
       jobOfParticularInterestDetails: joi.string().allow(''),
-      jobOfParticularInterest: joi.string().required().valid(YesNoValue.Yes, YesNoValue.No).messages({
+      jobOfParticularInterest: joi.string().required().valid(YesNoValue.YES, YesNoValue.NO).messages({
         'any.only': msg,
         'any.required': msg,
       }),

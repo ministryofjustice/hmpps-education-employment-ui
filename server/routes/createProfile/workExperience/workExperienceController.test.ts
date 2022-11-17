@@ -60,14 +60,14 @@ describe('WorkExperienceController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { workExperience: YesNoValue.Yes }
+      req.session.data[`createProfile_${id}`] = { workExperience: YesNoValue.YES }
       req.params.mode = 'new'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/workExperience/index', {
         ...mockData,
-        workExperience: YesNoValue.Yes,
+        workExperience: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -111,26 +111,26 @@ describe('WorkExperienceController', () => {
     })
 
     it('On success - Sets session record then redirects to trainingAndQualifications', async () => {
-      req.body.workExperience = YesNoValue.Yes
+      req.body.workExperience = YesNoValue.YES
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        workExperience: YesNoValue.Yes,
+        workExperience: YesNoValue.YES,
       })
       expect(req.session.data[`workExperience_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.trainingAndQualifications(id, 'new'))
     })
 
     it('On success - Sets session record then redirects to checkAnswers', async () => {
-      req.body.workExperience = YesNoValue.Yes
+      req.body.workExperience = YesNoValue.YES
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        workExperience: YesNoValue.Yes,
+        workExperience: YesNoValue.YES,
       })
       expect(req.session.data[`workExperience_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

@@ -60,14 +60,14 @@ describe('JobOfParticularInterestController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { jobOfParticularInterest: YesNoValue.Yes }
+      req.session.data[`createProfile_${id}`] = { jobOfParticularInterest: YesNoValue.YES }
       req.params.mode = 'new'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/jobOfParticularInterest/index', {
         ...mockData,
-        jobOfParticularInterest: YesNoValue.Yes,
+        jobOfParticularInterest: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -111,26 +111,26 @@ describe('JobOfParticularInterestController', () => {
     })
 
     it('On success - Sets session record then redirects to workExperience', async () => {
-      req.body.jobOfParticularInterest = YesNoValue.Yes
+      req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        jobOfParticularInterest: YesNoValue.Yes,
+        jobOfParticularInterest: YesNoValue.YES,
       })
       expect(req.session.data[`jobOfParticularInterest_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.workExperience(id, 'new'))
     })
 
     it('On success - Sets session record then redirects to checkAnswers', async () => {
-      req.body.jobOfParticularInterest = YesNoValue.Yes
+      req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
       expect(req.session.data[`createProfile_${id}`]).toEqual({
-        jobOfParticularInterest: YesNoValue.Yes,
+        jobOfParticularInterest: YesNoValue.YES,
       })
       expect(req.session.data[`jobOfParticularInterest_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

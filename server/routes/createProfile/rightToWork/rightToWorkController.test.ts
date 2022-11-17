@@ -60,7 +60,7 @@ describe('RightToWorkController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { rightToWork: YesNoValue.Yes }
+      req.session.data[`createProfile_${id}`] = { rightToWork: YesNoValue.YES }
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -68,7 +68,7 @@ describe('RightToWorkController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/rightToWork/index', {
         ...mockData,
         backLocation: addressLookup.createProfile.checkAnswers(id),
-        rightToWork: YesNoValue.Yes,
+        rightToWork: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -109,34 +109,34 @@ describe('RightToWorkController', () => {
     })
 
     it('On success - rightToWork = NO - Sets session record then redirects to ineligableToWork', async () => {
-      req.body.rightToWork = YesNoValue.No
+      req.body.rightToWork = YesNoValue.NO
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.ineligableToWork(id, 'new'))
       expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.No })
+      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.NO })
     })
 
     it('On success - rightToWork = YES and mode = new - Sets session record then redirects to supportOptIn', async () => {
-      req.body.rightToWork = YesNoValue.Yes
+      req.body.rightToWork = YesNoValue.YES
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.Yes })
+      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.YES })
       expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportOptIn(id, 'new'))
     })
 
     it('On success - rightToWork = YES and mode = edit - Sets session record then redirects to checkAnswers', async () => {
-      req.body.rightToWork = YesNoValue.Yes
+      req.body.rightToWork = YesNoValue.YES
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.Yes })
+      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.YES })
       expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })

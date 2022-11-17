@@ -59,7 +59,7 @@
             items: [
               {
                 value: "YES",
-                text: "Yes",
+                text: contentLookup.fields.yesNo["YES"],
                 checked: jobOfParticularInterest === "YES",
                 conditional: {
                   html: otherHtml
@@ -67,7 +67,7 @@
               },
               {
                 value: "NO",
-                text: "No",
+                text: contentLookup.fields.yesNo["NO"],
                 checked: jobOfParticularInterest === "NO"
               }
             ],

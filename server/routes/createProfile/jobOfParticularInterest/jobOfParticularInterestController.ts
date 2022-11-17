@@ -61,7 +61,7 @@ export default class JobOfParticularInterestController {
         ...record,
         jobOfParticularInterest,
         jobOfParticularInterestDetails:
-          jobOfParticularInterest === YesNoValue.Yes ? jobOfParticularInterestDetails : '',
+          jobOfParticularInterest === YesNoValue.YES ? jobOfParticularInterestDetails : '',
       }
       delete req.session.data[`jobOfParticularInterest_${id}_data`]
 

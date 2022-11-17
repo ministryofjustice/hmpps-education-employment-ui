@@ -61,7 +61,7 @@ export default class SupportOptInController {
       delete req.session.data[`supportOptIn_${id}_data`]
 
       // If NO redirect to ineligable-to-work
-      if (supportOptIn === YesNoValue.No) {
+      if (supportOptIn === YesNoValue.NO) {
         res.redirect(addressLookup.createProfile.supportDeclinedReason(id, mode))
         return
       }

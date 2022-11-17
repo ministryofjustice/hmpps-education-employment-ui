@@ -54,7 +54,7 @@ export default class RightToWorkController {
       delete req.session.data[`rightToWork_${id}_data`]
 
       // If NO redirect to ineligable-to-work
-      if (rightToWork === YesNoValue.No) {
+      if (rightToWork === YesNoValue.NO) {
         res.redirect(addressLookup.createProfile.ineligableToWork(id, mode))
         return
       }

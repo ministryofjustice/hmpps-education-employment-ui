@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './checkYourAnswersController'
-import addressLookup from '../../addressLookup'
 
 describe('CheckYourAnswersController', () => {
   const { req, res, next } = expressMocks()
@@ -13,7 +12,7 @@ describe('CheckYourAnswersController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
-  const { id, mode } = req.params
+  const { id } = req.params
 
   const mockData = {
     id: 'mock_ref',
