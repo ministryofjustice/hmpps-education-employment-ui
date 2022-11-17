@@ -27,9 +27,7 @@ const stubReadinessProfileSearch = () =>
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: getTestCohortProfileData({
-        offenderNos: ['G6190UD', 'A8291DY', 'G5336UH'],
-      }),
+      jsonBody: getTestCohortProfileData(),
     },
   })
 

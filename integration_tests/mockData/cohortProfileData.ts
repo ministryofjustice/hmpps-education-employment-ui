@@ -1,8 +1,4 @@
-export function getTestCohortProfileData({
-  offenderNos = ['G6190UD', 'A8291DY', 'G5336UH'],
-}: {
-  offenderNos?: string[]
-}): any {
+export function getTestCohortProfileData(): any {
   return {
     content: [
       {
