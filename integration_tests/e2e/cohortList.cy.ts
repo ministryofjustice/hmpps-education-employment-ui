@@ -30,7 +30,7 @@ context('SignIn', () => {
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.paginationResult().should('contain', 'Showing')
     cohortListPage.paginationResult().then(page => {
-      expect(page[0].innerText).to.deep.equal('Showing 1 to 0 of 14 results')
+      expect(page[0].innerText).to.deep.equal('Showing 1 to 10 of 14 results')
     })
   })
 
@@ -62,6 +62,29 @@ context('SignIn', () => {
 
       expect(offenders[5].status).to.contain('NOT STARTED')
     })
+  })
+
+  it('Should sort the result table in ascending order by lastname', () => {
+    cy.task('stubCohortListSortedByLastName')
+    cy.visit(cohortListUrl)
+    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    cohortListPage.tableData().then(offenders => {
+      expect(offenders[0].viewLink).to.contain('/work-profile/G5336UH/view/overview')
+      expect(offenders[0].displayName).to.contain('Prough, Conroy')
+    })
+
+    cy.get('#lastName-sort-action').click()
+    cy.visit(`${cohortListUrl}?sortBy=lastName&order=ascending`)
+
+    cohortListPage.tableData().then(offenders => {
+      expect(offenders[0].viewLink).to.contain('/work-profile/G6190UD/view/overview')
+      expect(offenders[0].displayName).to.contain('Dool, Curt')
+      expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
+      expect(offenders[0].status).to.contain('NEEDS SUPPORT')
+      expect(offenders[0].workSummary).to.contain('Disclosure letter')
+      expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
+    })
+    cy.url().should('include', '?sortBy=lastName&order=ascending')
   })
 
   it('Should filter result set by status [NEEDS SUPPORT] - no records returned', () => {

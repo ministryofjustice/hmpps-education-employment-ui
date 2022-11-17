@@ -8,6 +8,7 @@ import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
+import stubCohortListSortedByLastName from './integration_tests/mockData/cohortListSortedByLastNameData'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -34,6 +35,7 @@ export default defineConfig({
         ...stubCohortListByReleaseDate,
         ...stubCohortListNameFilter,
         ...stubCohortListNameNotExistFilter,
+        ...stubCohortListSortedByLastName,
       })
     },
     baseUrl: 'http://localhost:3007',

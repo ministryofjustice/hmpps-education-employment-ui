@@ -168,7 +168,7 @@ export default class PrisonerSearchClient {
       number: 0,
       sort: { empty: true, sorted: false, unsorted: true },
       first: page === 0,
-      numberOfElements: contents.length < page ? contents[page].length : 0,
+      numberOfElements: contents.length ? contents[page].length : 0,
       empty: matchingProfiles.length === 0,
     }
 
