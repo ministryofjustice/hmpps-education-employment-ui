@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Is ' + prisoner.firstName + ' ' + prisoner.lastName + ' interested in a particular job?' %}
+{% set title = "Is " + prisoner.firstName + " " + prisoner.lastName + " interested in a particular job?" %}
 
 {#
   Data supplied to this template:
@@ -60,7 +60,7 @@
               {
                 value: "YES",
                 text: "Yes",
-                checked: jobOfParticularInterest === 'YES',
+                checked: jobOfParticularInterest === "YES",
                 conditional: {
                   html: otherHtml
                 }
@@ -68,7 +68,7 @@
               {
                 value: "NO",
                 text: "No",
-                checked: jobOfParticularInterest === 'NO'
+                checked: jobOfParticularInterest === "NO"
               }
             ],
             errorMessage: errors.jobOfParticularInterest
@@ -78,7 +78,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

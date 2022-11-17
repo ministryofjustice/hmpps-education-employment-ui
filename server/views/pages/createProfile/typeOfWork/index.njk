@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'What type of work is ' + prisoner.firstName + ' ' + prisoner.lastName + ' interested in?' %}
+{% set title = "What type of work is " + prisoner.firstName + " " + prisoner.lastName + " interested in?" %}
 
 {#
   Data supplied to this template:
@@ -62,111 +62,111 @@
             items: [
               {
                 value: "OUTDOOR",
-                checked: typeOfWork.indexOf('OUTDOOR') > -1,
-                text: 'Animal care, farming and gardening',
+                checked: typeOfWork.indexOf("OUTDOOR") > -1,
+                text: "Animal care, farming and gardening",
                 hint: {
-                  text: 'things like kennel worker, groundskeeper and farm work'
+                  text: "things like kennel worker, groundskeeper and farm work"
                 }
               },
               { 
                 value: "CONSTRUCTION",
-                checked: typeOfWork.indexOf('CONSTRUCTION') > -1,
-                text: 'Construction and trade',
+                checked: typeOfWork.indexOf("CONSTRUCTION") > -1,
+                text: "Construction and trade",
                 hint: {
-                  text: 'things like bricklayer, plumber and site management'
+                  text: "things like bricklayer, plumber and site management"
                 }
               },
               { 
                 value: "DRIVING",
-                checked: typeOfWork.indexOf('DRIVING') > -1,
-                text: 'Driving and transport',
+                checked: typeOfWork.indexOf("DRIVING") > -1,
+                text: "Driving and transport",
                 hint: {
-                  text: 'things like bus driver and rail or road maintenance'
+                  text: "things like bus driver and rail or road maintenance"
                 }
               },
               { 
                 value: "BEAUTY",
-                checked: typeOfWork.indexOf('BEAUTY') > -1,
-                text: 'Hair, beauty and wellbeing',
+                checked: typeOfWork.indexOf("BEAUTY") > -1,
+                text: "Hair, beauty and wellbeing",
                 hint: {
-                  text: 'things like nail technician, counsellor and barber'
+                  text: "things like nail technician, counsellor and barber"
                 }
               },
               { 
                 value: "HOSPITALITY",
-                checked: typeOfWork.indexOf('HOSPITALITY') > -1,
-                text: ' Hospitality and catering',
+                checked: typeOfWork.indexOf("HOSPITALITY") > -1,
+                text: " Hospitality and catering",
                 hint: {
-                  text: 'things like chef, mobile catering, hotel porter'
+                  text: "things like chef, mobile catering, hotel porter"
                 }
               },
               { 
                 value: "TECHNICAL",
-                checked: typeOfWork.indexOf('TECHNICAL') > -1,
-                text: 'IT and digital',
+                checked: typeOfWork.indexOf("TECHNICAL") > -1,
+                text: "IT and digital",
                 hint: {
-                  text: 'things like coding, web developer and IT support'
+                  text: "things like coding, web developer and IT support"
                 }
               },
               { 
                 value: "MANUFACTURING",
-                checked: typeOfWork.indexOf('MANUFACTURING') > -1,
-                text: 'Manufacturing and technical',
+                checked: typeOfWork.indexOf("MANUFACTURING") > -1,
+                text: "Manufacturing and technical",
                 hint: {
-                  text: 'things like assembly line work, welding and maintenance'
+                  text: "things like assembly line work, welding and maintenance"
                 }
               },
               { 
                 value: "OFFICE",
-                checked: typeOfWork.indexOf('OFFICE') > -1,
-                text: 'Office or desk-based',
+                checked: typeOfWork.indexOf("OFFICE") > -1,
+                text: "Office or desk-based",
                 hint: {
-                  text: 'things like administration, marketing assistant and office manager'
+                  text: "things like administration, marketing assistant and office manager"
                 }
               },
               { 
                 value: "RETAIL",
-                checked: typeOfWork.indexOf('RETAIL') > -1,
-                text: 'Retail and sales',
+                checked: typeOfWork.indexOf("RETAIL") > -1,
+                text: "Retail and sales",
                 hint: {
-                  text: 'things like sales assistant, customer service and store manager'
+                  text: "things like sales assistant, customer service and store manager"
                 }
               },
               { 
                 value: "SPORTS",
-                checked: typeOfWork.indexOf('SPORTS') > -1,
-                text: 'Sport and fitness',
+                checked: typeOfWork.indexOf("SPORTS") > -1,
+                text: "Sport and fitness",
                 hint: {
-                  text: 'things like personal trainer and gym attendant'
+                  text: "things like personal trainer and gym attendant"
                 }
               },
               { 
                 value: "EDUCATION_TRAINING",
-                checked: typeOfWork.indexOf('EDUCATION_TRAINING') > -1,
-                text: 'Training, support and education',
+                checked: typeOfWork.indexOf("EDUCATION_TRAINING") > -1,
+                text: "Training, support and education",
                 hint: {
-                  text: 'things like gardening or welding trainer and welfare rights support'
+                  text: "things like gardening or welding trainer and welfare rights support"
                 }
               },
               { 
                 value: "WAREHOUSING",
-                checked: typeOfWork.indexOf('WAREHOUSING') > -1,
-                text: 'Warehousing and storage',
+                checked: typeOfWork.indexOf("WAREHOUSING") > -1,
+                text: "Warehousing and storage",
                 hint: {
-                  text: 'things like removals and fork-lift driver'
+                  text: "things like removals and fork-lift driver"
                 }
               },
               { 
                 value: "WASTE_MANAGEMENT",
-                checked: typeOfWork.indexOf('WASTE_MANAGEMENT') > -1,
-                text: 'Waste management',
+                checked: typeOfWork.indexOf("WASTE_MANAGEMENT") > -1,
+                text: "Waste management",
                 hint: {
-                  text: 'things like waste collection and recycling management'
+                  text: "things like waste collection and recycling management"
                 }
               },
               {
                 value: "OTHER",
-                checked: typeOfWork.indexOf('OTHER') > -1,
+                checked: typeOfWork.indexOf("OTHER") > -1,
                 text: "Other",
                 conditional: {
                   html: otherHtml
@@ -181,7 +181,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

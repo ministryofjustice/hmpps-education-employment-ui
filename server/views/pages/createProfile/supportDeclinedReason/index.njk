@@ -7,7 +7,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'Why does ' + prisoner.firstName + ' ' + prisoner.lastName + ' not want support?' %}
+{% set title = "Why does " + prisoner.firstName + " " + prisoner.lastName + " not want support?" %}
 
 {#
   Data supplied to this template:
@@ -63,52 +63,52 @@
               {
                 value: "LIMIT_THEIR_ABILITY",
                 text: "Feels type of offence will limit their ability to find work",
-                checked: supportDeclinedReason.indexOf('LIMIT_THEIR_ABILITY') > -1
+                checked: supportDeclinedReason.indexOf("LIMIT_THEIR_ABILITY") > -1
               },
               {
                 value: "CARING_RESPONSIBILITIES",
                 text: "Has full-time caring responsibilities",
-                checked: supportDeclinedReason.indexOf('CARING_RESPONSIBILITIES') > -1
+                checked: supportDeclinedReason.indexOf("CARING_RESPONSIBILITIES") > -1
               },
               {
                 value: "LACKS_CONFIDENCE",
                 text: "Lacks confidence in their ability to find work",
-                checked: supportDeclinedReason.indexOf('LACKS_CONFIDENCE') > -1
+                checked: supportDeclinedReason.indexOf("LACKS_CONFIDENCE") > -1
               },
               {
                 value: "LACKS_MOTIVATION",
                 text: "Lacks motivation to find work",
-                checked: supportDeclinedReason.indexOf('LACKS_MOTIVATION') > -1
+                checked: supportDeclinedReason.indexOf("LACKS_MOTIVATION") > -1
               },
               {
                 value: "HEALTH_CONDITION",
                 text: "Not able to work due to a health condition",
-                checked: supportDeclinedReason.indexOf('HEALTH_CONDITION') > -1
+                checked: supportDeclinedReason.indexOf("HEALTH_CONDITION") > -1
               },
               {
                 value: "NO_REASON",
                 text: "Refused support with no reason",
-                checked: supportDeclinedReason.indexOf('NO_REASON') > -1
+                checked: supportDeclinedReason.indexOf("NO_REASON") > -1
               },
               {
                 value: "RETIRED",
                 text: "Retired",
-                checked: supportDeclinedReason.indexOf('RETIRED') > -1
+                checked: supportDeclinedReason.indexOf("RETIRED") > -1
               },
               {
                 value: "RETURNING_TO_WORK",
                 text: "Returning to work they had before prison",
-                checked: supportDeclinedReason.indexOf('RETURNING_TO_WORK') > -1
+                checked: supportDeclinedReason.indexOf("RETURNING_TO_WORK") > -1
               },
               {
                 value: "SELF_EMPLOYED",
                 text: "Self-employed",
-                checked: supportDeclinedReason.indexOf('SELF_EMPLOYED') > -1
+                checked: supportDeclinedReason.indexOf("SELF_EMPLOYED") > -1
               },
               {
                 value: "OTHER",
                 text: "Other",
-                checked: supportDeclinedReason.indexOf('OTHER') > -1,
+                checked: supportDeclinedReason.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml
                 }
@@ -122,7 +122,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

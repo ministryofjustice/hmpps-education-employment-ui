@@ -3,9 +3,9 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import YesNoValue from '../../../enums/yesNoValue'
+import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificationsValue'
 
-export default class JobOfParticularInterestController {
+export default class TrainingAndQualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
@@ -21,36 +21,36 @@ export default class JobOfParticularInterestController {
       const data = {
         backLocation:
           mode === 'new'
-            ? addressLookup.createProfile.typeOfWork(id, mode)
+            ? addressLookup.createProfile.workExperience(id, mode)
             : addressLookup.createProfile.checkAnswers(id),
         prisoner,
-        jobOfParticularInterest: record.jobOfParticularInterest,
-        jobOfParticularInterestDetails: record.jobOfParticularInterestDetails,
+        trainingAndQualifications: record.trainingAndQualifications || [],
+        trainingAndQualificationsDetails: record.trainingAndQualificationsDetails,
       }
 
       // Store page data for use if validation fails
-      req.session.data[`jobOfParticularInterest_${id}_data`] = data
+      req.session.data[`trainingAndQualifications_${id}_data`] = data
 
-      res.render('pages/createProfile/jobOfParticularInterest/index', { ...data })
+      res.render('pages/createProfile/trainingAndQualifications/index', { ...data })
     } catch (err) {
       next(err)
     }
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
-    const { jobOfParticularInterest, jobOfParticularInterestDetails } = req.body
+    const { id } = req.params
+    const { trainingAndQualifications = [], trainingAndQualificationsDetails } = req.body
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`jobOfParticularInterest_${id}_data`]
+      const data = req.session.data[`trainingAndQualifications_${id}_data`]
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
-        res.render('pages/createProfile/jobOfParticularInterest/index', {
+        res.render('pages/createProfile/trainingAndQualifications/index', {
           ...data,
           errors,
-          jobOfParticularInterest,
-          jobOfParticularInterestDetails,
+          trainingAndQualifications,
+          trainingAndQualificationsDetails,
         })
         return
       }
@@ -59,18 +59,15 @@ export default class JobOfParticularInterestController {
       const record = req.session.data[`createProfile_${id}`]
       req.session.data[`createProfile_${id}`] = {
         ...record,
-        jobOfParticularInterest,
-        jobOfParticularInterestDetails:
-          jobOfParticularInterest === YesNoValue.Yes ? jobOfParticularInterestDetails : '',
+        trainingAndQualifications,
+        trainingAndQualificationsDetails: trainingAndQualifications.includes(TrainingAndQualificationsValue.OTHER)
+          ? trainingAndQualificationsDetails
+          : '',
       }
-      delete req.session.data[`jobOfParticularInterest_${id}_data`]
+      delete req.session.data[`trainingAndQualifications_${id}_data`]
 
       // Redirect to the correct page based on mode
-      res.redirect(
-        mode === 'new'
-          ? addressLookup.createProfile.workExperience(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
-      )
+      res.redirect(addressLookup.createProfile.checkAnswers(id))
     } catch (err) {
       next(err)
     }

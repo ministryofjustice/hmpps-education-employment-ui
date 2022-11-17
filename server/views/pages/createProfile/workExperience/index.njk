@@ -3,16 +3,18 @@
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = "Does " + prisoner.firstName + " " + prisoner.lastName + " want support to get work?" %}
+{% set title = "Does " + prisoner.firstName + " " + prisoner.lastName + " have any previous work or volunteering experience?" %}
 
 {#
   Data supplied to this template:
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
-    * supportOptIn - YES/NO existing value for field
+    * workExperience - existing value for field
+    * workExperienceDetails - existing value for field
     * errors? - validation errors
 #}
 
@@ -30,9 +32,23 @@
       <form class="form" method="post" novalidate="">
         <div class="govuk-form-group">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "workExperienceDetails",
+              name: "workExperienceDetails",
+              rows: "2",
+              value: workExperienceDetails,
+              type: "text",
+              label: {
+                text: "Give details"
+              },
+              errorMessage: errors.workExperienceDetails
+            }) }}
+          {% endset -%}
         
           {{ govukRadios({
-            name: "supportOptIn",
+            name: "workExperience",
             fieldset: {
               legend: {
                 text: title,
@@ -44,15 +60,18 @@
               {
                 value: "YES",
                 text: "Yes",
-                checked: supportOptIn === "YES"
+                checked: workExperience === "YES",
+                conditional: {
+                  html: otherHtml
+                }
               },
               {
                 value: "NO",
                 text: "No",
-                checked: supportOptIn === "NO"
+                checked: workExperience === "NO"
               }
             ],
-            errorMessage: errors.supportOptIn
+            errorMessage: errors.workExperience
           }) }}
         </div>
 

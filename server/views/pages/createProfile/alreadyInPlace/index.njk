@@ -6,7 +6,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = 'What does ' + prisoner.firstName + ' ' + prisoner.lastName + ' have in place already?' %}
+{% set title = "What does " + prisoner.firstName + " " + prisoner.lastName + " have in place already?" %}
 
 {#
   Data supplied to this template:
@@ -47,32 +47,32 @@
               {
                 value: "BANK_ACCOUNT",
                 text: "Bank account",
-                checked: alreadyInPlace.indexOf('BANK_ACCOUNT') > -1
+                checked: alreadyInPlace.indexOf("BANK_ACCOUNT") > -1
               },
               {
                 value: "CV_AND_COVERING_LETTER",
                 text: "CV",
-                checked: alreadyInPlace.indexOf('CV_AND_COVERING_LETTER') > -1
+                checked: alreadyInPlace.indexOf("CV_AND_COVERING_LETTER") > -1
               },
               {
                 value: "DISCLOSURE_LETTER",
                 text: "Disclosure letter",
-                checked: alreadyInPlace.indexOf('DISCLOSURE_LETTER') > -1
+                checked: alreadyInPlace.indexOf("DISCLOSURE_LETTER") > -1
               },
               {
                 value: "EMAIL_OR_PHONE",
                 text: "Email address or phone number",
-                checked: alreadyInPlace.indexOf('EMAIL_OR_PHONE') > -1
+                checked: alreadyInPlace.indexOf("EMAIL_OR_PHONE") > -1
               },
               {
                 value: "HOUSING",
                 text: "Housing",
-                checked: alreadyInPlace.indexOf('HOUSING') > -1
+                checked: alreadyInPlace.indexOf("HOUSING") > -1
               },
               {
                 value: "ID",
                 text: "ID",
-                checked: alreadyInPlace.indexOf('ID') > -1,
+                checked: alreadyInPlace.indexOf("ID") > -1,
                 hint: {
                   text: "including things like a passport, UK driving licence or birth certificate"
                 }
@@ -83,7 +83,7 @@
               {
                 value: "NONE",
                 text: "None of these",
-                checked: alreadyInPlace.indexOf('NONE') > -1,
+                checked: alreadyInPlace.indexOf("NONE") > -1,
                 behaviour: "exclusive"
               }
             ],
@@ -95,7 +95,7 @@
         {{ govukButton({
             text: "Continue",
             type: "submit",
-            attributes: {'data-qa': 'submit-button'}
+            attributes: {"data-qa": "submit-button"}
           }) }}
       </form>
     </div>

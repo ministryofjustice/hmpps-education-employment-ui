@@ -48,6 +48,6 @@ export default function validationSchema(data: JobOfParticularInterestData): Obj
     })
     .messages({
       'any.custom': msgOther,
-      'any.length': 'Details must be 200 characters or less',
+      'any.length': 'Job details must be 200 characters or less',
     })
 }
