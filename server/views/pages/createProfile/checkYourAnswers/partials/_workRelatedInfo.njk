@@ -6,11 +6,13 @@
       Work types of interest
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.typeOfWork }}</br>
+      {% for item in record.typeOfWork %}
+        <div>{{ contentLookup.fields.typeOfWork[item] }}</div>
+      {% endfor %}
       {{ record.typeOfWorkDetails }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q5-job-sectors">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.typeOfWork(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -20,10 +22,11 @@
       Particular job of interest
     </dt>
     <dd class="govuk-summary-list__value">
+      {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}<br />
       {{ record.jobOfParticularInterestDetails }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q6-job-role">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -33,11 +36,11 @@
       Work or volunteering experience
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.workExperience }}</br>
+      {{ contentLookup.fields.yesNo[record.workExperience] }}<br />
       {{ record.workExperienceDetails }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q7-work-experience">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.workExperience(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -47,11 +50,13 @@
       Qualifications and training
     </dt>
     <dd class="govuk-summary-list__value">
-        {{ record.trainingAndQualifications }}</br>
-        {{ record.trainingAndQualificationsDetails }}
+      {% for item in record.trainingAndQualifications %}
+        <div>{{ contentLookup.fields.trainingAndQualifications[item] }}</div>
+      {% endfor %}
+      {{ record.trainingAndQualificationsDetails }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q8-qualifications">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.trainingAndQualifications(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>

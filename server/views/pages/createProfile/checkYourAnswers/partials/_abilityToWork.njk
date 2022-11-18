@@ -6,27 +6,31 @@
       Potential affect on ability to work
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.abilityToWork }}
+      {% for item in record.abilityToWork %}
+        <div>{{ contentLookup.fields.abilityToWork[item] }}</div>
+      {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q4-might-be-impacted-by">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.abilityToWork(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> </span>
       </a>
     </dd>
   </div>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Drug or alcohol dependency
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ record.manageDrugsAndAlcohol }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q4c-dependency">
-        Change<span class="govuk-visually-hidden"> </span>
-      </a>
-    </dd>
-  </div>
+  {% if record.abilityToWork.indexOf('DEPENDENCY_ISSUES') > -1 %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Drug or alcohol dependency
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {{ contentLookup.fields.manageDrugsAndAlcohol[record.manageDrugsAndAlcohol] if record.manageDrugsAndAlcohol }}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit') }}">
+          Change<span class="govuk-visually-hidden"> </span>
+        </a>
+      </dd>
+    </div>
+  {% endif %}
 
 </dl>

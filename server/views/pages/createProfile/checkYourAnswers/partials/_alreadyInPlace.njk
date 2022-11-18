@@ -6,26 +6,33 @@
       Has already got
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.alreadyInPlace }}
+      {% for item in record.alreadyInPlace %}
+        <div>{{ contentLookup.fields.alreadyInPlace[item] }}</div>
+      {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q3-has-already-got">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.alreadyInPlace(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> things they have in place already</span>
       </a>
     </dd>
   </div>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Type of ID
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {{ record.identification }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q3a-ID-type">
-        Change<span class="govuk-visually-hidden"> type of ID they have</span>
-      </a>
-    </dd>
-  </div>
+  {% if record.alreadyInPlace.indexOf('ID') > -1 %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Type of ID
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {% for item in record.identification %}
+          <div>{{ contentLookup.fields.identification[item] }}</div>
+        {% endfor %}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') }}">
+          Change<span class="govuk-visually-hidden"> type of ID they have</span>
+        </a>
+      </dd>
+    </div>
+  {% endif %}
+
 </dl>

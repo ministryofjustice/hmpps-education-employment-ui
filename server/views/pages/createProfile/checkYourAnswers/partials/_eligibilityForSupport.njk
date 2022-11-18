@@ -6,10 +6,10 @@
       Right to work
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.rightToWork }}
+      {{ contentLookup.fields.yesNo[record.rightToWork] }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q1-right-to-work">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> right to work</span>
       </a>
     </dd>
@@ -19,10 +19,10 @@
       Wants support to get work
     </dt>
     <dd class="govuk-summary-list__value">
-      {{ record.supportOptIn }}
+      {{ contentLookup.fields.yesNo[record.supportOptIn] }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="q2-opt-in-for-support">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
         Change<span class="govuk-visually-hidden"> whether they want support</span>
       </a>
     </dd>
