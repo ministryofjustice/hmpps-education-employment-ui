@@ -11,6 +11,7 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
 {% set offendersToBeReleased = prisonerSearchResults.content %}
+{% set activeStatus = filterStatus %}
 {% set title = 'Get someone ready to work' %}
 
 {% block beforeContent %}

@@ -11,8 +11,6 @@ function searchPrisonersByReleaseDate(searchTerm: string, prisonIds: string[]): 
   return { earliestReleaseDate, latestReleaseDate, prisonIds }
 }
 
-const GLOBAL_SEARCH = 'GLOBAL_SEARCH'
-
 export interface UserActiveCaseLoad {
   caseLoadId: string
   description: string
@@ -33,17 +31,6 @@ export default class PrisonerSearchService {
   ) {
     const searchRequest = searchPrisonersByReleaseDate(searchTerm, prisonIds)
     return new PrisonerSearchClient(token).searchByReleaseDateRaw(searchRequest, sort, order, searchFilter, page)
-  }
-
-  async getUserPrisonCaseloads(user: UserDetails, token: string) {
-    const userCaseloads = await new NomisUserRolesApiClient(token).getUserCaseLoads(user)
-
-    const prisonIds = userCaseloads
-
-    if (!prisonIds.includes(GLOBAL_SEARCH)) {
-      prisonIds.push('OUT')
-    }
-    return prisonIds
   }
 
   async getUserActiveCaseLoad(user: UserDetails, token: string): Promise<UserActiveCaseLoad> {

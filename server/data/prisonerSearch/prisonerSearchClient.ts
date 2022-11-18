@@ -9,20 +9,6 @@ import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 import getActionsRequired from './utils'
 import { convertToTitleCase } from '../../utils/utils'
 
-export interface PrisonerSearchByPrisonerNumber {
-  prisonerIdentifier: string
-  nomsNumber: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
-
-export interface PrisonerSearchByName {
-  firstName: string
-  lastName: string
-  prisonIds?: string[]
-  includeAliases?: boolean
-}
-
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
   earliestReleaseDate: string
@@ -34,7 +20,6 @@ export interface ReleaseDateSearch {
 
 type PrisonerSearchByReleaseDate = ReleaseDateSearch
 
-const PRISONER_NUMBERS_SEARCH_PATH = '/prisoner-search/prisoner-numbers'
 const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 // Match prisoners who have a release date within a range, and optionally by prison
@@ -53,24 +38,36 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
       if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
     }
     if (sortBy === 'updatedOn') {
-      if (a.updatedOn > b.updatedOn) return orderBy === 'ascending' ? 1 : -1
-      if (b.updatedOn > a.updatedOn) return orderBy === 'ascending' ? -1 : 1
+      if (new Date(a.updatedOn) > new Date(b.updatedOn)) return orderBy === 'ascending' ? 1 : -1
+      if (new Date(b.updatedOn) > new Date(a.updatedOn)) return orderBy === 'ascending' ? -1 : 1
     }
   })
 }
 
 // Filter result set based on parameters
-function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string): PrisonerSearchResult[] {
+function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string) {
   const [status, searchBy] = filterTerm.split(',')
-  const filteredStatus = status && profiles.filter(p => p.status === status)
-  const filteredSearch = () => {
+  let filteredStatus: PrisonerSearchResult[]
+  if (status && status !== 'ALL') filteredStatus = profiles.filter((p: any) => p.status === status)
+  if (status === 'ALL') filteredStatus = profiles.filter((p: any) => p)
+
+  const filteredSearch: () => PrisonerSearchResult[] = () => {
     if (status && searchBy) {
-      return filteredStatus.filter(p => p.lastName.toLowerCase() === searchBy.toLowerCase())
+      if (filteredStatus.length) {
+        const filteredByStatusAndName = (filteredStatus as any).filter(
+          (p: any) => p.lastName.toLowerCase() === searchBy.toLowerCase(),
+        )
+        return [...filteredByStatusAndName]
+      }
+      return [...filteredStatus]
     }
     if (searchBy) {
-      return profiles.filter(p => p.lastName.toLowerCase().startsWith(searchBy.toLowerCase()))
+      const filteredByName: PrisonerSearchResult[] = profiles.filter((p: any) =>
+        p.lastName.toLowerCase().startsWith(searchBy.toLowerCase()),
+      )
+      return [...filteredByName]
     }
-    return filteredStatus
+    return [...filteredStatus]
   }
   return filteredSearch()
 }
@@ -91,14 +88,18 @@ export default class PrisonerSearchClient {
     orderBy?: string,
     searchFilter?: string,
     page?: number,
-  ): Promise<PrisonerSearchResult[]> {
+  ) {
     const [status, lastName] = searchFilter.split(',')
+    const maxPerPage = config.paginationPageSize
+    const maxNumberOfRecordsAllowed = config.maximumNumberOfRecordsToReturn
+
     const uri = [
       sortBy && `sortBy=${sortBy}`,
       orderBy && `order=${orderBy}`,
       status && status !== 'ALL' && `status=${status}`,
       searchFilter && `searchTerm=${decodeURIComponent(lastName)}`,
-      page && `page=${page}`,
+      `page=0`,
+      `size=${maxNumberOfRecordsAllowed}`,
     ].filter(val => !!val)
 
     const searchType = uri.length
@@ -112,17 +113,15 @@ export default class PrisonerSearchClient {
       },
     })
 
-    const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
-
     /* Combine offender data with their education profile where necessary */
+    const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
     const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
       filteredOffenderNumbers,
     )
 
     let matchingProfiles: PrisonerSearchResult[] = offenders.content?.map((p: any) => {
-      const offenderWithProfile = offenderProfiles?.find((op: any) => op.offenderId === p.prisonerNumber)
+      const offenderWithProfile = offenderProfiles.content?.find((op: any) => op.offenderId === p.prisonerNumber)
       const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
-
       return {
         ...p,
         ...actionsRequired,
@@ -132,47 +131,58 @@ export default class PrisonerSearchClient {
       }
     })
 
-    /* Filter resultset  */
-    if (searchFilter.length > 1) {
-      const [status, lastName] = searchFilter.split(',')
-      const searchParams = [status && `${status}`, lastName && `${lastName}`]
-      matchingProfiles = filterOffenderProfiles(matchingProfiles, searchParams.toString())
-    }
-
     /* Sort the combined dataset according to sort parameters */
-    if (sortBy) {
+    if (sortBy && matchingProfiles.length) {
       matchingProfiles = sortOffenderProfile(matchingProfiles, sortBy, orderBy)
     }
 
-    const data = {
-      prisonerSearchResults: offenders,
-      sortBy,
-      orderBy,
+    // Filter result set if required
+    if (searchFilter) {
+      matchingProfiles = filterOffenderProfiles(matchingProfiles, searchFilter)
+    }
+
+    /* Workout pagination mechanism */
+    const contents = matchingProfiles?.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / maxPerPage)
+      if (!resultArray[chunkIndex]) {
+        // eslint-disable-next-line no-param-reassign
+        resultArray[chunkIndex] = []
+      }
+      resultArray[chunkIndex].push(item)
+      return resultArray
+    }, [])
+
+    const pageMetaData = {
+      pageable: {
+        sort: { empty: true, sorted: false, unsorted: true },
+        offset: maxPerPage * page,
+        pageSize: maxPerPage,
+        pageNumber: page,
+        paged: true,
+        unpaged: false,
+      },
+      totalElements: contents.length ? matchingProfiles.length : 0,
+      last: page === (contents.length ? contents.length - 1 : 0),
+      totalPages: contents ? contents.length : 0,
+      size: maxPerPage,
+      number: 0,
+      sort: { empty: true, sorted: false, unsorted: true },
+      first: page === 0,
+      numberOfElements: contents.length ? contents[page].length : 0,
+      empty: matchingProfiles.length === 0,
     }
 
     return {
-      ...offenders,
-      data,
-      content: matchingProfiles?.map((result: any) =>
+      ...pageMetaData,
+      content: contents[page]?.map((result: any) =>
         plainToClass(PrisonerSearchResult, result, { excludeExtraneousValues: true }),
       ),
     }
   }
 
-  async findByPrisonerNumbers(prisonerNumbers: Array<string>): Promise<PrisonerSearchResult[]> {
-    return this.restClient.post<PrisonerSearchResult[]>({
-      path: `${PRISONER_NUMBERS_SEARCH_PATH}`,
-      data: {
-        prisonerNumbers,
-      },
-    })
-  }
-
   async getPrisonerById(id: string): Promise<GetPrisonerByIdResult> {
-    const prisoner = this.restClient.get<GetPrisonerByIdResult>({
+    return this.restClient.get<GetPrisonerByIdResult>({
       path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
     })
-
-    return prisoner
   }
 }
