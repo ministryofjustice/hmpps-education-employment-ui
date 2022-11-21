@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express'
 
-import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 

@@ -8,6 +8,7 @@ export default class ManageDrugsAndAlcoholController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner } = req.context
+    const { from } = req.query
 
     try {
       // If no record return to rightToWork
@@ -18,7 +19,10 @@ export default class ManageDrugsAndAlcoholController {
       }
 
       const data = {
-        backLocation: addressLookup.createProfile.abilityToWork(id, mode),
+        backLocation:
+          mode !== 'new' && from === 'checkAnswers'
+            ? addressLookup.createProfile.checkAnswers(id)
+            : addressLookup.createProfile.abilityToWork(id, mode),
         prisoner,
         manageDrugsAndAlcohol: record.manageDrugsAndAlcohol,
       }

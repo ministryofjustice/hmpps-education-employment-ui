@@ -27,6 +27,7 @@ describe('IdentificationController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
+  req.query.from = 'checkAnswers'
   const { id, mode } = req.params
 
   const mockData = {

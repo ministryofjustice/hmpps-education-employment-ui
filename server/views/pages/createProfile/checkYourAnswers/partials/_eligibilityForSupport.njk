@@ -28,4 +28,40 @@
     </dd>
   </div>
 
+  {% if record.supportOptIn === 'NO' %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Reasons for declining	support
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {% for item in record.supportDeclinedReason %}
+          <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' + record.supportDeclinedDetails if item === 'OTHER' }}</div>
+        {% endfor %}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
+          Change<span class="govuk-visually-hidden"> their reasons for declining support</span>
+        </a>
+      </dd>
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Changes needed to	make them want support
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {% for item in record.whatNeedsToChange %}
+          <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' + record.whatNeedsToChangeDetails if item === 'OTHER' }}</div>
+        {% endfor %}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
+          Change<span class="govuk-visually-hidden"> things needed for them to want support</span>
+        </a>
+      </dd>
+    </div>
+
+
+  {% endif %}
+
 </dl>

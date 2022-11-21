@@ -26,9 +26,12 @@
 
         {% include './partials/_personalDetails.njk' %}
         {% include './partials/_eligibilityForSupport.njk' %}
-        {% include './partials/_alreadyInPlace.njk' %}
-        {% include './partials/_abilityToWork.njk' %}
-        {% include './partials/_workRelatedInfo.njk' %}
+
+        {% if record.supportOptIn === 'YES' %}
+          {% include './partials/_alreadyInPlace.njk' %}
+          {% include './partials/_abilityToWork.njk' %}
+          {% include './partials/_workRelatedInfo.njk' %}
+        {% endif %}
 
         <form class="form" method="post" novalidate="">
           <div class="govuk-form-group">

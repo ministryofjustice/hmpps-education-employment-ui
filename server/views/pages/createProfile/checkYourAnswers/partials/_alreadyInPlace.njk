@@ -28,7 +28,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') + '?from=checkAnswers' }}">
           Change<span class="govuk-visually-hidden"> type of ID they have</span>
         </a>
       </dd>
