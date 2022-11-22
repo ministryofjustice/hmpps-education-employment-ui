@@ -24,7 +24,7 @@ export default function validationSchema(data: AlreadyInPlaceData): ObjectSchema
           .valid(
             AbilityToWorkValue.EDUCATION_ENROLLMENT,
             AbilityToWorkValue.FAMILY_ISSUES,
-            AbilityToWorkValue.CARING_RESPONSIBILITIES,
+            AbilityToWorkValue.FULL_TIME_CARER,
             AbilityToWorkValue.MENTAL_HEALTH_ISSUES,
             AbilityToWorkValue.PHYSICAL_HEALTH_ISSUES,
             AbilityToWorkValue.DEPENDENCY_ISSUES,

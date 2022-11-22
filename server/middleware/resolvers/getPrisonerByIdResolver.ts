@@ -12,8 +12,17 @@ const getPrisonerByIdResolver =
     const { user } = res.locals
 
     try {
+      // Check session for cached prisoner
+      if (req.session[`prisoner_${id}`]) {
+        req.context.prisoner = req.session[`prisoner_${id}`]
+        next()
+        return
+      }
+
+      // Get prisoner
       const prisoner = await prisonerSearch.getPrisonerById(user.token, id)
       req.context.prisoner = plainToClass(PrisonerViewModel, prisoner)
+      req.session[`prisoner_${id}`] = req.context.prisoner
 
       next()
     } catch (err) {

@@ -39,7 +39,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'edit') }}">
           Change<span class="govuk-visually-hidden"> their reasons for declining support</span>
         </a>
       </dd>
@@ -55,7 +55,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'edit') }}">
           Change<span class="govuk-visually-hidden"> things needed for them to want support</span>
         </a>
       </dd>

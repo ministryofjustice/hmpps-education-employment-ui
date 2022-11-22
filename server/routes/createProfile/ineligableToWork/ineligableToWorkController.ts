@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
+import ProfileStatus from '../../../enums/profileStatus'
 
-import { ProfileStatus } from '../../../data/prisonerProfile/createProfileRequest'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
@@ -41,6 +41,7 @@ export default class IneligableToWorkController {
         prisonerId: id,
         bookingId: prisoner.bookingId,
         status: ProfileStatus.NO_RIGHT_TO_WORK,
+        currentUser: res.locals.user.username,
       })
 
       // Tidy up record in session
