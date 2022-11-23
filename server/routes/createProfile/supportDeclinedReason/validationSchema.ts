@@ -26,7 +26,7 @@ export default function validationSchema(data: SupportDeclinedReasonData): Objec
             .any()
             .valid(
               SupportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
-              SupportDeclinedReasonValue.FULL_TIME_CARER,
+              SupportDeclinedReasonValue.CARING_RESPONSIBILITIES,
               SupportDeclinedReasonValue.LACKS_CONFIDENCE,
               SupportDeclinedReasonValue.LACKS_MOTIVATION,
               SupportDeclinedReasonValue.HEALTH,

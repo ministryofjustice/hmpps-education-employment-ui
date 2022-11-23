@@ -88,8 +88,9 @@ export class CreateProfileRequest {
                 modifiedBy: data.currentUser,
                 modifiedDateTime: isoString,
                 abilityToWorkImpactedBy: data.abilityToWork,
-                caringResponsibilitiesFullTime: false,
-                ableToManageMentalHealth: true,
+                caringResponsibilitiesFullTime: data.abilityToWork.includes(AbilityToWorkValue.FAMILY_ISSUES),
+                ableToManageMentalHealth:
+                  data.abilityToWork.includes(AbilityToWorkValue.MENTAL_HEALTH_ISSUES) === false,
                 ableToManageDependencies: data.manageDrugsAndAlcohol === ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
               },
               workInterests: {

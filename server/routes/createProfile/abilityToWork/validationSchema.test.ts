@@ -40,7 +40,7 @@ describe('validationSchema', () => {
         valids: [
           AbilityToWorkValue.EDUCATION_ENROLLMENT,
           AbilityToWorkValue.FAMILY_ISSUES,
-          AbilityToWorkValue.FULL_TIME_CARER,
+          AbilityToWorkValue.CARING_RESPONSIBILITIES,
           AbilityToWorkValue.MENTAL_HEALTH_ISSUES,
           AbilityToWorkValue.PHYSICAL_HEALTH_ISSUES,
           AbilityToWorkValue.DEPENDENCY_ISSUES,
