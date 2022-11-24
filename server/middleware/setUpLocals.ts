@@ -9,6 +9,7 @@ export default function setUpLocals(): Router {
   router.use((req, res, next) => {
     res.locals.addressLookup = addressLookup
     res.locals.contentLookup = contentLookup
+    res.locals.originalUrl = req.originalUrl
 
     next()
   })

@@ -5,6 +5,7 @@ import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 
 export default class AbilityToWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -13,7 +14,7 @@ export default class AbilityToWorkController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
@@ -31,7 +32,7 @@ export default class AbilityToWorkController {
       }
 
       // Store page data for use if validation fails
-      req.session.data[`abilityToWork_${id}_data`] = data
+      setSessionData(req, ['abilityToWork', id, 'data'], data)
 
       res.render('pages/createProfile/abilityToWork/index', { ...data })
     } catch (err) {
@@ -45,7 +46,7 @@ export default class AbilityToWorkController {
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`abilityToWork_${id}_data`]
+      const data = getSessionData(req, ['abilityToWork', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createProfile/abilityToWork/index', {
@@ -57,12 +58,12 @@ export default class AbilityToWorkController {
       }
 
       // Update record in sessionData and tidy
-      const record = req.session.data[`createProfile_${id}`]
-      req.session.data[`createProfile_${id}`] = {
+      const record = getSessionData(req, ['createProfile', id])
+      setSessionData(req, ['createProfile', id], {
         ...record,
         abilityToWork,
-      }
-      delete req.session.data[`abilityToWork_${id}_data`]
+      })
+      deleteSessionData(req, ['abilityToWork', id, 'data'])
 
       if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
         res.redirect(addressLookup.createProfile.manageDrugsAndAlcohol(id, mode))

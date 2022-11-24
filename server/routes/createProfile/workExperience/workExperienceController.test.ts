@@ -3,6 +3,7 @@ import Controller from './workExperienceController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -39,8 +40,8 @@ describe('WorkExperienceController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`workExperience_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['workExperience', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -60,7 +61,7 @@ describe('WorkExperienceController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { workExperience: YesNoValue.YES }
+      setSessionData(req, ['createProfile', id], { workExperience: YesNoValue.YES })
       req.params.mode = 'new'
 
       controller.get(req, res, next)
@@ -83,8 +84,8 @@ describe('WorkExperienceController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`workExperience_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['workExperience', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -116,10 +117,10 @@ describe('WorkExperienceController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         workExperience: YesNoValue.YES,
       })
-      expect(req.session.data[`workExperience_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['workExperience', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.trainingAndQualifications(id, 'new'))
     })
 
@@ -129,10 +130,10 @@ describe('WorkExperienceController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         workExperience: YesNoValue.YES,
       })
-      expect(req.session.data[`workExperience_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['workExperience', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

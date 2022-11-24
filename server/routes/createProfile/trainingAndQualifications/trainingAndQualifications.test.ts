@@ -4,6 +4,7 @@ import Controller from './trainingAndQualifications'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificationsValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -41,8 +42,8 @@ describe('TrainingAndQualificationsController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`trainingAndQualifications_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['trainingAndQualifications', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -62,7 +63,7 @@ describe('TrainingAndQualificationsController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { trainingAndQualifications: TrainingAndQualificationsValue.OTHER }
+      setSessionData(req, ['createProfile', id], { trainingAndQualifications: TrainingAndQualificationsValue.OTHER })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -86,8 +87,8 @@ describe('TrainingAndQualificationsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`trainingAndQualifications_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['trainingAndQualifications', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -119,10 +120,10 @@ describe('TrainingAndQualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         trainingAndQualifications: TrainingAndQualificationsValue.OTHER,
       })
-      expect(req.session.data[`trainingAndQualifications_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['trainingAndQualifications', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
 
@@ -132,10 +133,10 @@ describe('TrainingAndQualificationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         trainingAndQualifications: TrainingAndQualificationsValue.OTHER,
       })
-      expect(req.session.data[`trainingAndQualifications_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['trainingAndQualifications', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

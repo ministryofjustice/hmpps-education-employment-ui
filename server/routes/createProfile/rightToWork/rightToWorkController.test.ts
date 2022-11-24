@@ -3,6 +3,7 @@ import Controller from './rightToWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -39,8 +40,8 @@ describe('RightToWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`rightToWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['rightToWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -60,7 +61,7 @@ describe('RightToWorkController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { rightToWork: YesNoValue.YES }
+      setSessionData(req, ['createProfile', id], { rightToWork: YesNoValue.YES })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -84,8 +85,8 @@ describe('RightToWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`rightToWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['rightToWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -115,8 +116,8 @@ describe('RightToWorkController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.ineligableToWork(id, 'new'))
-      expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.NO })
+      expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.NO })
     })
 
     it('On success - rightToWork = YES and mode = new - Sets session record then redirects to supportOptIn', async () => {
@@ -125,8 +126,8 @@ describe('RightToWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.YES })
-      expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.YES })
+      expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportOptIn(id, 'new'))
     })
 
@@ -136,8 +137,8 @@ describe('RightToWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ rightToWork: YesNoValue.YES })
-      expect(req.session.data[`rightToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.YES })
+      expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

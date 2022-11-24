@@ -4,6 +4,7 @@ import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
+import { deleteSessionData, getSessionData } from '../../../utils/session'
 
 export default class IneligableToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -14,7 +15,7 @@ export default class IneligableToWorkController {
 
     try {
       // If no record or incorrect value return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record || record.rightToWork !== YesNoValue.NO) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
@@ -45,7 +46,7 @@ export default class IneligableToWorkController {
       })
 
       // Tidy up record in session
-      delete req.session.data[`createProfile_${id}`]
+      deleteSessionData(req, ['createProfile', id])
 
       res.redirect(addressLookup.workProfile(id))
     } catch (err) {

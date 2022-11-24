@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './checkYourAnswersController'
+import { setSessionData, getSessionData } from '../../../utils/session'
 
 describe('CheckYourAnswersController', () => {
   const { req, res, next } = expressMocks()
@@ -32,7 +33,7 @@ describe('CheckYourAnswersController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`createProfile_${id}`] = { rightToWork: 'NO' }
+      setSessionData(req, ['createProfile', id], { rightToWork: 'NO' })
     })
 
     it('On error - Calls next with error', async () => {
@@ -58,7 +59,7 @@ describe('CheckYourAnswersController', () => {
       res.redirect.mockReset()
       next.mockReset()
       mockService.createProfile.mockReset()
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['createProfile', id], {})
     })
     it('On error - Calls next with error', async () => {
       // mockService.createProfile.mockImplementation(() => {
@@ -75,7 +76,7 @@ describe('CheckYourAnswersController', () => {
 
       // expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
-      expect(req.session.data[`createProfile_${id}`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
     })
   })
 })

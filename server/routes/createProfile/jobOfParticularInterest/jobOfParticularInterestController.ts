@@ -4,6 +4,7 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 
 export default class JobOfParticularInterestController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -12,7 +13,7 @@ export default class JobOfParticularInterestController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
@@ -29,7 +30,7 @@ export default class JobOfParticularInterestController {
       }
 
       // Store page data for use if validation fails
-      req.session.data[`jobOfParticularInterest_${id}_data`] = data
+      setSessionData(req, ['jobOfParticularInterest', id, 'data'], data)
 
       res.render('pages/createProfile/jobOfParticularInterest/index', { ...data })
     } catch (err) {
@@ -43,7 +44,7 @@ export default class JobOfParticularInterestController {
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`jobOfParticularInterest_${id}_data`]
+      const data = getSessionData(req, ['jobOfParticularInterest', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createProfile/jobOfParticularInterest/index', {
@@ -56,14 +57,14 @@ export default class JobOfParticularInterestController {
       }
 
       // Update record in sessionData and tidy
-      const record = req.session.data[`createProfile_${id}`]
-      req.session.data[`createProfile_${id}`] = {
+      const record = getSessionData(req, ['createProfile', id])
+      setSessionData(req, ['createProfile', id], {
         ...record,
         jobOfParticularInterest,
         jobOfParticularInterestDetails:
           jobOfParticularInterest === YesNoValue.YES ? jobOfParticularInterestDetails : '',
-      }
-      delete req.session.data[`jobOfParticularInterest_${id}_data`]
+      })
+      deleteSessionData(req, ['jobOfParticularInterest', id, 'data'])
 
       // Redirect to the correct page based on mode
       res.redirect(

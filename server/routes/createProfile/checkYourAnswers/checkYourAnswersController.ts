@@ -4,6 +4,7 @@ import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 import yesNoValue from '../../../enums/yesNoValue'
 import ProfileStatus from '../../../enums/profileStatus'
+import { deleteSessionData, getSessionData } from '../../../utils/session'
 
 export default class CheckYourAnswersController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -14,7 +15,7 @@ export default class CheckYourAnswersController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id))
         return
@@ -38,7 +39,7 @@ export default class CheckYourAnswersController {
 
     try {
       // API call to create profile
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       await this.prisonerProfileService.createProfile(res.locals.user.token, {
         prisonerId: id,
         bookingId: prisoner.bookingId,
@@ -65,7 +66,7 @@ export default class CheckYourAnswersController {
       })
 
       // Tidy up record in session
-      delete req.session.data[`createProfile_${id}`]
+      deleteSessionData(req, ['createProfile', id])
 
       res.redirect(addressLookup.workProfile(id))
     } catch (err) {

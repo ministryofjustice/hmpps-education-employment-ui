@@ -2,6 +2,7 @@
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './ineligableToWorkController'
 import addressLookup from '../../addressLookup'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 describe('IneligableToWorkController', () => {
   const { req, res, next } = expressMocks()
@@ -32,7 +33,7 @@ describe('IneligableToWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`createProfile_${id}`] = { rightToWork: 'NO' }
+      setSessionData(req, ['createProfile', id], { rightToWork: 'NO' })
     })
 
     it('On error - Calls next with error', async () => {
@@ -58,7 +59,7 @@ describe('IneligableToWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       mockService.createProfile.mockReset()
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['createProfile', id], {})
     })
     it('On error - Calls next with error', async () => {
       mockService.createProfile.mockImplementation(() => {
@@ -77,7 +78,7 @@ describe('IneligableToWorkController', () => {
 
       expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
-      expect(req.session.data[`createProfile_${id}`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
     })
   })
 })

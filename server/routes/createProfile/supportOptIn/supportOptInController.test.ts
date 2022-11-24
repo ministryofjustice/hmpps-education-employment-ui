@@ -3,6 +3,7 @@ import Controller from './supportOptInController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -39,8 +40,8 @@ describe('SupportOptInController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`supportOptIn_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['supportOptIn', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -60,7 +61,7 @@ describe('SupportOptInController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { supportOptIn: YesNoValue.YES }
+      setSessionData(req, ['createProfile', id], { supportOptIn: YesNoValue.YES })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -84,8 +85,8 @@ describe('SupportOptInController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`supportOptIn_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['supportOptIn', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -115,8 +116,8 @@ describe('SupportOptInController', () => {
       controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportDeclinedReason(id, 'new'))
-      expect(req.session.data[`supportOptIn_${id}_data`]).toBeFalsy()
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ supportOptIn: YesNoValue.NO })
+      expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.NO })
     })
 
     it('On success - supportOptIn = YES and mode = new - Sets session record then redirects to alreadyInPlace', async () => {
@@ -125,8 +126,8 @@ describe('SupportOptInController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ supportOptIn: YesNoValue.YES })
-      expect(req.session.data[`supportOptIn_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.YES })
+      expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.alreadyInPlace(id, 'new'))
     })
 
@@ -136,8 +137,8 @@ describe('SupportOptInController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({ supportOptIn: YesNoValue.YES })
-      expect(req.session.data[`supportOptIn_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.YES })
+      expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

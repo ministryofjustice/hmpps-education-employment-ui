@@ -4,6 +4,7 @@ import Controller from './alreadyInPlaceController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -41,8 +42,8 @@ describe('SupportDeclinedReasonController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`alreadyInPlace_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['alreadyInPlace', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -62,7 +63,8 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { alreadyInPlace: AlreadyInPlaceValue.HOUSING }
+      setSessionData(req, ['createProfile', id], { alreadyInPlace: AlreadyInPlaceValue.HOUSING })
+
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -86,8 +88,8 @@ describe('SupportDeclinedReasonController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`alreadyInPlace_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['alreadyInPlace', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -119,10 +121,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         alreadyInPlace: AlreadyInPlaceValue.ID,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
     })
 
@@ -132,10 +134,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         alreadyInPlace: AlreadyInPlaceValue.ID,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'edit'))
     })
 
@@ -145,10 +147,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
     })
 
@@ -158,10 +160,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
-      expect(req.session.data[`alreadyInPlace_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })
