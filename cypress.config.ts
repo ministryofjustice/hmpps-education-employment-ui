@@ -2,9 +2,13 @@ import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
-import prisonerSearchService from './integration_tests/mockApis/prisonerSearchService'
+import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import esweProfileApi from './integration_tests/mockApis/esweProfileApi'
 import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
+import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
+import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
+import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
+import stubCohortListSortedByLastName from './integration_tests/mockData/cohortListSortedByLastNameData'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -25,9 +29,13 @@ export default defineConfig({
         reset: resetStubs,
         ...auth,
         ...tokenVerification,
-        ...prisonerSearchService,
+        ...prisonerSearchApi,
         ...esweProfileApi,
         ...nomisUserRolesApi,
+        ...stubCohortListByReleaseDate,
+        ...stubCohortListNameFilter,
+        ...stubCohortListNameNotExistFilter,
+        ...stubCohortListSortedByLastName,
       })
     },
     baseUrl: 'http://localhost:3007',

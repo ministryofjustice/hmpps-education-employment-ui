@@ -1,5 +1,6 @@
 export default {
   workProfile: (id: string, tab = 'overview') => `/work-profile/${id}/view/${tab}`,
+  cohortList: () => '/work-profile/cohort-list',
   createProfile: {
     checkAnswers: (id: string) => `/work-profile/create/${id}/check-answers`,
     ineligableToWork: (id: string, mode = 'new') => `/work-profile/create/${id}/ineligable-to-work/${mode}`,

@@ -20,33 +20,38 @@
                     {
                         id: 'allStatusFilter',
                         value: 'ALL',
-                        text: 'all',
-                        checked: 'true'
+                        text: 'All',
+                        checked: filterStatus === 'ALL'
                     },
                     {
                         id: 'notStartedStatusFilter',
                         value: 'NOT_STARTED',
-                        text: 'No started'
+                        text: 'Not started',
+                        checked: filterStatus === 'NOT_STARTED'
                     },
                     {
                         id: 'needsSupportStatusFilter',
                         value: 'SUPPORT_NEEDED',
-                        text: 'Needs support'
+                        text: 'Needs support',
+                        checked: filterStatus === 'SUPPORT_NEEDED'
                     },
                     {
                         id: 'readyToWorkStatusFilter',
                         value: 'READY_TO_WORK',
-                        text: 'Ready to work'
+                        text: 'Ready to work',
+                        checked: filterStatus === 'READY_TO_WORK'
                     },
                     {
                         id: 'doesNotWantSupportStatusFilter',
                         value: 'SUPPORT_DECLINED',
-                        text: 'Does not want to support'
+                        text: 'Does not want support',
+                        checked: filterStatus === 'SUPPORT_DECLINED'
                     },
                     {
                         id: 'noRightToWorkStatusFilter',
                         value: 'NO_RIGHT_TO_WORK',
-                        text: 'No right to work'
+                        text: 'No right to work',
+                        checked: filterStatus === 'NO_RIGHT_TO_WORK'
                     }
                 ]
             }) }}
@@ -56,7 +61,7 @@
         <div class="moj-search">
             <div class="govuk-form-group">
                 <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="search">
-                    Search by prisoner's name
+                        Search by prisoner's name
                 </label>
                 <input class="govuk-input moj-search__input "
                        id="searchTerm"
@@ -64,11 +69,11 @@
                        type="search"
                        value="{{ lastName }}"
                        aria-describedby="search-hint"
-                       maxlength="20">
+                       maxlength="20" />
             </div>
 
-            <button class="govuk-button moj-search__button " data-module="govuk-button">
-                Search
+            <button class="govuk-button moj-search__button " data-module="govuk-button" id="searchButton">
+                    Search
             </button>
         </div>
     </div>
