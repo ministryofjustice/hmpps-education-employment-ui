@@ -8,4 +8,6 @@ export default class IneligableToWorkPage extends Page {
   }
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

@@ -5,11 +5,11 @@
     <dt class="govuk-summary-list__key">
       Right to work
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="rightToWork">
       {{ contentLookup.fields.yesNo[record.rightToWork] }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}"  data-qa="rightToWorkLink">
         Change<span class="govuk-visually-hidden"> right to work</span>
       </a>
     </dd>
@@ -18,11 +18,11 @@
     <dt class="govuk-summary-list__key">
       Wants support to get work
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-qa="supportOptIn">
       {{ contentLookup.fields.yesNo[record.supportOptIn] }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}" data-qa="supportOptInLink">
         Change<span class="govuk-visually-hidden"> whether they want support</span>
       </a>
     </dd>
@@ -33,13 +33,13 @@
       <dt class="govuk-summary-list__key">
         Reasons for declining	support
       </dt>
-      <dd class="govuk-summary-list__value" data-test="supportDeclinedReason">
+      <dd class="govuk-summary-list__value" data-qa="supportDeclinedReason">
         {% for item in record.supportDeclinedReason %}
           <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' + record.supportDeclinedDetails if item === 'OTHER' }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'edit') }}" data-test="supportDeclinedReasonLink">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'edit') }}" data-qa="supportDeclinedReasonLink">
           Change<span class="govuk-visually-hidden"> their reasons for declining support</span>
         </a>
       </dd>
@@ -49,13 +49,13 @@
       <dt class="govuk-summary-list__key">
         Changes needed to	make them want support
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd class="govuk-summary-list__value" data-qa="whatNeedsToChange">
         {% for item in record.whatNeedsToChange %}
           <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' + record.whatNeedsToChangeDetails if item === 'OTHER' }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'edit') }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'edit') }}" data-qa="whatNeedsToChangeLink">
           Change<span class="govuk-visually-hidden"> things needed for them to want support</span>
         </a>
       </dd>

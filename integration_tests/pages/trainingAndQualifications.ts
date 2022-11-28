@@ -11,7 +11,7 @@ export default class TrainingAndQualificationsPage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#trainingAndQualifications')
+  textareaField = (): PageElement => cy.get('#trainingAndQualificationsDetails')
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
 
@@ -22,4 +22,6 @@ export default class TrainingAndQualificationsPage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#trainingAndQualificationsDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#trainingAndQualificationsDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

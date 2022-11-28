@@ -22,4 +22,6 @@ export default class SupportDeclinedReasonPage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#supportDeclinedDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#supportDeclinedDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

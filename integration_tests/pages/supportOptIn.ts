@@ -18,4 +18,6 @@ export default class RightToWorkPage extends Page {
   pageErrorMessage = (): PageElement => cy.get('[href="#supportOptIn"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#supportOptIn-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

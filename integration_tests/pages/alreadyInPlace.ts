@@ -18,4 +18,6 @@ export default class AlreadyInPlacePage extends Page {
   pageErrorMessage = (): PageElement => cy.get('[href="#alreadyInPlace"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#alreadyInPlace-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }
