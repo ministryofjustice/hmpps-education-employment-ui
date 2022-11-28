@@ -5,13 +5,13 @@
     <dt class="govuk-summary-list__key">
       Potential affect on ability to work
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="abilityToWork">
       {% for item in record.abilityToWork %}
         <div>{{ contentLookup.fields.abilityToWork[item] }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.abilityToWork(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.abilityToWork(id, 'edit') }}" data-test="abilityToWorkLink">
         Change<span class="govuk-visually-hidden"> </span>
       </a>
     </dd>
@@ -22,11 +22,11 @@
       <dt class="govuk-summary-list__key">
         Drug or alcohol dependency
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd class="govuk-summary-list__value" data-test="manageDrugsAndAlcohol">
         {{ contentLookup.fields.manageDrugsAndAlcohol[record.manageDrugsAndAlcohol] if record.manageDrugsAndAlcohol }}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit') + '?from=' + originalUrl }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit') + '?from=' + originalUrl }}" data-test="manageDrugsAndAlcoholLink">
           Change<span class="govuk-visually-hidden"> </span>
         </a>
       </dd>

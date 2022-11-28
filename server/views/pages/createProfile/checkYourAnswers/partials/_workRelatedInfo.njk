@@ -5,13 +5,13 @@
     <dt class="govuk-summary-list__key">
       Work types of interest
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="typeOfWork">
       {% for item in record.typeOfWork %}
         <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' + record.typeOfWorkDetails if item === 'OTHER' }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.typeOfWork(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.typeOfWork(id, 'edit') }}" data-test="typeOfWorkLink">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -20,11 +20,11 @@
     <dt class="govuk-summary-list__key">
       Particular job of interest
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="jobOfParticularInterest">
       {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}{{ ' - ' + record.jobOfParticularInterestDetails if record.jobOfParticularInterest === 'YES' }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'edit') }}" data-test="jobOfParticularInterestLink">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -33,11 +33,11 @@
     <dt class="govuk-summary-list__key">
       Work or volunteering experience
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="workExperience">
       {{ contentLookup.fields.yesNo[record.workExperience] }}{{ ' - ' + record.workExperienceDetails if record.workExperience === 'YES' }}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.workExperience(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.workExperience(id, 'edit') }}" data-test="workExperienceLink">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>
@@ -46,13 +46,13 @@
     <dt class="govuk-summary-list__key">
       Qualifications and training
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="trainingAndQualifications">
       {% for item in record.trainingAndQualifications %}
         <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' + record.trainingAndQualificationsDetails if item === 'OTHER' }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.trainingAndQualifications(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.trainingAndQualifications(id, 'edit') }}" data-test="trainingAndQualificationsLink">
         Change<span class="govuk-visually-hidden"></span>
       </a>
     </dd>

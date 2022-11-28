@@ -5,13 +5,13 @@
     <dt class="govuk-summary-list__key">
       Has already got
     </dt>
-    <dd class="govuk-summary-list__value">
+    <dd class="govuk-summary-list__value" data-test="alreadyInPlace">
       {% for item in record.alreadyInPlace %}
         <div>{{ contentLookup.fields.alreadyInPlace[item] }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.alreadyInPlace(id, 'edit') }}">
+      <a class="govuk-link" href="{{ addressLookup.createProfile.alreadyInPlace(id, 'edit') }}" data-test="alreadyInPlaceLink">
         Change<span class="govuk-visually-hidden"> things they have in place already</span>
       </a>
     </dd>
@@ -22,13 +22,13 @@
       <dt class="govuk-summary-list__key">
         Type of ID
       </dt>
-      <dd class="govuk-summary-list__value">
+      <dd class="govuk-summary-list__value" data-test="identification">
         {% for item in record.identification %}
           <div>{{ contentLookup.fields.identification[item] }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') + '?from=' + originalUrl }}">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') + '?from=' + originalUrl }}" data-test="identificationLink">
           Change<span class="govuk-visually-hidden"> type of ID they have</span>
         </a>
       </dd>
