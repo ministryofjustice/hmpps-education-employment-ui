@@ -38,8 +38,9 @@ export default class SupportOptInController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
     const { supportOptIn } = req.body
+    let { mode } = req.params
 
     try {
       // If validation errors render errors
@@ -55,10 +56,18 @@ export default class SupportOptInController {
 
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
-      setSessionData(req, ['createProfile', id], {
-        ...record,
-        supportOptIn,
-      })
+      if (record.supportOptIn && record.supportOptIn !== supportOptIn) {
+        setSessionData(req, ['createProfile', id], {
+          rightToWork: YesNoValue.YES,
+          supportOptIn,
+        })
+        mode = 'new'
+      } else {
+        setSessionData(req, ['createProfile', id], {
+          ...record,
+          supportOptIn,
+        })
+      }
       deleteSessionData(req, ['supportOptIn', id, 'data'])
 
       // If NO redirect to ineligable-to-work

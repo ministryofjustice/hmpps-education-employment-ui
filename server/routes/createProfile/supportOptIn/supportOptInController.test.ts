@@ -141,5 +141,20 @@ describe('SupportOptInController', () => {
       expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
+
+    it('On success - supportOptIn changed and mode = edit - Sets session record then redirects to checkAnswers in new mode', async () => {
+      setSessionData(req, ['createProfile', id], { supportOptIn: YesNoValue.YES })
+      req.body.supportOptIn = YesNoValue.NO
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
+        rightToWork: YesNoValue.YES,
+        supportOptIn: YesNoValue.NO,
+      })
+      expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportDeclinedReason(id, 'new'))
+    })
   })
 })
