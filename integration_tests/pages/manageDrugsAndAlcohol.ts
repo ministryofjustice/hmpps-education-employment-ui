@@ -7,9 +7,9 @@ export default class ManageDrugsAndAlcoholPage extends Page {
     super('Is Daniel Craig currently able to manage their drug or alcohol dependency?')
   }
 
-  checkboxField = (): PageElement => cy.get('#manageDrugsAndAlcohol')
+  radioField = (): PageElement => cy.get('#manageDrugsAndAlcohol')
 
-  checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
   textareaField = (): PageElement => cy.get('#manageDrugsAndAlcohol')
 
@@ -18,4 +18,6 @@ export default class ManageDrugsAndAlcoholPage extends Page {
   pageErrorMessage = (): PageElement => cy.get('[href="#manageDrugsAndAlcohol"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#manageDrugsAndAlcohol-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

@@ -5,6 +5,7 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -42,8 +43,8 @@ describe('SupportDeclinedReasonController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`abilityToWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['abilityToWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -63,7 +64,7 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT }
+      setSessionData(req, ['createProfile', id], { abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -77,10 +78,10 @@ describe('SupportDeclinedReasonController', () => {
     })
 
     it('On success - Record found from identification - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = {
+      setSessionData(req, ['createProfile', id], {
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
         alreadyInPlace: AlreadyInPlaceValue.ID,
-      }
+      })
       req.params.mode = 'new'
 
       controller.get(req, res, next)
@@ -104,8 +105,8 @@ describe('SupportDeclinedReasonController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`abilityToWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['abilityToWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -137,10 +138,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
-      expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'new'))
     })
 
@@ -150,10 +151,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
-      expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit'))
     })
 
@@ -163,10 +164,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
-      expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
     })
 
@@ -176,10 +177,10 @@ describe('SupportDeclinedReasonController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
-      expect(req.session.data[`abilityToWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

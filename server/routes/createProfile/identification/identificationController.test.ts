@@ -4,6 +4,7 @@ import Controller from './identificationController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import IdentificationValue from '../../../enums/identificationValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -41,8 +42,9 @@ describe('IdentificationController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`identification_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['identification', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
+      req.query.from = ''
     })
 
     it('On error - Calls next with error', async () => {
@@ -62,7 +64,8 @@ describe('IdentificationController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { identification: IdentificationValue.PASSPORT }
+      setSessionData(req, ['createProfile', id], { identification: IdentificationValue.PASSPORT })
+      req.query.from = '/work-profile/create/mock_ref/check-answers'
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -86,8 +89,8 @@ describe('IdentificationController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`identification_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['identification', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -119,10 +122,10 @@ describe('IdentificationController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         identification: IdentificationValue.PASSPORT,
       })
-      expect(req.session.data[`identification_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
     })
 
@@ -132,10 +135,10 @@ describe('IdentificationController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         identification: IdentificationValue.PASSPORT,
       })
-      expect(req.session.data[`identification_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

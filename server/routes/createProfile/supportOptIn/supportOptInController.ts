@@ -4,6 +4,7 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 
 export default class SupportOptInController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -12,7 +13,7 @@ export default class SupportOptInController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
@@ -28,7 +29,7 @@ export default class SupportOptInController {
       }
 
       // Store page data for use if validation fails
-      req.session.data[`supportOptIn_${id}_data`] = data
+      setSessionData(req, ['supportOptIn', id, 'data'], data)
 
       res.render('pages/createProfile/supportOptIn/index', { ...data })
     } catch (err) {
@@ -37,12 +38,13 @@ export default class SupportOptInController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, mode } = req.params
+    const { id } = req.params
     const { supportOptIn } = req.body
+    let { mode } = req.params
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`supportOptIn_${id}_data`]
+      const data = getSessionData(req, ['supportOptIn', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createProfile/supportOptIn/index', {
@@ -53,15 +55,23 @@ export default class SupportOptInController {
       }
 
       // Update record in sessionData and tidy
-      const record = req.session.data[`createProfile_${id}`]
-      req.session.data[`createProfile_${id}`] = {
-        ...record,
-        supportOptIn,
+      const record = getSessionData(req, ['createProfile', id])
+      if (record.supportOptIn && record.supportOptIn !== supportOptIn) {
+        setSessionData(req, ['createProfile', id], {
+          rightToWork: YesNoValue.YES,
+          supportOptIn,
+        })
+        mode = 'new'
+      } else {
+        setSessionData(req, ['createProfile', id], {
+          ...record,
+          supportOptIn,
+        })
       }
-      delete req.session.data[`supportOptIn_${id}_data`]
+      deleteSessionData(req, ['supportOptIn', id, 'data'])
 
       // If NO redirect to ineligable-to-work
-      if (supportOptIn === YesNoValue.No) {
+      if (supportOptIn === YesNoValue.NO) {
         res.redirect(addressLookup.createProfile.supportDeclinedReason(id, mode))
         return
       }

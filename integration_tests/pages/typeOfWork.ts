@@ -11,7 +11,7 @@ export default class TypeOfWorkPage extends Page {
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#typeOfWork')
+  textareaField = (): PageElement => cy.get('#typeOfWorkDetails')
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
 
@@ -22,4 +22,6 @@ export default class TypeOfWorkPage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#typeOfWorkDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#typeOfWorkDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

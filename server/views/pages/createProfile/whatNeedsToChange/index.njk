@@ -62,27 +62,27 @@
             items: [
               {
                 value: "HOUSING_ON_RELEASE",
-                text: "Housing in place",
+                text: contentLookup.fields.whatNeedsToChange["HOUSING_ON_RELEASE"],
                 checked: whatNeedsToChange.indexOf("HOUSING_ON_RELEASE") > -1
               },
               {
                 value: "ID_ON_RELEASE",
-                text: "ID in place",
+                text: contentLookup.fields.whatNeedsToChange["ID_ON_RELEASE"],
                 checked: whatNeedsToChange.indexOf("ID_ON_RELEASE") > -1
               },
               {
                 value: "DEPENDENCY_SUPPORT",
-                text: "Support to manage a drug or alcohol dependency",
+                text: contentLookup.fields.whatNeedsToChange["DEPENDENCY_SUPPORT"],
                 checked: whatNeedsToChange.indexOf("DEPENDENCY_SUPPORT") > -1
               },
               {
                 value: "MENTAL_HEALTH_SUPPORT",
-                text: "Support to manage a mental health condition or diagnoses",
+                text: contentLookup.fields.whatNeedsToChange["MENTAL_HEALTH_SUPPORT"],
                 checked: whatNeedsToChange.indexOf("MENTAL_HEALTH_SUPPORT") > -1
               },
               {
                 value: "OTHER",
-                text: "Other",
+                text: contentLookup.fields.whatNeedsToChange["OTHER"],
                 checked: whatNeedsToChange.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml

@@ -3,6 +3,7 @@ import Controller from './manageDrugsAndAlcoholController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -39,8 +40,9 @@ describe('ManageDrugsAndAlcoholController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`manageDrugsAndAlcohol_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['manageDrugsAndAlcohol', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
+      req.query.from = ''
     })
 
     it('On error - Calls next with error', async () => {
@@ -60,13 +62,15 @@ describe('ManageDrugsAndAlcoholController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE }
-      req.params.mode = 'new'
+      setSessionData(req, ['createProfile', id], { manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE })
+      req.query.from = '/work-profile/create/mock_ref/check-answers'
+      req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/manageDrugsAndAlcohol/index', {
         ...mockData,
+        backLocation: addressLookup.createProfile.checkAnswers(id),
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -83,8 +87,8 @@ describe('ManageDrugsAndAlcoholController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`manageDrugsAndAlcohol_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['manageDrugsAndAlcohol', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -116,10 +120,10 @@ describe('ManageDrugsAndAlcoholController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
-      expect(req.session.data[`manageDrugsAndAlcohol_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['manageDrugsAndAlcohol', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
     })
 
@@ -129,10 +133,10 @@ describe('ManageDrugsAndAlcoholController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
-      expect(req.session.data[`manageDrugsAndAlcohol_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['manageDrugsAndAlcohol', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

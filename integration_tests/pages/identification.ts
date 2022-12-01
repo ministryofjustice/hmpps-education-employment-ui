@@ -18,4 +18,6 @@ export default class IdentificationPage extends Page {
   pageErrorMessage = (): PageElement => cy.get('[href="#identification"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#identification-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

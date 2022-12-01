@@ -45,7 +45,7 @@ context('SignIn', () => {
   it('New record - Select ABLE_TO_MANAGE - navigates to type-of-work page', () => {
     const manageDrugsAndAlcoholPage = Page.verifyOnPage(ManageDrugsAndAlcoholPage)
 
-    manageDrugsAndAlcoholPage.checkboxFieldValue('ABLE_TO_MANAGE').click()
+    manageDrugsAndAlcoholPage.radioFieldValue('ABLE_TO_MANAGE').click()
     manageDrugsAndAlcoholPage.submitButton().click()
 
     cy.url().should('include', 'type-of-work/new')
@@ -56,7 +56,7 @@ context('SignIn', () => {
 
     const manageDrugsAndAlcoholPage = Page.verifyOnPage(ManageDrugsAndAlcoholPage)
 
-    manageDrugsAndAlcoholPage.checkboxFieldValue('ABLE_TO_MANAGE').click()
+    manageDrugsAndAlcoholPage.radioFieldValue('ABLE_TO_MANAGE').click()
     manageDrugsAndAlcoholPage.submitButton().click()
 
     cy.url().should('include', 'check-answers')

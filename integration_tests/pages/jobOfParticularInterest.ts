@@ -11,7 +11,7 @@ export default class JobOfParticularInterestPage extends Page {
 
   radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#jobOfParticularInterest')
+  textareaField = (): PageElement => cy.get('#jobOfParticularInterestDetails')
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
 
@@ -22,4 +22,6 @@ export default class JobOfParticularInterestPage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#jobOfParticularInterestDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#jobOfParticularInterestDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

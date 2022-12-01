@@ -48,17 +48,17 @@
               {
                 value: "BIRTH_CERTIFICATE",
                 checked: identification.indexOf("BIRTH_CERTIFICATE") > -1,
-                text: "Birth certificate"
+                text: contentLookup.fields.identification["BIRTH_CERTIFICATE"]
               },
               { 
                 value: "DRIVING_LICENCE",
                 checked: identification.indexOf("DRIVING_LICENCE") > -1,
-                text: "Driving licence"
+                text: contentLookup.fields.identification["DRIVING_LICENCE"]
               },
               { 
                 value: "PASSPORT",
                 checked: identification.indexOf("PASSPORT") > -1,
-                text: "Passport"
+                text: contentLookup.fields.identification["PASSPORT"]
               }
             ],
              errorMessage: errors.identification

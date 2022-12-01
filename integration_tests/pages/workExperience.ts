@@ -11,7 +11,7 @@ export default class EWorkExperiencePage extends Page {
 
   radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
 
-  textareaField = (): PageElement => cy.get('#workExperience')
+  textareaField = (): PageElement => cy.get('#workExperienceDetails')
 
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
 
@@ -22,4 +22,6 @@ export default class EWorkExperiencePage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#workExperienceDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#workExperienceDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

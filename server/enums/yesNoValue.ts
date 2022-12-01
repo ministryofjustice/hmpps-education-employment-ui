@@ -1,6 +1,6 @@
 enum YesNoValue {
-  Yes = 'YES',
-  No = 'NO',
+  YES = 'YES',
+  NO = 'NO',
 }
 
 export default YesNoValue

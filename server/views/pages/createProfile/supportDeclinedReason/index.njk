@@ -62,52 +62,52 @@
             items: [
               {
                 value: "LIMIT_THEIR_ABILITY",
-                text: "Feels type of offence will limit their ability to find work",
+                text: contentLookup.fields.supportDeclinedReason["LIMIT_THEIR_ABILITY"],
                 checked: supportDeclinedReason.indexOf("LIMIT_THEIR_ABILITY") > -1
               },
               {
                 value: "CARING_RESPONSIBILITIES",
-                text: "Has full-time caring responsibilities",
+                text: contentLookup.fields.supportDeclinedReason["CARING_RESPONSIBILITIES"],
                 checked: supportDeclinedReason.indexOf("CARING_RESPONSIBILITIES") > -1
               },
               {
                 value: "LACKS_CONFIDENCE",
-                text: "Lacks confidence in their ability to find work",
+                text: contentLookup.fields.supportDeclinedReason["LACKS_CONFIDENCE"],
                 checked: supportDeclinedReason.indexOf("LACKS_CONFIDENCE") > -1
               },
               {
                 value: "LACKS_MOTIVATION",
-                text: "Lacks motivation to find work",
+                text: contentLookup.fields.supportDeclinedReason["LACKS_MOTIVATION"],
                 checked: supportDeclinedReason.indexOf("LACKS_MOTIVATION") > -1
               },
               {
-                value: "HEALTH_CONDITION",
-                text: "Not able to work due to a health condition",
-                checked: supportDeclinedReason.indexOf("HEALTH_CONDITION") > -1
+                value: "HEALTH",
+                text: contentLookup.fields.supportDeclinedReason["HEALTH"],
+                checked: supportDeclinedReason.indexOf("HEALTH") > -1
               },
               {
                 value: "NO_REASON",
-                text: "Refused support with no reason",
+                text: contentLookup.fields.supportDeclinedReason["NO_REASON"],
                 checked: supportDeclinedReason.indexOf("NO_REASON") > -1
               },
               {
                 value: "RETIRED",
-                text: "Retired",
+                text: contentLookup.fields.supportDeclinedReason["RETIRED"],
                 checked: supportDeclinedReason.indexOf("RETIRED") > -1
               },
               {
-                value: "RETURNING_TO_WORK",
-                text: "Returning to work they had before prison",
-                checked: supportDeclinedReason.indexOf("RETURNING_TO_WORK") > -1
+                value: "RETURNING_TO_JOB",
+                text: contentLookup.fields.supportDeclinedReason["RETURNING_TO_JOB"],
+                checked: supportDeclinedReason.indexOf("RETURNING_TO_JOB") > -1
               },
               {
                 value: "SELF_EMPLOYED",
-                text: "Self-employed",
+                text: contentLookup.fields.supportDeclinedReason["SELF_EMPLOYED"],
                 checked: supportDeclinedReason.indexOf("SELF_EMPLOYED") > -1
               },
               {
                 value: "OTHER",
-                text: "Other",
+                text: contentLookup.fields.supportDeclinedReason["OTHER"],
                 checked: supportDeclinedReason.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml

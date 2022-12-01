@@ -8,7 +8,7 @@
         headerText - Display text for table header
     ------------------------------------------------------------- #}
 {% macro sortableTableHeader(config) %}
-    <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-test="{ config.fieldName }}-column-header">
+    <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-qa="{ config.fieldName }}-column-header">
         <button type="submit" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}">{{ config.headerText }}</button>
     </th>
 {% endmacro %}

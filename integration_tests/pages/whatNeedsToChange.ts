@@ -22,4 +22,6 @@ export default class WhatNeedsToChangePage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#whatNeedsToChangeDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#whatNeedsToChangeDetails-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

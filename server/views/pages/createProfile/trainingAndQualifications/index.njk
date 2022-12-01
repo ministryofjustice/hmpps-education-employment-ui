@@ -63,7 +63,7 @@
               {
                 value: "ADVANCED_EDUCATION",
                 checked: trainingAndQualifications.indexOf("ADVANCED_EDUCATION") > -1,
-                text: "Advanced school level qualification",
+                text: contentLookup.fields.trainingAndQualifications["ADVANCED_EDUCATION"],
                 hint: {
                   text: "including things like A Levels, BTECs, and the International Baccalaureate Diploma"
                 }
@@ -71,37 +71,37 @@
               {
                 value: "CSCS",
                 checked: trainingAndQualifications.indexOf("CSCS") > -1,
-                text: "CSCS card"
+                text: contentLookup.fields.trainingAndQualifications["CSCS"]
               },
               {
                 value: "DRIVING_LICENSE",
                 checked: trainingAndQualifications.indexOf("DRIVING_LICENSE") > -1,
-                text: "UK driving licence"
+                text: contentLookup.fields.trainingAndQualifications["DRIVING_LICENSE"]
               },
               {
                 value: "FIRST_AID",
                 checked: trainingAndQualifications.indexOf("FIRST_AID") > -1,
-                text: "First aid certificate"
+                text: contentLookup.fields.trainingAndQualifications["FIRST_AID"]
               },
               {
                 value: "FOOD_HYGIENE",
                 checked: trainingAndQualifications.indexOf("FOOD_HYGIENE") > -1,
-                text: "Food hygiene certificate"
+                text: contentLookup.fields.trainingAndQualifications["FOOD_HYGIENE"]
               },
               {
                 value: "HEALTH_AND_SAFETY",
                 checked: trainingAndQualifications.indexOf("HEALTH_AND_SAFETY") > -1,
-                text: "Health and safety"
+                text: contentLookup.fields.trainingAndQualifications["HEALTH_AND_SAFETY"]
               },
               {
                 value: "HGV_LICENSE",
                 checked: trainingAndQualifications.indexOf("HGV_LICENSE") > -1,
-                text: "HGV licence"
+                text:contentLookup.fields.trainingAndQualifications["HGV_LICENSE"]
               },
               {
                 value: "HIGHER_EDUCATION",
                 checked: trainingAndQualifications.indexOf("HIGHER_EDUCATION") > -1,
-                text: "Higher education qualification",
+                text: contentLookup.fields.trainingAndQualifications["HIGHER_EDUCATION"],
                 hint: {
                   text: "including things like university foundation, bachelor and postgraduate degrees"
                 }
@@ -109,7 +109,7 @@
               {
                 value: "MACHINERY",
                 checked: trainingAndQualifications.indexOf("MACHINERY") > -1,
-                text: "Machinery tickets",
+                text: contentLookup.fields.trainingAndQualifications["MACHINERY"],
                 hint: {
                   text: "including things like forklift, digger and dumper"
                 }
@@ -117,12 +117,12 @@
               {
                 value: "MANUAL",
                 checked: trainingAndQualifications.indexOf("MANUAL") > -1,
-                text: "Manual handling"
+                text: contentLookup.fields.trainingAndQualifications["MANUAL"]
               },
               {
                 value: "TRADE",
                 checked: trainingAndQualifications.indexOf("TRADE") > -1,
-                text: "Trade course",
+                text: contentLookup.fields.trainingAndQualifications["TRADE"],
                 hint: {
                   text: "including things like bricklaying, painting and decorating and carpentry"
                 }
@@ -130,7 +130,7 @@
               {
                 value: "SCHOOL_EDUCATION",
                 checked: trainingAndQualifications.indexOf("SCHOOL_EDUCATION") > -1,
-                text: "School level qualification",
+                text: contentLookup.fields.trainingAndQualifications["SCHOOL_EDUCATION"],
                 hint: {
                   text: "including things like GCSEs"
                 }
@@ -138,7 +138,7 @@
               {
                 value: "OTHER",
                 checked: trainingAndQualifications.indexOf("OTHER") > -1,
-                text: "Other",
+                text: contentLookup.fields.trainingAndQualifications["OTHER"],
                 conditional: {
                   html: otherHtml
                 }
@@ -148,7 +148,7 @@
               },
               {
                 value: "NONE",
-                text: "None of these",
+                text:contentLookup.fields.trainingAndQualifications["NONE"],
                 checked: trainingAndQualifications.indexOf("NONE") > -1,
                 behaviour: "exclusive"
               }

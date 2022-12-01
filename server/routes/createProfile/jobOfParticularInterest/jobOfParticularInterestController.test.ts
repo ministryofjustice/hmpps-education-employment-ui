@@ -3,6 +3,7 @@ import Controller from './jobOfParticularInterestController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -39,8 +40,8 @@ describe('JobOfParticularInterestController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`jobOfParticularInterest_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['jobOfParticularInterest', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -60,14 +61,14 @@ describe('JobOfParticularInterestController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { jobOfParticularInterest: YesNoValue.Yes }
+      setSessionData(req, ['createProfile', id], { jobOfParticularInterest: YesNoValue.YES })
       req.params.mode = 'new'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/createProfile/jobOfParticularInterest/index', {
         ...mockData,
-        jobOfParticularInterest: YesNoValue.Yes,
+        jobOfParticularInterest: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -83,8 +84,8 @@ describe('JobOfParticularInterestController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`jobOfParticularInterest_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['jobOfParticularInterest', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -111,28 +112,28 @@ describe('JobOfParticularInterestController', () => {
     })
 
     it('On success - Sets session record then redirects to workExperience', async () => {
-      req.body.jobOfParticularInterest = YesNoValue.Yes
+      req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'new'
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
-        jobOfParticularInterest: YesNoValue.Yes,
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
+        jobOfParticularInterest: YesNoValue.YES,
       })
-      expect(req.session.data[`jobOfParticularInterest_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['jobOfParticularInterest', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.workExperience(id, 'new'))
     })
 
     it('On success - Sets session record then redirects to checkAnswers', async () => {
-      req.body.jobOfParticularInterest = YesNoValue.Yes
+      req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'edit'
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
-        jobOfParticularInterest: YesNoValue.Yes,
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
+        jobOfParticularInterest: YesNoValue.YES,
       })
-      expect(req.session.data[`jobOfParticularInterest_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['jobOfParticularInterest', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })

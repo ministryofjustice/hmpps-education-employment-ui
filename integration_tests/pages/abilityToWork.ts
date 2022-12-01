@@ -18,4 +18,6 @@ export default class abilityToWorkPage extends Page {
   pageErrorMessage = (): PageElement => cy.get('[href="#abilityToWork"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#abilityToWork-error')
+
+  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

@@ -4,6 +4,7 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 
 export default class AlreadyInPlaceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -12,7 +13,7 @@ export default class AlreadyInPlaceController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
@@ -28,7 +29,7 @@ export default class AlreadyInPlaceController {
       }
 
       // Store page data for use if validation fails
-      req.session.data[`alreadyInPlace_${id}_data`] = data
+      setSessionData(req, ['alreadyInPlace', id, 'data'], data)
 
       res.render('pages/createProfile/alreadyInPlace/index', { ...data })
     } catch (err) {
@@ -42,7 +43,7 @@ export default class AlreadyInPlaceController {
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`alreadyInPlace_${id}_data`]
+      const data = getSessionData(req, ['alreadyInPlace', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createProfile/alreadyInPlace/index', {
@@ -54,12 +55,12 @@ export default class AlreadyInPlaceController {
       }
 
       // Update record in sessionData and tidy
-      const record = req.session.data[`createProfile_${id}`]
-      req.session.data[`createProfile_${id}`] = {
+      const record = getSessionData(req, ['createProfile', id])
+      setSessionData(req, ['createProfile', id], {
         ...record,
         alreadyInPlace,
-      }
-      delete req.session.data[`alreadyInPlace_${id}_data`]
+      })
+      deleteSessionData(req, ['alreadyInPlace', id, 'data'])
 
       if (alreadyInPlace.includes(AlreadyInPlaceValue.ID)) {
         res.redirect(addressLookup.createProfile.identification(id, mode))

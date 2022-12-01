@@ -3,6 +3,8 @@ import type { RequestHandler } from 'express'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class IdentificationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -11,23 +13,25 @@ export default class IdentificationController {
 
     try {
       // If no record return to rightToWork
-      const record = req.session.data[`createProfile_${id}`]
+      const record = getSessionData(req, ['createProfile', id])
       if (!record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.alreadyInPlace(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: addressLookup.createProfile.alreadyInPlace(id, mode),
+          page: 'identification',
+          uid: id,
+        }),
         prisoner,
         identification: record.identification || [],
       }
 
       // Store page data for use if validation fails
-      req.session.data[`identification_${id}_data`] = data
+      setSessionData(req, ['identification', id, 'data'], data)
 
       res.render('pages/createProfile/identification/index', { ...data })
     } catch (err) {
@@ -41,7 +45,7 @@ export default class IdentificationController {
 
     try {
       // If validation errors render errors
-      const data = req.session.data[`identification_${id}_data`]
+      const data = getSessionData(req, ['identification', id, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
       if (errors) {
         res.render('pages/createProfile/identification/index', {
@@ -53,12 +57,12 @@ export default class IdentificationController {
       }
 
       // Update record in sessionData and tidy
-      const record = req.session.data[`createProfile_${id}`]
-      req.session.data[`createProfile_${id}`] = {
+      const record = getSessionData(req, ['createProfile', id])
+      setSessionData(req, ['createProfile', id], {
         ...record,
         identification,
-      }
-      delete req.session.data[`identification_${id}_data`]
+      })
+      deleteSessionData(req, ['identification', id, 'data'])
 
       // Redirect to the correct page based on mode
       res.redirect(

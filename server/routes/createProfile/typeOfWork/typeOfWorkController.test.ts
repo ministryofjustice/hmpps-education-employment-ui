@@ -4,6 +4,7 @@ import Controller from './typeOfWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
+import { getSessionData, setSessionData } from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -41,8 +42,8 @@ describe('TypeOfWorkController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      req.session.data[`typeOfWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['typeOfWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -62,7 +63,7 @@ describe('TypeOfWorkController', () => {
     })
 
     it('On success - Record found - Calls render with the correct data', async () => {
-      req.session.data[`createProfile_${id}`] = { typeOfWork: TypeOfWorkValue.OTHER }
+      setSessionData(req, ['createProfile', id], { typeOfWork: TypeOfWorkValue.OTHER })
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
@@ -86,8 +87,8 @@ describe('TypeOfWorkController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      req.session.data[`typeOfWork_${id}_data`] = mockData
-      req.session.data[`createProfile_${id}`] = {}
+      setSessionData(req, ['typeOfWork', id, 'data'], mockData)
+      setSessionData(req, ['createProfile', id], {})
     })
 
     it('On error - Calls next with error', async () => {
@@ -119,10 +120,10 @@ describe('TypeOfWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         typeOfWork: TypeOfWorkValue.OTHER,
       })
-      expect(req.session.data[`typeOfWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.jobOfParticularInterest(id, 'new'))
     })
 
@@ -132,10 +133,10 @@ describe('TypeOfWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(req.session.data[`createProfile_${id}`]).toEqual({
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
         typeOfWork: TypeOfWorkValue.OTHER,
       })
-      expect(req.session.data[`typeOfWork_${id}_data`]).toBeFalsy()
+      expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
   })
