@@ -115,12 +115,12 @@ export default class PrisonerSearchClient {
 
     /* Combine offender data with their education profile where necessary */
     const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
-    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfileProfileData(
+    const offenderProfiles: any = await new PrisonerProfileClient(this.newToken).getPrisonerProfilesByIds(
       filteredOffenderNumbers,
     )
 
     let matchingProfiles: PrisonerSearchResult[] = offenders.content?.map((p: any) => {
-      const offenderWithProfile = offenderProfiles.content?.find((op: any) => op.offenderId === p.prisonerNumber)
+      const offenderWithProfile = offenderProfiles?.find((op: any) => op.offenderId === p.prisonerNumber)
       const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
       return {
         ...p,
