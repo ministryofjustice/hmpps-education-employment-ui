@@ -8,9 +8,14 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 export default class NewStatusController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
+      if (!profile) {
+        res.redirect(addressLookup.workProfile(id))
+        return
+      }
+
       // Get record in sessionData
       const record = getSessionData(req, ['changeStatus', id], {})
 
@@ -32,6 +37,7 @@ export default class NewStatusController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { newStatus } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
