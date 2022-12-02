@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export function getTestCohortSupportNeeded() {
   return {
     content: [
@@ -40,22 +41,3 @@ export function getTestCohortSupportNeeded() {
     ],
   }
 }
-
-export default { getTestCohortSupportNeeded }
-
-// const stubCohortListSupportNeeded = () =>
-//   stubFor({
-//     request: {
-//       method: 'POST',
-//       url: '/prisoner-search/release-date-by-prison?status=SUPPORT_NEEDED&searchTerm=&page=0&size=2000',
-//     },
-//     response: {
-//       status: 200,
-//       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-//       jsonBody: {
-//         ...getTestCohortSupportNeeded,
-//       },
-//     },
-//   })
-//
-// export default stubCohortListSupportNeeded
