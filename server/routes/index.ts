@@ -3,6 +3,7 @@ import type { Services } from '../services'
 import workProfileRoutes from './workProfile'
 import cohortListRoutes from './cohortList'
 import createProfileRoutes from './createProfile'
+import changeStatusRoutes from './changeStatus'
 
 export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
@@ -14,6 +15,7 @@ export default function routes(services: Services): Router {
   workProfileRoutes(router, services)
   cohortListRoutes(router, services)
   createProfileRoutes(router, services)
+  changeStatusRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 

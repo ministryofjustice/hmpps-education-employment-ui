@@ -7,6 +7,7 @@ import trainingAndQualifications from './trainingAndQualifications'
 import typeOfWork from './typeOfWork'
 import whatNeedsToChange from './whatNeedsToChange'
 import yesNo from './yesNo'
+import newStatus from './newStatus'
 
 export default {
   fields: {
@@ -19,5 +20,6 @@ export default {
     typeOfWork,
     whatNeedsToChange,
     yesNo,
+    newStatus,
   },
 }
