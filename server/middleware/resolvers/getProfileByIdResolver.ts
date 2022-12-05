@@ -1,10 +1,11 @@
 import type { RequestHandler } from 'express'
+import { UserService } from '../../services'
 
 import PrisonerProfileService from '../../services/prisonerProfileService'
 
 // Gets profile based on id parameter and puts it into request context
 const getProfileByIdResolver =
-  (prisonerProfileService: PrisonerProfileService): RequestHandler =>
+  (prisonerProfileService: PrisonerProfileService, userService: UserService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { user } = res.locals
@@ -12,6 +13,11 @@ const getProfileByIdResolver =
     try {
       const profile = await prisonerProfileService.getProfileById(user.token, id)
       req.context.profile = profile
+
+      if (profile.modifiedBy) {
+        const modifiedByUser = await userService.getUserByUsername(user.token, profile.modifiedBy)
+        req.context.profile.modifiedBy = modifiedByUser.name
+      }
 
       next()
     } catch (err) {

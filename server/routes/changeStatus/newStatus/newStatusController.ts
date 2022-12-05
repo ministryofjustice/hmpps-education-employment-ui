@@ -37,7 +37,7 @@ export default class NewStatusController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { newStatus } = req.body
-    const { profile } = req.context
+    // const { profile } = req.context
 
     try {
       // If validation errors render errors

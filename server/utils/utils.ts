@@ -102,6 +102,13 @@ export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
   return format(date, 'dd MMM yyyy')
 }
 
+export function formatDateStringTodMMMM(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
+  const date = new Date(params.value)
+
+  return format(date, 'd MMMM')
+}
+
 export function lookUpProfileStatus(status: any) {
   return status.replaceAll('_', ' ')
 }

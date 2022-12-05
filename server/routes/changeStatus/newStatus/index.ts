@@ -10,12 +10,15 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/work-profile/change-status/:id/new-status',
-    [getPrisonerByIdResolver(services.prisonerSearch), getProfileByIdResolver(services.prisonerProfileService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearch),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.get,
   )
   router.post(
     '/work-profile/change-status/:id/new-status',
-    [getProfileByIdResolver(services.prisonerProfileService)],
+    [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
     controller.post,
   )
 }

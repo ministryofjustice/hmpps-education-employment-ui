@@ -2,8 +2,8 @@
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusPauseController'
 import addressLookup from '../../addressLookup'
-import { getSessionData, setSessionData } from '../../../utils/session'
-import NewStatusController from '../newStatus/newStatusController'
+import { setSessionData } from '../../../utils/session'
+
 import ProfileStatus from '../../../enums/profileStatus'
 
 describe('NewStatusPauseController', () => {
@@ -17,10 +17,10 @@ describe('NewStatusPauseController', () => {
   req.params.id = 'mock_ref'
   const { id } = req.params
 
-  const mockData = {
-    backLocation: addressLookup.changeStatus.newStatus(id),
-    prisoner: req.context.prisoner,
-  }
+  // const mockData = {
+  //   backLocation: addressLookup.changeStatus.newStatus(id),
+  //   prisoner: req.context.prisoner,
+  // }
 
   res.locals.user = {}
 

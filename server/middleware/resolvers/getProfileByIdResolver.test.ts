@@ -11,15 +11,20 @@ describe('getProfileByIdResolver', () => {
   const mockData = {
     profile: {
       prisonerNumber: 'mock_prisonerNumber',
+      modifiedBy: 'MOCK_USER',
+    },
+    user: {
+      name: 'Mock User',
     },
   }
 
   const serviceMock = {
     getProfileById: jest.fn(),
+    getUserByUsername: jest.fn(),
   }
   const error = new Error('mock_error')
 
-  const resolver = middleware(serviceMock as any)
+  const resolver = middleware(serviceMock as any, serviceMock as any)
 
   it('On error - Calls next with error', async () => {
     serviceMock.getProfileById.mockRejectedValue(error)
@@ -44,11 +49,13 @@ describe('getProfileByIdResolver', () => {
 
   it('On success - Attaches data to context and call next', async () => {
     serviceMock.getProfileById.mockResolvedValue(mockData.profile)
+    serviceMock.getUserByUsername.mockResolvedValue(mockData.user)
 
     await resolver(req, res, next)
 
     expect(req.context.profile).toEqual({
       prisonerNumber: 'mock_prisonerNumber',
+      modifiedBy: 'Mock User',
     })
     expect(next).toHaveBeenCalledWith()
   })

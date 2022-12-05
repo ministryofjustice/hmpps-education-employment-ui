@@ -1,8 +1,7 @@
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusController'
-import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 
 jest.mock('../../../utils/validateFormSchema', () => ({

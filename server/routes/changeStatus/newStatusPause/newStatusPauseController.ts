@@ -26,7 +26,6 @@ export default class NewStatusPauseController {
 
       res.render('pages/changeStatus/newStatusPause/index', { ...data })
     } catch (err) {
-      console.log(err)
       next(err)
     }
   }
