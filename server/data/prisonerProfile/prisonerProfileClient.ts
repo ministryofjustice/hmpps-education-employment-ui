@@ -37,7 +37,7 @@ export default class PrisonerProfileClient {
     return profileResults
   }
 
-  async getPrisonerProfileProfileData(offenderList: string[]) {
+  async getPrisonerProfilesByIds(offenderList: string[]) {
     const searchProfile = PRISONER_EDUCATION_PROFILE_PATH
 
     const profileResults = await this.restClient.post<string[]>({
