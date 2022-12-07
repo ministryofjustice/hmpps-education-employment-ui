@@ -32,17 +32,7 @@ export default class NewStatusPauseController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    // const { prisoner } = req.context
-
-    try {
-      // API call to create profile
-
-      // Tidy up record in session
-      deleteSessionData(req, ['changeStatus', id])
-
-      res.redirect(addressLookup.workProfile(id))
-    } catch (err) {
-      next(err)
-    }
+    deleteSessionData(req, ['newStatusPause', id, 'data'])
+    res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${req.originalUrl}`)
   }
 }

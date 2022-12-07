@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusPauseController'
-import addressLookup from '../../addressLookup'
-import { setSessionData } from '../../../utils/session'
-
+import { getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
+import addressLookup from '../../addressLookup'
 
 describe('NewStatusPauseController', () => {
   const { req, res, next } = expressMocks()
@@ -15,12 +14,13 @@ describe('NewStatusPauseController', () => {
   }
 
   req.params.id = 'mock_ref'
+  req.originalUrl = 'mock_url'
   const { id } = req.params
 
-  // const mockData = {
-  //   backLocation: addressLookup.changeStatus.newStatus(id),
-  //   prisoner: req.context.prisoner,
-  // }
+  const mockData = {
+    backLocation: addressLookup.changeStatus.newStatus(id),
+    prisoner: req.context.prisoner,
+  }
 
   res.locals.user = {}
 
@@ -46,40 +46,28 @@ describe('NewStatusPauseController', () => {
       expect(next).toHaveBeenCalledTimes(1)
     })
 
-    // it('On success - Calls render with the correct data', async () => {
-    //   controller.get(req, res, next)
+    it('On success - Calls render with the correct data', async () => {
+      controller.get(req, res, next)
 
-    //   expect(res.render).toHaveBeenCalledWith('pages/changeStatus/newStatusPause/index', { ...mockData })
-    //   expect(next).toHaveBeenCalledTimes(0)
-    // })
+      expect(res.render).toHaveBeenCalledWith('pages/changeStatus/newStatusPause/index', { ...mockData })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
   })
 
-  // describe('#post(req, res)', () => {
-  //   beforeEach(() => {
-  //     res.render.mockReset()
-  //     res.redirect.mockReset()
-  //     next.mockReset()
-  //     mockService.changeStatus.mockReset()
-  //     setSessionData(req, ['changeStatus', id], {})
-  //   })
-  //   it('On error - Calls next with error', async () => {
-  //     mockService.changeStatus.mockImplementation(() => {
-  //       throw new Error('mock_error')
-  //     })
+  describe('#post(req, res)', () => {
+    beforeEach(() => {
+      res.render.mockReset()
+      res.redirect.mockReset()
+      next.mockReset()
+      mockService.changeStatus.mockReset()
+      setSessionData(req, ['newStatusPause', id, 'data'], mockData)
+    })
 
-  //     await controller.post(req, res, next)
+    it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
+      await controller.post(req, res, next)
 
-  //     expect(next).toHaveBeenCalledTimes(1)
-  //     expect(res.render).toHaveBeenCalledTimes(0)
-  //   })
-  //   it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
-  //     mockService.changeStatus.mockResolvedValue({})
-
-  //     await controller.post(req, res, next)
-
-  //     expect(mockService.changeStatus).toHaveBeenCalledTimes(1)
-  //     expect(res.redirect).toHaveBeenCalledTimes(1)
-  //     expect(getSessionData(req, ['changeStatus', id])).toBeFalsy()
-  //   })
-  // })
+      expect(res.redirect).toHaveBeenCalledWith(`${addressLookup.createProfile.alreadyInPlace(id)}?from=mock_url`)
+      expect(getSessionData(req, ['newStatusPause', id, 'data'])).toBeFalsy()
+    })
+  })
 })
