@@ -214,14 +214,14 @@ describe('NewStatusController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
     })
 
-    it('On success - status = READY_TO_WORK to newStatus = SUPPORT_NEEDED - Updates status and redirect to newStatusPause', async () => {
+    it('On success - status = READY_TO_WORK to newStatus = SUPPORT_NEEDED - Updates status and redirect to workProfile', async () => {
       req.context.profile.profileData.status = ProfileStatus.READY_TO_WORK
       req.body.newStatus = ProfileStatus.SUPPORT_NEEDED
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
     })
 
     it('On success - status = NO_RIGHT_TO_WORK to newStatus = READY_TO_WORK - Updates status and redirect to newStatusPause', async () => {
@@ -244,14 +244,14 @@ describe('NewStatusController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
     })
 
-    it('On success - status = SUPPORT_NEEDED to newStatus = READY_TO_WORK - Updates status and redirect to newStatusPause', async () => {
+    it('On success - status = SUPPORT_NEEDED to newStatus = READY_TO_WORK - Updates status and redirect to workProfile', async () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
       req.body.newStatus = ProfileStatus.READY_TO_WORK
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
     })
   })
 })

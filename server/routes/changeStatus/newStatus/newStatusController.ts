@@ -72,6 +72,26 @@ export default class NewStatusController {
         return
       }
 
+      if (profile.profileData.status === ProfileStatus.READY_TO_WORK) {
+        if (newStatus === ProfileStatus.SUPPORT_NEEDED) {
+          // Call api, change status to SUPPORT_NEEDED
+
+          // Redirect to work profile
+          res.redirect(addressLookup.workProfile(id))
+          return
+        }
+      }
+
+      if (profile.profileData.status === ProfileStatus.SUPPORT_NEEDED) {
+        if (newStatus === ProfileStatus.READY_TO_WORK) {
+          // Call api, change status to READY_TO_WORK
+
+          // Redirect to work profile
+          res.redirect(addressLookup.workProfile(id))
+          return
+        }
+      }
+
       if (newStatus === ProfileStatus.SUPPORT_DECLINED) {
         // Redirect to work profile
         res.redirect(`${addressLookup.createProfile.supportDeclinedReason(id)}?from=${req.originalUrl}`)
