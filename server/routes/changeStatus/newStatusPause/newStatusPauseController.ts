@@ -1,12 +1,10 @@
 import { RequestHandler } from 'express'
 
-import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
-import { deleteSessionData, getSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import YesNoValue from '../../../enums/yesNoValue'
 
 export default class NewStatusPauseController {
-  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
-
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { prisoner } = req.context
@@ -33,6 +31,11 @@ export default class NewStatusPauseController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     deleteSessionData(req, ['newStatusPause', id, 'data'])
+
+    setSessionData(req, ['createProfile', id], {
+      rightToWork: YesNoValue.YES,
+    })
+
     res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${req.originalUrl}`)
   }
 }

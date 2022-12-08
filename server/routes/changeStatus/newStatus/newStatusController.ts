@@ -5,6 +5,7 @@ import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
+import YesNoValue from '../../../enums/yesNoValue'
 
 export default class NewStatusController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -91,6 +92,10 @@ export default class NewStatusController {
           return
         }
       }
+
+      setSessionData(req, ['createProfile', id], {
+        rightToWork: YesNoValue.YES,
+      })
 
       if (newStatus === ProfileStatus.SUPPORT_DECLINED) {
         // Redirect to work profile

@@ -28,7 +28,7 @@ describe('NewStatusPauseController', () => {
     changeStatus: jest.fn(),
   }
 
-  const controller = new Controller(mockService)
+  const controller = new Controller()
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

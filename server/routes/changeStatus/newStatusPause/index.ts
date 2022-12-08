@@ -5,7 +5,7 @@ import type { Services } from '../../../services'
 import NewStatusPauseController from './newStatusPauseController'
 
 export default (router: Router, services: Services) => {
-  const controller = new NewStatusPauseController(services.prisonerProfileService)
+  const controller = new NewStatusPauseController()
 
   router.get(
     '/work-profile/change-status/:id/pause',

@@ -37,12 +37,14 @@
           <div class="govuk-form-group">
             <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           
+          <div class="govuk-button-group">
             {{ govukButton({
                 text: "Complete assessment",
                 type: "submit",
                 attributes: {"data-qa": "submit-button"}
               }) }}
             <a class="govuk-link" href="{{ addressLookup.workProfile(id) }}">Return to profile</a>
+          </div>
         </form>
       </div>
     </div>
