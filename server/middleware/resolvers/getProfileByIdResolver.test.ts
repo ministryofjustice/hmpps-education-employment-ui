@@ -55,7 +55,8 @@ describe('getProfileByIdResolver', () => {
 
     expect(req.context.profile).toEqual({
       prisonerNumber: 'mock_prisonerNumber',
-      modifiedBy: 'Mock User',
+      modifiedBy: 'MOCK_USER',
+      modifiedByName: 'Mock User',
     })
     expect(next).toHaveBeenCalledWith()
   })

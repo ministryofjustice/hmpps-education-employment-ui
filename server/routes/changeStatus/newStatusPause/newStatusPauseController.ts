@@ -34,6 +34,7 @@ export default class NewStatusPauseController {
 
     setSessionData(req, ['createProfile', id], {
       rightToWork: YesNoValue.YES,
+      supportOptIn: YesNoValue.YES,
     })
 
     res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${req.originalUrl}`)

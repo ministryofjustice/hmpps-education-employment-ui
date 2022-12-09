@@ -16,7 +16,7 @@ const getProfileByIdResolver =
 
       if (profile.modifiedBy) {
         const modifiedByUser = await userService.getUserByUsername(user.token, profile.modifiedBy)
-        req.context.profile.modifiedBy = modifiedByUser.name
+        req.context.profile.modifiedByName = modifiedByUser.name
       }
 
       next()

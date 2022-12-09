@@ -1,0 +1,122 @@
+import AbilityToWorkValue from '../../enums/abilityToWorkValue'
+import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
+import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
+import YesNoValue from '../../enums/yesNoValue'
+import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
+import ProfileDataSection from './interfaces/profileDataSection'
+import PrisonerProfile from './interfaces/prisonerProfile'
+import TodoItem, { ToDoStatus } from './interfaces/todoItem'
+import SupportAcceptedSection from './interfaces/supportAcceptedSection'
+import SupportDeclinedSection from './interfaces/supportDeclinedSection'
+
+export default class UpdateProfileRequest {
+  constructor(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+    this.bookingId = existingProfile.bookingId || data.bookingId
+
+    this.profileData = {
+      status: data.status,
+      supportDeclined: this.buildSupportDeclined(data, existingProfile),
+      supportAccepted: this.buildSupportAccepted(data, existingProfile),
+    }
+  }
+
+  bookingId: number
+
+  profileData: ProfileDataSection
+
+  private buildActions(alreadyInPlace: AlreadyInPlaceValue[] = []): TodoItem[] {
+    return [
+      {
+        todoItem: AlreadyInPlaceValue.BANK_ACCOUNT,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.BANK_ACCOUNT)
+          ? ToDoStatus.COMPLETED
+          : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.CV_AND_COVERING_LETTER,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.CV_AND_COVERING_LETTER)
+          ? ToDoStatus.COMPLETED
+          : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.DISCLOSURE_LETTER,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.DISCLOSURE_LETTER)
+          ? ToDoStatus.COMPLETED
+          : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.EMAIL_OR_PHONE,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.EMAIL_OR_PHONE)
+          ? ToDoStatus.COMPLETED
+          : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.HOUSING,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.HOUSING) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.ID,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+      },
+    ]
+  }
+
+  private buildSupportAccepted(
+    data: CreateProfileRequestArgs,
+    existingProfile: PrisonerProfile,
+  ): SupportAcceptedSection {
+    const now = new Date()
+    const isoString = now.toISOString()
+
+    return data.supportOptIn === YesNoValue.YES
+      ? {
+          actionsRequired: {
+            modifiedBy: data.currentUser,
+            modifiedDateTime: isoString,
+            actions: this.buildActions(data.alreadyInPlace),
+          },
+          workImpacts: {
+            modifiedBy: data.currentUser,
+            modifiedDateTime: isoString,
+            abilityToWorkImpactedBy: data.abilityToWork,
+            caringResponsibilitiesFullTime: data.abilityToWork.includes(AbilityToWorkValue.FAMILY_ISSUES),
+            ableToManageMentalHealth: data.abilityToWork.includes(AbilityToWorkValue.MENTAL_HEALTH_ISSUES) === false,
+            ableToManageDependencies: data.manageDrugsAndAlcohol === ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
+          },
+          workInterests: {
+            modifiedBy: data.currentUser,
+            modifiedDateTime: isoString,
+            workTypesOfInterest: data.typeOfWork,
+            workTypesOfInterestOther: data.typeOfWorkDetails,
+            jobOfParticularInterest: data.jobOfParticularInterestDetails || '',
+          },
+          workExperience: {
+            modifiedBy: data.currentUser,
+            modifiedDateTime: isoString,
+            previousWorkOrVolunteering: data.workExperienceDetails || '',
+            qualificationsAndTraining: data.trainingAndQualifications,
+            qualificationsAndTrainingOther: data.trainingAndQualificationsDetails,
+          },
+        }
+      : null
+  }
+
+  private buildSupportDeclined(
+    data: CreateProfileRequestArgs,
+    existingProfile: PrisonerProfile,
+  ): SupportDeclinedSection {
+    const now = new Date()
+    const isoString = now.toISOString()
+
+    return data.supportOptIn === YesNoValue.NO
+      ? {
+          modifiedBy: data.currentUser,
+          modifiedDateTime: isoString,
+          supportToWorkDeclinedReason: data.supportDeclinedReason,
+          supportToWorkDeclinedReasonOther: data.supportDeclinedDetails,
+          circumstanceChangesRequiredToWork: data.whatNeedsToChange,
+          circumstanceChangesRequiredToWorkOther: data.whatNeedsToChangeDetails,
+        }
+      : null
+  }
+}

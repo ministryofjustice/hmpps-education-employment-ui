@@ -1,6 +1,6 @@
-import { TransformFnParams } from 'class-transformer/types/interfaces/metadata/transform-fn-params.interface'
+import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
-import { formatDateStringTodMMMM } from '../../utils/utils'
+import ProfileViewModel from '../../viewModels/profileViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -11,12 +11,7 @@ export default class WorkProfileController {
       const data = {
         id,
         prisoner,
-        profile: profile && {
-          ...profile,
-          modifiedDate:
-            profile.modifiedDateTime &&
-            formatDateStringTodMMMM({ value: profile.modifiedDateTime } as TransformFnParams),
-        },
+        profile: plainToClass(ProfileViewModel, profile),
         tab,
       }
 

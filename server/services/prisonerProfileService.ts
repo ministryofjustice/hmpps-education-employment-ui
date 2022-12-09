@@ -1,7 +1,7 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
-import { CreateProfileRequestArgs } from '../data/prisonerProfile/createProfileRequest'
 import CreateProfileResponse from '../data/prisonerProfile/createProfileResponse'
 import GetProfileByIdResult from '../data/prisonerProfile/getProfileByIdResult'
+import CreateProfileRequestArgs from '../data/prisonerProfile/interfaces/createProfileRequestArgs'
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
 
 export default class PrisonerProfileService {

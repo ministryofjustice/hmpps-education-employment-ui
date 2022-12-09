@@ -1,62 +1,12 @@
 import AbilityToWorkValue from '../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
-import IdentificationValue from '../../enums/identificationValue'
 import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
-import ProfileStatus from '../../enums/profileStatus'
-import SupportDeclinedReasonValue from '../../enums/supportDeclinedReasonValue'
-import TrainingAndQualificationsValue from '../../enums/trainingAndQualificationsValue'
-import TypeOfWorkValue from '../../enums/typeOfWorkValue'
-import WhatNeedsToChangeValue from '../../enums/whatNeedsToChangeValue'
 import YesNoValue from '../../enums/yesNoValue'
+import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
+import ProfileDataSection from './interfaces/profileDataSection'
+import TodoItem, { ToDoStatus } from './interfaces/todoItem'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export interface CreateProfileRequestArgs {
-  prisonerId: string
-  bookingId: number
-  status: ProfileStatus
-  currentUser: string
-  supportOptIn?: YesNoValue
-  rightToWork?: YesNoValue
-
-  // Support declined fields
-  supportDeclinedReason?: SupportDeclinedReasonValue[]
-  supportDeclinedDetails?: string
-  whatNeedsToChange?: WhatNeedsToChangeValue[]
-  whatNeedsToChangeDetails?: string
-
-  // Support accepted fields
-  alreadyInPlace?: AlreadyInPlaceValue[]
-  identification?: IdentificationValue[]
-  abilityToWork?: AbilityToWorkValue[]
-  manageDrugsAndAlcohol?: ManageDrugsAndAlcoholValue
-  typeOfWork?: TypeOfWorkValue[]
-  typeOfWorkDetails?: string
-  jobOfParticularInterest?: YesNoValue
-  jobOfParticularInterestDetails?: string
-  workExperience?: YesNoValue
-  workExperienceDetails?: string
-  trainingAndQualifications?: TrainingAndQualificationsValue[]
-  trainingAndQualificationsDetails?: string
-}
-
-interface CreateProfileRequestProfileSection {
-  status: ProfileStatus
-  supportDeclined: any
-  supportAccepted: any
-}
-
-interface TodoItem {
-  todoItem: AlreadyInPlaceValue
-  status: ToDoStatus
-}
-
-enum ToDoStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-}
-
-export class CreateProfileRequest {
+export default class CreateProfileRequest {
   constructor(data: CreateProfileRequestArgs) {
     const now = new Date()
     const isoString = now.toISOString()
@@ -114,7 +64,7 @@ export class CreateProfileRequest {
 
   bookingId: number
 
-  profileData: CreateProfileRequestProfileSection
+  profileData: ProfileDataSection
 
   private buildActions(alreadyInPlace: AlreadyInPlaceValue[] = []): TodoItem[] {
     return [

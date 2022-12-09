@@ -93,11 +93,13 @@ export default class NewStatusController {
         }
       }
 
-      setSessionData(req, ['createProfile', id], {
-        rightToWork: YesNoValue.YES,
-      })
-
       if (newStatus === ProfileStatus.SUPPORT_DECLINED) {
+        // Set defaults for flow
+        setSessionData(req, ['createProfile', id], {
+          rightToWork: YesNoValue.YES,
+          supportOptIn: YesNoValue.NO,
+        })
+
         // Redirect to work profile
         res.redirect(`${addressLookup.createProfile.supportDeclinedReason(id)}?from=${req.originalUrl}`)
         return
