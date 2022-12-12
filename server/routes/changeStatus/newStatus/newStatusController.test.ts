@@ -33,6 +33,7 @@ describe('NewStatusController', () => {
 
   req.params.id = 'mock_ref'
   req.originalUrl = 'mock_url'
+  res.locals.user = {}
   const { id } = req.params
 
   const mockData = {
@@ -40,7 +41,11 @@ describe('NewStatusController', () => {
     prisoner: req.context.prisoner,
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -96,6 +101,7 @@ describe('NewStatusController', () => {
       validationMock.mockReset()
       setSessionData(req, ['newStatus', id, 'data'], mockData)
       setSessionData(req, ['changeStatus', id], {})
+      mockService.updateProfile.mockResolvedValue({})
     })
 
     it('On error - Calls next with error', async () => {
@@ -103,7 +109,7 @@ describe('NewStatusController', () => {
         throw new Error('mock_error')
       })
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(1)
       expect(res.render).toHaveBeenCalledTimes(0)
@@ -112,7 +118,7 @@ describe('NewStatusController', () => {
     it('On validation error - Calls render with the correct data', async () => {
       validationMock.mockImplementation(() => errors)
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/changeStatus/newStatus/index', { ...mockData, errors })
       expect(next).toHaveBeenCalledTimes(0)
@@ -122,7 +128,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.READY_TO_WORK
       req.body.newStatus = ProfileStatus.READY_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
@@ -132,7 +138,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_DECLINED
       req.body.newStatus = ProfileStatus.NO_RIGHT_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
@@ -142,7 +148,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
       req.body.newStatus = ProfileStatus.NO_RIGHT_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
@@ -152,7 +158,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.READY_TO_WORK
       req.body.newStatus = ProfileStatus.NO_RIGHT_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
@@ -162,7 +168,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.NO_RIGHT_TO_WORK
       req.body.newStatus = ProfileStatus.SUPPORT_DECLINED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
@@ -174,7 +180,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
       req.body.newStatus = ProfileStatus.SUPPORT_DECLINED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
@@ -186,7 +192,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.READY_TO_WORK
       req.body.newStatus = ProfileStatus.SUPPORT_DECLINED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
@@ -198,7 +204,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.NO_RIGHT_TO_WORK
       req.body.newStatus = ProfileStatus.SUPPORT_NEEDED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
@@ -208,7 +214,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_DECLINED
       req.body.newStatus = ProfileStatus.SUPPORT_NEEDED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
@@ -218,7 +224,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.READY_TO_WORK
       req.body.newStatus = ProfileStatus.SUPPORT_NEEDED
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
@@ -228,7 +234,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.NO_RIGHT_TO_WORK
       req.body.newStatus = ProfileStatus.READY_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
@@ -238,7 +244,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_DECLINED
       req.body.newStatus = ProfileStatus.READY_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.changeStatus.newStatusPause(id))
@@ -248,7 +254,7 @@ describe('NewStatusController', () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
       req.body.newStatus = ProfileStatus.READY_TO_WORK
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))

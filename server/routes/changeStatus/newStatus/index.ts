@@ -6,7 +6,7 @@ import type { Services } from '../../../services'
 import NewStatusController from './newStatusController'
 
 export default (router: Router, services: Services) => {
-  const controller = new NewStatusController()
+  const controller = new NewStatusController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/change-status/:id/new-status',

@@ -1,13 +1,13 @@
 import AbilityToWorkValue from '../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
 import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
-import YesNoValue from '../../enums/yesNoValue'
 import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
 import ProfileDataSection from './interfaces/profileDataSection'
 import PrisonerProfile from './interfaces/prisonerProfile'
 import TodoItem, { ToDoStatus } from './interfaces/todoItem'
 import SupportAcceptedSection from './interfaces/supportAcceptedSection'
 import SupportDeclinedSection from './interfaces/supportDeclinedSection'
+import ProfileStatus from '../../enums/profileStatus'
 
 export default class UpdateProfileRequest {
   constructor(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
@@ -68,8 +68,9 @@ export default class UpdateProfileRequest {
     const now = new Date()
     const isoString = now.toISOString()
 
-    return data.supportOptIn === YesNoValue.YES
-      ? {
+    return data.status === ProfileStatus.SUPPORT_DECLINED || this.isStatusOnlyChange(data, existingProfile)
+      ? existingProfile.profileData.supportAccepted
+      : {
           actionsRequired: {
             modifiedBy: data.currentUser,
             modifiedDateTime: isoString,
@@ -98,7 +99,6 @@ export default class UpdateProfileRequest {
             qualificationsAndTrainingOther: data.trainingAndQualificationsDetails,
           },
         }
-      : null
   }
 
   private buildSupportDeclined(
@@ -108,8 +108,13 @@ export default class UpdateProfileRequest {
     const now = new Date()
     const isoString = now.toISOString()
 
-    return data.supportOptIn === YesNoValue.NO
-      ? {
+    if (this.isStatusOnlyChange(data, existingProfile)) {
+      return existingProfile.profileData.supportDeclined
+    }
+
+    return data.status !== ProfileStatus.SUPPORT_DECLINED
+      ? null
+      : {
           modifiedBy: data.currentUser,
           modifiedDateTime: isoString,
           supportToWorkDeclinedReason: data.supportDeclinedReason,
@@ -117,6 +122,25 @@ export default class UpdateProfileRequest {
           circumstanceChangesRequiredToWork: data.whatNeedsToChange,
           circumstanceChangesRequiredToWorkOther: data.whatNeedsToChangeDetails,
         }
-      : null
+  }
+
+  private isStatusOnlyChange(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+    if (data.status === ProfileStatus.NO_RIGHT_TO_WORK) {
+      return true
+    }
+
+    if (existingProfile.profileData.status === ProfileStatus.READY_TO_WORK) {
+      if (data.status === ProfileStatus.SUPPORT_NEEDED) {
+        return true
+      }
+    }
+
+    if (existingProfile.profileData.status === ProfileStatus.SUPPORT_NEEDED) {
+      if (data.status === ProfileStatus.READY_TO_WORK) {
+        return true
+      }
+    }
+
+    return false
   }
 }

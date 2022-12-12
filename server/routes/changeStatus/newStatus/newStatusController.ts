@@ -6,8 +6,11 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
 
 export default class NewStatusController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { prisoner, profile } = req.context
@@ -39,7 +42,7 @@ export default class NewStatusController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { newStatus } = req.body
-    const { profile } = req.context
+    const { profile, prisoner } = req.context
 
     try {
       // If validation errors render errors
@@ -65,32 +68,23 @@ export default class NewStatusController {
         return
       }
 
-      if (newStatus === ProfileStatus.NO_RIGHT_TO_WORK) {
-        // Call api, change status to NO_RIGHT_TO_WORK
+      // Status only change
+      if (this.isStatusOnlyChange(newStatus, profile.profileData.status)) {
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(
+          res.locals.user.token,
+          {
+            prisonerId: id,
+            bookingId: prisoner.bookingId,
+            status: ProfileStatus.NO_RIGHT_TO_WORK,
+            currentUser: res.locals.user.username,
+          },
+          profile,
+        )
 
         // Redirect to work profile
         res.redirect(addressLookup.workProfile(id))
         return
-      }
-
-      if (profile.profileData.status === ProfileStatus.READY_TO_WORK) {
-        if (newStatus === ProfileStatus.SUPPORT_NEEDED) {
-          // Call api, change status to SUPPORT_NEEDED
-
-          // Redirect to work profile
-          res.redirect(addressLookup.workProfile(id))
-          return
-        }
-      }
-
-      if (profile.profileData.status === ProfileStatus.SUPPORT_NEEDED) {
-        if (newStatus === ProfileStatus.READY_TO_WORK) {
-          // Call api, change status to READY_TO_WORK
-
-          // Redirect to work profile
-          res.redirect(addressLookup.workProfile(id))
-          return
-        }
       }
 
       if (newStatus === ProfileStatus.SUPPORT_DECLINED) {
@@ -110,5 +104,25 @@ export default class NewStatusController {
     } catch (err) {
       next(err)
     }
+  }
+
+  private isStatusOnlyChange(newStatus: string, existingStatus: string) {
+    if (newStatus === ProfileStatus.NO_RIGHT_TO_WORK) {
+      return true
+    }
+
+    if (existingStatus === ProfileStatus.READY_TO_WORK) {
+      if (newStatus === ProfileStatus.SUPPORT_NEEDED) {
+        return true
+      }
+    }
+
+    if (existingStatus === ProfileStatus.SUPPORT_NEEDED) {
+      if (newStatus === ProfileStatus.READY_TO_WORK) {
+        return true
+      }
+    }
+
+    return false
   }
 }

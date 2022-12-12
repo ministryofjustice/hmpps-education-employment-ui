@@ -8,6 +8,8 @@ import CreateProfileRequest from './createProfileRequest'
 import CreateProfileResponse from './createProfileResponse'
 import GetProfileByIdResult from './getProfileByIdResult'
 import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
+import UpdateProfileRequest from './updateProfileRequest'
+import PrisonerProfile from './interfaces/prisonerProfile'
 
 const PRISONER_EDUCATION_PROFILE_PATH = '/readiness-profiles/search'
 const CREATE_PROFILE_PATH = '/readiness-profiles'
@@ -52,6 +54,15 @@ export default class PrisonerProfileClient {
     const result = await this.restClient.post<CreateProfileResponse>({
       path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
       data: new CreateProfileRequest(newProfile),
+    })
+
+    return result
+  }
+
+  async updateProfile(newProfile: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+    const result = await this.restClient.post<CreateProfileResponse>({
+      path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
+      data: new UpdateProfileRequest(newProfile, existingProfile),
     })
 
     return result

@@ -16,9 +16,9 @@ export default interface PrisonerProfile {
     supportDeclined?: {
       modifiedBy: string
       modifiedDateTime: string
-      supportToWorkDeclinedReason: string
+      supportToWorkDeclinedReason: string[]
       supportToWorkDeclinedReasonOther: string
-      circumstanceChangesRequiredToWork: string
+      circumstanceChangesRequiredToWork: string[]
       circumstanceChangesRequiredToWorkOther: string
     }
 
@@ -32,8 +32,8 @@ export default interface PrisonerProfile {
       workImpacts: {
         modifiedBy: string
         modifiedDateTime: string
-        abilityToWorkImpactedBy: string
-        caringResponsibilitiesFullTime: string
+        abilityToWorkImpactedBy: string[]
+        caringResponsibilitiesFullTime: boolean
         ableToManageMentalHealth: boolean
         ableToManageDependencies: boolean
       }
@@ -41,7 +41,7 @@ export default interface PrisonerProfile {
       workInterests: {
         modifiedBy: string
         modifiedDateTime: string
-        workTypesOfInterest: string
+        workTypesOfInterest: string[]
         workTypesOfInterestOther: string
         jobOfParticularInterest: string
       }
@@ -50,7 +50,7 @@ export default interface PrisonerProfile {
         modifiedBy: string
         modifiedDateTime: string
         previousWorkOrVolunteering: string
-        qualificationsAndTraining: string
+        qualificationsAndTraining: string[]
         qualificationsAndTrainingOther: string
       }
     }
