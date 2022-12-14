@@ -21,7 +21,13 @@ const getProfileByIdResolver =
 
       next()
     } catch (err) {
+      // Handle no profile
       if (err?.data?.status === 400 && err?.data?.userMessage.indexOf('Readiness profile does not exist') > -1) {
+        next()
+        return
+      }
+      // handle no user account
+      if (err?.data?.field === 'username') {
         next()
         return
       }

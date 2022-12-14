@@ -30,7 +30,7 @@
               <div class="govuk-summary-list__row">
               </div>
             </dl>
-            <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName }}</p>
+            <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
           </div>
         </section>
       {% else %}

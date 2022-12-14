@@ -76,7 +76,7 @@ export default class NewStatusController {
           {
             prisonerId: id,
             bookingId: prisoner.bookingId,
-            status: ProfileStatus.NO_RIGHT_TO_WORK,
+            status: newStatus,
             currentUser: res.locals.user.username,
           },
           profile,

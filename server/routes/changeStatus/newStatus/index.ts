@@ -18,7 +18,10 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/work-profile/change-status/:id/new-status',
-    [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearch),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.post,
   )
 }

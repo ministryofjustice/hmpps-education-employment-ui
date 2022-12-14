@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusController'
 import addressLookup from '../../addressLookup'

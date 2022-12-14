@@ -60,7 +60,7 @@ export default class PrisonerProfileClient {
   }
 
   async updateProfile(newProfile: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
-    const result = await this.restClient.post<CreateProfileResponse>({
+    const result = await this.restClient.put<CreateProfileResponse>({
       path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
       data: new UpdateProfileRequest(newProfile, existingProfile),
     })
