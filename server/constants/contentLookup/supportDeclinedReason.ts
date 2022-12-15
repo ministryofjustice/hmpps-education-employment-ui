@@ -1,6 +1,6 @@
 export default {
   LIMIT_THEIR_ABILITY: 'Feels type of offence will limit their ability to find work',
-  CARING_RESPONSIBILITIES: 'Has full-time caring responsibilities',
+  FULL_TIME_CARER: 'Has full-time caring responsibilities',
   LACKS_CONFIDENCE: 'Lacks confidence in their ability to find work',
   LACKS_MOTIVATION: 'Lacks motivation to find work',
   HEALTH: 'Not able to work due to a health condition',

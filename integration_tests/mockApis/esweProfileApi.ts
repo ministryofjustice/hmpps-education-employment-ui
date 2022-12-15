@@ -1,3 +1,4 @@
+import profiles from '../mockData/profileByIdData'
 import { stubFor } from './wiremock'
 
 const createProfile = () =>
@@ -17,20 +18,7 @@ const createProfile = () =>
     },
   })
 
-const getProfileById = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPattern: '/readiness-profiles/G6115VJ',
-    },
-    response: {
-      status: 200,
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: {
-        prisonerNumber: 'G6115VJ',
-      },
-    },
-  })
+const getProfileById = (id = 'G6115VJ') => stubFor(profiles[id])
 
 export default {
   createProfile,
