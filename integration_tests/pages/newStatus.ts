@@ -2,7 +2,7 @@ import Page from './page'
 
 export type PageElement = Cypress.Chainable<JQuery>
 
-export default class cohortList extends Page {
+export default class NewStatusPage extends Page {
   constructor() {
     super('Change work status')
   }
