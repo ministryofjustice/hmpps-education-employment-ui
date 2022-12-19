@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -7,6 +8,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -26,7 +28,7 @@ export default class NewStatusController {
 
       const data = {
         backLocation: addressLookup.workProfile(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         newStatus: record.newStatus || profile.profileData.status,
       }
 

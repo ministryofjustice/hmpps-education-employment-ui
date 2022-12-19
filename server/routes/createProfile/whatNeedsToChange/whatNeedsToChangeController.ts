@@ -1,10 +1,12 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -24,7 +26,7 @@ export default class SupportDeclinedReasonController {
           mode === 'new'
             ? addressLookup.createProfile.supportDeclinedReason(id, mode)
             : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         whatNeedsToChange: record.whatNeedsToChange || [],
         whatNeedsToChangeDetails: record.whatNeedsToChangeDetails,
       }

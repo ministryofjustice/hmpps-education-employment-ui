@@ -1,11 +1,13 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class AlreadyInPlaceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -30,7 +32,7 @@ export default class AlreadyInPlaceController {
           page: 'alreadyInPlace',
           uid: id,
         }),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         alreadyInPlace: record.alreadyInPlace || [],
       }
 

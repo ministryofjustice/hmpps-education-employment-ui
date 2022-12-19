@@ -1,11 +1,13 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -30,7 +32,7 @@ export default class SupportDeclinedReasonController {
           page: 'supportDeclinedReason',
           uid: id,
         }),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         supportDeclinedReason: record.supportDeclinedReason || [],
         supportDeclinedDetails: record.supportDeclinedDetails,
       }

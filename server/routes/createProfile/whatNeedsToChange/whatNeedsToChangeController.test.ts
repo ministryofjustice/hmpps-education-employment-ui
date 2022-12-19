@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './whatNeedsToChangeController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -32,7 +34,7 @@ describe('SupportDeclinedReasonController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.supportDeclinedReason(id, mode),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     whatNeedsToChange: [] as any,
   }
 

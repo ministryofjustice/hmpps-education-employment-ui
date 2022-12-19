@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './abilityToWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -6,6 +7,7 @@ import addressLookup from '../../addressLookup'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -33,7 +35,7 @@ describe('SupportDeclinedReasonController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.alreadyInPlace(id, mode),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     abilityToWork: [] as any,
   }
 

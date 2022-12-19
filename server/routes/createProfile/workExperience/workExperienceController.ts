@@ -1,10 +1,12 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class WorkExperienceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -24,7 +26,7 @@ export default class WorkExperienceController {
           mode === 'new'
             ? addressLookup.createProfile.jobOfParticularInterest(id, mode)
             : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         workExperience: record.workExperience,
         workExperienceDetails: record.workExperienceDetails,
       }

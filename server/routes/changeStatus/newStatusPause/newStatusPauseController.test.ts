@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusPauseController'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 import addressLookup from '../../addressLookup'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 describe('NewStatusPauseController', () => {
   const { req, res, next } = expressMocks()
@@ -19,7 +21,7 @@ describe('NewStatusPauseController', () => {
 
   const mockData = {
     backLocation: addressLookup.changeStatus.newStatus(id),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
   res.locals.user = {}

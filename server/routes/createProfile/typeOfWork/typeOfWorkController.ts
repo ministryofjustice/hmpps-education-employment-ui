@@ -1,11 +1,13 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class TypeOfWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -26,7 +28,7 @@ export default class TypeOfWorkController {
 
       const data = {
         backLocation: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         typeOfWork: record.typeOfWork || [],
         typeOfWorkDetails: record.typeOfWorkDetails,
       }

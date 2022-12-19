@@ -49,6 +49,59 @@
         </div>
       {% endif %}
 
+      {% if profile.profileData.supportAccepted %}
+        <section class="app-summary-card govuk-!-margin-bottom-6">
+          <header class="app-summary-card__header">
+            <h2 class="app-summary-card__title">
+              Things they have in place or need
+            </h2>
+          </header>
+
+          <div class="app-summary-card__body">
+
+            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">To do list</h3>
+
+            <ol class="app-task-list">
+              <ul class="app-task-list__items govuk-!-margin-bottom-6" style="padding-left: 0px">
+                {% for item in profile.profileData.supportAccepted.actionsRequired.actions %}
+                  {% if item.status !== 'COMPLETED' %}
+                    <li class="app-task-list__item" style="border-top: 0px">
+                      <span class="app-task-list__task-name">
+                        <a href="../../todo-in-progress" aria-describedby="CV-status">
+                          {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
+                        </a>
+                      </span>
+                      <strong class="govuk-tag govuk-tag--{{ 'blue' if item.status === 'IN_PROGRESS' else 'grey' }} app-task-list__tag" id="{{ item.status }}-status">{{ contentLookup.toDoStatus[item.status] }}</strong>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </ol>
+
+            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">In place already</h3>
+
+            <ol class="app-task-list">
+              <ul class="app-task-list__items govuk-!-margin-bottom-6" style="padding-left: 0px">
+                {% for item in profile.profileData.supportAccepted.actionsRequired.actions %}
+                  {% if item.status === 'COMPLETED' %}
+                    <li class="app-task-list__item" style="border-top: 0px">
+                      <span class="app-task-list__task-name">
+                        <a href="../../todo-complete-blank" aria-describedby="bank-account-status">
+                          {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
+                        </a>
+                      </span>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </ol>
+
+            <p class="app-summary-card__hint">Last updated {{ profile.profileData.supportAccepted.actionsRequired.modifiedDateTime }} by {{ profile.profileData.supportAccepted.actionsRequired.modifiedByName }}</p>
+
+          </div>
+        </section>
+      {% endif %}
+
     </div>
   </div>
 {% endif %}

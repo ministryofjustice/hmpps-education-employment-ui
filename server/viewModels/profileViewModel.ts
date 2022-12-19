@@ -5,6 +5,7 @@ import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
 
 import { formatDateStringTodMMMM } from '../utils/utils'
+import ProfileDataSectionViewModel from './profileDataSectionViewModel'
 
 // Exclude all by default expose properties when needed
 @Exclude()
@@ -33,5 +34,6 @@ export default class ProfileViewModel {
   schemaVersion: string
 
   @Expose()
-  profileData: any // Not firm schema yet
+  @Type(() => ProfileDataSectionViewModel)
+  profileData: ProfileDataSectionViewModel
 }
