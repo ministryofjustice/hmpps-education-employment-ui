@@ -50,8 +50,12 @@
 
   {% include './partials/_navigation.njk' %}
 
-  {% include './partials/_overviewTabContents.njk' %}
+  {% if tab === 'overview' %}
+    {% include './partials/_overviewTabContents.njk' %}
+  {% endif %}
 
-  {% include './partials/_personalDetailsTabContents.njk' %}
+  {% if tab === 'details' %}
+    {% include './partials/_detailsTabContents.njk' %}
+  {% endif %}
  
 {% endblock %}

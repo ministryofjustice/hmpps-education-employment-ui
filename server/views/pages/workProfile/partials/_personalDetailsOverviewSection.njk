@@ -1,0 +1,62 @@
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h2 class="app-summary-card__title">
+      Overview
+    </h2>
+  </header>
+  <div class="app-summary-card__body">
+    <dl class="govuk-summary-list">
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ prisoner.firstName }} {{ prisoner.lastName }}
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Date of birth
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ prisoner.dateOfBirth }} ({{ prisoner.age }} years old)
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Cell location
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ prisoner.cellLocation }}
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Release date
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Release area
+        </dt>
+        <dd class="govuk-summary-list__value">
+          TODO
+        </dd>
+      </div>
+
+      <div class="govuk-summary-list__row">
+      </div>
+    </dl>
+    <p class="govuk-!-margin-top-5"><a class="govuk-link govuk-link--no-visited-state" href="#">
+      View more details (opens in a new tab)</a>
+    </p>
+  </div>
+</section>

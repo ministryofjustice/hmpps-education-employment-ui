@@ -37,6 +37,33 @@ const getProfileByIdResolver =
         )
       }
 
+      if (profile.profileData?.supportAccepted?.workImpacts?.modifiedBy) {
+        req.context.profile.profileData.supportAccepted.workImpacts.modifiedByName = await getUserFullName(
+          req,
+          userService,
+          user.token,
+          profile.profileData.supportAccepted.workImpacts.modifiedBy,
+        )
+      }
+
+      if (profile.profileData?.supportAccepted?.workExperience?.modifiedBy) {
+        req.context.profile.profileData.supportAccepted.workExperience.modifiedByName = await getUserFullName(
+          req,
+          userService,
+          user.token,
+          profile.profileData.supportAccepted.workExperience.modifiedBy,
+        )
+      }
+
+      if (profile.profileData?.supportAccepted?.workInterests?.modifiedBy) {
+        req.context.profile.profileData.supportAccepted.workInterests.modifiedByName = await getUserFullName(
+          req,
+          userService,
+          user.token,
+          profile.profileData.supportAccepted.workInterests.modifiedBy,
+        )
+      }
+
       next()
     } catch (err) {
       // Handle no profile
@@ -58,11 +85,11 @@ const getUserFullName = async (req: Request, userService: UserService, token: st
       setSessionData(req, ['userNameCache', userName], found.name)
     }
 
-    return name
+    return name || userName
   } catch (err) {
     // handle no user account
     if (err?.data?.field === 'username') {
-      return ''
+      return userName
     }
 
     throw err

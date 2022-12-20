@@ -1,0 +1,80 @@
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h2 class="app-summary-card__title">
+      Things that might affect their ability to work
+    </h2>
+  </header>
+
+  <div class="app-summary-card__body">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          May be affected by
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {% for item in  profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy %}
+            <div>{{ contentLookup.fields.abilityToWork[item] }}</div>
+          {% endfor %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q4-might-be-impacted-by">
+            Change<span class="govuk-visually-hidden"></span>
+          </a>
+        </dd>
+      </div>
+
+      {% if profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy.includes('CARING_RESPONSIBILITIES') %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are their caring responsibilities full time?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ 'Yes' if profile.profileData.supportAccepted.workImpacts.caringResponsibilitiesFullTime else 'No' }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q4a-caring-responsibilities">
+              Change<span class="govuk-visually-hidden"></span>
+            </a>
+          </dd>
+        </div>
+      {% endif %}
+
+      {% if profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy.includes('DEPENDENCY_ISSUES') %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Drug or alcohol dependency
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ contentLookup.fields.manageDrugsAndAlcohol["ABLE_TO_MANAGE"] if profile.profileData.supportAccepted.workImpacts.ableToManageDependencies else contentLookup.fields.manageDrugsAndAlcohol["NOT_ABLE_TO_MANAGE"] }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q4a-caring-responsibilities">
+              Change<span class="govuk-visually-hidden"></span>
+            </a>
+          </dd>
+        </div>
+      {% endif %}
+
+      {% if profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy.includes('MENTAL_HEALTH_ISSUES') %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Mental health
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ 'Yes' if profile.profileData.supportAccepted.workImpacts.ableToManageMentalHealth else 'No' }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q4a-caring-responsibilities">
+              Change<span class="govuk-visually-hidden"></span>
+            </a>
+          </dd>
+        </div>
+      {% endif %}
+
+      <div class="govuk-summary-list__row">
+      </div>
+    </dl>
+
+    <p class="app-summary-card__hint">Last updated {{ profile.profileData.supportAccepted.workImpacts.modifiedDateTime }} by {{ profile.profileData.supportAccepted.workImpacts.modifiedByName }}</p>
+  </div>
+</section>

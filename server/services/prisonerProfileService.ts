@@ -2,7 +2,7 @@ import HmppsAuthClient from '../data/hmppsAuthClient'
 import CreateProfileResponse from '../data/prisonerProfile/createProfileResponse'
 import GetProfileByIdResult from '../data/prisonerProfile/getProfileByIdResult'
 import CreateProfileRequestArgs from '../data/prisonerProfile/interfaces/createProfileRequestArgs'
-import PrisonerProfile from '../data/prisonerProfile/interfaces/prisonerProfile'
+import UpdatePrisonerProfile from '../data/prisonerProfile/interfaces/updatePrisonerProfile'
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
 
 export default class PrisonerProfileService {
@@ -18,9 +18,9 @@ export default class PrisonerProfileService {
 
   async updateProfile(
     userToken: string,
-    newProfile: CreateProfileRequestArgs,
-    existingProfile: PrisonerProfile,
+    prisonerId: string,
+    profile: UpdatePrisonerProfile,
   ): Promise<CreateProfileResponse> {
-    return new PrisonerProfileClient(userToken).updateProfile(newProfile, existingProfile)
+    return new PrisonerProfileClient(userToken).updateProfile(prisonerId, profile)
   }
 }

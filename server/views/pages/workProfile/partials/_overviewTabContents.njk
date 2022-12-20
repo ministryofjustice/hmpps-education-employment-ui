@@ -1,107 +1,45 @@
 {% from "../../../macros/cohortListStatus.njk" import statusTag %}
 
-{% if tab === 'overview' %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-m govuk-!-margin-bottom-7">Overview</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-m govuk-!-margin-bottom-7">Overview</h1>
 
-      {% if profile %}
-        <section class="app-summary-card govuk-!-margin-bottom-6">
-          <header class="app-summary-card__header">
-            <h2 class="app-summary-card__title">
-              Status
-            </h2>
-          </header>
-          <div class="app-summary-card__body">
-            <dl class="govuk-summary-list">
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Current work status
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  {{ statusTag(profile.profileData.status) }}
-                </dd>
-                <dd class="govuk-summary-list__actions">
-                  <a class="govuk-link govuk-link--no-visited-state" data-qa="change-status-link" href="{{ addressLookup.changeStatus.newStatus(id) }}">
-                    Change<span class="govuk-visually-hidden"> status</span>
-                  </a>
-                </dd>
-              </div>
-              <div class="govuk-summary-list__row">
-              </div>
-            </dl>
-            <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
-          </div>
-        </section>
-      {% else %}
-        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-          <div class="govuk-notification-banner__header">
-            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-              Important
-            </h2>
-          </div>
-          <div class="govuk-notification-banner__content">
-            <p class="govuk-notification-banner__heading">
-              {{ prisoner.firstName }} {{ prisoner.lastName }} has not completed a work assessment.
-              <a class="govuk-notification-banner__link" href="{{ addressLookup.createProfile.rightToWork(prisoner.prisonerNumber) }}"><br>Complete assessment now</a>.
-            </p>
-          </div>
+    {% if profile %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h2 class="app-summary-card__title">
+            Status
+          </h2>
+        </header>
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Current work status
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ statusTag(profile.profileData.status) }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link govuk-link--no-visited-state" data-qa="change-status-link" href="{{ addressLookup.changeStatus.newStatus(id) }}">
+                  Change<span class="govuk-visually-hidden"> status</span>
+                </a>
+              </dd>
+            </div>
+            {% if profile.profileData.status === 'SUPPORT_DECLINED' and  profile.profileData.supportDeclined %}
+              {% include './_supportDeclinedSection.njk' %}
+            {% endif %}
+          </dl>
+          <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
         </div>
-      {% endif %}
+      </section>
+    {% else %}
+      {% include './_noAssessmentComplete.njk' %}
+    {% endif %}
 
-      {% if profile.profileData.supportAccepted %}
-        <section class="app-summary-card govuk-!-margin-bottom-6">
-          <header class="app-summary-card__header">
-            <h2 class="app-summary-card__title">
-              Things they have in place or need
-            </h2>
-          </header>
-
-          <div class="app-summary-card__body">
-
-            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">To do list</h3>
-
-            <ol class="app-task-list">
-              <ul class="app-task-list__items govuk-!-margin-bottom-6" style="padding-left: 0px">
-                {% for item in profile.profileData.supportAccepted.actionsRequired.actions %}
-                  {% if item.status !== 'COMPLETED' %}
-                    <li class="app-task-list__item" style="border-top: 0px">
-                      <span class="app-task-list__task-name">
-                        <a href="../../todo-in-progress" aria-describedby="CV-status">
-                          {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                        </a>
-                      </span>
-                      <strong class="govuk-tag govuk-tag--{{ 'blue' if item.status === 'IN_PROGRESS' else 'grey' }} app-task-list__tag" id="{{ item.status }}-status">{{ contentLookup.toDoStatus[item.status] }}</strong>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            </ol>
-
-            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">In place already</h3>
-
-            <ol class="app-task-list">
-              <ul class="app-task-list__items govuk-!-margin-bottom-6" style="padding-left: 0px">
-                {% for item in profile.profileData.supportAccepted.actionsRequired.actions %}
-                  {% if item.status === 'COMPLETED' %}
-                    <li class="app-task-list__item" style="border-top: 0px">
-                      <span class="app-task-list__task-name">
-                        <a href="../../todo-complete-blank" aria-describedby="bank-account-status">
-                          {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                        </a>
-                      </span>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            </ol>
-
-            <p class="app-summary-card__hint">Last updated {{ profile.profileData.supportAccepted.actionsRequired.modifiedDateTime }} by {{ profile.profileData.supportAccepted.actionsRequired.modifiedByName }}</p>
-
-          </div>
-        </section>
-      {% endif %}
-
-    </div>
+    {% if profile.profileData.supportAccepted %}
+      {% include './_toDoListSection.njk' %}
+    {% endif %}
   </div>
-{% endif %}
+</div>
+

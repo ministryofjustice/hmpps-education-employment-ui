@@ -12,12 +12,12 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
@@ -33,8 +33,14 @@ export default class SupportDeclinedReasonController {
           uid: id,
         }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        supportDeclinedReason: record.supportDeclinedReason || [],
-        supportDeclinedDetails: record.supportDeclinedDetails,
+        supportDeclinedReason:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.supportToWorkDeclinedReason
+            : record.supportDeclinedReason || [],
+        supportDeclinedDetails:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther
+            : record.supportDeclinedDetails,
       }
 
       // Store page data for use if validation fails
@@ -64,7 +70,13 @@ export default class SupportDeclinedReasonController {
         return
       }
 
-      // Update record in sessionData and tidy
+      // Handle update
+      if (mode === 'update') {
+        res.redirect(addressLookup.workProfile(id))
+        return
+      }
+
+      // Default flow Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
       setSessionData(req, ['createProfile', id], {
         ...record,

@@ -9,6 +9,7 @@ import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import UpdateProfileRequest from '../../../data/prisonerProfile/updateProfileRequest'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -75,13 +76,16 @@ export default class NewStatusController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
-          {
-            prisonerId: id,
-            bookingId: prisoner.bookingId,
-            status: newStatus,
-            currentUser: res.locals.user.username,
-          },
-          profile,
+          id,
+          new UpdateProfileRequest(
+            {
+              prisonerId: id,
+              bookingId: prisoner.bookingId,
+              status: newStatus,
+              currentUser: res.locals.user.username,
+            },
+            profile,
+          ),
         )
 
         // Redirect to work profile

@@ -13,42 +13,42 @@
     </th>
 {% endmacro %}
 
-{% macro supportNeeded(offender) %}
+{% macro supportNeeded(offender, contentLookup) %}
     {% set summary = offender.supportNeeded %}
     <td class="govuk-table__cell">
         <p class="govuk-body govuk-!-margin-bottom-1">Needs help with:</p>
         <ul class="govuk-list govuk-list--bullet">
             {% for item in summary %}
                 <li>
-                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                    <span class="govuk-!-font-weight-regular">{{ contentLookup[item] }}</span>
                 </li>
             {% endfor %}
         </ul>
     </td>
 {% endmacro %}
 
-{% macro readyToWork(offender) %}
+{% macro readyToWork(offender, contentLookup) %}
     {% set summary = offender.workTypeInterests %}
     <td class="govuk-table__cell">
         <p class="govuk-body govuk-!-margin-bottom-1">Looking for work in:</p>
         <ul class="govuk-list govuk-list--bullet">
             {% for item in summary %}
                 <li>
-                    <span class="govuk-!-font-weight-regular">{{ item | capitalize }}</span>
+                    <span class="govuk-!-font-weight-regular">{{ contentLookup[item] }}</span>
                 </li>
             {% endfor %}
         </ul>
     </td>
 {% endmacro %}
 
-{% macro supportDeclined(offender) %}
+{% macro supportDeclined(offender, contentLookup) %}
     {% set summary = offender.supportDeclinedReasons %}
     <td class="govuk-table__cell">
         <p class="govuk-body govuk-!-margin-bottom-1">Reason:</p>
         <ul class="govuk-list govuk-list--bullet">
-            {% for reason in summary %}
+            {% for item in summary %}
                 <li>
-                    <span class="govuk-!-font-weight-regular">{{ reason | capitalize }}</span>
+                    <span class="govuk-!-font-weight-regular">{{ contentLookup[item] }}</span>
                 </li>
             {% endfor %}
         </ul>

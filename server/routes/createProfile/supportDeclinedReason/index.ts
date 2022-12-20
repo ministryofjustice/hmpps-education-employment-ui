@@ -2,6 +2,7 @@ import type { Router } from 'express'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import type { Services } from '../../../services'
 import SupportDeclinedReasonController from './supportDeclinedReasonController'
 
@@ -10,12 +11,18 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/work-profile/create/:id/support-declined-reason/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearch),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.get,
   )
   router.post(
     '/work-profile/create/:id/support-declined-reason/:mode',
-    [parseCheckBoxValue('supportDeclinedReason')],
+    [
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+      parseCheckBoxValue('supportDeclinedReason'),
+    ],
     controller.post,
   )
 }
