@@ -2,14 +2,13 @@
 # Per environment values which override defaults in hmpps-education-employment-ui/values.yaml
 
 generic-service:
-  replicaCount: 2
 
   ingress:
     host: education-employment-ui.hmpps.service.justice.gov.uk
     contextColour: green
 
   env:
-    ENVIRONMENT: dev
+    ENVIRONMENT: prod
     S3_REGION: eu-west-2
     INGRESS_URL: "https://education-employment-ui.hmpps.service.justice.gov.uk"
     DPS_URL: "https://digital.prison.service.justice.gov.uk"

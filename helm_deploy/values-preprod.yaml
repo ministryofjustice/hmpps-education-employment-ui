@@ -9,7 +9,7 @@ generic-service:
     contextColour: green
 
   env:
-    ENVIRONMENT: dev
+    ENVIRONMENT: preprod
     S3_REGION: eu-west-2
     INGRESS_URL: "https://education-employment-ui-preprod.hmpps.service.justice.gov.uk"
     DPS_URL: "https://digital-preprod.prison.service.justice.gov.uk"
