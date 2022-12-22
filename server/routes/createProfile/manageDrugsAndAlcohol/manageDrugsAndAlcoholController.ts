@@ -1,22 +1,24 @@
+/* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
-
 import { plainToClass } from 'class-transformer'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValue'
 
 export default class ManageDrugsAndAlcoholController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
@@ -29,7 +31,12 @@ export default class ManageDrugsAndAlcoholController {
           uid: id,
         }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        manageDrugsAndAlcohol: record.manageDrugsAndAlcohol,
+        manageDrugsAndAlcohol:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workInterests.jobOfParticularInterest
+              ? ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
+              : ManageDrugsAndAlcoholValue.NOT_ABLE_TO_MANAGE
+            : record.manageDrugsAndAlcohol,
       }
 
       // Store page data for use if validation fails
@@ -54,6 +61,12 @@ export default class ManageDrugsAndAlcoholController {
           ...data,
           errors,
         })
+        return
+      }
+
+      // Handle update
+      if (mode === 'update') {
+        res.redirect(addressLookup.workProfile(id))
         return
       }
 

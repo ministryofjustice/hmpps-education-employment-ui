@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './trainingAndQualifications'
+import Controller from './trainingAndQualificationsController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificationsValue'

@@ -1,34 +1,46 @@
 import type { RequestHandler } from 'express'
-
 import { plainToClass } from 'class-transformer'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificationsValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class TrainingAndQualificationsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.workExperience(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.workExperience(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'trainingAndQualifications',
+          uid: id,
+        }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        trainingAndQualifications: record.trainingAndQualifications || [],
-        trainingAndQualificationsDetails: record.trainingAndQualificationsDetails,
+        trainingAndQualifications:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workExperience.qualificationsAndTraining
+            : record.trainingAndQualifications || [],
+        trainingAndQualificationsDetails:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther
+            : record.trainingAndQualificationsDetails,
       }
 
       // Store page data for use if validation fails
@@ -41,7 +53,7 @@ export default class TrainingAndQualificationsController {
   }
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id } = req.params
+    const { mode, id } = req.params
     const { trainingAndQualifications = [], trainingAndQualificationsDetails } = req.body
 
     try {
@@ -55,6 +67,12 @@ export default class TrainingAndQualificationsController {
           trainingAndQualifications,
           trainingAndQualificationsDetails,
         })
+        return
+      }
+
+      // Handle update
+      if (mode === 'update') {
+        res.redirect(addressLookup.workProfile(id))
         return
       }
 

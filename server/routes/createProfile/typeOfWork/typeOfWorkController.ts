@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express'
-
 import { plainToClass } from 'class-transformer'
+
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -8,29 +8,42 @@ import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class TypeOfWorkController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
-      const lastPage = (record.abilityToWork || []).includes(AbilityToWorkValue.DEPENDENCY_ISSUES)
-        ? addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)
-        : addressLookup.createProfile.abilityToWork(id, mode)
+      const lastPage =
+        mode !== 'update' && (record.abilityToWork || []).includes(AbilityToWorkValue.DEPENDENCY_ISSUES)
+          ? addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)
+          : addressLookup.createProfile.abilityToWork(id, mode)
 
       const data = {
-        backLocation: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+          page: 'typeOfWork',
+          uid: id,
+        }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        typeOfWork: record.typeOfWork || [],
-        typeOfWorkDetails: record.typeOfWorkDetails,
+        typeOfWork:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workInterests.workTypesOfInterest
+            : record.typeOfWork || [],
+        typeOfWorkDetails:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther
+            : record.typeOfWorkDetails,
       }
 
       // Store page data for use if validation fails
@@ -57,6 +70,12 @@ export default class TypeOfWorkController {
           typeOfWork,
           typeOfWorkDetails,
         })
+        return
+      }
+
+      // Handle update
+      if (mode === 'update') {
+        res.redirect(addressLookup.workProfile(id))
         return
       }
 

@@ -7,28 +7,40 @@ import addressLookup from '../../addressLookup'
 import WhatNeedsToChangeValue from '../../../enums/whatNeedsToChangeValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.supportDeclinedReason(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.supportDeclinedReason(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'whatNeedsToChange',
+          uid: id,
+        }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        whatNeedsToChange: record.whatNeedsToChange || [],
-        whatNeedsToChangeDetails: record.whatNeedsToChangeDetails,
+        whatNeedsToChange:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.circumstanceChangesRequiredToWork
+            : record.whatNeedsToChange || [],
+        whatNeedsToChangeDetails:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther
+            : record.whatNeedsToChangeDetails,
       }
 
       // Store page data for use if validation fails

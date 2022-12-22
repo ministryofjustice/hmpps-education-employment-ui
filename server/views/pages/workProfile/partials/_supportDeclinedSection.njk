@@ -1,31 +1,30 @@
-
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Reason
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {% for item in  profile.profileData.supportDeclined.supportToWorkDeclinedReason %}
-        <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' +  profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther if item === 'OTHER' }}</div>
-      {% endfor %}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'update') + '?from=' + originalUrl }}">
-        Change<span class="govuk-visually-hidden"> reason for decline</span>
-      </a>
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Change in circumstance that would help
-    </dt>
-    <dd class="govuk-summary-list__value">
-      {% for item in  profile.profileData.supportDeclined.circumstanceChangesRequiredToWork %}
-        <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' +  profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther if item === 'OTHER' }}</div>
-      {% endfor %}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'update') + '?from=' + originalUrl }}">
-        Change<span class="govuk-visually-hidden"> circumstance changes required to work</span>
-      </a>
-    </dd>
-  </div>
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    Reason
+  </dt>
+  <dd class="govuk-summary-list__value">
+    {% for item in profile.profileData.supportDeclined.supportToWorkDeclinedReason %}
+      <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' +  profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther if item === 'OTHER' }}</div>
+    {% endfor %}
+  </dd>
+  <dd class="govuk-summary-list__actions">
+    <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'update') + '?from=' + originalUrl }}">
+      Change<span class="govuk-visually-hidden"> reason for decline</span>
+    </a>
+  </dd>
+</div>
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    Change in circumstance that would help
+  </dt>
+  <dd class="govuk-summary-list__value">
+    {% for item in profile.profileData.supportDeclined.circumstanceChangesRequiredToWork %}
+      <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' +  profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther if item === 'OTHER' }}</div>
+    {% endfor %}
+  </dd>
+  <dd class="govuk-summary-list__actions">
+    <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'update') + '?from=' + originalUrl }}">
+      Change<span class="govuk-visually-hidden"> circumstance changes required to work</span>
+    </a>
+  </dd>
+</div>

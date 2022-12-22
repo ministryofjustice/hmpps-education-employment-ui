@@ -1,44 +1,52 @@
-<section class="app-summary-card govuk-!-margin-bottom-6">
-  <header class="app-summary-card__header">
-    <h2 class="app-summary-card__title">
-      Work interests
-    </h2>
-  </header>
+{% if profile.profileData.supportAccepted and profile.profileData.supportAccepted.workInterests %}
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        Work interests
+      </h3>
+    </header>
 
-  <div class="app-summary-card__body">
+    <div class="app-summary-card__body">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Type of work
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% for item in profile.profileData.supportAccepted.workInterests.workTypesOfInterest %}
+              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ': ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}</div>
+            {% endfor %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.typeOfWork(id, 'update') + '?from=' + originalUrl }}">
+                Change<span class="govuk-visually-hidden"> type of work</span>
+              </a>
+            {% endif %}
+          </dd>
+        </div>
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Type of work
-        </dt>
-        <dd class="govuk-summary-list__value">
-          Any type of work
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q5-job-sectors">
-            Change<span class="govuk-visually-hidden"> type of work</span>
-          </a>
-        </dd>
-      </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Specific job role of interest
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ contentLookup.fields.yesNo.YES if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest else contentLookup.fields.yesNo.NO }} <br><br>
+            {{ 'Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
+              <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + originalUrl }}">
+                Change<span class="govuk-visually-hidden"> job role of interest</span>
+              </a>
+            {% endif %}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+        </div>
+      </dl>
 
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Specific job role of interest
-        </dt>
-        <dd class="govuk-summary-list__value">
-          No
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link govuk-link--no-visited-state" href="../../checklist/q6-job-role">
-            Change<span class="govuk-visually-hidden"> previous application number</span>
-          </a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-      </div>
-    </dl>
-    <p class="app-summary-card__hint">Last updated 1 August by James Brown</p>
-
-  </div>
-</section>
+      <p class="app-summary-card__hint">Last updated {{ profile.profileData.supportAccepted.workInterests.modifiedDateTime }} by {{ profile.profileData.supportAccepted.workInterests.modifiedByName }}</p>
+    </div>
+  </section>
+{% endif %}

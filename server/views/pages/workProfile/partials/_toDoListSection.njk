@@ -1,8 +1,8 @@
 <section class="app-summary-card govuk-!-margin-bottom-6">
   <header class="app-summary-card__header">
-    <h2 class="app-summary-card__title">
+    <h3 class="app-summary-card__title">
       Things they have in place or need
-    </h2>
+    </h3>
   </header>
 
   <div class="app-summary-card__body">
@@ -15,11 +15,15 @@
           {% if item.status !== 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                <a href="../../todo-in-progress" aria-describedby="CV-status">
+                {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
+                  <a href="{{ addressLookup.toDoItem(id, item.todoItem) }}" aria-describedby="{{ item.todoItem }}-status">
+                    {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
+                  </a>
+                {% else %}
                   {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                </a>
+                {% endif %}
               </span>
-              <strong class="govuk-tag govuk-tag--{{ 'blue' if item.status === 'IN_PROGRESS' else 'grey' }} app-task-list__tag" id="{{ item.status }}-status">{{ contentLookup.toDoStatus[item.status] }}</strong>
+              <strong class="govuk-tag govuk-tag--{{ 'blue' if item.status === 'IN_PROGRESS' else 'grey' }} app-task-list__tag" id="{{ item.todoItem }}-status">{{ contentLookup.toDoStatus[item.status] }}</strong>
             </li>
           {% endif %}
         {% endfor %}
@@ -34,9 +38,13 @@
           {% if item.status === 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                <a href="../../todo-complete-blank" aria-describedby="bank-account-status">
+                {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
+                  <a href="../../todo-complete-blank">
+                    {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
+                  </a>
+                {% else %}
                   {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                </a>
+                {% endif %}
               </span>
             </li>
           {% endif %}
