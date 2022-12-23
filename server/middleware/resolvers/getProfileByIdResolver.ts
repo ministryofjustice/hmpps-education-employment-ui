@@ -71,7 +71,6 @@ const getProfileByIdResolver =
         next()
         return
       }
-
       next(err)
     }
   }
