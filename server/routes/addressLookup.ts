@@ -19,4 +19,8 @@ export default {
     trainingAndQualifications: (id: string, mode = 'new') =>
       `/work-profile/create/${id}/training-and-qualifications/${mode}`,
   },
+  changeStatus: {
+    newStatus: (id: string) => `/work-profile/change-status/${id}/new-status`,
+    newStatusPause: (id: string) => `/work-profile/change-status/${id}/pause`,
+  },
 }

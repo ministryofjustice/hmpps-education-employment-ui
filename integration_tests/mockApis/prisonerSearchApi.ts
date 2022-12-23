@@ -1,22 +1,9 @@
 import { stubFor } from './wiremock'
 import { getTestCohortProfileData } from '../mockData/cohortProfileData'
 import { getTestCohortSupportNeeded } from '../mockData/cohortProfileFilterSupportData'
+import prisoners from '../mockData/prisonerByIdData'
 
-const getPrisonerById = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPattern: '/prisoner/G6115VJ',
-    },
-    response: {
-      status: 200,
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: {
-        firstName: 'Daniel',
-        lastName: 'Craig',
-      },
-    },
-  })
+const getPrisonerById = (id = 'G6115VJ') => stubFor(prisoners[id])
 
 const stubReadinessProfileSearch = () =>
   stubFor({

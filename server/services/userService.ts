@@ -14,4 +14,9 @@ export default class UserService {
     const user = await this.hmppsAuthClient.getUser(token)
     return { ...user, displayName: convertToTitleCase(user.name), username: user.name }
   }
+
+  async getUserByUsername(token: string, username: string): Promise<UserDetails> {
+    const user = await this.hmppsAuthClient.getUserByUsername(token, username)
+    return { ...user, displayName: convertToTitleCase(user.name), username: user.name }
+  }
 }
