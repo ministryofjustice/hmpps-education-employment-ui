@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './trainingAndQualificationsController'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -7,6 +8,7 @@ import addressLookup from '../../addressLookup'
 import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificationsValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -38,7 +40,13 @@ describe('TrainingAndQualificationsController', () => {
     trainingAndQualifications: [] as any,
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -140,6 +148,25 @@ describe('TrainingAndQualificationsController', () => {
       })
       expect(getSessionData(req, ['trainingAndQualifications', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workExperience: {},
+          },
+        },
+      }
+      req.body.trainingAndQualifications = [TrainingAndQualificationsValue.OTHER]
+      req.body.trainingAndQualificationsDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

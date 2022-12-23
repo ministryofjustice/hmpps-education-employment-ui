@@ -8,8 +8,12 @@ import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValu
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 
 export default class SupportDeclinedReasonController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, profile } = req.context
@@ -55,6 +59,7 @@ export default class SupportDeclinedReasonController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { supportDeclinedReason = [], supportDeclinedDetails } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -70,8 +75,22 @@ export default class SupportDeclinedReasonController {
         return
       }
 
+      deleteSessionData(req, ['supportDeclinedReason', id, 'data'])
+
       // Handle update
       if (mode === 'update') {
+        // Update data model
+        profile.profileData.supportDeclined = {
+          ...profile.profileData.supportDeclined,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+          supportToWorkDeclinedReason: supportDeclinedReason,
+          supportToWorkDeclinedReasonOther: supportDeclinedDetails,
+        }
+
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
         res.redirect(addressLookup.workProfile(id))
         return
       }
@@ -85,7 +104,6 @@ export default class SupportDeclinedReasonController {
           ? supportDeclinedDetails
           : '',
       })
-      deleteSessionData(req, ['supportDeclinedReason', id, 'data'])
 
       // Redirect to the correct page based on mode
       res.redirect(

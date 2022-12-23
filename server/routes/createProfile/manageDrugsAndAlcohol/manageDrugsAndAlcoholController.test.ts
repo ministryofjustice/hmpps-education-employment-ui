@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './manageDrugsAndAlcoholController'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -6,6 +8,7 @@ import addressLookup from '../../addressLookup'
 import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -36,7 +39,13 @@ describe('ManageDrugsAndAlcoholController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -116,7 +125,7 @@ describe('ManageDrugsAndAlcoholController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Sets session record then redirects to typeOfWork', async () => {
+    it('On success -  mode = new - Sets session record then redirects to typeOfWork', async () => {
       req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
       req.params.mode = 'new'
 
@@ -129,7 +138,7 @@ describe('ManageDrugsAndAlcoholController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
     })
 
-    it('On success - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
       req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
       req.params.mode = 'edit'
 
@@ -140,6 +149,24 @@ describe('ManageDrugsAndAlcoholController', () => {
       })
       expect(getSessionData(req, ['manageDrugsAndAlcohol', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workImpacts: {},
+          },
+        },
+      }
+      req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
     })
   })
 })

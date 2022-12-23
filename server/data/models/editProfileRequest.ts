@@ -1,15 +1,15 @@
-import AbilityToWorkValue from '../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
 import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
-import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
-import ProfileDataSection from './interfaces/profileDataSection'
-import PrisonerProfile from './interfaces/prisonerProfile'
-import TodoItem, { ToDoStatus } from './interfaces/todoItem'
-import SupportAcceptedSection from './interfaces/supportAcceptedSection'
-import SupportDeclinedSection from './interfaces/supportDeclinedSection'
+import CreateProfileRequestArgs from '../prisonerProfile/interfaces/createProfileRequestArgs'
+import ProfileDataSection from '../prisonerProfile/interfaces/profileDataSection'
+import PrisonerProfile from '../prisonerProfile/interfaces/prisonerProfile'
+import TodoItem, { ToDoStatus } from '../prisonerProfile/interfaces/todoItem'
+import SupportAcceptedSection from '../prisonerProfile/interfaces/supportAcceptedSection'
+import SupportDeclinedSection from '../prisonerProfile/interfaces/supportDeclinedSection'
 import ProfileStatus from '../../enums/profileStatus'
 
-export default class UpdateProfileRequest {
+// Model for editing an existing profile and saving via change status or check answers
+export default class EditProfileRequest {
   constructor(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
     this.bookingId = existingProfile.bookingId || data.bookingId
 
@@ -80,8 +80,8 @@ export default class UpdateProfileRequest {
             modifiedBy: data.currentUser,
             modifiedDateTime: isoString,
             abilityToWorkImpactedBy: data.abilityToWork,
-            caringResponsibilitiesFullTime: data.abilityToWork.includes(AbilityToWorkValue.FAMILY_ISSUES),
-            ableToManageMentalHealth: data.abilityToWork.includes(AbilityToWorkValue.MENTAL_HEALTH_ISSUES) === false,
+            caringResponsibilitiesFullTime: false,
+            ableToManageMentalHealth: false,
             ableToManageDependencies: data.manageDrugsAndAlcohol === ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
           },
           workInterests: {

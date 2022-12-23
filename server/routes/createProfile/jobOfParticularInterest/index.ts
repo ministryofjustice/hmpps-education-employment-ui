@@ -6,7 +6,7 @@ import type { Services } from '../../../services'
 import JobOfParticularInterestController from './jobOfParticularInterestController'
 
 export default (router: Router, services: Services) => {
-  const controller = new JobOfParticularInterestController()
+  const controller = new JobOfParticularInterestController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/job-of-particular-interest/:mode',

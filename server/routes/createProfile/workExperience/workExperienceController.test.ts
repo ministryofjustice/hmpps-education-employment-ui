@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './workExperienceController'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -6,6 +8,7 @@ import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -36,7 +39,13 @@ describe('WorkExperienceController', () => {
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -113,7 +122,7 @@ describe('WorkExperienceController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Sets session record then redirects to trainingAndQualifications', async () => {
+    it('On success - mode = new - Sets session record then redirects to trainingAndQualifications', async () => {
       req.body.workExperience = YesNoValue.YES
       req.params.mode = 'new'
 
@@ -126,7 +135,7 @@ describe('WorkExperienceController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.trainingAndQualifications(id, 'new'))
     })
 
-    it('On success - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
       req.body.workExperience = YesNoValue.YES
       req.params.mode = 'edit'
 
@@ -137,6 +146,25 @@ describe('WorkExperienceController', () => {
       })
       expect(getSessionData(req, ['workExperience', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workExperience: {},
+          },
+        },
+      }
+      req.body.workExperience = YesNoValue.YES
+      req.body.workExperienceDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './checkYourAnswersController'
 import { setSessionData, getSessionData } from '../../../utils/session'
@@ -64,12 +65,12 @@ describe('CheckYourAnswersController', () => {
       setSessionData(req, ['createProfile', id], {})
     })
     it('On error - Calls next with error', async () => {
-      // mockService.createProfile.mockImplementation(() => {
-      //   throw new Error('mock_error')
-      // })
-      // await controller.post(req, res, next)
-      // expect(next).toHaveBeenCalledTimes(1)
-      // expect(res.render).toHaveBeenCalledTimes(0)
+      mockService.createProfile.mockImplementation(() => {
+        throw new Error('mock_error')
+      })
+      await controller.post(req, res, next)
+      expect(next).toHaveBeenCalledTimes(1)
+      expect(res.render).toHaveBeenCalledTimes(0)
     })
     it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
       mockService.createProfile.mockResolvedValue({})

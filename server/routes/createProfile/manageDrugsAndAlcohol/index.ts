@@ -6,7 +6,7 @@ import type { Services } from '../../../services'
 import ManageDrugsAndAlcoholController from './manageDrugsAndAlcoholController'
 
 export default (router: Router, services: Services) => {
-  const controller = new ManageDrugsAndAlcoholController()
+  const controller = new ManageDrugsAndAlcoholController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/manage-drugs-and-alcohol/:mode',

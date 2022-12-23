@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './supportDeclinedReasonController'
 import validateFormSchema from '../../../utils/validateFormSchema'
@@ -38,7 +39,13 @@ describe('SupportDeclinedReasonController', () => {
     supportDeclinedReason: [] as any,
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -140,6 +147,23 @@ describe('SupportDeclinedReasonController', () => {
       })
       expect(getSessionData(req, ['supportDeclinedReason', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportDeclined: {},
+        },
+      }
+      req.body.supportDeclinedReason = [SupportDeclinedReasonValue.OTHER]
+      req.body.supportDeclinedDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
     })
   })
 })

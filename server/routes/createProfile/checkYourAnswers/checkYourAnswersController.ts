@@ -7,7 +7,7 @@ import yesNoValue from '../../../enums/yesNoValue'
 import ProfileStatus from '../../../enums/profileStatus'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import UpdateProfileRequest from '../../../data/prisonerProfile/updateProfileRequest'
+import EditProfileRequest from '../../../data/models/editProfileRequest'
 
 export default class CheckYourAnswersController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -73,7 +73,7 @@ export default class CheckYourAnswersController {
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
           id,
-          new UpdateProfileRequest(
+          new EditProfileRequest(
             {
               ...newRecord,
               status: statusChange.newStatus,

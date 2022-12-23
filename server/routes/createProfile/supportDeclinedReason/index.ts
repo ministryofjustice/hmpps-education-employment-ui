@@ -7,7 +7,7 @@ import type { Services } from '../../../services'
 import SupportDeclinedReasonController from './supportDeclinedReasonController'
 
 export default (router: Router, services: Services) => {
-  const controller = new SupportDeclinedReasonController()
+  const controller = new SupportDeclinedReasonController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/support-declined-reason/:mode',

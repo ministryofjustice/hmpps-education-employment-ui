@@ -13,6 +13,7 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.signIn()

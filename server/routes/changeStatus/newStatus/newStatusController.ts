@@ -9,7 +9,7 @@ import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import UpdateProfileRequest from '../../../data/prisonerProfile/updateProfileRequest'
+import EditProfileRequest from '../../../data/models/editProfileRequest'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -77,7 +77,7 @@ export default class NewStatusController {
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
           id,
-          new UpdateProfileRequest(
+          new EditProfileRequest(
             {
               prisonerId: id,
               bookingId: prisoner.bookingId,

@@ -14,7 +14,7 @@
           </dt>
           <dd class="govuk-summary-list__value">
             {% for item in profile.profileData.supportAccepted.workInterests.workTypesOfInterest %}
-              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ': ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}</div>
+              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}</div>
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">

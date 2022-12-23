@@ -8,8 +8,13 @@ import TrainingAndQualificationsValue from '../../../enums/trainingAndQualificat
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 export default class TrainingAndQualificationsController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { prisoner, profile } = req.context
@@ -55,6 +60,7 @@ export default class TrainingAndQualificationsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { mode, id } = req.params
     const { trainingAndQualifications = [], trainingAndQualificationsDetails } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -70,12 +76,29 @@ export default class TrainingAndQualificationsController {
         return
       }
 
+      deleteSessionData(req, ['trainingAndQualifications', id, 'data'])
+
       // Handle update
       if (mode === 'update') {
-        res.redirect(addressLookup.workProfile(id))
+        // Update data model
+        profile.profileData.supportAccepted.workExperience = {
+          ...profile.profileData.supportAccepted.workExperience,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+          qualificationsAndTraining: trainingAndQualifications,
+          qualificationsAndTrainingOther: trainingAndQualifications.includes(TrainingAndQualificationsValue.OTHER)
+            ? trainingAndQualificationsDetails
+            : '',
+        }
+
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
         return
       }
 
+      // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
       setSessionData(req, ['createProfile', id], {
@@ -85,7 +108,6 @@ export default class TrainingAndQualificationsController {
           ? trainingAndQualificationsDetails
           : '',
       })
-      deleteSessionData(req, ['trainingAndQualifications', id, 'data'])
 
       // Redirect to the correct page based on mode
       res.redirect(addressLookup.createProfile.checkAnswers(id))

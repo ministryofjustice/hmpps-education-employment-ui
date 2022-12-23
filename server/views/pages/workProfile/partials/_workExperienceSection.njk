@@ -30,7 +30,7 @@
         </dt>
         <dd class="govuk-summary-list__value">
           {% for item in  profile.profileData.supportAccepted.workExperience.qualificationsAndTraining %}
-            <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ': ' +  profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther if item === 'OTHER' }}</div>
+            <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther if item === 'OTHER' }}</div>
           {% endfor %}
         </dd>
         <dd class="govuk-summary-list__actions">

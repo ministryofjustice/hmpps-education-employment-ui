@@ -26,11 +26,16 @@
                 </a>
               </dd>
             </div>
-            {% if profile.profileData.status === 'SUPPORT_DECLINED' and  profile.profileData.supportDeclined %}
+            {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
               {% include './_supportDeclinedSection.njk' %}
             {% endif %}
           </dl>
-          <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
+          
+          {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
+            <p class="app-summary-card__hint">Last updated {{ profile.profileData.supportDeclined.modifiedDateTime }} by {{ profile.profileData.supportDeclined.modifiedByName if profile.profileData.supportDeclined.modifiedByName else profile.profileData.supportDeclined.modifiedBy }}</p>
+          {% else %}
+            <p class="app-summary-card__hint">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
+          {% endif %}
         </div>
       </section>
     {% else %}

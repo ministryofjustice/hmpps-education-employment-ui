@@ -7,7 +7,7 @@ import type { Services } from '../../../services'
 import WhatNeedsToChangeController from './whatNeedsToChangeController'
 
 export default (router: Router, services: Services) => {
-  const controller = new WhatNeedsToChangeController()
+  const controller = new WhatNeedsToChangeController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/what-needs-to-change/:mode',
