@@ -15,13 +15,9 @@
           {% if item.status !== 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
-                  <a href="{{ addressLookup.toDoItem(id, item.todoItem) }}" aria-describedby="{{ item.todoItem }}-status">
-                    {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                  </a>
-                {% else %}
+                <a href="{{ addressLookup.toDoItem(id, item.todoItem) }}" data-qa="overview-todo-{{ item.status }}-link" aria-describedby="{{ item.todoItem }}-status">
                   {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                {% endif %}
+                </a>
               </span>
               <strong class="govuk-tag govuk-tag--{{ 'blue' if item.status === 'IN_PROGRESS' else 'grey' }} app-task-list__tag" id="{{ item.todoItem }}-status">{{ contentLookup.toDoStatus[item.status] }}</strong>
             </li>
@@ -38,13 +34,9 @@
           {% if item.status === 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
-                  <a href="../../todo-complete-blank">
-                    {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                  </a>
-                {% else %}
+                <a href="../../todo-complete-blank" data-qa="overview-todo-{{ item.status }}-link">
                   {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
-                {% endif %}
+                </a>
               </span>
             </li>
           {% endif %}

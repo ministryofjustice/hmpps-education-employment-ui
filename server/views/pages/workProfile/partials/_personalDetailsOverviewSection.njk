@@ -11,13 +11,13 @@
         <dt class="govuk-summary-list__key">
           Name
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" data-qa="details-name">
           {{ prisoner.firstName }} {{ prisoner.lastName }}
         </dd>
       </div>
 
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" data-qa="details-dob">
           Date of birth
         </dt>
         <dd class="govuk-summary-list__value">
@@ -26,7 +26,7 @@
       </div>
 
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" data-qa="details-cell">
           Cell location
         </dt>
         <dd class="govuk-summary-list__value">
@@ -38,13 +38,13 @@
         <dt class="govuk-summary-list__key">
           Release date
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" data-qa="details-release-date">
           {{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}
         </dd>
       </div>
 
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" data-qa="details-release-area">
           Release area
         </dt>
         <dd class="govuk-summary-list__value">
@@ -55,7 +55,7 @@
       <div class="govuk-summary-list__row">
       </div>
     </dl>
-    <p class="govuk-!-margin-top-5"><a class="govuk-link govuk-link--no-visited-state" href="#">
+    <p class="govuk-!-margin-top-5"><a class="govuk-link govuk-link--no-visited-state" data-qa="view-details-link" href="#">
       View more details (opens in a new tab)</a>
     </p>
   </div>

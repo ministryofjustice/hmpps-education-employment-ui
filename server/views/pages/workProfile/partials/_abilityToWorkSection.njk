@@ -12,17 +12,15 @@
           <dt class="govuk-summary-list__key">
             May be affected by
           </dt>
-          <dd class="govuk-summary-list__value">
+          <dd class="govuk-summary-list__value" data-qa="ability-to-work">
             {% for item in profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy %}
               <div>{{ contentLookup.fields.abilityToWork[item] }}</div>
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">
-            {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
-              <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.abilityToWork(id, 'update') + '?from=' + originalUrl }}">
-                Change<span class="govuk-visually-hidden"></span>
-              </a>
-            {% endif %}
+            <a class="govuk-link govuk-link--no-visited-state"data-qa="ability-to-work-link"  href="{{ addressLookup.createProfile.abilityToWork(id, 'update') + '?from=' + originalUrl }}">
+              Change<span class="govuk-visually-hidden"></span>
+            </a>
           </dd>
         </div>
 
@@ -31,15 +29,13 @@
             <dt class="govuk-summary-list__key">
               Drug or alcohol dependency
             </dt>
-            <dd class="govuk-summary-list__value">
+            <dd class="govuk-summary-list__value" data-qa="ability-to-work-dependency">
               {{ contentLookup.fields.manageDrugsAndAlcohol["ABLE_TO_MANAGE"] if profile.profileData.supportAccepted.workImpacts.ableToManageDependencies else contentLookup.fields.manageDrugsAndAlcohol["NOT_ABLE_TO_MANAGE"] }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              {% if profile.profileData.status === 'SUPPORT_NEEDED' %}
-                <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update') + '?from=' + originalUrl }}">
-                  Change<span class="govuk-visually-hidden"></span>
-                </a>
-              {% endif %}
+              <a class="govuk-link govuk-link--no-visited-state" data-qa="ability-to-work-dependency-link" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update') + '?from=' + originalUrl }}">
+                Change<span class="govuk-visually-hidden"></span>
+              </a>
             </dd>
           </div>
         {% endif %}

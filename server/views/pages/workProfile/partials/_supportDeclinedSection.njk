@@ -2,7 +2,7 @@
   <dt class="govuk-summary-list__key">
     Reason
   </dt>
-  <dd class="govuk-summary-list__value">
+  <dd class="govuk-summary-list__value" data-qa="overview-declined-reason">
     {% for item in profile.profileData.supportDeclined.supportToWorkDeclinedReason %}
       <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' +  profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther if item === 'OTHER' }}</div>
     {% endfor %}
@@ -17,7 +17,7 @@
   <dt class="govuk-summary-list__key">
     Change in circumstance that would help
   </dt>
-  <dd class="govuk-summary-list__value">
+  <dd class="govuk-summary-list__value" data-qa="overview-declined-changes-required">
     {% for item in profile.profileData.supportDeclined.circumstanceChangesRequiredToWork %}
       <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' +  profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther if item === 'OTHER' }}</div>
     {% endfor %}
