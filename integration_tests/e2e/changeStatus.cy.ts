@@ -11,6 +11,7 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('updateProfile')
     cy.signIn()
   })
@@ -21,7 +22,7 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
-    workProfilePage.changeStatusLink().click()
+    workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = Page.verifyOnPage(NewStatusPage)
     newStatusPage.radioFieldValue('SUPPORT_NEEDED').click()
@@ -39,7 +40,7 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
-    workProfilePage.changeStatusLink().click()
+    workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = Page.verifyOnPage(NewStatusPage)
     newStatusPage.radioFieldValue('NO_RIGHT_TO_WORK').click()
@@ -55,7 +56,7 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
-    workProfilePage.changeStatusLink().click()
+    workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = Page.verifyOnPage(NewStatusPage)
     newStatusPage.radioFieldValue('READY_TO_WORK').click()
@@ -70,7 +71,7 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
-    workProfilePage.changeStatusLink().click()
+    workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = Page.verifyOnPage(NewStatusPage)
     newStatusPage.radioFieldValue('SUPPORT_DECLINED').click()

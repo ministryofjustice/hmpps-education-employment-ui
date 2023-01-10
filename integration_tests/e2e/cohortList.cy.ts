@@ -12,6 +12,7 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
     cy.visit(cohortListUrl)

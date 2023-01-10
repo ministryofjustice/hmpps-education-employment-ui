@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import NewStatusPage from '../pages/newStatus'
+import Page from '../pages/page'
+import SupportDeclinedReasonPage from '../pages/supportDeclinedReason'
+import WhatNeedsToChangePage from '../pages/whatNeedsToChange'
 import WorkProfilePage from '../pages/workProfile'
 
 context('SignIn', () => {
@@ -8,6 +12,7 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
   })
 
@@ -17,6 +22,12 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
+
+    workProfilePage.overviewStatus().contains('NO RIGHT TO WORK')
+
+    workProfilePage.overviewChangeStatusLink().contains('Change').click()
+
+    const newStatusPage = Page.verifyOnPage(NewStatusPage)
   })
 
   it('Support Needed', () => {
@@ -33,6 +44,20 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/G5005GD/view/overview')
     const workProfilePage = new WorkProfilePage("John Smith's work profile")
+
+    workProfilePage.overviewDeclinedReasonLink().click()
+
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does John Smith not want support?')
+    supportDeclinedReason.backLink().click()
+
+    workProfilePage.overviewDeclinedChangesRequiredLink().click()
+
+    const whatNeedsToChange = new WhatNeedsToChangePage(
+      'What change in circumstances would make John Smith want to get work?',
+    )
+    whatNeedsToChange.backLink().click()
+
+    cy.url().should('include', 'work-profile')
   })
 
   it('No profile found', () => {
@@ -41,5 +66,7 @@ context('SignIn', () => {
 
     cy.visit('/work-profile/A00001A/view/overview')
     const workProfilePage = new WorkProfilePage("Paris Jones's work profile")
+
+    workProfilePage.overviewCompleteAssessmentLink().contains('Complete assessment now')
   })
 })

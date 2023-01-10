@@ -17,7 +17,7 @@
               <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}</div>
             {% endfor %}
           </dd>
-          <dd class="govuk-summary-list__actions" data-qa="interests-type-of-work-link">
+          <dd class="govuk-summary-list__actions" id="interests-type-of-work-link">
             <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.typeOfWork(id, 'update') + '?from=' + originalUrl }}">
               Change<span class="govuk-visually-hidden"> type of work</span>
             </a>
@@ -33,7 +33,7 @@
             {{ 'Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link govuk-link--no-visited-state" data-qa="interests-type-particular-interest-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + originalUrl }}">
+            <a class="govuk-link govuk-link--no-visited-state" id="interests-type-particular-interest-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + originalUrl }}">
               Change<span class="govuk-visually-hidden"> job role of interest</span>
             </a>
           </dd>

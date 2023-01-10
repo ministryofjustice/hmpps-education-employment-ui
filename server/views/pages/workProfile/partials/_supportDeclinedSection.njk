@@ -8,7 +8,7 @@
     {% endfor %}
   </dd>
   <dd class="govuk-summary-list__actions">
-    <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'update') + '?from=' + originalUrl }}">
+    <a class="govuk-link govuk-link--no-visited-state" id="overview-declined-reason-link" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'update') + '?from=' + originalUrl }}">
       Change<span class="govuk-visually-hidden"> reason for decline</span>
     </a>
   </dd>
@@ -23,7 +23,7 @@
     {% endfor %}
   </dd>
   <dd class="govuk-summary-list__actions">
-    <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'update') + '?from=' + originalUrl }}">
+    <a class="govuk-link govuk-link--no-visited-state" id="overview-declined-changes-required-link" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'update') + '?from=' + originalUrl }}">
       Change<span class="govuk-visually-hidden"> circumstance changes required to work</span>
     </a>
   </dd>
