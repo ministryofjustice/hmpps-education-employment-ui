@@ -1,7 +1,6 @@
 export default {
   workProfile: (id: string, tab = 'overview') => `/work-profile/${id}/view/${tab}`,
   cohortList: () => '/work-profile/cohort-list',
-  toDoItem: (id: string, item = '') => `/work-profile/${id}/to-do-item/${item.toLowerCase()}`,
   createProfile: {
     checkAnswers: (id: string) => `/work-profile/create/${id}/check-answers`,
     ineligableToWork: (id: string, mode = 'new') => `/work-profile/create/${id}/ineligable-to-work/${mode}`,
@@ -23,5 +22,8 @@ export default {
   changeStatus: {
     newStatus: (id: string) => `/work-profile/change-status/${id}/new-status`,
     newStatusPause: (id: string) => `/work-profile/change-status/${id}/pause`,
+  },
+  actions: {
+    editAction: (id: string, action: string) => `/work-profile/actions/${id}/edit/${action.toLowerCase()}`,
   },
 }
