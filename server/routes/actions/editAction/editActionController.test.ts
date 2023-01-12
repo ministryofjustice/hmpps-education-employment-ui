@@ -34,14 +34,27 @@ describe('NewStatusController', () => {
       status: ProfileStatus.NO_RIGHT_TO_WORK,
       supportAccepted: {
         actionsRequired: {
-          actions: [{ todoItem: 'CV', status: 'IN_PROGRESS' }],
+          actions: [
+            {
+              todoItem: 'CV_AND_COVERING_LETTER',
+              status: 'IN_PROGRESS',
+              notes: [
+                {
+                  createdDate: '23 Oct 2022',
+                  createdTime: '10:34',
+                  createdName: 'Joe Bloggs',
+                  details: 'Some note details',
+                },
+              ],
+            },
+          ],
         },
       },
     },
   }
 
   req.params.id = 'mock_ref'
-  req.params.action = 'cv'
+  req.params.action = 'cv_and_covering_letter'
   req.originalUrl = 'mock_url'
   res.locals.user = {}
   const { id } = req.params
@@ -49,8 +62,16 @@ describe('NewStatusController', () => {
   const mockData = {
     backLocation: addressLookup.workProfile(id),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
-    toDoItem: 'CV',
+    toDoItem: 'CV_AND_COVERING_LETTER',
     toDoStatus: 'IN_PROGRESS',
+    notes: [
+      {
+        createdDate: '23 Oct 2022',
+        createdTime: '10:34',
+        createdName: 'Joe Bloggs',
+        details: 'Some note details',
+      },
+    ],
   }
 
   const mockService: any = {
@@ -93,6 +114,7 @@ describe('NewStatusController', () => {
     })
 
     it('On error - Calls next with error', async () => {
+      req.query.noteAction = 'add'
       validationMock.mockImplementation(() => {
         throw new Error('mock_error')
       })
@@ -104,6 +126,7 @@ describe('NewStatusController', () => {
     })
 
     it('On validation error - Calls render with the correct data', async () => {
+      req.query.noteAction = 'add'
       validationMock.mockImplementation(() => errors)
 
       await controller.post(req, res, next)

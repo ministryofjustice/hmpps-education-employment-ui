@@ -1,27 +1,12 @@
 import joi from 'joi'
 import type { ObjectSchema } from 'joi'
 
-import { ToDoStatus } from '../../../data/prisonerProfile/interfaces/todoItem'
-
-interface NewStatusData {
-  prisoner: { firstName: string; lastName: string }
-}
-
-export default function validationSchema(data: NewStatusData): ObjectSchema {
-  const {
-    prisoner: { firstName, lastName },
-  } = data
-
-  const msg = `Select a new status for ${firstName} ${lastName}'s work profile`
-
+export default function validationSchema(): ObjectSchema {
   return joi.object({
-    toDoStatus: joi
-      .string()
-      .valid(ToDoStatus.IN_PROGRESS, ToDoStatus.NOT_STARTED, ToDoStatus.COMPLETED)
-      .required()
-      .messages({
-        'any.only': msg,
-        'any.required': msg,
-      }),
+    noteText: joi.string().required().max(20).messages({
+      'any.required': 'Add or cancel your note before trying to save progress',
+      'string.empty': 'Add or cancel your note before trying to save progress',
+      'string.max': 'Note must be 4000 characters or less',
+    }),
   })
 }

@@ -4,9 +4,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set title = contentLookup.fields.alreadyinPlace[toDoItem] %}
+{% set title = contentLookup.fields.alreadyInPlace[toDoItem] %}
 
 {#
   Data supplied to this template:
@@ -47,23 +48,26 @@
             items: [
               {
                 value: "NOT_STARTED",
-                text: contentLookup.fields.toDoStatus["NOT_STARTED"],
+                text: contentLookup.toDoStatus["NOT_STARTED"],
                 checked: toDoStatus === "NOT_STARTED"
               },
               {
                 value: "IN_PROGRESS",
-                text: contentLookup.fields.toDoStatus["IN_PROGRESS"],
+                text: contentLookup.toDoStatus["IN_PROGRESS"],
                 checked: toDoStatus === "IN_PROGRESS"
               },
               {
-                value: "COMPLETE",
-                text: contentLookup.fields.toDoStatus["COMPLETE"],
-                checked: toDoStatus === "COMPLETE"
+                value: "COMPLETED",
+                text: contentLookup.toDoStatus["COMPLETED"],
+                checked: toDoStatus === "COMPLETED"
               }
             ],
             errorMessage: errors.toDoStatus
           }) }}
+
         </div>
+
+        {% include './partials/_notes.njk' %}
 
         {{ govukButton({
             text: "Save Progress",
