@@ -29,6 +29,15 @@ describe('NewStatusController', () => {
     lastName: 'mock_lastName',
   }
 
+  req.context.notes = [
+    {
+      createdDate: '23 Oct 2022',
+      createdTime: '10:34',
+      createdName: 'Joe Bloggs',
+      details: 'Some note details',
+    },
+  ]
+
   req.context.profile = {
     profileData: {
       status: ProfileStatus.NO_RIGHT_TO_WORK,
@@ -38,14 +47,6 @@ describe('NewStatusController', () => {
             {
               todoItem: 'CV_AND_COVERING_LETTER',
               status: 'IN_PROGRESS',
-              notes: [
-                {
-                  createdDate: '23 Oct 2022',
-                  createdTime: '10:34',
-                  createdName: 'Joe Bloggs',
-                  details: 'Some note details',
-                },
-              ],
             },
           ],
         },
@@ -76,6 +77,7 @@ describe('NewStatusController', () => {
 
   const mockService: any = {
     updateProfile: jest.fn(),
+    createNote: jest.fn(),
   }
 
   const controller = new Controller(mockService)

@@ -7,6 +7,8 @@ import addressLookup from '../../addressLookup'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -14,37 +16,13 @@ export default class EditActionController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, action } = req.params
     const { noteAction = 'view' } = req.query
-    const { prisoner, profile } = req.context
+    const { prisoner, profile, notes } = req.context
 
     try {
       if (!profile) {
         res.redirect(addressLookup.workProfile(id))
         return
       }
-
-      // const profile = {
-      //   profileData: {
-      //     status: ProfileStatus.NO_RIGHT_TO_WORK,
-      //     supportAccepted: {
-      //       actionsRequired: {
-      //         actions: [
-      //           {
-      //             todoItem: 'CV_AND_COVERING_LETTER',
-      //             status: 'IN_PROGRESS',
-      //             notes: [
-      //               {
-      //                 createdDate: '23 Oct 2022',
-      //                 createdTime: '10:34',
-      //                 createdName: 'Joe Bloggs',
-      //                 details: 'Some note details',
-      //               },
-      //             ],
-      //           },
-      //         ],
-      //       },
-      //     },
-      //   },
-      // }
 
       const item = profile.profileData?.supportAccepted?.actionsRequired?.actions.find(
         (i: { todoItem: string }) => i.todoItem === action.toUpperCase(),
@@ -61,7 +39,7 @@ export default class EditActionController {
         toDoItem: item.todoItem,
         toDoStatus: item.status,
         noteAction,
-        notes: item.notes,
+        notes,
       }
 
       // Store page data for use if validation fails
@@ -76,6 +54,7 @@ export default class EditActionController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, action } = req.params
     const { noteAction = 'view' } = req.query
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -93,8 +72,32 @@ export default class EditActionController {
           return
         }
 
-        // Call api to add note
+        // Create note
+        await this.prisonerProfileService.createNote(res.locals.user.token, id, action.toUpperCase(), req.body.noteText)
+        res.redirect(addressLookup.actions.editAction(id, 'view'))
+        return
       }
+
+      // Update data model
+      const actions = profile.profileData.supportAccepted.actionsRequired
+      // Change status of action
+      profile.profileData.supportAccepted.actionsRequired.actions = [
+        ...actions.filter((a: { todoItem: string }) => a.todoItem !== action.toUpperCase()),
+        {
+          ...actions.find((a: { todoItem: string }) => a.todoItem === action.toUpperCase()),
+          status: req.body.toDoStatus,
+        },
+      ]
+
+      // Update modified by
+      profile.profileData.supportAccepted.actionsRequired = {
+        ...profile.profileData.supportAccepted.actionsRequired,
+        modifiedBy: res.locals.user.username,
+        modifiedDateTime: new Date().toISOString(),
+      }
+
+      // Call api, change status
+      await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
       res.redirect(addressLookup.actions.editAction(id, action))
     } catch (err) {

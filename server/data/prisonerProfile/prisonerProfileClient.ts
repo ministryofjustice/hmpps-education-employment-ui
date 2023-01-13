@@ -9,10 +9,10 @@ import CreateProfileResponse from './createProfileResponse'
 import GetProfileByIdResult from './getProfileByIdResult'
 import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
 import UpdatePrisonerProfile from './interfaces/updatePrisonerProfile'
+import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
+import Note from './interfaces/note'
 
-const PRISONER_EDUCATION_PROFILE_PATH = '/readiness-profiles/search'
-const CREATE_PROFILE_PATH = '/readiness-profiles'
-const GET_PROFILE_BY_ID_PATH = '/readiness-profiles'
+const BASE_URL = '/readiness-profiles'
 
 export default class PrisonerProfileClient {
   restClient: RestClient
@@ -23,14 +23,14 @@ export default class PrisonerProfileClient {
 
   async getProfileById(id: string) {
     const profile = await this.restClient.get<GetProfileByIdResult>({
-      path: `${GET_PROFILE_BY_ID_PATH}/${id}`,
+      path: `${BASE_URL}/${id}`,
     })
 
     return plainToClass(GetProfileByIdResult, profile)
   }
 
   async profileData(offenderList: string[]) {
-    const searchProfile = PRISONER_EDUCATION_PROFILE_PATH
+    const searchProfile = `${BASE_URL}/search`
 
     const profileResults = await this.restClient.post<PagedResponse<PrisonerProfileResult>>({
       path: `${searchProfile}`,
@@ -40,7 +40,7 @@ export default class PrisonerProfileClient {
   }
 
   async getPrisonerProfilesByIds(offenderList: string[]) {
-    const searchProfile = PRISONER_EDUCATION_PROFILE_PATH
+    const searchProfile = `${BASE_URL}/search`
 
     const profileResults = await this.restClient.post<string[]>({
       path: `${searchProfile}`,
@@ -51,7 +51,7 @@ export default class PrisonerProfileClient {
 
   async createProfile(newProfile: CreateProfileRequestArgs) {
     const result = await this.restClient.post<CreateProfileResponse>({
-      path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
+      path: `${BASE_URL}/${newProfile.prisonerId}`,
       data: new CreateProfileRequest(newProfile),
     })
 
@@ -60,8 +60,25 @@ export default class PrisonerProfileClient {
 
   async updateProfile(prisonerId: string, profile: UpdatePrisonerProfile) {
     const result = await this.restClient.put<CreateProfileResponse>({
-      path: `${CREATE_PROFILE_PATH}/${prisonerId}`,
+      path: `${BASE_URL}/${prisonerId}`,
       data: profile,
+    })
+
+    return result
+  }
+
+  async getNotes(prisonerId: string, attribute: string) {
+    const result = await this.restClient.get<Note[]>({
+      path: `${BASE_URL}/${prisonerId}/notes/${attribute}`,
+    })
+
+    return result
+  }
+
+  async createNote(prisonerId: string, attribute: string, text: string) {
+    const result = await this.restClient.post<Note[]>({
+      path: `${BASE_URL}/${prisonerId}/notes/${attribute}`,
+      data: text,
     })
 
     return result

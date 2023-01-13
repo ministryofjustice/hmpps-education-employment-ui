@@ -2,8 +2,10 @@ import HmppsAuthClient from '../data/hmppsAuthClient'
 import CreateProfileResponse from '../data/prisonerProfile/createProfileResponse'
 import GetProfileByIdResult from '../data/prisonerProfile/getProfileByIdResult'
 import CreateProfileRequestArgs from '../data/prisonerProfile/interfaces/createProfileRequestArgs'
+import Note from '../data/prisonerProfile/interfaces/note'
 import UpdatePrisonerProfile from '../data/prisonerProfile/interfaces/updatePrisonerProfile'
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
+import AlreadyInPlaceValue from '../enums/alreadyInPlaceValue'
 
 export default class PrisonerProfileService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -22,5 +24,13 @@ export default class PrisonerProfileService {
     profile: UpdatePrisonerProfile,
   ): Promise<CreateProfileResponse> {
     return new PrisonerProfileClient(userToken).updateProfile(prisonerId, profile)
+  }
+
+  async getNotes(userToken: string, prisonerId: string, attribute: string): Promise<Note[]> {
+    return new PrisonerProfileClient(userToken).getNotes(prisonerId, attribute.toUpperCase())
+  }
+
+  async createNote(userToken: string, prisonerId: string, attribute: string, text: string): Promise<Note[]> {
+    return new PrisonerProfileClient(userToken).createNote(prisonerId, attribute.toUpperCase(), text)
   }
 }
