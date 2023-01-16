@@ -9,16 +9,17 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
         {% for item in notes %}
-          <td scope="row" class="govuk-table__cell govuk-!-width-one-quarter">
-            {{ item.createdDate }}<br>
-            {{ item.createdTime }}<br>
-            <span class="govuk-hint">{{ item.createdName }}</span>
-          </td>
-          <td class="govuk-table__cell govuk-!-width-three-quarters">{{ item.details }}</td>
+         <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__cell govuk-!-width-one-quarter">
+              {% for datePart in item.createdDateTime %}
+                {{ datePart }}<br>
+              {% endfor %}
+              <span class="govuk-hint">{{ item.createdName }}</span>
+            </td>
+            <td class="govuk-table__cell govuk-!-width-three-quarters">{{ item.text }}</td>
+          </tr>
         {% endfor %}
-      </tr>
     </tbody>
   </table>
 {% endif %}

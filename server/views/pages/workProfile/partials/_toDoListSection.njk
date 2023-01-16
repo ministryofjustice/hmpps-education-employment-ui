@@ -34,7 +34,7 @@
           {% if item.status === 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                <a href="../../todo-complete-blank" id="overview-todo-{{ item.status }}-link">
+                <a href="{{ addressLookup.actions.editAction(id, item.todoItem) }}" id="overview-todo-{{ item.status }}-link">
                   {{ contentLookup.fields.alreadyInPlace[item.todoItem] }}
                 </a>
               </span>

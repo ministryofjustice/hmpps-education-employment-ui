@@ -9,7 +9,6 @@ import CreateProfileResponse from './createProfileResponse'
 import GetProfileByIdResult from './getProfileByIdResult'
 import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
 import UpdatePrisonerProfile from './interfaces/updatePrisonerProfile'
-import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
 import Note from './interfaces/note'
 
 const BASE_URL = '/readiness-profiles'
@@ -78,7 +77,9 @@ export default class PrisonerProfileClient {
   async createNote(prisonerId: string, attribute: string, text: string) {
     const result = await this.restClient.post<Note[]>({
       path: `${BASE_URL}/${prisonerId}/notes/${attribute}`,
-      data: text,
+      data: {
+        text,
+      },
     })
 
     return result

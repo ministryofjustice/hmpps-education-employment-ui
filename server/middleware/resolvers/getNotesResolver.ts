@@ -1,7 +1,10 @@
-import type { RequestHandler, Request } from 'express'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-await-in-loop */
+import type { RequestHandler } from 'express'
 
 import { UserService } from '../../services'
 import PrisonerProfileService from '../../services/prisonerProfileService'
+import { getUserFullName } from './utils'
 
 // Gets profile based on id parameter and puts it into request context
 const getNotesResolver =
@@ -12,6 +15,11 @@ const getNotesResolver =
 
     try {
       const notes = await prisonerProfileService.getNotes(user.token, id, action)
+
+      for (let i = 0; i < notes.length; i += 1) {
+        ;(notes[i] as any).createdName = await getUserFullName(req, userService, user.token, notes[i].createdBy)
+      }
+
       req.context.notes = notes
 
       next()

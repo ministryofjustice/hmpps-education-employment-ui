@@ -7,8 +7,8 @@ import addressLookup from '../../addressLookup'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
+import NotesViewModel from '../../../viewModels/notesViewModel'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -39,7 +39,7 @@ export default class EditActionController {
         toDoItem: item.todoItem,
         toDoStatus: item.status,
         noteAction,
-        notes,
+        notes: plainToClass(NotesViewModel, notes),
       }
 
       // Store page data for use if validation fails
@@ -74,12 +74,12 @@ export default class EditActionController {
 
         // Create note
         await this.prisonerProfileService.createNote(res.locals.user.token, id, action.toUpperCase(), req.body.noteText)
-        res.redirect(addressLookup.actions.editAction(id, 'view'))
+        res.redirect(addressLookup.actions.editAction(id, action))
         return
       }
 
       // Update data model
-      const actions = profile.profileData.supportAccepted.actionsRequired
+      const actions = profile.profileData.supportAccepted.actionsRequired.actions || []
       // Change status of action
       profile.profileData.supportAccepted.actionsRequired.actions = [
         ...actions.filter((a: { todoItem: string }) => a.todoItem !== action.toUpperCase()),
@@ -99,7 +99,7 @@ export default class EditActionController {
       // Call api, change status
       await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-      res.redirect(addressLookup.actions.editAction(id, action))
+      res.redirect(addressLookup.workProfile(id))
     } catch (err) {
       next(err)
     }
