@@ -1,6 +1,6 @@
 {
   "name": "hmpps-education-employment-ui",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Hmpps Education Employment Ui",
   "repository": "git@github.com:ministryofjustice/hmpps-education-employment-ui.git",
   "license": "MIT",
@@ -29,8 +29,8 @@
     "clean": "rm -rf dist build node_modules stylesheets"
   },
   "engines": {
-    "node": "^18",
-    "npm": "^8"
+    "node": ">=18.13.0 <19.0.0",
+    "npm": ">=8.19.2"
   },
   "jest": {
     "transform": {
