@@ -1,11 +1,11 @@
-import AbilityToWorkValue from '../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
 import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
 import YesNoValue from '../../enums/yesNoValue'
-import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
-import ProfileDataSection from './interfaces/profileDataSection'
-import TodoItem, { ToDoStatus } from './interfaces/todoItem'
+import CreateProfileRequestArgs from '../prisonerProfile/interfaces/createProfileRequestArgs'
+import ProfileDataSection from '../prisonerProfile/interfaces/profileDataSection'
+import TodoItem, { ToDoStatus } from '../prisonerProfile/interfaces/todoItem'
 
+// Model for use creating profile from scratch
 export default class CreateProfileRequest {
   constructor(data: CreateProfileRequestArgs) {
     const now = new Date()
@@ -38,9 +38,8 @@ export default class CreateProfileRequest {
                 modifiedBy: data.currentUser,
                 modifiedDateTime: isoString,
                 abilityToWorkImpactedBy: data.abilityToWork,
-                caringResponsibilitiesFullTime: data.abilityToWork.includes(AbilityToWorkValue.FAMILY_ISSUES),
-                ableToManageMentalHealth:
-                  data.abilityToWork.includes(AbilityToWorkValue.MENTAL_HEALTH_ISSUES) === false,
+                caringResponsibilitiesFullTime: false,
+                ableToManageMentalHealth: false,
                 ableToManageDependencies: data.manageDrugsAndAlcohol === ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
               },
               workInterests: {

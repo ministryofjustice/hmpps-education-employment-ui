@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './typeOfWorkController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -32,11 +36,17 @@ describe('TypeOfWorkController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.abilityToWork(id, mode),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     typeOfWork: [] as any,
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -138,6 +148,25 @@ describe('TypeOfWorkController', () => {
       })
       expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workInterests: {},
+          },
+        },
+      }
+      req.body.typeOfWork = [TypeOfWorkValue.OTHER]
+      req.body.typeOfWorkDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

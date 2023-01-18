@@ -1,16 +1,24 @@
 import type { Router } from 'express'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import type { Services } from '../../../services'
 import ManageDrugsAndAlcoholController from './manageDrugsAndAlcoholController'
 
 export default (router: Router, services: Services) => {
-  const controller = new ManageDrugsAndAlcoholController()
+  const controller = new ManageDrugsAndAlcoholController(services.prisonerProfileService)
 
   router.get(
     '/work-profile/create/:id/manage-drugs-and-alcohol/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearch),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.get,
   )
-  router.post('/work-profile/create/:id/manage-drugs-and-alcohol/:mode', controller.post)
+  router.post(
+    '/work-profile/create/:id/manage-drugs-and-alcohol/:mode',
+    [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
+    controller.post,
+  )
 }

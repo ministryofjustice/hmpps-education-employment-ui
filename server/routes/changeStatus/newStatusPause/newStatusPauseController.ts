@@ -1,8 +1,10 @@
 import { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import YesNoValue from '../../../enums/yesNoValue'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class NewStatusPauseController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -19,7 +21,7 @@ export default class NewStatusPauseController {
 
       const data = {
         backLocation: addressLookup.changeStatus.newStatus(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
       }
 
       res.render('pages/changeStatus/newStatusPause/index', { ...data })

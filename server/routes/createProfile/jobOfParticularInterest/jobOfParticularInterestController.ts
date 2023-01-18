@@ -1,32 +1,54 @@
+/* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
+import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 export default class JobOfParticularInterestController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.typeOfWork(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
-        jobOfParticularInterest: record.jobOfParticularInterest,
-        jobOfParticularInterestDetails: record.jobOfParticularInterestDetails,
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.typeOfWork(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'jobOfParticularInterest',
+          uid: id,
+        }),
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
+        jobOfParticularInterest:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workInterests.jobOfParticularInterest
+              ? YesNoValue.YES
+              : YesNoValue.NO
+            : record.jobOfParticularInterest,
+        jobOfParticularInterestDetails:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workInterests.jobOfParticularInterest
+            : record.jobOfParticularInterestDetails,
       }
 
       // Store page data for use if validation fails
@@ -41,6 +63,7 @@ export default class JobOfParticularInterestController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { jobOfParticularInterest, jobOfParticularInterestDetails } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -56,6 +79,24 @@ export default class JobOfParticularInterestController {
         return
       }
 
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        profile.profileData.supportAccepted.workInterests = {
+          ...profile.profileData.supportAccepted.workInterests,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+          jobOfParticularInterest: jobOfParticularInterestDetails,
+        }
+
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+        return
+      }
+
+      // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
       setSessionData(req, ['createProfile', id], {

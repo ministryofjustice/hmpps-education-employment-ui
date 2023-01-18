@@ -10,8 +10,10 @@ context('SignIn', () => {
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('createProfile', 'G6115VJ')
+    cy.task('getProfileById', 'G6115VJ')
     cy.task('getProfileById')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
   })
 
   it('New record - Select NO - navigates to ineligable-to-work page', () => {

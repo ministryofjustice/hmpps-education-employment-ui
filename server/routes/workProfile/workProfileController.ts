@@ -1,5 +1,7 @@
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
+import { getAge } from '../../utils/utils'
+import PrisonerViewModel from '../../viewModels/prisonerViewModel'
 import ProfileViewModel from '../../viewModels/profileViewModel'
 
 export default class WorkProfileController {
@@ -10,7 +12,10 @@ export default class WorkProfileController {
     try {
       const data = {
         id,
-        prisoner,
+        prisoner: {
+          ...plainToClass(PrisonerViewModel, prisoner),
+          age: getAge(prisoner.dateOfBirth),
+        },
         profile: plainToClass(ProfileViewModel, profile),
         tab,
       }

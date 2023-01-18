@@ -3,16 +3,21 @@
     <nav class="moj-sub-navigation" aria-label="Sub navigation">
       <ul class="moj-sub-navigation__list">
         <li class="moj-sub-navigation__item">
-          <a class="moj-sub-navigation__link" {% if tab === 'overview' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'overview') }}">Overview</a>
+          <a class="moj-sub-navigation__link" data-qa="tab-overview" {% if tab === 'overview' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'overview') }}">Overview</a>
         </li>
         <li class="moj-sub-navigation__item">
-          <a class="moj-sub-navigation__link" {% if tab === 'details' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'details') }}">Personal details</a>
+          <a class="moj-sub-navigation__link" data-qa="tab-details" {% if tab === 'details' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'details') }}">Personal details</a>
+        </li>
+        {% if ['SUPPORT_NEEDED', 'READY_TO_WORK'].includes(profile.profileData.status) and profile.profileData.supportAccepted %}
+          <li class="moj-sub-navigation__item">
+            <a class="moj-sub-navigation__link" data-qa="tab-experience" {% if tab === 'experience' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'experience') }}">Work interests and experience</a>
+          </li>
+        {% endif %}
+        <li class="moj-sub-navigation__item">
+          <a class="moj-sub-navigation__link" data-qa="tab-training" {% if tab === 'training' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'training') }}">Training in prison</a>
         </li>
         <li class="moj-sub-navigation__item">
-          <a class="moj-sub-navigation__link" {% if tab === 'training' %}aria-current="page" {% endif %}href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'training') }}">Training in prison</a>
-        </li>
-        <li class="moj-sub-navigation__item">
-          <a class="moj-sub-navigation__link"{% if tab === 'contacts' %}aria-current="page" {% endif %} href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'contacts') }}">Contacts</a>
+          <a class="moj-sub-navigation__link" data-qa="tab-contacts" {% if tab === 'contacts' %}aria-current="page" {% endif %} href="{{ addressLookup.workProfile(prisoner.prisonerNumber, 'contacts') }}">Contacts</a>
         </li>
       </ul>
     </nav>

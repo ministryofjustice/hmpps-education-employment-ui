@@ -1,3 +1,4 @@
+import ProfileStatus from '../../../enums/profileStatus'
 import TodoItem from './todoItem'
 
 export default interface PrisonerProfile {
@@ -11,7 +12,7 @@ export default interface PrisonerProfile {
   schemaVersion: string
 
   profileData: {
-    status: string
+    status: ProfileStatus
 
     supportDeclined?: {
       modifiedBy: string

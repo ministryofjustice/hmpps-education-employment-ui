@@ -12,6 +12,7 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
     cy.visit(cohortListUrl)
@@ -57,7 +58,7 @@ context('SignIn', () => {
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
       expect(offenders[0].status).to.contain('SUPPORT DECLINED')
-      expect(offenders[0].workSummary).to.contain('Returning_to_job')
+      expect(offenders[0].workSummary).to.contain('Returning to work they had before prison')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
 
       expect(offenders[5].status).to.contain('NOT STARTED')

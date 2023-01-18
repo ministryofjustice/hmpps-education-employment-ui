@@ -1,10 +1,12 @@
 import { RequestHandler } from 'express'
+import { plainToClass } from 'class-transformer'
 import ProfileStatus from '../../../enums/profileStatus'
 
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class IneligableToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -23,7 +25,7 @@ export default class IneligableToWorkController {
 
       const data = {
         backLocation: addressLookup.createProfile.rightToWork(id, mode),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
       }
 
       res.render('pages/createProfile/ineligableToWork/index', { ...data })

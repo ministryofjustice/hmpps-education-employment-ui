@@ -33,6 +33,9 @@ export default class PrisonerViewModel {
   @Transform(({ value }) => convertToTitleCase(value))
   lastName: string
 
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToddMMMyyyy)
   dateOfBirth: string
 
   gender: string
@@ -60,6 +63,7 @@ export default class PrisonerViewModel {
 
   prisonName: string
 
+  @Expose()
   cellLocation: string
 
   aliases: [
@@ -142,6 +146,7 @@ export default class PrisonerViewModel {
 
   tariffDate: string
 
+  @Expose()
   locationDescription: string
 
   restrictedPatient: boolean

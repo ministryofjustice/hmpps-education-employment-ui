@@ -1,10 +1,13 @@
 import { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 import yesNoValue from '../../../enums/yesNoValue'
 import ProfileStatus from '../../../enums/profileStatus'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import EditProfileRequest from '../../../data/models/editProfileRequest'
 
 export default class CheckYourAnswersController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -24,7 +27,7 @@ export default class CheckYourAnswersController {
       const data = {
         id,
         record,
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
       }
 
       res.render('pages/createProfile/checkYourAnswers/index', { ...data })
@@ -69,11 +72,14 @@ export default class CheckYourAnswersController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
-          {
-            ...newRecord,
-            status: statusChange.newStatus,
-          },
-          profile,
+          id,
+          new EditProfileRequest(
+            {
+              ...newRecord,
+              status: statusChange.newStatus,
+            },
+            profile,
+          ),
         )
       } else {
         // Call api, create profile

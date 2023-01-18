@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -7,6 +8,9 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import ProfileStatus from '../../../enums/profileStatus'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import EditProfileRequest from '../../../data/models/editProfileRequest'
+import PrisonerProfile from '../../../data/prisonerProfile/interfaces/prisonerProfile'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -26,7 +30,7 @@ export default class NewStatusController {
 
       const data = {
         backLocation: addressLookup.workProfile(id),
-        prisoner,
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         newStatus: record.newStatus || profile.profileData.status,
       }
 
@@ -69,17 +73,20 @@ export default class NewStatusController {
       }
 
       // Status only change
-      if (this.isStatusOnlyChange(newStatus, profile.profileData.status)) {
+      if (this.isStatusOnlyChange(newStatus, profile.profileData.status, profile)) {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
-          {
-            prisonerId: id,
-            bookingId: prisoner.bookingId,
-            status: newStatus,
-            currentUser: res.locals.user.username,
-          },
-          profile,
+          id,
+          new EditProfileRequest(
+            {
+              prisonerId: id,
+              bookingId: prisoner.bookingId,
+              status: newStatus,
+              currentUser: res.locals.user.username,
+            },
+            profile,
+          ),
         )
 
         // Redirect to work profile
@@ -106,7 +113,14 @@ export default class NewStatusController {
     }
   }
 
-  private isStatusOnlyChange(newStatus: string, existingStatus: string) {
+  private isStatusOnlyChange(newStatus: string, existingStatus: string, profile: PrisonerProfile) {
+    if (
+      (newStatus === ProfileStatus.SUPPORT_NEEDED || newStatus === ProfileStatus.READY_TO_WORK) &&
+      profile.profileData.supportAccepted
+    ) {
+      return true
+    }
+
     if (newStatus === ProfileStatus.NO_RIGHT_TO_WORK) {
       return true
     }

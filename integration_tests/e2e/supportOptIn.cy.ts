@@ -10,6 +10,7 @@ context('SignIn', () => {
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
     cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)

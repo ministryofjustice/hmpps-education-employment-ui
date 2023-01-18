@@ -23,8 +23,44 @@ const profiles = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         offenderId: 'H4115SD',
+        modifiedBy: 'USER1',
+        modifiedDateTime: new Date().toISOString(),
         profileData: {
           status: 'SUPPORT_NEEDED',
+          modifiedBy: 'USER1',
+          modifiedDateTime: new Date().toISOString(),
+          supportAccepted: {
+            actionsRequired: {
+              modifiedBy: 'USER1',
+              modifiedDateTime: new Date().toISOString(),
+              actions: [
+                {
+                  todoItem: 'BANK_ACCOUNT',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'CV_AND_COVERING_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'DISCLOSURE_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'EMAIL_OR_PHONE',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'HOUSING',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'ID',
+                  status: 'COMPLETED',
+                },
+              ],
+            },
+          },
         },
       },
     },
@@ -39,8 +75,20 @@ const profiles = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         offenderId: 'G5005GD',
+        modifiedBy: 'USER1',
+        modifiedDateTime: new Date().toISOString(),
         profileData: {
           status: 'SUPPORT_DECLINED',
+          modifiedBy: 'USER1',
+          modifiedDateTime: new Date().toISOString(),
+          supportDeclined: {
+            modifiedBy: 'USER1',
+            modifiedDateTime: new Date().toISOString(),
+            supportToWorkDeclinedReason: ['LIMIT_THEIR_ABILITY', 'FULL_TIME_CARER', 'OTHER'],
+            supportToWorkDeclinedReasonOther: 'Feels too stressed',
+            circumstanceChangesRequiredToWork: ['DEPENDENCY_SUPPORT', 'MENTAL_HEALTH_SUPPORT', 'OTHER'],
+            circumstanceChangesRequiredToWorkOther: 'Wants some financial advice',
+          },
         },
       },
     },
@@ -55,8 +103,12 @@ const profiles = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         offenderId: 'G6115VJ',
+        modifiedBy: 'USER1',
+        modifiedDateTime: new Date().toISOString(),
         profileData: {
           status: 'NO_RIGHT_TO_WORK',
+          modifiedBy: 'USER1',
+          modifiedDateTime: new Date().toISOString(),
         },
       },
     },

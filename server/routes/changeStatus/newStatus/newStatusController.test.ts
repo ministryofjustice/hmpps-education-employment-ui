@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './newStatusController'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 import validateFormSchema from '../../../utils/validateFormSchema'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -40,7 +42,7 @@ describe('NewStatusController', () => {
 
   const mockData = {
     backLocation: addressLookup.workProfile(id),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
   const mockService: any = {
@@ -255,6 +257,28 @@ describe('NewStatusController', () => {
     it('On success - status = SUPPORT_NEEDED to newStatus = READY_TO_WORK - Updates status and redirect to workProfile', async () => {
       req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
       req.body.newStatus = ProfileStatus.READY_TO_WORK
+
+      await controller.post(req, res, next)
+
+      expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+    })
+
+    it('On success - status = NO_RIGHT_TO_WORK to newStatus = READY_TO_WORK with existing supportAccepted profile data - Updates status and redirect to workProfile', async () => {
+      req.context.profile.profileData.status = ProfileStatus.NO_RIGHT_TO_WORK
+      req.context.profile.profileData.supportAccepted = {}
+      req.body.newStatus = ProfileStatus.READY_TO_WORK
+
+      await controller.post(req, res, next)
+
+      expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+    })
+
+    it('On success - status = SUPPORT_DECLINED to newStatus = SUPPORT_NEEDED with existing supportAccepted profile - Updates status and redirect to workProfile', async () => {
+      req.context.profile.profileData.status = ProfileStatus.SUPPORT_DECLINED
+      req.context.profile.profileData.supportAccepted = {}
+      req.body.newStatus = ProfileStatus.SUPPORT_NEEDED
 
       await controller.post(req, res, next)
 

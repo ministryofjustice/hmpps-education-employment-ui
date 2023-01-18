@@ -8,6 +8,7 @@ import typeOfWork from './typeOfWork'
 import whatNeedsToChange from './whatNeedsToChange'
 import yesNo from './yesNo'
 import newStatus from './newStatus'
+import toDoStatus from './toDoStatus'
 
 export default {
   fields: {
@@ -22,4 +23,5 @@ export default {
     yesNo,
     newStatus,
   },
+  toDoStatus,
 }

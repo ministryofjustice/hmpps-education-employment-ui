@@ -51,11 +51,11 @@
                 </td>
                 <td class="govuk-table__cell"> {{ statusTag(offender.status) }}</td>
                 {% if offender.status == 'SUPPORT_NEEDED' %}
-                    {{ supportNeeded(offender) }}
+                    {{ supportNeeded(offender, contentLookup.fields.alreadyInPlace) }}
                 {% elseif offender.status == 'READY_TO_WORK' %}
-                    {{ readyToWork(offender) }}
+                    {{ readyToWork(offender, contentLookup.fields.typeOfWork) }}
                 {% elseif offender.status == 'SUPPORT_DECLINED' %}
-                    {{ supportDeclined(offender) }}
+                    {{ supportDeclined(offender, contentLookup.fields.supportDeclinedReason) }}
                 {% elseif offender.status == 'NO_RIGHT_TO_WORK' %}
                     <td {{ noRightToWork(offender) }}</td>
                 {% elseif offender.status == 'NOT_STARTED' %}

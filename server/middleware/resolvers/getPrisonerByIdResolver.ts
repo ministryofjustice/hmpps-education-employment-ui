@@ -1,8 +1,6 @@
-import { plainToClass } from 'class-transformer'
 import type { RequestHandler } from 'express'
 
 import PrisonerSearchService from '../../services/prisonSearchService'
-import PrisonerViewModel from '../../viewModels/prisonerViewModel'
 import { getSessionData, setSessionData } from '../../utils/session'
 
 // Gets prisoner based on id parameter and puts it into request context
@@ -21,8 +19,7 @@ const getPrisonerByIdResolver =
       }
 
       // Get prisoner
-      const prisoner = await prisonerSearch.getPrisonerById(user.token, id)
-      req.context.prisoner = plainToClass(PrisonerViewModel, prisoner)
+      req.context.prisoner = await prisonerSearch.getPrisonerById(user.token, id)
       setSessionData(req, ['prisoner', id], req.context.prisoner)
 
       next()

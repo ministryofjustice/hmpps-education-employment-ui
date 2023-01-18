@@ -4,12 +4,11 @@ import config from '../../config'
 import RestClient from '../restClient'
 import PagedResponse from '../domain/types/pagedResponse'
 import PrisonerProfileResult from '../prisonerSearch/prisonerProfileResult'
-import CreateProfileRequest from './createProfileRequest'
+import CreateProfileRequest from '../models/createProfileRequest'
 import CreateProfileResponse from './createProfileResponse'
 import GetProfileByIdResult from './getProfileByIdResult'
 import CreateProfileRequestArgs from './interfaces/createProfileRequestArgs'
-import UpdateProfileRequest from './updateProfileRequest'
-import PrisonerProfile from './interfaces/prisonerProfile'
+import UpdatePrisonerProfile from './interfaces/updatePrisonerProfile'
 
 const PRISONER_EDUCATION_PROFILE_PATH = '/readiness-profiles/search'
 const CREATE_PROFILE_PATH = '/readiness-profiles'
@@ -59,10 +58,10 @@ export default class PrisonerProfileClient {
     return result
   }
 
-  async updateProfile(newProfile: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+  async updateProfile(prisonerId: string, profile: UpdatePrisonerProfile) {
     const result = await this.restClient.put<CreateProfileResponse>({
-      path: `${CREATE_PROFILE_PATH}/${newProfile.prisonerId}`,
-      data: new UpdateProfileRequest(newProfile, existingProfile),
+      path: `${CREATE_PROFILE_PATH}/${prisonerId}`,
+      data: profile,
     })
 
     return result
