@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new EditActionController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/actions/:id/edit/:action',
+    '/profile/actions/:id/edit/:action',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -19,7 +19,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/work-profile/actions/:id/edit/:action',
+    '/profile/actions/:id/edit/:action',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),

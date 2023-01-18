@@ -15,7 +15,7 @@ export default class EditProfileRequest {
 
     this.profileData = {
       status: data.status,
-      supportDeclined: this.buildSupportDeclined(data, existingProfile),
+      supportDeclined: this.buildSupportDeclined(data),
       supportAccepted: this.buildSupportAccepted(data, existingProfile),
     }
   }
@@ -101,16 +101,9 @@ export default class EditProfileRequest {
         }
   }
 
-  private buildSupportDeclined(
-    data: CreateProfileRequestArgs,
-    existingProfile: PrisonerProfile,
-  ): SupportDeclinedSection {
+  private buildSupportDeclined(data: CreateProfileRequestArgs): SupportDeclinedSection {
     const now = new Date()
     const isoString = now.toISOString()
-
-    if (this.isStatusOnlyChange(data, existingProfile)) {
-      return existingProfile.profileData.supportDeclined
-    }
 
     return data.status !== ProfileStatus.SUPPORT_DECLINED
       ? null
@@ -125,6 +118,13 @@ export default class EditProfileRequest {
   }
 
   private isStatusOnlyChange(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+    if (
+      (data.status === ProfileStatus.SUPPORT_NEEDED || data.status === ProfileStatus.READY_TO_WORK) &&
+      existingProfile.profileData.supportAccepted
+    ) {
+      return true
+    }
+
     if (data.status === ProfileStatus.NO_RIGHT_TO_WORK) {
       return true
     }

@@ -5,7 +5,6 @@ import CreateProfileRequestArgs from '../data/prisonerProfile/interfaces/createP
 import Note from '../data/prisonerProfile/interfaces/note'
 import UpdatePrisonerProfile from '../data/prisonerProfile/interfaces/updatePrisonerProfile'
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
-import AlreadyInPlaceValue from '../enums/alreadyInPlaceValue'
 
 export default class PrisonerProfileService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}

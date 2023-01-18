@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new JobOfParticularInterestController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/create/:id/job-of-particular-interest/:mode',
+    '/profile/create/:id/job-of-particular-interest/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -17,7 +17,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/work-profile/create/:id/job-of-particular-interest/:mode',
+    '/profile/create/:id/job-of-particular-interest/:mode',
     [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
     controller.post,
   )

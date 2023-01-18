@@ -22,10 +22,12 @@ context('SignIn', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('createProfile', 'G6115VJ')
     cy.task('getProfileById')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
   })
 
   it('Positive flow - Check content and navigation', () => {
@@ -117,7 +119,7 @@ context('SignIn', () => {
 
     checkYourAnswers.submitButton().click()
 
-    cy.url().should('include', 'work-profile')
+    cy.url().should('include', '/profile')
   })
 
   it('Negative flow - Check content and navigation', () => {
@@ -157,6 +159,6 @@ context('SignIn', () => {
 
     checkYourAnswers.submitButton().click()
 
-    cy.url().should('include', 'work-profile')
+    cy.url().should('include', '/profile')
   })
 })

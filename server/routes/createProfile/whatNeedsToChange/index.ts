@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new WhatNeedsToChangeController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/create/:id/what-needs-to-change/:mode',
+    '/profile/create/:id/what-needs-to-change/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -18,7 +18,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/work-profile/create/:id/what-needs-to-change/:mode',
+    '/profile/create/:id/what-needs-to-change/:mode',
     [
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('whatNeedsToChange'),

@@ -47,7 +47,7 @@ describe('validationSchema', () => {
         encoding: undefined,
         key: 'noteText',
         label: 'noteText',
-        limit: 20,
+        limit: 4000,
         value: longStr,
       },
       message: 'Note must be 4000 characters or less',

@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new AbilityToWorkController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/create/:id/ability-to-work/:mode',
+    '/profile/create/:id/ability-to-work/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -18,7 +18,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/work-profile/create/:id/ability-to-work/:mode',
+    '/profile/create/:id/ability-to-work/:mode',
     [
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('abilityToWork'),

@@ -8,12 +8,12 @@ export default (router: Router, services: Services) => {
   const controller = new IneligableToWorkController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/create/:id/ineligable-to-work/:mode',
+    '/profile/create/:id/ineligable-to-work/:mode',
     [getPrisonerByIdResolver(services.prisonerSearch)],
     controller.get,
   )
   router.post(
-    '/work-profile/create/:id/ineligable-to-work/:mode',
+    '/profile/create/:id/ineligable-to-work/:mode',
     [getPrisonerByIdResolver(services.prisonerSearch)],
     controller.post,
   )

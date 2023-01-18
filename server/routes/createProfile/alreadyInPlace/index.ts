@@ -9,13 +9,9 @@ export default (router: Router, services: Services) => {
   const controller = new AlreadyInPlaceController()
 
   router.get(
-    '/work-profile/create/:id/already-in-place/:mode',
+    '/profile/create/:id/already-in-place/:mode',
     [getPrisonerByIdResolver(services.prisonerSearch)],
     controller.get,
   )
-  router.post(
-    '/work-profile/create/:id/already-in-place/:mode',
-    [parseCheckBoxValue('alreadyInPlace')],
-    controller.post,
-  )
+  router.post('/profile/create/:id/already-in-place/:mode', [parseCheckBoxValue('alreadyInPlace')], controller.post)
 }

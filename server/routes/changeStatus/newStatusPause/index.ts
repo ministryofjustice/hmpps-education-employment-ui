@@ -7,14 +7,6 @@ import NewStatusPauseController from './newStatusPauseController'
 export default (router: Router, services: Services) => {
   const controller = new NewStatusPauseController()
 
-  router.get(
-    '/work-profile/change-status/:id/pause',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
-    controller.get,
-  )
-  router.post(
-    '/work-profile/change-status/:id/pause',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
-    controller.post,
-  )
+  router.get('/profile/change-status/:id/pause', [getPrisonerByIdResolver(services.prisonerSearch)], controller.get)
+  router.post('/profile/change-status/:id/pause', [getPrisonerByIdResolver(services.prisonerSearch)], controller.post)
 }

@@ -3,7 +3,7 @@ import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
 
-const PRISONER_SEARCH_BY_RELEASE_DATE = '/work-profile/cohort-list'
+const PRISONER_SEARCH_BY_RELEASE_DATE = '/'
 
 export default class CohortListController {
   constructor(
