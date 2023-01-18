@@ -5,6 +5,7 @@ import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class AlreadyInPlaceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -20,10 +21,15 @@ export default class AlreadyInPlaceController {
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.supportOptIn(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'alreadyInPlace',
+          uid: id,
+        }),
         prisoner,
         alreadyInPlace: record.alreadyInPlace || [],
       }

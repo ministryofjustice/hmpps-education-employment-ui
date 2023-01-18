@@ -35,15 +35,15 @@ export default class CheckYourAnswersController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
-      // API call to create profile
       const record = getSessionData(req, ['createProfile', id])
-      await this.prisonerProfileService.createProfile(res.locals.user.token, {
+      const statusChange = getSessionData(req, ['changeStatus', id])
+
+      const newRecord = {
         prisonerId: id,
         bookingId: prisoner.bookingId,
-        status: record.supportOptIn === yesNoValue.YES ? ProfileStatus.SUPPORT_NEEDED : ProfileStatus.SUPPORT_DECLINED,
         currentUser: res.locals.user.username,
         abilityToWork: record.abilityToWork,
         manageDrugsAndAlcohol: record.manageDrugsAndAlcohol,
@@ -63,10 +63,30 @@ export default class CheckYourAnswersController {
         workExperienceDetails: record.workExperienceDetails,
         trainingAndQualifications: record.trainingAndQualifications,
         trainingAndQualificationsDetails: record.trainingAndQualificationsDetails,
-      })
+      }
+
+      if (statusChange) {
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(
+          res.locals.user.token,
+          {
+            ...newRecord,
+            status: statusChange.newStatus,
+          },
+          profile,
+        )
+      } else {
+        // Call api, create profile
+        await this.prisonerProfileService.createProfile(res.locals.user.token, {
+          ...newRecord,
+          status:
+            record.supportOptIn === yesNoValue.YES ? ProfileStatus.SUPPORT_NEEDED : ProfileStatus.SUPPORT_DECLINED,
+        })
+      }
 
       // Tidy up record in session
       deleteSessionData(req, ['createProfile', id])
+      deleteSessionData(req, ['changeStatus', id])
 
       res.redirect(addressLookup.workProfile(id))
     } catch (err) {

@@ -1,4 +1,6 @@
+import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
+import ProfileViewModel from '../../viewModels/profileViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -9,7 +11,7 @@ export default class WorkProfileController {
       const data = {
         id,
         prisoner,
-        profile,
+        profile: plainToClass(ProfileViewModel, profile),
         tab,
       }
 

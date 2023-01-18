@@ -5,6 +5,7 @@ import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import getBackLocation from '../../../utils/getBackLocation'
 
 export default class SupportDeclinedReasonController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -20,10 +21,15 @@ export default class SupportDeclinedReasonController {
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.supportOptIn(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'supportDeclinedReason',
+          uid: id,
+        }),
         prisoner,
         supportDeclinedReason: record.supportDeclinedReason || [],
         supportDeclinedDetails: record.supportDeclinedDetails,

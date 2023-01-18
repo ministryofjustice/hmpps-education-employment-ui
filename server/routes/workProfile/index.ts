@@ -10,7 +10,10 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/work-profile/:id/view/:tab',
-    [getPrisonerByIdResolver(services.prisonerSearch), getProfileByIdResolver(services.prisonerProfileService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearch),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.get,
   )
 }
