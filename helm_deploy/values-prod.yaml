@@ -4,7 +4,7 @@
 generic-service:
 
   ingress:
-    host: education-employment-ui.hmpps.service.justice.gov.uk
+    host: get-ready-for-work.hmpps.service.justice.gov.uk
     contextColour: green
 
   env:
