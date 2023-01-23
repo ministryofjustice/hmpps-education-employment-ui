@@ -1,5 +1,5 @@
 export default {
-  OUTDOOR: 'Animal care, farming and gardening',
+  OUTDOOR: 'Animal care and farming',
   CONSTRUCTION: 'Construction and trade',
   DRIVING: 'Driving and transport',
   BEAUTY: 'Hair, beauty and wellbeing',
@@ -10,7 +10,7 @@ export default {
   RETAIL: 'Retail and sales',
   SPORTS: 'Sport and fitness',
   WAREHOUSING: 'Warehousing and storage',
-  EDUCATION_TRAINING: 'Training, support and education',
+  EDUCATION_TRAINING: 'Training and support',
   WASTE_MANAGEMENT: 'Waste management',
   OTHER: 'Other',
 }
