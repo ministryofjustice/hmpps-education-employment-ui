@@ -9,6 +9,7 @@ import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import NotesViewModel from '../../../viewModels/notesViewModel'
+import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -38,6 +39,7 @@ export default class EditActionController {
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         toDoItem: item.todoItem,
         toDoStatus: item.status,
+        identification: item.id || [],
         noteAction,
         notes: plainToClass(NotesViewModel, notes),
       }
@@ -86,6 +88,7 @@ export default class EditActionController {
         {
           ...actions.find((a: { todoItem: string }) => a.todoItem === action.toUpperCase()),
           status: req.body.toDoStatus,
+          id: action.toUpperCase() === AlreadyInPlaceValue.ID ? req.body.identification : null,
         },
       ]
 

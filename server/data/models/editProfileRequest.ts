@@ -7,6 +7,7 @@ import TodoItem, { ToDoStatus } from '../prisonerProfile/interfaces/todoItem'
 import SupportAcceptedSection from '../prisonerProfile/interfaces/supportAcceptedSection'
 import SupportDeclinedSection from '../prisonerProfile/interfaces/supportDeclinedSection'
 import ProfileStatus from '../../enums/profileStatus'
+import IdentificationValue from '../../enums/identificationValue'
 
 // Model for editing an existing profile and saving via change status or check answers
 export default class EditProfileRequest {
@@ -24,7 +25,10 @@ export default class EditProfileRequest {
 
   profileData: ProfileDataSection
 
-  private buildActions(alreadyInPlace: AlreadyInPlaceValue[] = []): TodoItem[] {
+  private buildActions(
+    alreadyInPlace: AlreadyInPlaceValue[] = [],
+    identification: IdentificationValue[] = [],
+  ): TodoItem[] {
     return [
       {
         todoItem: AlreadyInPlaceValue.BANK_ACCOUNT,
@@ -57,6 +61,7 @@ export default class EditProfileRequest {
       {
         todoItem: AlreadyInPlaceValue.ID,
         status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+        id: identification,
       },
     ]
   }

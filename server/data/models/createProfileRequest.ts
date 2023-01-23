@@ -1,4 +1,5 @@
 import AlreadyInPlaceValue from '../../enums/alreadyInPlaceValue'
+import IdentificationValue from '../../enums/identificationValue'
 import ManageDrugsAndAlcoholValue from '../../enums/manageDrugsAndAlcoholValue'
 import YesNoValue from '../../enums/yesNoValue'
 import CreateProfileRequestArgs from '../prisonerProfile/interfaces/createProfileRequestArgs'
@@ -32,7 +33,7 @@ export default class CreateProfileRequest {
               actionsRequired: {
                 modifiedBy: data.currentUser,
                 modifiedDateTime: isoString,
-                actions: this.buildActions(data.alreadyInPlace),
+                actions: this.buildActions(data.alreadyInPlace, data.identification),
               },
               workImpacts: {
                 modifiedBy: data.currentUser,
@@ -65,7 +66,10 @@ export default class CreateProfileRequest {
 
   profileData: ProfileDataSection
 
-  private buildActions(alreadyInPlace: AlreadyInPlaceValue[] = []): TodoItem[] {
+  private buildActions(
+    alreadyInPlace: AlreadyInPlaceValue[] = [],
+    identification: IdentificationValue[] = [],
+  ): TodoItem[] {
     return [
       {
         todoItem: AlreadyInPlaceValue.BANK_ACCOUNT,
@@ -98,6 +102,7 @@ export default class CreateProfileRequest {
       {
         todoItem: AlreadyInPlaceValue.ID,
         status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+        id: identification,
       },
     ]
   }

@@ -3,6 +3,7 @@
 {% from "../../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
@@ -35,12 +36,13 @@
           <span class="govuk-caption-l">
             {{ prisoner.firstName }} {{ prisoner.lastName }}
           </span>
+          <h1 class="govuk-heading-l">{{ title }}</h1>
         
           {{ govukRadios({
             name: "toDoStatus",
             fieldset: {
               legend: {
-                text: title,
+                text: 'Progress',
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
               }
@@ -64,6 +66,37 @@
             ],
             errorMessage: errors.toDoStatus
           }) }}
+
+          {% if toDoItem === 'ID' %}
+            {{ govukCheckboxes({
+              name: "identification",
+              fieldset: {
+                legend: {
+                    text: 'Types of ID in place',
+                    isPageHeading: false,
+                    classes: "govuk-fieldset__legend--l"
+                  }
+              },
+              items: [
+                {
+                  value: "BIRTH_CERTIFICATE",
+                  checked: identification.indexOf("BIRTH_CERTIFICATE") > -1,
+                  text: contentLookup.fields.identification["BIRTH_CERTIFICATE"]
+                },
+                { 
+                  value: "DRIVING_LICENCE",
+                  checked: identification.indexOf("DRIVING_LICENCE") > -1,
+                  text: contentLookup.fields.identification["DRIVING_LICENCE"]
+                },
+                { 
+                  value: "PASSPORT",
+                  checked: identification.indexOf("PASSPORT") > -1,
+                  text: contentLookup.fields.identification["PASSPORT"]
+                }
+              ],
+              errorMessage: errors.identification
+            }) }}
+          {% endif %}
 
         </div>
 
