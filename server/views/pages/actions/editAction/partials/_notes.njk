@@ -47,9 +47,9 @@
     }) }}
 
     <p class="govuk-body">
-      <a class="govuk-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=view' }}">Cancel</a>
+      <a class="govuk-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=view' }}" data-qa="cancel-add-note-link">Cancel</a>
     </p>
   </div>
 {% else %}
-   <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=add' }}">Add a note</a></p>
+   <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" data-qa="add-note-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=add' }}">Add a note</a></p>
 {% endif %}

@@ -8,6 +8,7 @@ import { setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import NotesViewModel from '../../../viewModels/notesViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -21,7 +22,7 @@ jest.mock('./validationSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('NewStatusController', () => {
+describe('EditActionController', () => {
   const { req, res, next } = expressMocks()
 
   req.context.prisoner = {
@@ -58,21 +59,17 @@ describe('NewStatusController', () => {
   req.params.action = 'cv_and_covering_letter'
   req.originalUrl = 'mock_url'
   res.locals.user = {}
-  const { id } = req.params
+  const { id, action } = req.params
 
   const mockData = {
     backLocation: addressLookup.workProfile(id),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     toDoItem: 'CV_AND_COVERING_LETTER',
     toDoStatus: 'IN_PROGRESS',
-    notes: [
-      {
-        createdDate: '23 Oct 2022',
-        createdTime: '10:34',
-        createdName: 'Joe Bloggs',
-        details: 'Some note details',
-      },
-    ],
+    id: 'mock_ref',
+    identification: [] as Array<string>,
+    noteAction: 'view',
+    notes: plainToClass(NotesViewModel, req.context.notes),
   }
 
   const mockService: any = {
@@ -88,6 +85,7 @@ describe('NewStatusController', () => {
       next.mockReset()
       setSessionData(req, ['editAction', id, 'data'], mockData)
       setSessionData(req, ['actions', id], {})
+      req.params.action = 'cv_and_covering_letter'
     })
 
     it('On error - Calls next with error', async () => {
@@ -97,6 +95,21 @@ describe('NewStatusController', () => {
       controller.get(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(1)
+    })
+
+    it('On success - Record found - Calls render with the correct data', async () => {
+      controller.get(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith('pages/actions/editAction/index', mockData)
+      expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - No record found - Redirects to profile', async () => {
+      req.params.action = 'id'
+      controller.get(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+      expect(next).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -113,6 +126,7 @@ describe('NewStatusController', () => {
       setSessionData(req, ['editAction', id, 'data'], mockData)
       setSessionData(req, ['actions', id], {})
       mockService.updateProfile.mockResolvedValue({})
+      req.params.action = 'cv_and_covering_letter'
     })
 
     it('On error - Calls next with error', async () => {
@@ -134,6 +148,24 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/actions/editAction/index', { ...mockData, errors })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On Success - Add note - Calls add note API and refreshes page', async () => {
+      req.query.noteAction = 'add'
+
+      await controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.actions.editAction(id, action))
+      expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On Success - Submit - Calls API and redirects to profile', async () => {
+      req.query.noteAction = 'view'
+
+      await controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
