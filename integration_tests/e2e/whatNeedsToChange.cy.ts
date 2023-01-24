@@ -10,23 +10,29 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
     const supportOptIn = Page.verifyOnPage(SupportOptIn)
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
-    const supportDeclinedReason = Page.verifyOnPage(SupportDeclinedReasonPage)
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const whatNeedsToChange = Page.verifyOnPage(WhatNeedsToChangePage)
+    const whatNeedsToChange = new WhatNeedsToChangePage(
+      'What change in circumstances would make Daniel Craig want to get work?',
+    )
 
     whatNeedsToChange.submitButton().click()
 
@@ -49,7 +55,9 @@ context('SignIn', () => {
   })
 
   it('New record - Select YES - navigates to check-answers page', () => {
-    const whatNeedsToChange = Page.verifyOnPage(WhatNeedsToChangePage)
+    const whatNeedsToChange = new WhatNeedsToChangePage(
+      'What change in circumstances would make Daniel Craig want to get work?',
+    )
 
     whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
     whatNeedsToChange.submitButton().click()
@@ -58,9 +66,11 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select YES - navigates to check-answers page', () => {
-    cy.visit('/work-profile/create/G6115VJ/what-needs-to-change/edit')
+    cy.visit('/profile/create/G6115VJ/what-needs-to-change/edit')
 
-    const whatNeedsToChange = Page.verifyOnPage(WhatNeedsToChangePage)
+    const whatNeedsToChange = new WhatNeedsToChangePage(
+      'What change in circumstances would make Daniel Craig want to get work?',
+    )
 
     whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
     whatNeedsToChange.submitButton().click()

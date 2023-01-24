@@ -9,6 +9,8 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
   })
 
   it('Unauthenticated user directed to auth', () => {

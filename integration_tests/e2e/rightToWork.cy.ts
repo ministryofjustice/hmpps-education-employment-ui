@@ -8,13 +8,16 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('stubVerifyToken', true)
   })
 
   it('Validation messages display when no value selected', () => {
     cy.signIn()
 
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
 
@@ -27,7 +30,7 @@ context('SignIn', () => {
   it('New record - Select YES - navigates to support-opt-in page', () => {
     cy.signIn()
 
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
 
@@ -40,7 +43,7 @@ context('SignIn', () => {
   it('New record - Select NO - navigates to ineligable-to-work page', () => {
     cy.signIn()
 
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
 
@@ -53,7 +56,7 @@ context('SignIn', () => {
   it('Existing record - Select YES - navigates to check-answers page', () => {
     cy.signIn()
 
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/edit')
+    cy.visit('/profile/create/G6115VJ/right-to-work/edit')
 
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
 

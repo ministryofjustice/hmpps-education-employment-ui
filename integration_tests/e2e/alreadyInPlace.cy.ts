@@ -9,10 +9,14 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
+    cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
@@ -49,7 +53,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select BANK_ACCOUNT - navigates to check-answers page', () => {
-    cy.visit('/work-profile/create/G6115VJ/already-in-place/edit')
+    cy.visit('/profile/create/G6115VJ/already-in-place/edit')
 
     const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 
@@ -60,7 +64,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select ID - navigates to identification page', () => {
-    cy.visit('/work-profile/create/G6115VJ/already-in-place/edit')
+    cy.visit('/profile/create/G6115VJ/already-in-place/edit')
 
     const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
 

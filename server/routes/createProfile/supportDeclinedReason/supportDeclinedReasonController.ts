@@ -1,32 +1,50 @@
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 import SupportDeclinedReasonValue from '../../../enums/supportDeclinedReasonValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 
 export default class SupportDeclinedReasonController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
-        supportDeclinedReason: record.supportDeclinedReason || [],
-        supportDeclinedDetails: record.supportDeclinedDetails,
+        backLocation: getBackLocation({
+          req,
+          defaultRoute:
+            mode === 'new'
+              ? addressLookup.createProfile.supportOptIn(id, mode)
+              : addressLookup.createProfile.checkAnswers(id),
+          page: 'supportDeclinedReason',
+          uid: id,
+        }),
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
+        supportDeclinedReason:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.supportToWorkDeclinedReason
+            : record.supportDeclinedReason || [],
+        supportDeclinedDetails:
+          mode === 'update'
+            ? profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther
+            : record.supportDeclinedDetails,
       }
 
       // Store page data for use if validation fails
@@ -41,6 +59,7 @@ export default class SupportDeclinedReasonController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { supportDeclinedReason = [], supportDeclinedDetails } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -56,7 +75,27 @@ export default class SupportDeclinedReasonController {
         return
       }
 
-      // Update record in sessionData and tidy
+      deleteSessionData(req, ['supportDeclinedReason', id, 'data'])
+
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        profile.profileData.supportDeclined = {
+          ...profile.profileData.supportDeclined,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+          supportToWorkDeclinedReason: supportDeclinedReason,
+          supportToWorkDeclinedReasonOther: supportDeclinedDetails,
+        }
+
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
+        res.redirect(addressLookup.workProfile(id))
+        return
+      }
+
+      // Default flow Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
       setSessionData(req, ['createProfile', id], {
         ...record,
@@ -65,7 +104,6 @@ export default class SupportDeclinedReasonController {
           ? supportDeclinedDetails
           : '',
       })
-      deleteSessionData(req, ['supportDeclinedReason', id, 'data'])
 
       // Redirect to the correct page based on mode
       res.redirect(

@@ -3,10 +3,6 @@ import Page from './page'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class WhatNeedsToChangePage extends Page {
-  constructor() {
-    super('What change in circumstances would make Daniel Craig want to get work?')
-  }
-
   checkboxField = (): PageElement => cy.get('#whatNeedsToChange')
 
   checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)

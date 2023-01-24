@@ -102,6 +102,38 @@ export function formatDateStringToddMMMyyyy(params: TransformFnParams) {
   return format(date, 'dd MMM yyyy')
 }
 
+export function formatDateStringToddMMMyyyyHHmm(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
+  const date = new Date(params.value)
+
+  return format(date, 'dd MMM yyyy HH:mm')
+}
+
+export function formatDateStringToddMMMyyyyHHmmAsArray(params: TransformFnParams) {
+  if (!params.value) return ['N/A']
+  const date = new Date(params.value)
+
+  return [format(date, 'dd MMM yyyy'), format(date, 'HH:mm')]
+}
+
+export function formatDateStringTodMMMM(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
+  const date = new Date(params.value)
+
+  return format(date, 'd MMMM')
+}
+
 export function lookUpProfileStatus(status: any) {
   return status.replaceAll('_', ' ')
+}
+
+export function getAge(dateString: string) {
+  const today = new Date()
+  const birthDate = new Date(dateString)
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const m = today.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age -= 1
+  }
+  return age
 }

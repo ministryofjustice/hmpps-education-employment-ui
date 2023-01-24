@@ -39,12 +39,11 @@ describe('getPrisonerByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual({
-      firstName: 'Mock_firstname',
-      lastName: 'Mock_lastname',
+      firstName: 'mock_firstName',
+      lastName: 'mock_lastName',
       bookingId: 'mock_bookingId',
       prisonId: 'mock_prisonId',
       prisonerNumber: 'mock_prisonerNumber',
-      releaseDate: 'N/A',
     })
     expect(next).toHaveBeenCalledWith()
   })

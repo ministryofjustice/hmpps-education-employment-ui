@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express'
+import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -6,29 +7,45 @@ import addressLookup from '../../addressLookup'
 import AbilityToWorkValue from '../../../enums/abilityToWorkValue'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import getBackLocation from '../../../utils/getBackLocation'
+import PrisonerProfileService from '../../../services/prisonerProfileService'
+import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 export default class AbilityToWorkController {
+  constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
+
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { prisoner } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
-      if (!record) {
+      if (mode !== 'update' && !record) {
         res.redirect(addressLookup.createProfile.rightToWork(id, mode))
         return
       }
 
       // Calculate last page based on record in session
-      const lastPage = (record.alreadyInPlace || []).includes(AlreadyInPlaceValue.ID)
-        ? addressLookup.createProfile.identification(id, mode)
-        : addressLookup.createProfile.alreadyInPlace(id, mode)
+      const lastPage =
+        mode !== 'update' && (record.alreadyInPlace || []).includes(AlreadyInPlaceValue.ID)
+          ? addressLookup.createProfile.identification(id, mode)
+          : addressLookup.createProfile.alreadyInPlace(id, mode)
 
       const data = {
-        backLocation: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
-        prisoner,
-        abilityToWork: record.abilityToWork || [],
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+          page: 'abilityToWork',
+          uid: id,
+        }),
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
+        abilityToWork:
+          mode === 'update'
+            ? profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy
+            : record.abilityToWork || [],
       }
 
       // Store page data for use if validation fails
@@ -43,6 +60,7 @@ export default class AbilityToWorkController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { abilityToWork = [] } = req.body
+    const { profile } = req.context
 
     try {
       // If validation errors render errors
@@ -57,6 +75,27 @@ export default class AbilityToWorkController {
         return
       }
 
+      // Handle update
+      if (mode === 'update') {
+        // Update data model
+        profile.profileData.supportAccepted.workImpacts = {
+          ...profile.profileData.supportAccepted.workImpacts,
+          modifiedBy: res.locals.user.username,
+          modifiedDateTime: new Date().toISOString(),
+          abilityToWorkImpactedBy: abilityToWork,
+          ableToManageDependencies: data.abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)
+            ? profile.profileData.supportAccepted.workImpacts.ableToManageDependencies
+            : false,
+        }
+
+        // Call api, change status
+        await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+        return
+      }
+
+      // Handle edit and new
       // Update record in sessionData and tidy
       const record = getSessionData(req, ['createProfile', id])
       setSessionData(req, ['createProfile', id], {

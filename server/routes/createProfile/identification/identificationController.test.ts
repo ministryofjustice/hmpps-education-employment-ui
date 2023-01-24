@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './identificationController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import IdentificationValue from '../../../enums/identificationValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -32,7 +34,7 @@ describe('IdentificationController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.alreadyInPlace(id, mode),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     identification: [] as any,
   }
 
@@ -65,7 +67,7 @@ describe('IdentificationController', () => {
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createProfile', id], { identification: IdentificationValue.PASSPORT })
-      req.query.from = '/work-profile/create/mock_ref/check-answers'
+      req.query.from = '/profile/create/mock_ref/check-answers'
       req.params.mode = 'edit'
 
       controller.get(req, res, next)

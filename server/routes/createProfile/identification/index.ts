@@ -9,9 +9,9 @@ export default (router: Router, services: Services) => {
   const controller = new IdentificationController()
 
   router.get(
-    '/work-profile/create/:id/identification/:mode',
+    '/profile/create/:id/identification/:mode',
     [getPrisonerByIdResolver(services.prisonerSearch)],
     controller.get,
   )
-  router.post('/work-profile/create/:id/identification/:mode', [parseCheckBoxValue('identification')], controller.post)
+  router.post('/profile/create/:id/identification/:mode', [parseCheckBoxValue('identification')], controller.post)
 }

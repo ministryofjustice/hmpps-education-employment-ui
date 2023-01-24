@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { plainToClass } from 'class-transformer'
+
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './jobOfParticularInterestController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import workProfileTabs from '../../../enums/workProfileTabs'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -31,10 +36,16 @@ describe('JobOfParticularInterestController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.typeOfWork(id, mode),
-    prisoner: req.context.prisoner,
+    prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 
-  const controller = new Controller()
+  res.locals.user = {}
+
+  const mockService: any = {
+    updateProfile: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -111,7 +122,7 @@ describe('JobOfParticularInterestController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On success - Sets session record then redirects to workExperience', async () => {
+    it('On success - mode = new - Sets session record then redirects to workExperience', async () => {
       req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'new'
 
@@ -124,7 +135,7 @@ describe('JobOfParticularInterestController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.workExperience(id, 'new'))
     })
 
-    it('On success - Sets session record then redirects to checkAnswers', async () => {
+    it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
       req.body.jobOfParticularInterest = YesNoValue.YES
       req.params.mode = 'edit'
 
@@ -135,6 +146,24 @@ describe('JobOfParticularInterestController', () => {
       })
       expect(getSessionData(req, ['jobOfParticularInterest', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workExperience: {},
+          },
+        },
+      }
+      req.body.jobOfParticularInterestDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

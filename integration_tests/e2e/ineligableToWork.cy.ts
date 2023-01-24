@@ -9,15 +9,19 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getPrisonerById')
     cy.task('getUserActiveCaseLoad')
-    cy.task('createProfile')
+    cy.task('createProfile', 'G6115VJ')
+    cy.task('getProfileById', 'G6115VJ')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('getProfileById')
     cy.task('stubVerifyToken', true)
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
   })
 
   it('New record - Select NO - navigates to ineligable-to-work page', () => {
     cy.signIn()
 
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
 
@@ -28,6 +32,6 @@ context('SignIn', () => {
 
     ineligableToWork.submitButton().click()
 
-    cy.url().should('include', 'work-profile')
+    cy.url().should('include', '/profile')
   })
 })
