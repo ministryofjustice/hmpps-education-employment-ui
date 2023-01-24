@@ -5,6 +5,7 @@
  * From controllers down to clients, client interceptors etc the context object is called 'context'.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line camelcase
 export const setTokens = (
   // eslint-disable-next-line camelcase

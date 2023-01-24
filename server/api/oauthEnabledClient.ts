@@ -24,6 +24,7 @@ type OauthApiClientOptions = {
   timeout?: number
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type ClientResponse<T = any> = {
   body: T
   req: ClientRequest
@@ -36,6 +37,7 @@ export interface ClientContext {
   refresh_token?: string
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const isClientResponse = (res: superagent.Response): res is ClientResponse => !!(res as any).res
 
 const resultLogger = (result: superagent.Response) => {
@@ -74,6 +76,7 @@ export class OauthApiClient {
    *        The header isn't set if resultsLimit is falsy.
    * @returns A Promise which settles to the superagent result object if the promise is resolved, otherwise to the 'error' object.
    */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   get = <T = any>(context: ClientContext, path: string, options: RequestOptions = {}): Promise<ClientResponse<T>> => {
     return superagent
       .get(this.createUrl(path))
@@ -123,6 +126,7 @@ export class OauthApiClient {
    * @param body
    * @returns A Promise which resolves to the superagent result object, or the superagent error object if it is rejected
    */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   post = <T>(context: ClientContext, path: string, body: any): Promise<ClientResponse<T>> => {
     return superagent
       .post(this.createUrl(path))
@@ -141,6 +145,7 @@ export class OauthApiClient {
    * @param body
    * @returns A Promise which resolves to the superagent result object, or the superagent error object if it is rejected
    */
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   put = <T>(context: ClientContext, path: string, body: any): Promise<ClientResponse<T>> => {
     return superagent
       .put(this.createUrl(path))
