@@ -58,8 +58,15 @@
     {% include './partials/_detailsTabContents.njk' %}
   {% endif %}
 
+  {% if tab === 'training' %}
+    {% include './partials/_trainingTabContents.njk' %}
+  {% endif %}
+
   {% if tab === 'experience' %}
     {% include './partials/_experienceTabContents.njk' %}
   {% endif %}
- 
+
+  {% if tab === 'contacts' %}
+    {% include './partials/_contactsTabContents.njk' %}
+  {% endif %}
 {% endblock %}

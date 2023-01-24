@@ -1,0 +1,100 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Contacts</h2>
+
+    {% if contacts.com %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Community Offender Manager (COM)
+          </h3>
+        </header>
+
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Name
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ contacts.com.name }}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Email address
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ contacts.com.email }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if contacts.keyWorker %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Key worker
+          </h3>
+        </header>
+
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Name
+              </dt>
+              <dd class="govuk-summary-list__value">
+               {{ contacts.keyWorker.name }}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Email address
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ contacts.keyWorker.email }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if contacts.pom %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Prison Offender Manager (POM)
+          </h3>
+        </header>
+
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Name
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ contacts.pom.name }}
+              </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Email address
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ contacts.pom.namemail }}
+              </dd>
+            </div>
+          </dl>
+
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</div>
