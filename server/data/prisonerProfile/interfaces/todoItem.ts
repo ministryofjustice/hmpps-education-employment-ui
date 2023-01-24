@@ -1,4 +1,5 @@
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import IdentificationValue from '../../../enums/identificationValue'
 
 export enum ToDoStatus {
   NOT_STARTED = 'NOT_STARTED',
@@ -9,4 +10,5 @@ export enum ToDoStatus {
 export default interface TodoItem {
   todoItem: AlreadyInPlaceValue
   status: ToDoStatus
+  id?: IdentificationValue[]
 }

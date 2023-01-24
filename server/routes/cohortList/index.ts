@@ -6,8 +6,8 @@ import getCohortListResolver from '../../middleware/resolvers/getCohortListResol
 
 export default (router: Router, services: Services) => {
   const controller = new CohortListController(services.prisonerSearch, services.paginationService)
-  router.get('/work-profile/cohort-list', [getCohortListResolver(services.prisonerSearch)], controller.get)
+  router.get('/', [getCohortListResolver(services.prisonerSearch)], controller.get)
 
   // TODO: implement POST method
-  router.post('/work-profile/cohort-list', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
+  router.post('/', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
 }

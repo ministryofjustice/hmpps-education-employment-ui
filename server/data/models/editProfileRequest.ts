@@ -7,6 +7,7 @@ import TodoItem, { ToDoStatus } from '../prisonerProfile/interfaces/todoItem'
 import SupportAcceptedSection from '../prisonerProfile/interfaces/supportAcceptedSection'
 import SupportDeclinedSection from '../prisonerProfile/interfaces/supportDeclinedSection'
 import ProfileStatus from '../../enums/profileStatus'
+import IdentificationValue from '../../enums/identificationValue'
 
 // Model for editing an existing profile and saving via change status or check answers
 export default class EditProfileRequest {
@@ -15,7 +16,7 @@ export default class EditProfileRequest {
 
     this.profileData = {
       status: data.status,
-      supportDeclined: this.buildSupportDeclined(data, existingProfile),
+      supportDeclined: this.buildSupportDeclined(data),
       supportAccepted: this.buildSupportAccepted(data, existingProfile),
     }
   }
@@ -24,7 +25,10 @@ export default class EditProfileRequest {
 
   profileData: ProfileDataSection
 
-  private buildActions(alreadyInPlace: AlreadyInPlaceValue[] = []): TodoItem[] {
+  private buildActions(
+    alreadyInPlace: AlreadyInPlaceValue[] = [],
+    identification: IdentificationValue[] = [],
+  ): TodoItem[] {
     return [
       {
         todoItem: AlreadyInPlaceValue.BANK_ACCOUNT,
@@ -57,6 +61,7 @@ export default class EditProfileRequest {
       {
         todoItem: AlreadyInPlaceValue.ID,
         status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+        id: identification,
       },
     ]
   }
@@ -101,16 +106,9 @@ export default class EditProfileRequest {
         }
   }
 
-  private buildSupportDeclined(
-    data: CreateProfileRequestArgs,
-    existingProfile: PrisonerProfile,
-  ): SupportDeclinedSection {
+  private buildSupportDeclined(data: CreateProfileRequestArgs): SupportDeclinedSection {
     const now = new Date()
     const isoString = now.toISOString()
-
-    if (this.isStatusOnlyChange(data, existingProfile)) {
-      return existingProfile.profileData.supportDeclined
-    }
 
     return data.status !== ProfileStatus.SUPPORT_DECLINED
       ? null
@@ -125,6 +123,13 @@ export default class EditProfileRequest {
   }
 
   private isStatusOnlyChange(data: CreateProfileRequestArgs, existingProfile: PrisonerProfile) {
+    if (
+      (data.status === ProfileStatus.SUPPORT_NEEDED || data.status === ProfileStatus.READY_TO_WORK) &&
+      existingProfile.profileData.supportAccepted
+    ) {
+      return true
+    }
+
     if (data.status === ProfileStatus.NO_RIGHT_TO_WORK) {
       return true
     }

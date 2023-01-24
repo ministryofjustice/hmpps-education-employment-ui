@@ -5,7 +5,11 @@ import PrisonerProfile from '../prisonerProfile/interfaces/prisonerProfile'
 export default class UpdateProfileRequest {
   constructor(profile: PrisonerProfile) {
     this.bookingId = profile.bookingId
-    this.profileData = profile.profileData
+    this.profileData = {
+      status: profile.profileData.status,
+      supportDeclined: profile.profileData.supportDeclined,
+      supportAccepted: profile.profileData.supportAccepted,
+    }
   }
 
   bookingId: number

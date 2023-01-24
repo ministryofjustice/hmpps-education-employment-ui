@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new NewStatusController(services.prisonerProfileService)
 
   router.get(
-    '/work-profile/change-status/:id/new-status',
+    '/profile/change-status/:id/new-status',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -17,7 +17,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/work-profile/change-status/:id/new-status',
+    '/profile/change-status/:id/new-status',
     [
       getPrisonerByIdResolver(services.prisonerSearch),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),

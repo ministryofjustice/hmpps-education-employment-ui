@@ -11,6 +11,8 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
@@ -20,7 +22,7 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
 
-    cy.visit('/work-profile/G6115VJ/view/overview')
+    cy.visit('/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
 
     workProfilePage.overviewStatus().contains('NO RIGHT TO WORK')
@@ -34,7 +36,7 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
 
-    cy.visit('/work-profile/H4115SD/view/overview')
+    cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
   })
 
@@ -42,7 +44,7 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'G5005GD')
     cy.task('getProfileById', 'G5005GD')
 
-    cy.visit('/work-profile/G5005GD/view/overview')
+    cy.visit('/profile/G5005GD/view/overview')
     const workProfilePage = new WorkProfilePage("John Smith's work profile")
 
     workProfilePage.overviewDeclinedReasonLink().click()
@@ -57,14 +59,14 @@ context('SignIn', () => {
     )
     whatNeedsToChange.backLink().click()
 
-    cy.url().should('include', 'work-profile')
+    cy.url().should('include', '/profile')
   })
 
   it('No profile found', () => {
     cy.task('getPrisonerById', 'A00001A')
     cy.task('getProfileById', 'A00001A')
 
-    cy.visit('/work-profile/A00001A/view/overview')
+    cy.visit('/profile/A00001A/view/overview')
     const workProfilePage = new WorkProfilePage("Paris Jones's work profile")
 
     workProfilePage.overviewCompleteAssessmentLink().contains('Complete assessment now')

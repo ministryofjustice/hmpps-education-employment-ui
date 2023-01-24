@@ -1,7 +1,7 @@
 import Page from '../pages/page'
 import CohortListPage from '../pages/cohortList'
 
-const cohortListUrl = `/work-profile/cohort-list`
+const cohortListUrl = `/`
 
 context('SignIn', () => {
   beforeEach(() => {
@@ -10,6 +10,8 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('stubUserCaseLoads')
     cy.task('stubVerifyToken', true)
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
@@ -54,7 +56,7 @@ context('SignIn', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/work-profile/G5336UH/view/overview')
+      expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
       expect(offenders[0].status).to.contain('SUPPORT DECLINED')
@@ -70,7 +72,7 @@ context('SignIn', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/work-profile/G5336UH/view/overview')
+      expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
     })
 
@@ -78,7 +80,7 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?sortBy=lastName&order=ascending`)
 
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/work-profile/G6190UD/view/overview')
+      expect(offenders[0].viewLink).to.contain('/profile/G6190UD/view/overview')
       expect(offenders[0].displayName).to.contain('Dool, Curt')
       expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
       expect(offenders[0].status).to.contain('NEEDS SUPPORT')

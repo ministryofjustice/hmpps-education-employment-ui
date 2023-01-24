@@ -1,8 +1,8 @@
-import type { RequestHandler, Request } from 'express'
+import type { RequestHandler } from 'express'
 import { UserService } from '../../services'
 
 import PrisonerProfileService from '../../services/prisonerProfileService'
-import { getSessionData, setSessionData } from '../../utils/session'
+import { getUserFullName } from './utils'
 
 // Gets profile based on id parameter and puts it into request context
 const getProfileByIdResolver =
@@ -74,25 +74,5 @@ const getProfileByIdResolver =
       next(err)
     }
   }
-
-const getUserFullName = async (req: Request, userService: UserService, token: string, userName: string) => {
-  try {
-    let name = getSessionData(req, ['userNameCache', userName], '')
-    if (!name) {
-      const found = await userService.getUserByUsername(token, userName)
-      name = found.name
-      setSessionData(req, ['userNameCache', userName], found.name)
-    }
-
-    return name || userName
-  } catch (err) {
-    // handle no user account
-    if (err?.data?.field === 'username') {
-      return userName
-    }
-
-    throw err
-  }
-}
 
 export default getProfileByIdResolver

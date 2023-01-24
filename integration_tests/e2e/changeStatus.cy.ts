@@ -11,6 +11,8 @@ context('SignIn', () => {
     cy.task('stubAuthUser')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('updateProfile')
     cy.signIn()
@@ -20,7 +22,7 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
 
-    cy.visit('/work-profile/G6115VJ/view/overview')
+    cy.visit('/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
@@ -38,7 +40,7 @@ context('SignIn', () => {
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
 
-    cy.visit('/work-profile/H4115SD/view/overview')
+    cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
@@ -46,7 +48,7 @@ context('SignIn', () => {
     newStatusPage.radioFieldValue('NO_RIGHT_TO_WORK').click()
     newStatusPage.submitButton().click()
 
-    cy.url().should('include', '/work-profile/H4115SD/view/overview')
+    cy.url().should('include', '/profile/H4115SD/view/overview')
   })
 
   it('Change to - READY_TO_WORK', () => {
@@ -54,7 +56,7 @@ context('SignIn', () => {
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
 
-    cy.visit('/work-profile/H4115SD/view/overview')
+    cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
@@ -62,14 +64,14 @@ context('SignIn', () => {
     newStatusPage.radioFieldValue('READY_TO_WORK').click()
     newStatusPage.submitButton().click()
 
-    cy.url().should('include', '/work-profile/H4115SD/view/overview')
+    cy.url().should('include', '/profile/H4115SD/view/overview')
   })
 
   it('Change to - SUPPORT_DECLINED', () => {
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
 
-    cy.visit('/work-profile/H4115SD/view/overview')
+    cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 

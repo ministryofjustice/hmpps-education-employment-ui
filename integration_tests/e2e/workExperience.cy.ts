@@ -15,10 +15,12 @@ context('SignIn', () => {
     cy.task('getPrisonerById')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
-    cy.visit('/work-profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
     const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
@@ -70,7 +72,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select NO - navigates to check-answers page', () => {
-    cy.visit('/work-profile/create/G6115VJ/work-experience/edit')
+    cy.visit('/profile/create/G6115VJ/work-experience/edit')
 
     const workExperience = Page.verifyOnPage(WorkExperiencePage)
 
