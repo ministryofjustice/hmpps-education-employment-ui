@@ -19,21 +19,17 @@ export default class CuriousApi {
 
   constructor(private readonly client: OauthApiClient) {}
 
-  async getLearnerProfiles(
-    context: ClientContext,
-    nomisId: string,
-    establishmentId?: string,
-  ): Promise<LearnerProfile[]> {
+  async getLearnerProfiles(context: ClientContext, id: string, establishmentId?: string): Promise<LearnerProfile[]> {
     const response = await this.client.get<LearnerProfile[]>(
       context,
-      this.applyQuery(`/learnerProfile/${nomisId}`, { establishmentId }),
+      this.applyQuery(`/learnerProfile/${id}`, { establishmentId }),
     )
     return response.body
   }
 
   async getLearnerEducation(
     context: ClientContext,
-    nomisId: string,
+    id: string,
     sort?: string,
     isCurrent?: boolean,
     establishmentId?: string,
@@ -42,7 +38,7 @@ export default class CuriousApi {
   ): Promise<PageLearnerEducation> {
     const response = await this.client.get<LearnerEducation>(
       context,
-      this.applyQuery(`/learnerEducation/${nomisId}`, {
+      this.applyQuery(`/learnerEducation/${id}`, {
         sort,
         isCurrent,
         establishmentId,
@@ -55,13 +51,13 @@ export default class CuriousApi {
 
   async getLearnerEducationRaw(
     context: ClientContext,
-    nomisId: string,
+    id: string,
     isCurrent?: boolean,
     establishmentId?: string,
   ): Promise<LearnerEducation> {
     const response = await this.client.get<LearnerEducation>(
       context,
-      this.applyQuery(`/learnerEducation/${nomisId}`, {
+      this.applyQuery(`/learnerEducation/${id}`, {
         isCurrent,
         establishmentId,
       }),
@@ -69,36 +65,36 @@ export default class CuriousApi {
     return response.body
   }
 
-  async getLearnerLatestAssessments(context: ClientContext, nomisId: string): Promise<LearnerLatestAssessment[]> {
-    const response = await this.client.get<LearnerProfile[]>(context, `/latestLearnerAssessments/${nomisId}`)
+  async getLearnerLatestAssessments(context: ClientContext, id: string): Promise<LearnerLatestAssessment[]> {
+    const response = await this.client.get<LearnerProfile[]>(context, `/latestLearnerAssessments/${id}`)
     return response.body
   }
 
-  async getLearnerGoals(context: ClientContext, nomisId: string): Promise<LearnerGoals> {
-    const response = await this.client.get<LearnerGoals>(context, `/learnerGoals/${nomisId}`)
+  async getLearnerGoals(context: ClientContext, id: string): Promise<LearnerGoals> {
+    const response = await this.client.get<LearnerGoals>(context, `/learnerGoals/${id}`)
     return response.body
   }
 
-  async getLearnerEmployabilitySkillsRaw(context: ClientContext, nomisId: string): Promise<LearnerEmployabilitySkills> {
+  async getLearnerEmployabilitySkillsRaw(context: ClientContext, id: string): Promise<LearnerEmployabilitySkills> {
     return this.client
-      .get<LearnerEmployabilitySkills>(context, `/learnerEmployabilitySkills/${nomisId}`)
+      .get<LearnerEmployabilitySkills>(context, `/learnerEmployabilitySkills/${id}`)
       .then(response => response.body)
   }
 
-  getLearnerEmployabilitySkills(context: ClientContext, nomisId: string): Promise<PageLearnerEmployabilitySkills> {
+  getLearnerEmployabilitySkills(context: ClientContext, id: string): Promise<PageLearnerEmployabilitySkills> {
     return this.client
-      .get<LearnerEmployabilitySkills>(context, `/learnerEmployabilitySkills/${nomisId}?size=10000`)
+      .get<LearnerEmployabilitySkills>(context, `/learnerEmployabilitySkills/${id}?size=10000`)
       .then(response => response.body)
   }
 
   async getLearnerNeurodivergence(
     context: ClientContext,
-    nomisId: string,
+    id: string,
     establishmentId?: string,
   ): Promise<LearnerNeurodivergence[]> {
     const response = await this.client.get<LearnerNeurodivergence[]>(
       context,
-      this.applyQuery(`/learnerNeurodivergence/${nomisId}`, { establishmentId }),
+      this.applyQuery(`/learnerNeurodivergence/${id}`, { establishmentId }),
     )
     return response.body
   }

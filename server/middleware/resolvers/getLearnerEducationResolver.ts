@@ -7,19 +7,19 @@ import { getSessionData, setSessionData } from '../../utils/session'
 const getLearnerEducationResolver =
   (curiousEsweService: CuriousEsweService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { nomisId } = req.params
+    const { id } = req.params
 
     try {
       // Check session for cached employability skills data for this prisoner
-      if (getSessionData(req, ['learnerEducation', nomisId])) {
-        req.context.learnerEducation = getSessionData(req, ['learnerEducation', nomisId])
+      if (getSessionData(req, ['learnerEducation', id])) {
+        req.context.learnerEducation = getSessionData(req, ['learnerEducation', id])
         next()
         return
       }
 
       // Get employability skills data
-      req.context.learnerEducation = await curiousEsweService.getLearnerEducation(nomisId)
-      setSessionData(req, ['learnerEducation', nomisId], req.context.learnerEducation)
+      req.context.learnerEducation = await curiousEsweService.getLearnerEducation(id)
+      setSessionData(req, ['learnerEducation', id], req.context.learnerEducation)
 
       next()
     } catch (err) {

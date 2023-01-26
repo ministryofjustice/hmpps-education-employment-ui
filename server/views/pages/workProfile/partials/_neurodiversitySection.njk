@@ -15,9 +15,16 @@
       <dt class="govuk-summary-list__key">
         Support needed
       </dt>
-      <dd class="govuk-summary-list__value">
-
-      </dd>
+      {% if neurodivergence.neurodivergenceSupport %}
+        <dd class="govuk-summary-list__value">
+          {% for item in neurodivergence.neurodivergenceSupport %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.supportDate }}
+          </p>
+        </dd>
+      {% endif %}
     </div>
 
     <div class="govuk-summary-list__row">
@@ -25,7 +32,25 @@
         Neurodiversity
       </dt>
       <dd class="govuk-summary-list__value">
-      
+        {% if neurodivergence.neurodivergenceSelfDeclared %}
+          <h3 class="govuk-heading-s">From self-assessment</h3>
+          {% for item in neurodivergence.neurodivergenceSelfDeclared %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.selfDeclaredDate }}
+          </p>
+        {% endif %}
+
+        {% if neurodivergence.neurodivergenceAssessed %}
+          <h3 class="govuk-heading-s govuk-!-margin-top-4">From neurodiversity assessment</h3>
+          {% for item in neurodivergence.neurodivergenceAssessed %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.assessmentDate }}
+          </p>
+        {% endif %}
       </dd>
     </div>
   </dl>

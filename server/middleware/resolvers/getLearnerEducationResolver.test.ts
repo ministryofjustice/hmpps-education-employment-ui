@@ -5,10 +5,10 @@ import middleware from './getLearnerEducationResolver'
 describe('getLearnerEducationResolver', () => {
   const { req, res, next } = expressMocks()
 
-  req.params.nomisId = 'mock_ref'
+  req.params.id = 'mock_ref'
 
   const mockData = {
-    prn: req.params.nomisId,
+    prn: req.params.id,
     establishmentId: 'MDI',
     courseName: 'Dummy_Automated_320',
     courseCode: '008DUM006',

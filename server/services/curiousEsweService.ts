@@ -16,18 +16,18 @@ const curiousApi = CuriousApi.create(clientFactory({ baseUrl: config.apis.curiou
 export default class CuriousEsweService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async getLearnerNeurodivergence(nomisId: string): Promise<LearnerNeurodivergence[]> {
+  async getLearnerNeurodivergence(id: string): Promise<LearnerNeurodivergence[]> {
     try {
       const systemToken = {
         access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
         refresh_token: '',
       }
 
-      const neurodivergence = await curiousApi.getLearnerNeurodivergence(systemToken, nomisId)
+      const neurodivergence = await curiousApi.getLearnerNeurodivergence(systemToken, id)
       return neurodivergence
     } catch (e) {
       if (e.status === 404) {
-        log.info(`There is no neurodivergence data for this prisoner: ${nomisId.toUpperCase()}`)
+        log.info(`There is no neurodivergence data for this prisoner: ${id.toUpperCase()}`)
         return []
       }
       log.error(`Failed to get neurodivergence details. Reason: ${e.message}`)
@@ -35,16 +35,16 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerEmployabilitySkills(nomisId: string): Promise<LearnerEmployabilitySkills> {
+  async getLearnerEmployabilitySkills(id: string): Promise<LearnerEmployabilitySkills> {
     try {
       const systemToken = {
         access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
         refresh_token: '',
       }
-      return await curiousApi.getLearnerEmployabilitySkillsRaw(systemToken, nomisId)
+      return await curiousApi.getLearnerEmployabilitySkillsRaw(systemToken, id)
     } catch (e) {
       if (e.status === 404) {
-        log.info(`There is no employability skills data for this prisoner: ${nomisId}`)
+        log.info(`There is no employability skills data for this prisoner: ${id}`)
         return {}
       }
       log.error(`Failed to get learner employability skills. Reason: ${e.message}`)
@@ -52,17 +52,17 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerLatestAssessment(nomisId: string): Promise<LearnerLatestAssessment[]> {
+  async getLearnerLatestAssessment(id: string): Promise<LearnerLatestAssessment[]> {
     try {
       const systemToken = {
         access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
         refresh_token: '',
       }
 
-      return await curiousApi.getLearnerLatestAssessments(systemToken, nomisId)
+      return await curiousApi.getLearnerLatestAssessments(systemToken, id)
     } catch (e) {
       if (e.status === 404) {
-        log.info(`There is no assessment data for this prisoner: ${nomisId.toUpperCase()}`)
+        log.info(`There is no assessment data for this prisoner: ${id.toUpperCase()}`)
         return []
       }
       log.error(`Failed in get learner latest assessment. Reason: ${e.message}`)
@@ -70,17 +70,17 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerEducation(nomisId: string, isCurrent?: boolean, establishmentId?: string): Promise<LearnerEducation> {
+  async getLearnerEducation(id: string, isCurrent?: boolean, establishmentId?: string): Promise<LearnerEducation> {
     try {
       const systemToken = {
         access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
         refresh_token: '',
       }
 
-      return await curiousApi.getLearnerEducationRaw(systemToken, nomisId, isCurrent, establishmentId)
+      return await curiousApi.getLearnerEducationRaw(systemToken, id, isCurrent, establishmentId)
     } catch (e) {
       if (e.status === 404) {
-        log.info(`There is no education data for this prisoner: ${nomisId.toUpperCase()}`)
+        log.info(`There is no education data for this prisoner: ${id.toUpperCase()}`)
         return {}
       }
       log.error(`Failed to get learner education data. Reason: ${e.message}`)
