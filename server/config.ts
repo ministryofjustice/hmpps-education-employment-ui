@@ -120,6 +120,14 @@ export default {
       },
       agent: new AgentConfig(),
     },
+    keyworkerApi: {
+      url: get('KEYWORKER_API_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),

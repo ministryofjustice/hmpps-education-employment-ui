@@ -1,6 +1,7 @@
 import type { Router } from 'express'
 
 import getEmployabilitySkillsResolver from '../../middleware/resolvers/getEmployabilitySkillsResolver'
+import getKeyworkerByIdResolver from '../../middleware/resolvers/getKeyworkerByIdResolver'
 import getLatestAssessmentResolver from '../../middleware/resolvers/getLatestAssessmentResolver'
 import getLearnerEducationResolver from '../../middleware/resolvers/getLearnerEducationResolver'
 import getNeurodivergenceResolver from '../../middleware/resolvers/getNeurodivergenceResolver'
@@ -21,6 +22,7 @@ export default (router: Router, services: Services) => {
       getLearnerEducationResolver(services.curiousEsweService),
       getNeurodivergenceResolver(services.curiousEsweService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
+      getKeyworkerByIdResolver(services.keyworkerService),
     ],
     controller.get,
   )
