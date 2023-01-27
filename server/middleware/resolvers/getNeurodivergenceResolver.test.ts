@@ -7,10 +7,10 @@ import { NeurodivergenceSupport } from '../../api/curious/types/Enums'
 describe('getNeurodivergenceResolver', () => {
   const { req, res, next } = expressMocks()
 
-  req.params.nomisId = 'mock_ref'
+  req.params.id = 'mock_ref'
 
   const mockData = {
-    prn: req.params.nomisId,
+    prn: req.params.id,
     establishmentId: 'MDI',
     establishmentName: 'HMP Moorland',
     neurodivergenceSupport: [NeurodivergenceSupport.MemorySupport, NeurodivergenceSupport.Reading],

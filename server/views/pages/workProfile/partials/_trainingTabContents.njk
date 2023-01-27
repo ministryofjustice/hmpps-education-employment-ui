@@ -1,0 +1,155 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Training in prison</h2>
+
+    {% if learnerEducation.length %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Educational courses and qualifications
+          </h3>
+        </header>
+        <div class="app-summary-card__body">
+
+          <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Current courses</h4>
+
+          {% for item in learnerEducation %}
+          <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="course-summary">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__value">
+                {{ item.courseName }}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                End date: {{ item.learningPlannedEndDate }}
+              </dd>
+            </div>
+          </dl>
+          {% endfor %}
+
+          <p class="govuk-!-margin-top-5">
+            <a class="govuk-link govuk-link--no-visited-state" target="_blank" href="{{ dpsUrl }}/prisoner/{{ id }}/courses-qualifications">View full course history (opens in a new tab)</a>
+          </p>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if learnerLatestAssessment and learnerLatestAssessment.qualifications.length %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Functional skills level from induction
+          </h3>
+        </header>
+        <div class="app-summary-card__body">
+          <div class="govuk-hint">
+            To check for additional functional skills assessments since induction, view full course history in courses and qualifications.
+          </div>
+          <dl class="govuk-summary-list">
+            {% for item in learnerLatestAssessment.qualifications %}
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  {{ item.qualification.qualificationType }}
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  {{ item.qualification.qualificationGrade }}
+                  <p class="app-summary-card__hint govuk-!-margin-top-3">
+                      Last assessed on {{ item.qualification.assessmentDate }}
+                    </p>
+                </dd>
+              </div>
+            {% endfor %}
+          </dl>
+        </div>
+      </section>
+    {% endif %}
+
+
+    {% if employabilitySkills and employabilitySkills.length %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Employability skills
+          </h3>
+        </header>
+
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+
+            {% for item in employabilitySkills %}
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  {{ item.employabilitySkill }}
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  {{ item.reviews[0].currentProgression }}
+                  <p class="app-summary-card__hint govuk-!-margin-top-3">
+                      Last assessed on  {{ item.reviews[0].reviewDate }}
+                    </p>
+                </dd>
+              </div>
+            {% endfor %}
+            
+            <div class="govuk-summary-list__row">
+            </div>
+          </dl>
+          <p class="govuk-!-margin-top-5">
+            <a class="govuk-link govuk-link--no-visited-state" target="_blank" href="{{ dpsUrl }}/prisoner/{{ id }}/skills?skill={{ employabilitySkills[0].employabilitySkill }}">View full skills assessment history (opens in a new tab)</a>
+          </p>
+        </div>
+      </section>
+    {% endif %}
+{# 
+    <section class="app-summary-card govuk-!-margin-bottom-6">
+      <header class="app-summary-card__header">
+        <h3 class="app-summary-card__title">
+          Work and activities in prison
+        </h3>
+      </header>
+      <div class="app-summary-card__body">
+        <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Current activities</h4>
+        {# <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="offence-summary">
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__value">
+            Level 3 COVID Unemployed
+          </dt>
+          <dd class="govuk-summary-list__value">
+            Started on: 13 August 2021
+          </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__value">
+            Workshop 7 HB1 &amp; 3 Single Portions
+          </dt>
+          <dd class="govuk-summary-list__value">
+            Started on: 05 June 2021
+          </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+          </div>
+        </dl> #}
+
+        {# <ul class="govuk-list">
+          <li class="govuk-!-margin-top-4 govuk-!-margin-bottom-2">
+            <a class="govuk-link govuk-link--no-visited-state" href="./activities-12-months">View work and activities for the last 12 months</a>
+          </li>
+        </ul> #}
+
+        <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Unacceptable absences</h4>
+
+        {# <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="course-summary">
+
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__value">
+            Last 6 months
+            </dt>
+            <dd class="govuk-summary-list__value">
+              4
+            </dd>
+          </div>
+        </dl> #}
+      </div>
+    </section> #}
+
+  </div>
+</div>

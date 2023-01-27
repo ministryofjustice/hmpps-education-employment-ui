@@ -3,6 +3,10 @@
     <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Personal details</h2>
     {% include './_personalDetailsOverviewSection.njk' %}
 
+    {% if neurodivergence %}
+      {% include './_neurodiversitySection.njk' %}
+    {% endif %}
+
     {% if profile.profileData.supportAccepted %}
       {% include './_abilityToWorkSection.njk' %}
     {% endif %}

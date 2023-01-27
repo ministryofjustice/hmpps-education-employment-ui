@@ -5,10 +5,10 @@ import middleware from './getEmployabilitySkillsResolver'
 describe('getEmployabilitySkillsResolver', () => {
   const { req, res, next } = expressMocks()
 
-  req.params.nomisId = 'mock_ref'
+  req.params.id = 'mock_ref'
 
   const mockData = {
-    prn: req.params.nomisId,
+    prn: req.params.id,
     establishmentId: 'MDI',
     establishmentName: 'MOORLAND (HMP & YOI)',
     employabilitySkill: 'Problem Solving',

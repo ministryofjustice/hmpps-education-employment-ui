@@ -31,6 +31,7 @@
             <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther if item === 'OTHER' }}</div>
           {% endfor %}
         </dd>
+        <dd class="govuk-summary-list__actions">
           <a class="govuk-link govuk-link--no-visited-state" id="experience-qualifications-link" href="{{ addressLookup.createProfile.trainingAndQualifications(id, 'update') + '?from=' + originalUrl }}">
             Change<span class="govuk-visually-hidden"> training and qualifications</span>
           </a>

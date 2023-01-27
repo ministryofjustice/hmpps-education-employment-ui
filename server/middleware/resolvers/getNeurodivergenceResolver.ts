@@ -7,19 +7,19 @@ import { getSessionData, setSessionData } from '../../utils/session'
 const getNeurodivergenceResolver =
   (curiousEsweService: CuriousEsweService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { nomisId } = req.params
+    const { id } = req.params
 
     try {
       // Check session for cached neurodivergence data for this prisoner
-      if (getSessionData(req, ['neurodivergence', nomisId])) {
-        req.context.neurodivergence = getSessionData(req, ['neurodivergence', nomisId])
+      if (getSessionData(req, ['neurodivergence', id])) {
+        req.context.neurodivergence = getSessionData(req, ['neurodivergence', id])
         next()
         return
       }
 
       // Get neurodivergence data
-      req.context.neurodivergence = await curiousEsweService.getLearnerNeurodivergence(nomisId)
-      setSessionData(req, ['neurodivergence', nomisId], req.context.neurodivergence)
+      req.context.neurodivergence = await curiousEsweService.getLearnerNeurodivergence(id)
+      setSessionData(req, ['neurodivergence', id], req.context.neurodivergence)
 
       next()
     } catch (err) {

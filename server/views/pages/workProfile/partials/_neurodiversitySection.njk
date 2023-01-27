@@ -1,0 +1,58 @@
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h2 class="app-summary-card__title">
+      Neurodiversity
+    </h2>
+  </header>
+  <div class="app-summary-card__body">
+
+    <div class="govuk-hint">
+      Information from the local education team not a medical diagnosis.
+    </div>
+
+    <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Support needed
+      </dt>
+      {% if neurodivergence.neurodivergenceSupport %}
+        <dd class="govuk-summary-list__value">
+          {% for item in neurodivergence.neurodivergenceSupport %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.supportDate }}
+          </p>
+        </dd>
+      {% endif %}
+    </div>
+
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Neurodiversity
+      </dt>
+      <dd class="govuk-summary-list__value">
+        {% if neurodivergence.neurodivergenceSelfDeclared %}
+          <h3 class="govuk-heading-s">From self-assessment</h3>
+          {% for item in neurodivergence.neurodivergenceSelfDeclared %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.selfDeclaredDate }}
+          </p>
+        {% endif %}
+
+        {% if neurodivergence.neurodivergenceAssessed %}
+          <h3 class="govuk-heading-s govuk-!-margin-top-4">From neurodiversity assessment</h3>
+          {% for item in neurodivergence.neurodivergenceAssessed %}
+            {{ item }}</br>
+          {% endfor %}
+          <p class="app-summary-card__hint govuk-!-margin-top-3">
+            Recorded on {{ neurodivergence.assessmentDate }}
+          </p>
+        {% endif %}
+      </dd>
+    </div>
+  </dl>
+  </div>
+</section>

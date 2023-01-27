@@ -31,25 +31,25 @@ describe('curiousApi', () => {
   describe('getLearnerProfiles', () => {
     const dummyLearnerProfiles = getDummyLearnerProfiles()
     it('should return the expected response data', async () => {
-      const nomisId = dummyLearnerProfiles[0].prn
+      const id = dummyLearnerProfiles[0].prn
       mock
-        .get(`/learnerProfile/${nomisId}`)
+        .get(`/learnerProfile/${id}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, dummyLearnerProfiles)
 
-      const actual = await curiousApi.getLearnerProfiles({ access_token: accessToken }, nomisId)
+      const actual = await curiousApi.getLearnerProfiles({ access_token: accessToken }, id)
       expect(actual).toEqual(dummyLearnerProfiles)
     })
 
     it('should return the expected response data with establishmentid in query', async () => {
-      const nomisId = dummyLearnerProfiles[0].prn
+      const id = dummyLearnerProfiles[0].prn
       const { establishmentId } = dummyLearnerProfiles[0]
       mock
-        .get(`/learnerProfile/${nomisId}?establishmentId=${establishmentId}`)
+        .get(`/learnerProfile/${id}?establishmentId=${establishmentId}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, [dummyLearnerProfiles[0]])
 
-      const actual = await curiousApi.getLearnerProfiles({ access_token: accessToken }, nomisId, establishmentId)
+      const actual = await curiousApi.getLearnerProfiles({ access_token: accessToken }, id, establishmentId)
       expect(actual).toContainEqual(dummyLearnerProfiles[0])
     })
   })
@@ -57,28 +57,28 @@ describe('curiousApi', () => {
   describe('getLearnerEducation', () => {
     const dummyEducations = getDummyEducations()
     it('should return the expected response data', async () => {
-      const nomisId = dummyEducations.content[0].prn
+      const id = dummyEducations.content[0].prn
       mock
-        .get(`/learnerEducation/${nomisId}`)
+        .get(`/learnerEducation/${id}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, dummyEducations)
 
-      const actual = await curiousApi.getLearnerEducation({ access_token: accessToken }, nomisId)
+      const actual = await curiousApi.getLearnerEducation({ access_token: accessToken }, id)
       expect(actual).toEqual(dummyEducations)
     })
     it('should call the api with the correct parameters', async () => {
-      const nomisId = dummyEducations.content[1].prn
+      const id = dummyEducations.content[1].prn
       const { establishmentId } = dummyEducations.content[1]
       mock
         .get(
-          `/learnerEducation/${nomisId}?sort=establishmentName&isCurrent=true&establishmentId=${establishmentId}&page=1&size=5`,
+          `/learnerEducation/${id}?sort=establishmentName&isCurrent=true&establishmentId=${establishmentId}&page=1&size=5`,
         )
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, [dummyEducations.content[1]])
 
       await curiousApi.getLearnerEducation(
         { access_token: accessToken },
-        nomisId,
+        id,
         'establishmentName',
         true,
         establishmentId,
@@ -91,12 +91,12 @@ describe('curiousApi', () => {
   describe('getLearnerLatestAssessments', () => {
     const dummyLearnerLatestAssessments = getDummyLearnerLatestAssessments()
     it('should return the expected response data', async () => {
-      const nomisId = dummyLearnerLatestAssessments[0].prn
+      const id = dummyLearnerLatestAssessments[0].prn
       mock
-        .get(`/latestLearnerAssessments/${nomisId}`)
+        .get(`/latestLearnerAssessments/${id}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, dummyLearnerLatestAssessments)
-      const actual = await curiousApi.getLearnerLatestAssessments({ access_token: accessToken }, nomisId)
+      const actual = await curiousApi.getLearnerLatestAssessments({ access_token: accessToken }, id)
       expect(actual).toEqual(dummyLearnerLatestAssessments)
     })
   })
@@ -104,51 +104,51 @@ describe('curiousApi', () => {
   describe('getLearnerGoals', () => {
     const dummyLearnerGoals = getDummyLearnerGoals()
     it('should return the expected response data', async () => {
-      const nomisId = dummyLearnerGoals.prn
+      const id = dummyLearnerGoals.prn
       mock
-        .get(`/learnerGoals/${nomisId}`)
+        .get(`/learnerGoals/${id}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, dummyLearnerGoals)
-      const actual = await curiousApi.getLearnerGoals({ access_token: accessToken }, nomisId)
+      const actual = await curiousApi.getLearnerGoals({ access_token: accessToken }, id)
       expect(actual).toEqual(dummyLearnerGoals)
     })
   })
 
   describe('getLearnerEmployabilitySkills', () => {
     it('should return the expected response data', async () => {
-      const nomisId = 'A1234AA'
+      const id = 'A1234AA'
       const dummyResponse = [{ field: 'value1' }, { field: 'value2' }]
       mock
-        .get(`/learnerEmployabilitySkills/${nomisId}?size=10000`)
+        .get(`/learnerEmployabilitySkills/${id}?size=10000`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, dummyResponse)
-      const actual = await curiousApi.getLearnerEmployabilitySkills({ access_token: accessToken }, nomisId)
+      const actual = await curiousApi.getLearnerEmployabilitySkills({ access_token: accessToken }, id)
       expect(actual).toEqual(dummyResponse)
     })
   })
 
   describe('getLearnerNeurodivergence', () => {
     const dummLearnerNeurodivergence = getDummyLearnerneurodivergence()
-    const nomisId = dummLearnerNeurodivergence[0].prn
+    const id = dummLearnerNeurodivergence[0].prn
     const context = { access_token: accessToken }
     it('should return the expected neurodivergence data', async () => {
       mock
-        .get(`/learnerNeurodivergence/${nomisId}`)
+        .get(`/learnerNeurodivergence/${id}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, [dummLearnerNeurodivergence[0]])
 
-      const actual = await curiousApi.getLearnerNeurodivergence(context, nomisId)
+      const actual = await curiousApi.getLearnerNeurodivergence(context, id)
       expect(actual).toContainEqual(dummLearnerNeurodivergence[0])
     })
 
     it('should return the expected neurodivergence data with establishment id in the query', async () => {
       const { establishmentId } = dummLearnerNeurodivergence[0]
       mock
-        .get(`/learnerNeurodivergence/${nomisId}?establishmentId=${establishmentId}`)
+        .get(`/learnerNeurodivergence/${id}?establishmentId=${establishmentId}`)
         .matchHeader('authorization', `Bearer ${accessToken}`)
         .reply(200, [dummLearnerNeurodivergence[0]])
 
-      const actual = await curiousApi.getLearnerNeurodivergence(context, nomisId, establishmentId)
+      const actual = await curiousApi.getLearnerNeurodivergence(context, id, establishmentId)
       expect(actual).toContainEqual(dummLearnerNeurodivergence[0])
     })
   })
