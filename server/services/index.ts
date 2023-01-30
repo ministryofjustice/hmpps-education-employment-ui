@@ -4,6 +4,9 @@ import PrisonerSearchService from './prisonSearchService'
 import PaginationService from './paginationServices'
 import PrisonerProfileService from './prisonerProfileService'
 import CuriousEsweService from './curiousEsweService'
+import KeyworkerService from './keyworkerService'
+import PrisonService from './prisonService'
+import WhereaboutsService from './whereaboutsService'
 
 export const services = () => {
   const { hmppsAuthClient } = dataAccess()
@@ -14,6 +17,9 @@ export const services = () => {
   const prisonerProfileService = new PrisonerProfileService(hmppsAuthClient)
   const paginationService = new PaginationService()
   const curiousEsweService = new CuriousEsweService(hmppsAuthClient)
+  const keyworkerService = new KeyworkerService(hmppsAuthClient)
+  const prisonService = new PrisonService(hmppsAuthClient)
+  const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   return {
     userService,
     prisonerSearch,
@@ -21,6 +27,9 @@ export const services = () => {
     prisonerSearchByReleaseDate,
     prisonerProfileService,
     curiousEsweService,
+    keyworkerService,
+    prisonService,
+    whereaboutsService,
   }
 }
 
