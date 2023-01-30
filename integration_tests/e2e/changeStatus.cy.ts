@@ -31,6 +31,9 @@ context('SignIn', () => {
     newStatusPage.submitButton().click()
 
     const newStatusPausePage = Page.verifyOnPage(NewStatusPausePage)
+    cy.contains('.govuk-link', 'Return to profile').should($a => {
+      expect($a, $a.parent().parent().text()).to.have.attr('href', '/profile/G6115VJ/view/overview')
+    })
     newStatusPausePage.submitButton().click()
     cy.url().should('include', 'already-in-place/new')
   })
