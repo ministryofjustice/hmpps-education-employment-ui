@@ -20,6 +20,7 @@ describe('NewStatusPauseController', () => {
   const { id } = req.params
 
   const mockData = {
+    id: 'mock_ref',
     backLocation: addressLookup.changeStatus.newStatus(id),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }

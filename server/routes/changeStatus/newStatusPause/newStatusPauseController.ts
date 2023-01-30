@@ -20,6 +20,7 @@ export default class NewStatusPauseController {
       }
 
       const data = {
+        id,
         backLocation: addressLookup.changeStatus.newStatus(id),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
       }
