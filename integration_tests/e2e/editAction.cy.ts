@@ -24,6 +24,9 @@ context('SignIn', () => {
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
     cy.task('getNotes', { id: 'H4115SD', toDoItem: 'BANK_ACCOUNT' })
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -43,6 +46,9 @@ context('SignIn', () => {
     cy.task('updateProfile', 'H4115SD')
     cy.task('getNotes', { id: 'H4115SD', toDoItem: 'BANK_ACCOUNT' })
     cy.task('addNote', { id: 'H4115SD', toDoItem: 'BANK_ACCOUNT' })
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -74,6 +80,9 @@ context('SignIn', () => {
     cy.task('updateProfile', 'H4115SD')
     cy.task('getNotes', { id: 'H4115SD', toDoItem: 'ID' })
     cy.task('addNote', { id: 'H4115SD', toDoItem: 'ID' })
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")

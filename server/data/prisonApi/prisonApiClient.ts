@@ -3,6 +3,7 @@ import type { Readable } from 'stream'
 import config from '../../config'
 import logger from '../../log'
 import RestClient from '../restClient'
+import GetOffenderActivitiesResponse from './getOffenderActivitiesResponse'
 
 export interface Prison {
   agencyId: string
@@ -58,6 +59,12 @@ export default class PrisonApiClient {
   async getPrison(prisonId: string): Promise<Prison> {
     return this.restClient.get<Prison>({
       path: `/api/agencies/${prisonId}`,
+    })
+  }
+
+  async getAllOffenderActivities(offenderId: string): Promise<GetOffenderActivitiesResponse> {
+    return this.restClient.get<GetOffenderActivitiesResponse>({
+      path: `/api/offender-activities/${offenderId}/activities-history?earliestEndDate=1922-10-01&page=0&size=9999`,
     })
   }
 }

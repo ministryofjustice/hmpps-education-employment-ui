@@ -99,57 +99,54 @@
         </div>
       </section>
     {% endif %}
-{# 
-    <section class="app-summary-card govuk-!-margin-bottom-6">
-      <header class="app-summary-card__header">
-        <h3 class="app-summary-card__title">
-          Work and activities in prison
-        </h3>
-      </header>
-      <div class="app-summary-card__body">
-        <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Current activities</h4>
-        {# <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="offence-summary">
-          <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__value">
-            Level 3 COVID Unemployed
-          </dt>
-          <dd class="govuk-summary-list__value">
-            Started on: 13 August 2021
-          </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__value">
-            Workshop 7 HB1 &amp; 3 Single Portions
-          </dt>
-          <dd class="govuk-summary-list__value">
-            Started on: 05 June 2021
-          </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-          </div>
-        </dl> #}
 
-        {# <ul class="govuk-list">
-          <li class="govuk-!-margin-top-4 govuk-!-margin-bottom-2">
-            <a class="govuk-link govuk-link--no-visited-state" href="./activities-12-months">View work and activities for the last 12 months</a>
-          </li>
-        </ul> #}
+    {% if currentActivities and currentActivities.length %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h2 class="app-summary-card__title">
+            Work and activities in prison
+          </h2>
+        </header>
+        <div class="app-summary-card__body">
+          <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Current activities</h3>
 
-        <h4 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Unacceptable absences</h4>
+          {% for item in currentActivities %}
+            <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="offence-summary">
+              <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__value">
+                {{ item.description }}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                Started on: {{ item.startDate }}
+              </dd>
+              </div>
+            </dl>
+          {% endfor %}
 
-        {# <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="course-summary">
+          <ul class="govuk-list">
+            <li class="govuk-!-margin-top-4 govuk-!-margin-bottom-2">
+              <a class="govuk-link govuk-link--no-visited-state" target="_blank" href="{{ dpsUrl }}/prisoner/{{ id }}/work-activities">View work and activities for the last 12 months (opens in a new tab)</a>
+            </li>
+          </ul>
 
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__value">
-            Last 6 months
-            </dt>
-            <dd class="govuk-summary-list__value">
-              4
-            </dd>
-          </div>
-        </dl> #}
-      </div>
-    </section> #}
+          {% if unacceptableAbsencesCount %}    
+            <h3 class="govuk-heading-s govuk-!-margin-top-2 govuk-!-margin-bottom-2">Unacceptable absences</h3>
+            <dl class="govuk-summary-list govuk-!-margin-bottom-2" data-test="course-summary">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__value">
+                Last 6 months
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  {{ unacceptableAbsencesCount.unacceptableAbsence }}
+                </dd>
+              </div>
+            </dl>
+          {% endif %}
+
+          <p></p>
+        </div>
+      </section>
+    {% endif %}
 
   </div>
 </div>

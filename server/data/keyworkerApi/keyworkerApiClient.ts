@@ -8,7 +8,7 @@ export default class KeyworkerApiClient {
   restClient: RestClient
 
   constructor(token: string) {
-    this.restClient = new RestClient('Prisoner Profile Search', config.apis.keyworkerApi, token)
+    this.restClient = new RestClient('Keyworker API', config.apis.keyworkerApi, token)
   }
 
   async getKeyworkerForOffender(offenderNo: string) {

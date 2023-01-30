@@ -10,6 +10,7 @@ import ProfileViewModel from '../../viewModels/profileViewModel'
 import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import KeyworkerViewModel from '../../viewModels/keyworkerViewModel'
+import ActivityViewModel from '../../viewModels/activityViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -22,6 +23,8 @@ export default class WorkProfileController {
       neurodivergence,
       learnerEducation,
       keyworker,
+      currentOffenderActivities,
+      unacceptableAbsencesCount,
     } = req.context
 
     try {
@@ -42,6 +45,8 @@ export default class WorkProfileController {
         contacts: {
           keyworker: plainToClass(KeyworkerViewModel, keyworker),
         },
+        currentActivities: plainToClass(ActivityViewModel, currentOffenderActivities),
+        unacceptableAbsencesCount,
         tab,
       }
 
