@@ -1,6 +1,7 @@
 import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
 import IneligableToWorkPage from '../pages/ineligableToWork'
+import CohortListPage from '../pages/cohortList'
 
 context('SignIn', () => {
   beforeEach(() => {
@@ -32,6 +33,6 @@ context('SignIn', () => {
 
     ineligableToWork.submitButton().click()
 
-    cy.url().should('include', '/profile')
+    Page.verifyOnPage(CohortListPage)
   })
 })

@@ -28,6 +28,7 @@ export default class CheckYourAnswersController {
         id,
         record,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
+        statusChange: getSessionData(req, ['changeStatus', id], false),
       }
 
       res.render('pages/createProfile/checkYourAnswers/index', { ...data })

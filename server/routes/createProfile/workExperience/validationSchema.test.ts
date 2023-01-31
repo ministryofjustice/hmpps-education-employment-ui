@@ -11,6 +11,8 @@ describe('validationSchema', () => {
     },
   }
 
+  const longStr = 'x'.repeat(4001)
+
   const schema = validationSchema(mockData)
 
   it('On validation error - Required - Returns the correct error message', () => {
@@ -64,11 +66,9 @@ describe('validationSchema', () => {
     })
   })
 
-  it('On validation error - YES with value length > 400 - Returns the correct error message', () => {
+  it('On validation error - YES with value length > 4000 - Returns the correct error message', () => {
     req.body.workExperience = 'YES'
-    req.body.workExperienceDetails =
-      'Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value, Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,'
-
+    req.body.workExperienceDetails = longStr
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
@@ -76,12 +76,11 @@ describe('validationSchema', () => {
         key: 'workExperienceDetails',
         label: 'value',
         value: {
-          workExperienceDetails:
-            'Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value, Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,Some value,',
+          workExperienceDetails: longStr,
           workExperience: 'YES',
         },
       },
-      message: 'Details must be 400 characters or less',
+      message: 'Details must be 4000 characters or less',
       path: [],
       type: 'any.length',
     })

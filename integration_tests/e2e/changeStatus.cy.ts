@@ -21,6 +21,9 @@ context('SignIn', () => {
   it('Change to - SUPPORT_NEEDED', () => {
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
+    cy.task('getCurrentOffenderActivities', 'G6115VJ')
+    cy.task('getKeyworker', 'G6115VJ')
+    cy.task('getUnacceptableAbsenceCount', 'G6115VJ')
 
     cy.visit('/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
@@ -31,6 +34,9 @@ context('SignIn', () => {
     newStatusPage.submitButton().click()
 
     const newStatusPausePage = Page.verifyOnPage(NewStatusPausePage)
+    cy.contains('.govuk-link', 'Return to profile').should($a => {
+      expect($a, $a.parent().parent().text()).to.have.attr('href', '/profile/G6115VJ/view/overview')
+    })
     newStatusPausePage.submitButton().click()
     cy.url().should('include', 'already-in-place/new')
   })
@@ -39,6 +45,9 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -55,6 +64,9 @@ context('SignIn', () => {
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -70,6 +82,9 @@ context('SignIn', () => {
   it('Change to - SUPPORT_DECLINED', () => {
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
+    cy.task('getCurrentOffenderActivities', 'H4115SD')
+    cy.task('getKeyworker', 'H4115SD')
+    cy.task('getUnacceptableAbsenceCount', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")

@@ -5,6 +5,9 @@ import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import esweProfileApi from './integration_tests/mockApis/esweProfileApi'
 import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
+import prisonApi from './integration_tests/mockApis/prisonApi'
+import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
+import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
@@ -36,6 +39,9 @@ export default defineConfig({
         ...stubCohortListNameFilter,
         ...stubCohortListNameNotExistFilter,
         ...stubCohortListSortedByLastName,
+        ...prisonApi,
+        ...whereaboutsApi,
+        ...keyworkerApi,
       })
     },
     baseUrl: 'http://localhost:3007',

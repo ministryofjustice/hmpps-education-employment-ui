@@ -73,13 +73,14 @@ describe('IneligableToWorkController', () => {
       expect(next).toHaveBeenCalledTimes(1)
       expect(res.render).toHaveBeenCalledTimes(0)
     })
-    it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
+    it('On success - Calls create profile, tidy session and redirects to cohortList', async () => {
       mockService.createProfile.mockResolvedValue({})
 
       await controller.post(req, res, next)
 
       expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.cohortList())
       expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
     })
   })

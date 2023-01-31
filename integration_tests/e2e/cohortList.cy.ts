@@ -59,7 +59,7 @@ context('SignIn', () => {
       expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
-      expect(offenders[0].status).to.contain('SUPPORT DECLINED')
+      expect(offenders[0].status).to.contain('DOES NOT WANT SUPPORT')
       expect(offenders[0].workSummary).to.contain('Returning to work they had before prison')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
 

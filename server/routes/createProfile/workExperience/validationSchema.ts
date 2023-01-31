@@ -37,7 +37,7 @@ export default function validationSchema(data: WorkExperienceData): ObjectSchema
         })
       }
 
-      if (workExperienceDetails.length > 400) {
+      if (workExperienceDetails.length > 4000) {
         return helper.error('any.length', {
           key: 'workExperienceDetails',
           label: 'workExperienceDetails',
@@ -48,6 +48,6 @@ export default function validationSchema(data: WorkExperienceData): ObjectSchema
     })
     .messages({
       'any.custom': msgOther,
-      'any.length': 'Details must be 400 characters or less',
+      'any.length': 'Details must be 4000 characters or less',
     })
 }

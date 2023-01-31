@@ -22,6 +22,7 @@ describe('CheckYourAnswersController', () => {
     id: 'mock_ref',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     record: { rightToWork: 'NO' },
+    statusChange: false,
   }
 
   res.locals.user = {}

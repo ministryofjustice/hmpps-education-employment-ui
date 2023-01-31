@@ -33,6 +33,7 @@ describe('SupportDeclinedReasonController', () => {
 
   req.params.id = 'mock_ref'
   req.params.mode = 'new'
+  req.originalUrl = 'mock_url'
   const { id, mode } = req.params
 
   const mockData = {
@@ -117,6 +118,7 @@ describe('SupportDeclinedReasonController', () => {
       validationMock.mockReset()
       setSessionData(req, ['abilityToWork', id, 'data'], mockData)
       setSessionData(req, ['createProfile', id], {})
+      mockService.updateProfile.mockReset()
     })
 
     it('On error - Calls next with error', async () => {
@@ -194,7 +196,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
     })
 
-    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+    it('On success - mode = update and DEPENDENCY_ISSUES - calls api and redirects to manageDrugsAndAlcohol', async () => {
       req.context.profile = {
         profileData: {
           supportAccepted: {
@@ -203,6 +205,26 @@ describe('SupportDeclinedReasonController', () => {
         },
       }
       req.body.abilityToWork = [AbilityToWorkValue.DEPENDENCY_ISSUES]
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(0)
+      expect(mockService.updateProfile).toBeCalledTimes(1)
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update')}?from=mock_url`,
+      )
+    })
+
+    it('On success - mode = update - calls api and redirects to workProfile', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workImpacts: {},
+          },
+        },
+      }
+      req.body.abilityToWork = [AbilityToWorkValue.EDUCATION_ENROLLMENT]
       req.params.mode = 'update'
 
       await controller.post(req, res, next)

@@ -9,12 +9,23 @@ import PrisonerViewModel from '../../viewModels/prisonerViewModel'
 import ProfileViewModel from '../../viewModels/profileViewModel'
 import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
+import KeyworkerViewModel from '../../viewModels/keyworkerViewModel'
+import ActivityViewModel from '../../viewModels/activityViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, tab } = req.params
-    const { prisoner, profile, employabilitySkills, learnerLatestAssessment, neurodivergence, learnerEducation } =
-      req.context
+    const {
+      prisoner,
+      profile,
+      employabilitySkills,
+      learnerLatestAssessment,
+      neurodivergence,
+      learnerEducation,
+      keyworker,
+      currentOffenderActivities,
+      unacceptableAbsencesCount,
+    } = req.context
 
     try {
       const data = {
@@ -31,6 +42,11 @@ export default class WorkProfileController {
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
         neurodivergence: plainToClass(NeurodivergenceViewModel, _.first(neurodivergence)),
         learnerEducation: plainToClass(LearnerEducationViewModel, _.get(learnerEducation, 'content', [])),
+        contacts: {
+          keyworker: plainToClass(KeyworkerViewModel, keyworker),
+        },
+        currentActivities: plainToClass(ActivityViewModel, currentOffenderActivities),
+        unacceptableAbsencesCount,
         tab,
       }
 

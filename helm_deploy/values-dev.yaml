@@ -22,6 +22,8 @@ generic-service:
     CURIOUS_API_URL: "https://testservices.sequation.net/sequation-virtual-campus2-api/"
     PRISONER_SEARCH_URL: "https://prisoner-offender-search-dev.prison.service.justice.gov.uk"
     ESWE_PROFILE_API_URL: "https://education-employment-api-dev.hmpps.service.justice.gov.uk"
+    KEYWORKER_API_URL: "https://keyworker-api-dev.prison.service.justice.gov.uk"
+    WHEREABOUTS_API_URL: "https://whereabouts-api-dev.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
     WEEKS_BEFORE_RELEASE: 12
 
