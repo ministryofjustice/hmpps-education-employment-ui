@@ -50,7 +50,7 @@ export default class IneligableToWorkController {
       // Tidy up record in session
       deleteSessionData(req, ['createProfile', id])
 
-      res.redirect(addressLookup.workProfile(id))
+      res.redirect(addressLookup.cohortList())
     } catch (err) {
       next(err)
     }
