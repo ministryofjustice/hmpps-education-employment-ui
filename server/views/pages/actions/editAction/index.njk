@@ -50,17 +50,17 @@
             items: [
               {
                 value: "NOT_STARTED",
-                text: contentLookup.toDoStatus["NOT_STARTED"],
+                text: contentLookup.toDoStatus["NOT_STARTED"] | capitalize,
                 checked: toDoStatus === "NOT_STARTED"
               },
               {
                 value: "IN_PROGRESS",
-                text: contentLookup.toDoStatus["IN_PROGRESS"],
+                text: contentLookup.toDoStatus["IN_PROGRESS"] | capitalize,
                 checked: toDoStatus === "IN_PROGRESS"
               },
               {
                 value: "COMPLETED",
-                text: contentLookup.toDoStatus["COMPLETED"],
+                text: contentLookup.toDoStatus["COMPLETED"] | capitalize,
                 checked: toDoStatus === "COMPLETED"
               }
             ],
