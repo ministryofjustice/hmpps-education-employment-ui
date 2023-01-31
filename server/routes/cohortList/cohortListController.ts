@@ -2,6 +2,7 @@
 import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
+import config from '../../config'
 
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/'
 
@@ -29,19 +30,27 @@ export default class CohortListController {
       ].filter(val => !!val)
 
       if (prisonerSearchResults.totalElements) {
-        const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri}`)
+        const { paginationPageSize } = config
+        if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+          const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri}`)
 
-        paginationData = this.paginationService.getPagination(prisonerSearchResults, paginationUrl)
-      } else {
-        const arrSearchCriteria = []
-        arrSearchCriteria.push(lastName && ` Lastname = ${lastName}`)
-        arrSearchCriteria.push(status && ` Status = ${status}`)
+          paginationData = this.paginationService.getPagination(prisonerSearchResults, paginationUrl)
+        }
+      } else if (lastName && status) {
         notFoundMsg =
-          (arrSearchCriteria.length && [
-            `0 results for [${arrSearchCriteria.toString()}]`,
+          [
+            `0 results for "[${lastName}]" in [${status}]`,
+            'Check your spelling and search again, or select another status.',
+          ] || ''
+      } else if (lastName) {
+        notFoundMsg =
+          [
+            `0 results for "[${lastName}]"`,
             'Check your spelling and search again, or clear the search and browse for the prisoner.',
-          ]) ||
-          ''
+          ] || ''
+      } else {
+        notFoundMsg =
+          [`0 results in [${status}]`, 'Check your spelling and search again, or search by prisoner name.'] || ''
       }
 
       // Render data
