@@ -86,7 +86,7 @@ export default class JobOfParticularInterestController {
           ...profile.profileData.supportAccepted.workInterests,
           modifiedBy: res.locals.user.username,
           modifiedDateTime: new Date().toISOString(),
-          jobOfParticularInterest: jobOfParticularInterestDetails,
+          jobOfParticularInterest: jobOfParticularInterest === YesNoValue.YES ? jobOfParticularInterestDetails : '',
         }
 
         // Call api, change status
