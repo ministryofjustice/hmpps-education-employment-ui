@@ -24,16 +24,16 @@ context('SignIn', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.tableData().then(offenders => {
-      expect(offenders.length).equal(10)
+      expect(offenders.length).equal(20)
     })
   })
 
-  it('Should display the correct pagination', () => {
+  it('Should display the correct pagination when result set has more than 20 records ', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.paginationResult().should('contain', 'Showing')
     cohortListPage.paginationResult().then(page => {
-      expect(page[0].innerText).to.deep.equal('Showing 1 to 10 of 14 results')
+      expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 results')
     })
   })
 
@@ -98,7 +98,7 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?status=SUPPORT_NEEDED`)
 
     cy.url().should('include', '?status=SUPPORT_NEEDED')
-    cohortListPage.spanMessage().should('contain', '0 results for')
+    cohortListPage.spanMessage().should('contain', '0 results in')
   })
 
   it('Should filter result to return 1 row corresponding to the name typed', () => {
