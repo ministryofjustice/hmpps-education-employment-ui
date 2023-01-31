@@ -4,7 +4,7 @@
   </dt>
   <dd class="govuk-summary-list__value" data-qa="overview-declined-reason">
     {% for item in profile.profileData.supportDeclined.supportToWorkDeclinedReason %}
-      <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' +  profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther if item === 'OTHER' }}</div>
+      <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' +  profile.profileData.supportDeclined.supportToWorkDeclinedReasonOther if item === 'OTHER' }}{{ ',' if profile.profileData.supportDeclined.supportToWorkDeclinedReason.length !== loop.index }}</div>
     {% endfor %}
   </dd>
   <dd class="govuk-summary-list__actions">
@@ -19,7 +19,7 @@
   </dt>
   <dd class="govuk-summary-list__value" data-qa="overview-declined-changes-required">
     {% for item in profile.profileData.supportDeclined.circumstanceChangesRequiredToWork %}
-      <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' +  profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther if item === 'OTHER' }}</div>
+      <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' +  profile.profileData.supportDeclined.circumstanceChangesRequiredToWorkOther if item === 'OTHER' }}{{ ',' if profile.profileData.supportDeclined.circumstanceChangesRequiredToWork.length !== loop.index }}</div>
     {% endfor %}
   </dd>
   <dd class="govuk-summary-list__actions">
