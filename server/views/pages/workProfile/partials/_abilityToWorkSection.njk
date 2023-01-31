@@ -14,7 +14,7 @@
           </dt>
           <dd class="govuk-summary-list__value" data-qa="ability-to-work">
             {% for item in profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy %}
-              <div>{{ contentLookup.fields.abilityToWork[item] }}</div>
+              <div>{{ contentLookup.fields.abilityToWork[item] }}{{ ',' if profile.profileData.supportAccepted.workImpacts.abilityToWorkImpactedBy.length !== loop.index }}</div>
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">

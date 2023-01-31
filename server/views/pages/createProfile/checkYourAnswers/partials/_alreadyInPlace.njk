@@ -7,7 +7,7 @@
     </dt>
     <dd class="govuk-summary-list__value" data-qa="alreadyInPlace">
       {% for item in record.alreadyInPlace %}
-        <div>{{ contentLookup.fields.alreadyInPlace[item] }}</div>
+        <div>{{ contentLookup.fields.alreadyInPlace[item] }}{{ ',' if record.alreadyInPlace.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
@@ -24,7 +24,7 @@
       </dt>
       <dd class="govuk-summary-list__value" data-qa="identification">
         {% for item in record.identification %}
-          <div>{{ contentLookup.fields.identification[item] }}</div>
+          <div>{{ contentLookup.fields.identification[item] }}{{ ',' if record.identification.length !== loop.index }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
