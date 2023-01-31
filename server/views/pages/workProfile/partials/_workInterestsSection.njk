@@ -30,7 +30,7 @@
           </dt>
           <dd class="govuk-summary-list__value" data-qa="interests-type-particular-interest">
             {{ contentLookup.fields.yesNo.YES if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest else contentLookup.fields.yesNo.NO }} <br><br>
-            {{ 'Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest }}
+            {{ ('Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest) | nl2br | safe }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link govuk-link--no-visited-state" id="interests-type-particular-interest-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + originalUrl }}">

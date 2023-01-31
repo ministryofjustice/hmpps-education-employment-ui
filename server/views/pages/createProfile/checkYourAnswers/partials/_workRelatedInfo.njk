@@ -21,7 +21,7 @@
       Particular job of interest
     </dt>
     <dd class="govuk-summary-list__value" data-qa="jobOfParticularInterest">
-      {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}{{ ' - ' + record.jobOfParticularInterestDetails if record.jobOfParticularInterest === 'YES' }}
+      {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}{{ (' - ' + record.jobOfParticularInterestDetails if record.jobOfParticularInterest === 'YES') | nl2br | safe }}
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'edit') }}" data-qa="jobOfParticularInterestLink">
@@ -34,7 +34,7 @@
       Work or volunteering experience
     </dt>
     <dd class="govuk-summary-list__value" data-qa="workExperience">
-      {{ contentLookup.fields.yesNo[record.workExperience] }}{{ ' - ' + record.workExperienceDetails if record.workExperience === 'YES' }}
+      {{ contentLookup.fields.yesNo[record.workExperience] }}{{ (' - ' + record.workExperienceDetails if record.workExperience === 'YES') | nl2br | safe }}
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="{{ addressLookup.createProfile.workExperience(id, 'edit') }}" data-qa="workExperienceLink">
