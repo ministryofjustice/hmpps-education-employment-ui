@@ -85,11 +85,16 @@ export default class AbilityToWorkController {
           abilityToWorkImpactedBy: abilityToWork,
           ableToManageDependencies: data.abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)
             ? profile.profileData.supportAccepted.workImpacts.ableToManageDependencies
-            : false,
+            : true,
         }
 
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
+
+        if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
+          res.redirect(`${addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)}?from=${req.originalUrl}`)
+          return
+        }
 
         res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS))
         return
