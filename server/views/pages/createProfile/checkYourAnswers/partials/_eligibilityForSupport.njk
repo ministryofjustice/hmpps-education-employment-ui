@@ -1,32 +1,34 @@
 <h2 class="govuk-heading-m">Eligibility for support</h2>
 
 <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Right to work
-    </dt>
-    <dd class="govuk-summary-list__value" data-qa="rightToWork">
-      {{ contentLookup.fields.yesNo[record.rightToWork] }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}"  data-qa="rightToWorkLink">
-        Change<span class="govuk-visually-hidden"> right to work</span>
-      </a>
-    </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      Wants support to get work
-    </dt>
-    <dd class="govuk-summary-list__value" data-qa="supportOptIn">
-      {{ contentLookup.fields.yesNo[record.supportOptIn] }}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}" data-qa="supportOptInLink">
-        Change<span class="govuk-visually-hidden"> whether they want support</span>
-      </a>
-    </dd>
-  </div>
+  {% if statusChange === false %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Right to work
+      </dt>
+      <dd class="govuk-summary-list__value" data-qa="rightToWork">
+        {{ contentLookup.fields.yesNo[record.rightToWork] }}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}"  data-qa="rightToWorkLink">
+            Change<span class="govuk-visually-hidden"> right to work</span>
+          </a>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Wants support to get work
+      </dt>
+      <dd class="govuk-summary-list__value" data-qa="supportOptIn">
+        {{ contentLookup.fields.yesNo[record.supportOptIn] }}
+      </dd>
+      <dd class="govuk-summary-list__actions">
+        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}" data-qa="supportOptInLink">
+          Change<span class="govuk-visually-hidden"> whether they want support</span>
+        </a>
+      </dd>
+    </div>
+  {% endif %}
 
   {% if record.supportOptIn === 'NO' %}
     <div class="govuk-summary-list__row">
