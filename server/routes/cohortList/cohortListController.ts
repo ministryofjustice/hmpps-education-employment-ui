@@ -66,6 +66,7 @@ export default class CohortListController {
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
+        firstName: `${decodeURIComponent(firstName as string)}`,
         lastName: `${decodeURIComponent(lastName as string)}`,
         filterStatus: status || 'ALL',
       }
