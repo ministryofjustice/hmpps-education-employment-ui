@@ -122,6 +122,6 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?lastName=unknown`)
 
     cy.url().should('include', '?lastName=unknown')
-    cohortListPage.spanMessage().should('contain', '0 results for')
+    cohortListPage.spanMessage().should('contain', '0 results')
   })
 })
