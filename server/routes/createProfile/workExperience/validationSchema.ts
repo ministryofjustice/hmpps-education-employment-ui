@@ -48,6 +48,6 @@ export default function validationSchema(data: WorkExperienceData): ObjectSchema
     })
     .messages({
       'any.custom': msgOther,
-      'any.length': 'Details must be 4000 characters or less',
+      'any.length': 'Work experience details must be 4000 characters or less',
     })
 }
