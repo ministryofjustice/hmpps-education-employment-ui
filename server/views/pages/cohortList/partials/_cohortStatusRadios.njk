@@ -1,6 +1,6 @@
-<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+<div class="govuk-form-group filter-box govuk-!-margin-top-4" style="padding-left: 0px">
 
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
     <div class="govuk-!-padding-right-3">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
@@ -57,23 +57,31 @@
             }) }}
         </div>
     </div>
+
     <div class="govuk-grid-column-one-third">
         <div class="moj-search">
             <div class="govuk-form-group">
                 <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
-                        Search by prisoner's name
+                    Search by prisoner's name
                 </label>
-                <input class="govuk-input moj-search__input "
+                <input class="govuk-input moj-search__input"
                        id="searchTerm"
                        name="searchTerm"
                        type="search"
                        value="{{ lastName }}"
-                       maxlength="20" />
+                       maxlength="20"
+                />
             </div>
-
-            <button class="govuk-button moj-search__button " data-module="govuk-button" id="searchButton">
-                    Search
+            <button class="govuk-button moj-search__button" data-module="govuk-button" id="searchButton">
+                Search
             </button>
         </div>
     </div>
+    {% if firstName or lastName %}
+        <div class="govuk-grid-column-one-third" style="padding-left: 0px">
+            <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-7">
+                <a class="govuk-link" href="{{ addressLookup.cohortList() }}">Clear</a>
+            </p>
+        </div>
+    {% endif %}
 </div>

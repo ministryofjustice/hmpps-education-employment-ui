@@ -46,24 +46,29 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
 
 // Filter result set based on parameters
 function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string) {
-  const [status, searchBy] = filterTerm.split(',')
+  const [status, firstName, lastName] = filterTerm.split(',')
+
   let filteredStatus: PrisonerSearchResult[]
   if (status && status !== 'ALL') filteredStatus = profiles.filter((p: any) => p.status === status)
   if (status === 'ALL') filteredStatus = profiles.filter((p: any) => p)
 
   const filteredSearch: () => PrisonerSearchResult[] = () => {
-    if (status && searchBy) {
+    if (status && (firstName || lastName)) {
       if (filteredStatus.length) {
         const filteredByStatusAndName = (filteredStatus as any).filter(
-          (p: any) => p.lastName.toLowerCase() === searchBy.toLowerCase(),
+          (p: any) =>
+            p.firstName.toLowerCase().startsWith(firstName.toLowerCase()) &&
+            p.lastName.toLowerCase().startsWith(lastName.toLowerCase()),
         )
         return [...filteredByStatusAndName]
       }
       return [...filteredStatus]
     }
-    if (searchBy) {
-      const filteredByName: PrisonerSearchResult[] = profiles.filter((p: any) =>
-        p.lastName.toLowerCase().startsWith(searchBy.toLowerCase()),
+    if (firstName || lastName) {
+      const filteredByName: PrisonerSearchResult[] = profiles.filter(
+        (p: any) =>
+          (firstName && p.firstName.toLowerCase().startsWith(firstName.toLowerCase())) ||
+          (lastName && p.lastName.toLowerCase().startsWith(lastName.toLowerCase())),
       )
       return [...filteredByName]
     }
@@ -89,15 +94,24 @@ export default class PrisonerSearchClient {
     searchFilter?: string,
     page?: number,
   ) {
-    const [status, lastName] = searchFilter.split(',')
+    const [status, firstName, lastName] = searchFilter.split(',')
     const maxPerPage = config.paginationPageSize
     const maxNumberOfRecordsAllowed = config.maximumNumberOfRecordsToReturn
+
+    // when only 1 name is entered then assume it's a lastname
+    let last = lastName
+    let first = firstName
+    if (firstName && !lastName) {
+      last = firstName
+      first = ''
+    }
 
     const uri = [
       sortBy && `sortBy=${sortBy}`,
       orderBy && `order=${orderBy}`,
       status && status !== 'ALL' && `status=${status}`,
-      searchFilter && `searchTerm=${decodeURIComponent(lastName)}`,
+      first && `firstName=${decodeURIComponent(first)}`,
+      last && `lastName=${decodeURIComponent(last)}`,
       `page=0`,
       `size=${maxNumberOfRecordsAllowed}`,
     ].filter(val => !!val)
@@ -137,8 +151,9 @@ export default class PrisonerSearchClient {
     }
 
     // Filter result set if required
-    if (searchFilter) {
-      matchingProfiles = filterOffenderProfiles(matchingProfiles, searchFilter)
+    if (status || first || last) {
+      const filter = status.concat(',', first, ',', last)
+      matchingProfiles = filterOffenderProfiles(matchingProfiles, filter)
     }
 
     /* Workout pagination mechanism */

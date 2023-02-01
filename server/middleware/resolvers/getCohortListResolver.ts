@@ -8,12 +8,18 @@ import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/u
 const getCohortListResolver =
   (prisonerSearch: PrisonerSearchService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '', lastName = '' } = req.query
+    const { page, sort, order, status = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { username, token } = res.locals.user
+    const { firstName = '', lastName = '' } = req.query
 
     // Prepare search & date parameters
-    const searchFilter = [status && `${status}`, lastName && `${decodeURIComponent(lastName.toString())}`]
+    const searchFilter = [
+      status && `${status}`,
+      firstName && `${decodeURIComponent(firstName.toString())}`,
+      lastName && `${decodeURIComponent(lastName.toString())}`,
+    ]
+
     const filter = searchFilter && searchFilter.join(',')
     const { weeksBeforeRelease } = config
     const dateFilter = `${formatDateToyyyyMMdd(new Date().toString())}, ${offenderEarliestReleaseDate(

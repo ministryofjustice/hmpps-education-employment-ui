@@ -2,7 +2,8 @@
 {% from "../../../macros/cohortListStatus.njk" import statusTag %}
 
 <div id="offender-container">
-    <table id="view-offender" class="govuk-table view-offender">
+    {% if prisonerSearchResults.content.length >= 1 %}
+        <table id="view-offender" class="govuk-table view-offender">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
 
@@ -69,12 +70,13 @@
 
         </tbody>
     </table>
+    {% endif %}
 
     {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
         {{ mojPagination( paginationData ) }}
     {% else %}
         <span class="govuk-heading-m">{{ notFoundMsg[0] | replace(',', '  ') | striptags(true) | escape | nl2br }}</span>
         <br>
-        <span class="govuk-body-l">{{ notFoundMsg[1] }}</span>
+        <span class="govuk-body govuk-!-font-size-19">{{ notFoundMsg[1] }}</span>
     {% endif %}
 </div>

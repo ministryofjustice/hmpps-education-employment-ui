@@ -47,7 +47,7 @@ const stubCohortListNameFilter = () =>
   stubFor({
     request: {
       method: 'POST',
-      url: '/prisoner-search/release-date-by-prison?searchTerm=ventour&page=0&size=2000',
+      url: '/prisoner-search/release-date-by-prison?lastName=ventour&page=0&size=2000',
     },
     response: {
       status: 200,

@@ -35,7 +35,7 @@ export default {
   https: production,
   staticResourceCacheDuration: 20,
   displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
-  paginationPageSize: 10,
+  paginationPageSize: 20,
   recordingLifetimeDays: 90,
   maximumNumberOfRecordsToReturn: 2000,
   redis: {
