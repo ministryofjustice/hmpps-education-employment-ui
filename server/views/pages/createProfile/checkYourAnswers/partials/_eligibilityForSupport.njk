@@ -37,7 +37,7 @@
       </dt>
       <dd class="govuk-summary-list__value" data-qa="supportDeclinedReason">
         {% for item in record.supportDeclinedReason %}
-          <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' + record.supportDeclinedDetails if item === 'OTHER' }}</div>
+          <div>{{ contentLookup.fields.supportDeclinedReason[item] }}{{ ' - ' + record.supportDeclinedDetails if item === 'OTHER' }}{{ ',' if record.supportDeclinedReason.length !== loop.index }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
@@ -53,7 +53,7 @@
       </dt>
       <dd class="govuk-summary-list__value" data-qa="whatNeedsToChange">
         {% for item in record.whatNeedsToChange %}
-          <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' + record.whatNeedsToChangeDetails if item === 'OTHER' }}</div>
+          <div>{{ contentLookup.fields.whatNeedsToChange[item] }}{{ ' - ' + record.whatNeedsToChangeDetails if item === 'OTHER' }}{{ ',' if record.whatNeedsToChange.length !== loop.index }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
