@@ -15,6 +15,7 @@
     * backLocation - url of the back link
     * prisoner - object with firsName and lastName
     * toDoStatus - existing value for field
+    * identification - exist id types for ID only
     * errors? - validation errors
 #}
 
@@ -38,13 +39,14 @@
           </span>
           <h1 class="govuk-heading-l">{{ title }}</h1>
         
+          <h2 class="govuk-heading-m">Progress</h2>
           {{ govukRadios({
             name: "toDoStatus",
             fieldset: {
               legend: {
                 text: 'Progress',
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
+                isPageHeading: false,
+                classes: "govuk-visually-hidden"
               }
             },
             items: [
@@ -68,13 +70,14 @@
           }) }}
 
           {% if toDoItem === 'ID' %}
+            <h2 class="govuk-heading-m">Types of ID in place</h2>
             {{ govukCheckboxes({
               name: "identification",
               fieldset: {
                 legend: {
                     text: 'Types of ID in place',
                     isPageHeading: false,
-                    classes: "govuk-fieldset__legend--l"
+                    classes: "govuk-visually-hidden"
                   }
               },
               items: [
@@ -84,14 +87,14 @@
                   text: contentLookup.fields.identification["BIRTH_CERTIFICATE"]
                 },
                 { 
-                  value: "DRIVING_LICENCE",
-                  checked: identification.indexOf("DRIVING_LICENCE") > -1,
-                  text: contentLookup.fields.identification["DRIVING_LICENCE"]
-                },
-                { 
                   value: "PASSPORT",
                   checked: identification.indexOf("PASSPORT") > -1,
                   text: contentLookup.fields.identification["PASSPORT"]
+                },
+                { 
+                  value: "DRIVING_LICENCE",
+                  checked: identification.indexOf("DRIVING_LICENCE") > -1,
+                  text: contentLookup.fields.identification["DRIVING_LICENCE"]
                 }
               ],
               errorMessage: errors.identification
