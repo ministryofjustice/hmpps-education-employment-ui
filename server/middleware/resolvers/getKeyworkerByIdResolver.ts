@@ -24,6 +24,12 @@ const getKeyworkerByIdResolver =
 
       next()
     } catch (err) {
+      // Swallow not found errors
+      if (err?.data?.status === 404) {
+        next()
+        return
+      }
+
       next(err)
     }
   }

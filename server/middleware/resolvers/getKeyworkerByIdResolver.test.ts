@@ -30,6 +30,18 @@ describe('getKeyworkerByIdResolver', () => {
     expect(next).toHaveBeenCalledWith(error)
   })
 
+  it('On error - 404 - Calls next without error', async () => {
+    serviceMock.getKeyworkerForOffender.mockRejectedValue({
+      data: {
+        status: 404,
+      },
+    })
+
+    await resolver(req, res, next)
+
+    expect(next).toHaveBeenCalledWith()
+  })
+
   it('On success - Attaches data to context and calls next', async () => {
     serviceMock.getKeyworkerForOffender.mockResolvedValue(mockData)
 
