@@ -6,7 +6,6 @@ const populateUserActiveCaseLoad = (prisonerSearchService: PrisonerSearchService
   return async (req, res, next) => {
     try {
       const userActiveCaseLoad: UserActiveCaseLoad = await prisonerSearchService.getUserActiveCaseLoad(
-        res.locals.user,
         res.locals.user.token,
       )
 
