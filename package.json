@@ -28,6 +28,10 @@
     "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets"
   },
+  "engines": {
+    "node": ">=18.13.0 <19.0.0",
+    "npm": ">=8.19.2"
+  },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": [
