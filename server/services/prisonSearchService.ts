@@ -2,7 +2,6 @@
 import type { ReleaseDateSearch } from '../data/prisonerSearch/prisonerSearchClient'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
-import { UserDetails } from './userService'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
 import GetPrisonerByIdResult from '../data/prisonerSearch/getPrisonerByIdResult'
 
