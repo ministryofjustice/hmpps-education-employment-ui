@@ -33,8 +33,8 @@ export default class PrisonerSearchService {
     return new PrisonerSearchClient(token).searchByReleaseDateRaw(searchRequest, sort, order, searchFilter, page)
   }
 
-  async getUserActiveCaseLoad(user: UserDetails, token: string): Promise<UserActiveCaseLoad> {
-    const userActiveCaseLoad = await new NomisUserRolesApiClient(token).getUserActiveCaseLoad(user)
+  async getUserActiveCaseLoad(token: string): Promise<UserActiveCaseLoad> {
+    const userActiveCaseLoad = await new NomisUserRolesApiClient(token).getUserActiveCaseLoad()
     return {
       caseLoadId: userActiveCaseLoad.activeCaseload.id,
       description: userActiveCaseLoad.activeCaseload.name,

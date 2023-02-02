@@ -4,7 +4,7 @@ const getUserActiveCaseLoad = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathPattern: '/nomisUserRolesApi/users/USER1/caseloads',
+      urlPathPattern: '/nomisUserRolesApi/me/caseloads',
     },
     response: {
       status: 200,

@@ -31,27 +31,8 @@ const stubCohortListSupportNeeded = () =>
     },
   })
 
-const stubUserCaseLoads = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      url: '/nomisUserRolesApi/users/USER1/caseloads',
-    },
-    response: {
-      status: 200,
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: {
-        activeCaseload: {
-          id: 1,
-          name: 'Moorland (HMP & YOI)',
-        },
-      },
-    },
-  })
-
 export default {
   getPrisonerById,
   stubReadinessProfileSearch,
   stubCohortListSupportNeeded,
-  stubUserCaseLoads,
 }
