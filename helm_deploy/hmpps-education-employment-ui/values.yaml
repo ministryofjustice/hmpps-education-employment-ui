@@ -63,6 +63,9 @@ generic-service:
     cloudplatform-live1-1: "35.178.209.113/32"
     cloudplatform-live1-2: "3.8.51.207/32"
     cloudplatform-live1-3: "35.177.252.54/32"
+    quantum1: "62.25.109.197/32"
+    quantum2: "212.137.36.230/32"
+    quantum3: "195.92.38.16/28"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-education-employment-ui
