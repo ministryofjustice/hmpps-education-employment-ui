@@ -26,6 +26,8 @@
                 </a>
               </dd>
             </div>
+            <div class="govuk-summary-list__row">
+            </div>
             {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
               {% include './_supportDeclinedSection.njk' %}
             {% endif %}
