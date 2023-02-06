@@ -23,6 +23,7 @@ export default class NewStatusPauseController {
         id,
         backLocation: addressLookup.changeStatus.newStatus(id),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
+        newStatus: record.newStatus,
       }
 
       res.render('pages/changeStatus/newStatusPause/index', { ...data })
