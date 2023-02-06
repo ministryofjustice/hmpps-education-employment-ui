@@ -23,6 +23,7 @@ describe('NewStatusPauseController', () => {
     id: 'mock_ref',
     backLocation: addressLookup.changeStatus.newStatus(id),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
+    newStatus: 'READY_TO_WORK',
   }
 
   res.locals.user = {}
@@ -37,7 +38,7 @@ describe('NewStatusPauseController', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['changeStatus', id], { newStatus: ProfileStatus.NO_RIGHT_TO_WORK })
+      setSessionData(req, ['changeStatus', id], { newStatus: ProfileStatus.READY_TO_WORK })
     })
 
     it('On error - Calls next with error', async () => {

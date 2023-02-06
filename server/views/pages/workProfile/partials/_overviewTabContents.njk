@@ -29,6 +29,8 @@
             {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
               {% include './_supportDeclinedSection.njk' %}
             {% endif %}
+            <div class="govuk-summary-list__row">
+            </div>
           </dl>
           
           {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}

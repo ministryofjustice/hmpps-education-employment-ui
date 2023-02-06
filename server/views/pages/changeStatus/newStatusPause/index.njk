@@ -26,7 +26,11 @@
         <h1 class="govuk-heading-l">{{ title }}</h1>
 
         <p class="govuk-body">
-          You've told us {{ prisoner.firstName }} {{ prisoner.lastName }} now needs support.
+          {% if newStatus === 'READY_TO_WORK' %}
+            You've told us {{ prisoner.firstName }} {{ prisoner.lastName }} is ready to work.
+          {% else %}
+            You've told us {{ prisoner.firstName }} {{ prisoner.lastName }} now needs support.
+          {% endif %}
         </p>
 
         <p class="govuk-body">
