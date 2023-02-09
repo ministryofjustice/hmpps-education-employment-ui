@@ -1,5 +1,7 @@
 import type { Router } from 'express'
 
+import { Services } from '../../services'
+import WorkProfileController from './workProfileController'
 import getEmployabilitySkillsResolver from '../../middleware/resolvers/getEmployabilitySkillsResolver'
 import getKeyworkerByIdResolver from '../../middleware/resolvers/getKeyworkerByIdResolver'
 import getLatestAssessmentResolver from '../../middleware/resolvers/getLatestAssessmentResolver'
@@ -9,8 +11,8 @@ import getPrisonerByIdResolver from '../../middleware/resolvers/getPrisonerByIdR
 import getProfileByIdResolver from '../../middleware/resolvers/getProfileByIdResolver'
 import getCurrentOffenderActivitiesResolver from '../../middleware/resolvers/getCurrentOffenderActivitiesResolver'
 import getUnacceptableAbsencesCountResolver from '../../middleware/resolvers/getUnacceptableAbsencesCountResolver'
-import { Services } from '../../services'
-import WorkProfileController from './workProfileController'
+
+import getPomByIdResolver from '../../middleware/resolvers/getPomByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new WorkProfileController()
@@ -27,6 +29,7 @@ export default (router: Router, services: Services) => {
       getKeyworkerByIdResolver(services.keyworkerService),
       getCurrentOffenderActivitiesResolver(services.prisonService),
       getUnacceptableAbsencesCountResolver(services.whereaboutsService),
+      getPomByIdResolver(services.allocationManagerService),
     ],
     controller.get,
   )
