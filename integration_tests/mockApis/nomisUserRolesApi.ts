@@ -18,6 +18,65 @@ const getUserActiveCaseLoad = () =>
     },
   })
 
+const getStaffDetails = (staffId = 486233) =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPathPattern: `/nomisUserRolesApi/users/staff/${staffId}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        staffId: 486233,
+        firstName: 'Stephanie',
+        lastName: 'Batliner',
+        status: 'ACTIVE',
+        email: 'Stephanie.Batliner@justice.gov.uk',
+        generalAccount: {
+          username: 'SBATLINER_GEN',
+          active: true,
+          accountType: 'GENERAL',
+          activeCaseload: {
+            id: 'LEI',
+            name: 'Leeds (HMP)',
+          },
+          caseloads: [
+            {
+              id: 'LEI',
+              name: 'Leeds (HMP)',
+            },
+            {
+              id: 'NWEB',
+              name: 'Nomis-web Application',
+            },
+            {
+              id: 'PBI',
+              name: 'Peterborough (HMP)',
+            },
+            {
+              id: 'PFI',
+              name: 'Peterborough Female HMP',
+            },
+            {
+              id: 'OWI',
+              name: 'Oakwood (HMP)',
+            },
+            {
+              id: 'WEI',
+              name: 'Wealstun (HMP)',
+            },
+            {
+              id: 'PVI',
+              name: 'Pentonville (HMP)',
+            },
+          ],
+        },
+      },
+    },
+  })
+
 export default {
   getUserActiveCaseLoad,
+  getStaffDetails,
 }

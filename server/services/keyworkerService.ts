@@ -1,11 +1,21 @@
+import config from '../config'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import KeyworkerApiClient from '../data/keyworkerApi/keyworkerApiClient'
-import GetKeyworkerForOffenderResponse from '../data/keyworkerApi/getKeyworkerForOffenderResponse'
+import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
 
 export default class KeyworkerService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async getKeyworkerForOffender(userToken: string, id: string): Promise<GetKeyworkerForOffenderResponse> {
-    return new KeyworkerApiClient(userToken).getKeyworkerForOffender(id)
+  async getKeyworkerForOffender(id: string): Promise<{ firstName: string; lastName: string; email: string }> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId)
+
+    const keyworkerResult = await new KeyworkerApiClient(systemToken).getKeyworkerForOffender(id)
+    const staffDetails = await new NomisUserRolesApiClient(systemToken).getStaffDetails(keyworkerResult.staffId)
+
+    return {
+      firstName: staffDetails.firstName,
+      lastName: staffDetails.lastName,
+      email: staffDetails.primaryEmail,
+    }
   }
 }

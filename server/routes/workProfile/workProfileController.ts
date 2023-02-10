@@ -9,7 +9,6 @@ import PrisonerViewModel from '../../viewModels/prisonerViewModel'
 import ProfileViewModel from '../../viewModels/profileViewModel'
 import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
-import KeyworkerViewModel from '../../viewModels/keyworkerViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
 
 export default class WorkProfileController {
@@ -25,6 +24,7 @@ export default class WorkProfileController {
       keyworker,
       currentOffenderActivities,
       unacceptableAbsencesCount,
+      pom,
     } = req.context
 
     try {
@@ -42,10 +42,11 @@ export default class WorkProfileController {
         learnerLatestAssessment: plainToClass(AssessmentViewModel, _.first(learnerLatestAssessment)),
         neurodivergence: plainToClass(NeurodivergenceViewModel, _.first(neurodivergence)),
         learnerEducation: plainToClass(LearnerEducationViewModel, _.get(learnerEducation, 'content', [])),
-        contacts: {
-          keyworker: plainToClass(KeyworkerViewModel, keyworker),
-        },
         currentActivities: plainToClass(ActivityViewModel, currentOffenderActivities),
+        contacts: {
+          keyworker,
+          pom,
+        },
         unacceptableAbsencesCount,
         tab,
       }

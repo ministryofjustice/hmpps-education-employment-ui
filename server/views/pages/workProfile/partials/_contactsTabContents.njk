@@ -17,7 +17,7 @@
                 Name
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ contacts.com.name }}
+                {{ contacts.com.firstName }} {{ contacts.com.lastName }}
               </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -25,7 +25,11 @@
                 Email address
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ contacts.com.email }}
+                {% if contacts.com.email %}
+                  <a href="mailto: {{ contacts.com.email }}">{{ contacts.com.email }}</a>
+                {% else%}
+                  Not entered
+                {% endif %}
               </dd>
             </div>
           </dl>
@@ -56,7 +60,11 @@
                 Email address
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ contacts.keyworker.email }}
+                {% if contacts.keyworker.email %}
+                  <a href="mailto: {{ contacts.keyworker.email }}">{{ contacts.keyworker.email }}</a>
+                {% else%}
+                  Not entered
+                {% endif %}
               </dd>
             </div>
           </dl>
@@ -79,7 +87,7 @@
                 Name
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ contacts.pom.name }}
+                {{ contacts.pom.firstName }} {{ contacts.pom.lastName }}
               </dd>
             </div>
 
@@ -88,7 +96,11 @@
                 Email address
               </dt>
               <dd class="govuk-summary-list__value">
-                {{ contacts.pom.namemail }}
+                 {% if contacts.pom.email %}
+                  <a href="mailto: {{ contacts.pom.email }}">{{ contacts.pom.email }}</a>
+                {% else%}
+                  Not entered
+                {% endif %}
               </dd>
             </div>
           </dl>

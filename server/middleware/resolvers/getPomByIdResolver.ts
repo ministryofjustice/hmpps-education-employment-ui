@@ -12,7 +12,7 @@ const getPomByIdResolver =
     try {
       // Check session for cached Pom
       if (getSessionData(req, ['pom', id])) {
-        req.context.Pom = getSessionData(req, ['pom', id])
+        req.context.pom = getSessionData(req, ['pom', id])
         next()
         return
       }
