@@ -18,7 +18,7 @@ const getUserActiveCaseLoad = () =>
     },
   })
 
-const getStaffDetails = (staffId = 486233) =>
+const getStaffDetails = (staffId = 485588) =>
   stubFor({
     request: {
       method: 'GET',

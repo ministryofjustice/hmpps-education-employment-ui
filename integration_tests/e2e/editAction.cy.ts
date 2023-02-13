@@ -14,6 +14,7 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
+    cy.task('getStaffDetails')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('updateProfile')
     cy.signIn()
