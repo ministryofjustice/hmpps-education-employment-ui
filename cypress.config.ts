@@ -8,6 +8,7 @@ import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
 import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
+import allocationManagerApi from './integration_tests/mockApis/allocationManagerApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
@@ -42,6 +43,7 @@ export default defineConfig({
         ...prisonApi,
         ...whereaboutsApi,
         ...keyworkerApi,
+        ...allocationManagerApi,
       })
     },
     baseUrl: 'http://localhost:3007',
