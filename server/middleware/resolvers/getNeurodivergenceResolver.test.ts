@@ -2,7 +2,7 @@
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getNeurodivergenceResolver'
 
-import { NeurodivergenceSupport } from '../../api/curious/types/Enums'
+import { NeurodivergenceSupport } from '../../data/curious/types/Enums'
 
 describe('getNeurodivergenceResolver', () => {
   const { req, res, next } = expressMocks()

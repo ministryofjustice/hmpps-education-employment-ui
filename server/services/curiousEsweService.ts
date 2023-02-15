@@ -1,14 +1,14 @@
 import config from '../config'
 
 import { HmppsAuthClient } from '../data'
-import clientFactory from '../api/oauthEnabledClient'
-import CuriousApi from '../api/curious/curiousApi'
+import clientFactory from '../data/oauthEnabledClient'
+import CuriousApi from '../data/curious/curiousApi'
 import {
   LearnerLatestAssessment,
   LearnerNeurodivergence,
   LearnerEmployabilitySkills,
   LearnerEducation,
-} from '../api/curious/types/Types'
+} from '../data/curious/types/Types'
 import log from '../log'
 
 const curiousApi = CuriousApi.create(clientFactory({ baseUrl: config.apis.curiousApi.url }))
