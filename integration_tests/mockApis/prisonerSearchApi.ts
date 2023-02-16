@@ -22,7 +22,7 @@ const stubCohortListSupportNeeded = () =>
   stubFor({
     request: {
       method: 'POST',
-      url: '/prisoner-search/release-date-by-prison?status=SUPPORT_NEEDED&page=0&size=2000',
+      urlPathPattern: '/prisoner-search/release-date-by-prison?status=SUPPORT_NEEDED&page=0&size=2000',
     },
     response: {
       status: 200,

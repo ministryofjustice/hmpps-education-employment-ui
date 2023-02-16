@@ -28,6 +28,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -50,6 +51,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -84,6 +86,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")

@@ -32,7 +32,7 @@ const getStaffDetails = (staffId = 485588) =>
         firstName: 'Stephanie',
         lastName: 'Batliner',
         status: 'ACTIVE',
-        email: 'Stephanie.Batliner@justice.gov.uk',
+        primaryEmail: 'Stephanie.Batliner@justice.gov.uk',
         generalAccount: {
           username: 'SBATLINER_GEN',
           active: true,

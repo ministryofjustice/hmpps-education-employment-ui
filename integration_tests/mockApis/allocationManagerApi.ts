@@ -4,7 +4,7 @@ const getPomForOffender = (id = 'G6115VJ') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathPattern: `/allocation/${id}`,
+      urlPathPattern: `/api/allocation/${id}`,
     },
     response: {
       status: 200,

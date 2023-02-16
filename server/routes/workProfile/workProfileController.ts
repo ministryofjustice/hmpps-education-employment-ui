@@ -27,6 +27,8 @@ export default class WorkProfileController {
       pom,
     } = req.context
 
+    console.log(keyworker, pom)
+
     try {
       const data = {
         id,
