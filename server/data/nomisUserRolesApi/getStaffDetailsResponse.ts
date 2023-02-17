@@ -1,4 +1,4 @@
-export default interface GetStaffDetailsResonse {
+export default interface GetStaffDetailsResponse {
   staffId: number
   firstName: string
   lastName: string

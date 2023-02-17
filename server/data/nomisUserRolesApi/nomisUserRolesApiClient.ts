@@ -2,7 +2,7 @@
 import config from '../../config'
 import RestClient from '../restClient'
 import { UserDetails } from '../../services/userService'
-import GetStaffDetailsResonse from './getStaffDetailsResponse'
+import GetStaffDetailsResponse from './getStaffDetailsResponse'
 
 interface UserCaseLoad {
   caseloads: [
@@ -40,7 +40,7 @@ export default class NomisUserRolesApiClient {
     return this.restClient.get<any>({ path: `/me/caseloads` })
   }
 
-  async getStaffDetails(staffId: number): Promise<GetStaffDetailsResonse> {
-    return this.restClient.get<GetStaffDetailsResonse>({ path: `/users/staff/${staffId}` })
+  async getStaffDetails(staffId: number): Promise<GetStaffDetailsResponse> {
+    return this.restClient.get<GetStaffDetailsResponse>({ path: `/users/staff/${staffId}` })
   }
 }
