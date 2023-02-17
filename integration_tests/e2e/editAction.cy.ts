@@ -14,6 +14,7 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
+    cy.task('getStaffDetails')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('updateProfile')
     cy.signIn()
@@ -27,6 +28,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -49,6 +51,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -83,6 +86,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")

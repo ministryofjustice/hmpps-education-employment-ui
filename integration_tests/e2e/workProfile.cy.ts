@@ -13,6 +13,7 @@ context('SignIn', () => {
     cy.task('getUserActiveCaseLoad')
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
+    cy.task('getStaffDetails')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
@@ -24,6 +25,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'G6115VJ')
     cy.task('getKeyworker', 'G6115VJ')
     cy.task('getUnacceptableAbsenceCount', 'G6115VJ')
+    cy.task('getPomForOffender', 'G6115VJ')
 
     cy.visit('/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
@@ -41,6 +43,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'H4115SD')
     cy.task('getKeyworker', 'H4115SD')
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
+    cy.task('getPomForOffender', 'H4115SD')
 
     cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -52,6 +55,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'G5005GD')
     cy.task('getKeyworker', 'G5005GD')
     cy.task('getUnacceptableAbsenceCount', 'G5005GD')
+    cy.task('getPomForOffender', 'G5005GD')
 
     cy.visit('/profile/G5005GD/view/overview')
     const workProfilePage = new WorkProfilePage("John Smith's work profile")
@@ -77,6 +81,7 @@ context('SignIn', () => {
     cy.task('getCurrentOffenderActivities', 'A00001A')
     cy.task('getKeyworker', 'A00001A')
     cy.task('getUnacceptableAbsenceCount', 'A00001A')
+    cy.task('getPomForOffender', 'A00001A')
 
     cy.visit('/profile/A00001A/view/overview')
     const workProfilePage = new WorkProfilePage("Paris Jones's work profile")
