@@ -11,14 +11,10 @@ const getCohortListResolver =
     const { page, sort, order, status = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { username, token } = res.locals.user
-    const { firstName = '', lastName = '' } = req.query
+    const { searchTerm = '' } = req.query
 
     // Prepare search & date parameters
-    const searchFilter = [
-      status && `${status}`,
-      firstName && `${decodeURIComponent(firstName.toString())}`,
-      lastName && `${decodeURIComponent(lastName.toString())}`,
-    ]
+    const searchFilter = [status && `${status}`, searchTerm && `${decodeURIComponent(searchTerm.toString())}`]
 
     const filter = searchFilter && searchFilter.join(',')
     const { weeksBeforeRelease } = config
@@ -34,7 +30,7 @@ const getCohortListResolver =
         token,
         sort,
         order,
-        filter.length === 1 ? '' : filter,
+        filter,
         page ? +page - 1 : 0,
       )
 

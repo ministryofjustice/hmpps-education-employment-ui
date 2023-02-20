@@ -13,7 +13,7 @@ export default class CohortListController {
   ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '', firstName = '', lastName = '' } = req.query
+    const { page, sort, order, status = '', searchTerm = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const prisonerSearchResults = req.context.cohortList
 
@@ -21,19 +21,19 @@ export default class CohortListController {
       // Paginate where necessary
       let paginationData = {}
       let notFoundMsg
+
+      // Build uri
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
         status && status !== 'ALL' && `status=${status}`,
-        firstName && `firstName=${decodeURIComponent(firstName as string)}`,
-        lastName && `lastName=${decodeURIComponent(lastName as string)}`,
+        searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
-      const displayName =
-        firstName &&
-        `${decodeURIComponent(firstName as string)}`.concat(lastName && ` ${decodeURIComponent(lastName as string)}`)
+      const displayName = searchTerm && decodeURIComponent(searchTerm as string)
 
+      // Build pagination or error messages
       if (prisonerSearchResults.totalElements) {
         const { paginationPageSize } = config
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
@@ -68,8 +68,7 @@ export default class CohortListController {
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
-        firstName: `${decodeURIComponent(firstName as string)}`,
-        lastName: `${decodeURIComponent(lastName as string)}`,
+        searchTerm: decodeURIComponent(searchTerm as string),
         filterStatus: status || 'ALL',
       }
 
@@ -82,15 +81,13 @@ export default class CohortListController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { sort, order } = req.query
     const { selectStatus, searchTerm } = req.body
-    const [firstName, lastName] = searchTerm.trim().split(' ')
 
     try {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
         selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
-        firstName && `firstName=${encodeURIComponent(firstName)}`,
-        lastName && `lastName=${encodeURIComponent(lastName)}`,
+        searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
       ].filter(val => !!val)
 
       res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)

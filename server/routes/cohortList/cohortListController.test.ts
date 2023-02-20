@@ -35,7 +35,7 @@ describe('CohortListController', () => {
         caseLoadId: 'MDI',
       },
     },
-    lastName: '',
+    searchTerm: '',
     filterStatus: 'ALL',
   }
 
@@ -81,12 +81,12 @@ describe('CohortListController', () => {
         'pages/cohortList/index',
         expect.objectContaining({
           filterStatus: 'ALL',
-          lastName: '',
+          searchTerm: '',
           order: 'descending',
           paginationData: {},
           prisonerSearchResults: {
             filterStatus: 'ALL',
-            lastName: '',
+            searchTerm: '',
             order: 'descending',
             ...mockData,
             sort: 'releaseDate',
