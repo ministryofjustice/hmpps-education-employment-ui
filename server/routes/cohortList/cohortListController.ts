@@ -37,7 +37,9 @@ export default class CohortListController {
       if (prisonerSearchResults.totalElements) {
         const { paginationPageSize } = config
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          const paginationUrl = new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri}`)
+          const paginationUrl = new URL(
+            `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}`,
+          )
 
           paginationData = this.paginationService.getPagination(prisonerSearchResults, paginationUrl)
         }
@@ -70,6 +72,7 @@ export default class CohortListController {
         lastName: `${decodeURIComponent(lastName as string)}`,
         filterStatus: status || 'ALL',
       }
+
       res.render('pages/cohortList/index', { ...data })
     } catch (err) {
       next(err)
