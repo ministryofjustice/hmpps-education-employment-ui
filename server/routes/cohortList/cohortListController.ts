@@ -15,6 +15,7 @@ export default class CohortListController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { page, sort, order, status = '', searchTerm = '' } = req.query
     const { userActiveCaseLoad } = res.locals
+    const { paginationPageSize } = config
     const prisonerSearchResults = req.context.cohortList
 
     try {
@@ -31,33 +32,14 @@ export default class CohortListController {
         page && `page=${page}`,
       ].filter(val => !!val)
 
-      const displayName = searchTerm && decodeURIComponent(searchTerm as string)
-
       // Build pagination or error messages
       if (prisonerSearchResults.totalElements) {
-        const { paginationPageSize } = config
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          const paginationUrl = new URL(
-            `${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}`,
+          paginationData = this.paginationService.getPagination(
+            prisonerSearchResults,
+            new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}`),
           )
-
-          paginationData = this.paginationService.getPagination(prisonerSearchResults, paginationUrl)
         }
-      } else if (displayName && status) {
-        notFoundMsg =
-          [
-            `0 results for "[${displayName}]" in [${status}]`,
-            'Check your spelling and search again, or select another status.',
-          ] || ''
-      } else if (displayName) {
-        notFoundMsg =
-          [
-            `0 results for "[${displayName}]"`,
-            'Check your spelling and search again, or clear the search and browse for the prisoner.',
-          ] || ''
-      } else {
-        notFoundMsg =
-          [`0 results in [${status}]`, 'Check your spelling and search again, or search by prisoner name.'] || ''
       }
 
       // Render data
