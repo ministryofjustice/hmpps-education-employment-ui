@@ -107,6 +107,7 @@ generic-service:
     fivewells-4: "195.59.215.184/29"
     global-protect: "35.176.93.186/32"
     petty-france-wifi: "213.121.161.112/28"
+    uservision: "212.38.92.42"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-education-employment-ui
