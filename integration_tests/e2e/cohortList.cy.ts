@@ -106,9 +106,9 @@ context('SignIn', () => {
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.searchText().clear().type('ventour')
     cohortListPage.searchButton().click()
-    cy.visit(`${cohortListUrl}?lastName=ventour`)
+    cy.visit(`${cohortListUrl}?searchTerm=ventour`)
 
-    cy.url().should('include', '?lastName=ventour')
+    cy.url().should('include', '?searchTerm=ventour')
     cohortListPage.tableData().then(offenders => {
       expect(offenders.length).equal(1)
     })
@@ -119,9 +119,9 @@ context('SignIn', () => {
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.searchText().clear().type('unknown')
     cohortListPage.searchButton().click()
-    cy.visit(`${cohortListUrl}?lastName=unknown`)
+    cy.visit(`${cohortListUrl}?searchTerm=unknown`)
 
-    cy.url().should('include', '?lastName=unknown')
+    cy.url().should('include', '?searchTerm=unknown')
     cohortListPage.spanMessage().should('contain', '0 results')
   })
 })
