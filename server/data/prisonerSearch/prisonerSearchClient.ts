@@ -46,29 +46,25 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
 
 // Filter result set based on parameters
 function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: string) {
-  const [status, firstName, lastName] = filterTerm.split(',')
+  const [status, searchTerm] = filterTerm.split(',')
 
   let filteredStatus: PrisonerSearchResult[]
   if (status && status !== 'ALL') filteredStatus = profiles.filter((p: any) => p.status === status)
   if (status === 'ALL') filteredStatus = profiles.filter((p: any) => p)
 
   const filteredSearch: () => PrisonerSearchResult[] = () => {
-    if (status && (firstName || lastName)) {
+    if (status && searchTerm) {
       if (filteredStatus.length) {
         const filteredByStatusAndName = (filteredStatus as any).filter(
-          (p: any) =>
-            p.firstName.toLowerCase().startsWith(firstName.toLowerCase()) &&
-            p.lastName.toLowerCase().startsWith(lastName.toLowerCase()),
+          (p: any) => p.searchTerms.indexOf(searchTerm.toLowerCase()) > -1,
         )
         return [...filteredByStatusAndName]
       }
       return [...filteredStatus]
     }
-    if (firstName || lastName) {
+    if (searchTerm) {
       const filteredByName: PrisonerSearchResult[] = profiles.filter(
-        (p: any) =>
-          (firstName && p.firstName.toLowerCase().startsWith(firstName.toLowerCase())) ||
-          (lastName && p.lastName.toLowerCase().startsWith(lastName.toLowerCase())),
+        (p: any) => p.searchTerms.indexOf(searchTerm.toLowerCase()) > -1,
       )
       return [...filteredByName]
     }
@@ -94,24 +90,15 @@ export default class PrisonerSearchClient {
     searchFilter?: string,
     page?: number,
   ) {
-    const [status, firstName, lastName] = searchFilter.split(',')
+    const [status, searchTerm] = searchFilter.split(',')
     const maxPerPage = config.paginationPageSize
     const maxNumberOfRecordsAllowed = config.maximumNumberOfRecordsToReturn
-
-    // when only 1 name is entered then assume it's a lastname
-    let last = lastName
-    let first = firstName
-    if (firstName && !lastName) {
-      last = firstName
-      first = ''
-    }
 
     const uri = [
       sortBy && `sortBy=${sortBy}`,
       orderBy && `order=${orderBy}`,
       status && status !== 'ALL' && `status=${status}`,
-      first && `firstName=${decodeURIComponent(first)}`,
-      last && `lastName=${decodeURIComponent(last)}`,
+      searchTerm && `searchTerm=${decodeURIComponent(searchTerm)}`,
       `page=0`,
       `size=${maxNumberOfRecordsAllowed}`,
     ].filter(val => !!val)
@@ -142,6 +129,13 @@ export default class PrisonerSearchClient {
         displayName: convertToTitleCase(`${p.lastName}, ${p.firstName}`),
         updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
         status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
+        searchTerms: [
+          p.firstName.toLowerCase(),
+          p.lastName.toLowerCase(),
+          `${p.firstName.toLowerCase()} ${p.lastName.toLowerCase()}`,
+          `${p.lastName.toLowerCase()}, ${p.firstName.toLowerCase()}`,
+          `${p.firstName.charAt(0).toLowerCase()} ${p.lastName.toLowerCase()}`,
+        ].join('|'),
       }
     })
 
@@ -151,8 +145,8 @@ export default class PrisonerSearchClient {
     }
 
     // Filter result set if required
-    if (status || first || last) {
-      const filter = status.concat(',', first, ',', last)
+    if (status || searchTerm) {
+      const filter = status.concat(',', searchTerm)
       matchingProfiles = filterOffenderProfiles(matchingProfiles, filter)
     }
 
