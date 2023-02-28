@@ -26,7 +26,7 @@ generic-service:
     WHEREABOUTS_API_URL: "https://whereabouts-api-dev.service.justice.gov.uk"
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
-    WEEKS_BEFORE_RELEASE: 12
+    WEEKS_BEFORE_RELEASE: 100
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
