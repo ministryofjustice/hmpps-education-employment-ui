@@ -8,6 +8,7 @@ const getKeyworkerByIdResolver =
   (keyworkerService: KeyworkerService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
+    const { username } = res.locals.user
 
     try {
       // Check session for cached keyworker
@@ -18,7 +19,7 @@ const getKeyworkerByIdResolver =
       }
 
       // Get keyworker
-      req.context.keyworker = await keyworkerService.getKeyworkerForOffender(id)
+      req.context.keyworker = await keyworkerService.getKeyworkerForOffender(username, id)
       setSessionData(req, ['keyworker', id], req.context.keyworker)
 
       next()

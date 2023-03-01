@@ -8,7 +8,7 @@ const getPrisonerByIdResolver =
   (prisonerSearch: PrisonerSearchService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { user } = res.locals
+    const { username } = res.locals.user
 
     try {
       // Check session for cached prisoner
@@ -19,7 +19,7 @@ const getPrisonerByIdResolver =
       }
 
       // Get prisoner
-      req.context.prisoner = await prisonerSearch.getPrisonerById(user.token, id)
+      req.context.prisoner = await prisonerSearch.getPrisonerById(username, id)
       setSessionData(req, ['prisoner', id], req.context.prisoner)
 
       next()

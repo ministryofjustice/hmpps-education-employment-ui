@@ -22,14 +22,15 @@ export default class PrisonerSearchService {
     username: string,
     searchTerm: string,
     prisonIds?: string[],
-    token?: string,
     sort?: any,
     order?: any,
     searchFilter?: string,
     page?: number,
   ) {
     const searchRequest = searchPrisonersByReleaseDate(searchTerm, prisonIds)
-    return new PrisonerSearchClient(token).searchByReleaseDateRaw(searchRequest, sort, order, searchFilter, page)
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new PrisonerSearchClient(systemToken).searchByReleaseDateRaw(searchRequest, sort, order, searchFilter, page)
   }
 
   async getUserActiveCaseLoad(token: string): Promise<UserActiveCaseLoad> {
@@ -40,7 +41,9 @@ export default class PrisonerSearchService {
     }
   }
 
-  async getPrisonerById(userToken: string, id: string): Promise<GetPrisonerByIdResult> {
-    return new PrisonerSearchClient(userToken).getPrisonerById(id)
+  async getPrisonerById(username: string, id: string): Promise<GetPrisonerByIdResult> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new PrisonerSearchClient(systemToken).getPrisonerById(id)
   }
 }

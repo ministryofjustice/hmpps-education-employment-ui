@@ -10,7 +10,7 @@ const getCohortListResolver =
   async (req, res, next): Promise<void> => {
     const { page, sort, order, status = '' } = req.query
     const { userActiveCaseLoad } = res.locals
-    const { username, token } = res.locals.user
+    const { username } = res.locals.user
     const { searchTerm = '' } = req.query
 
     // Prepare search & date parameters
@@ -27,7 +27,6 @@ const getCohortListResolver =
         username,
         dateFilter,
         [userActiveCaseLoad.caseLoadId],
-        token,
         sort,
         order,
         filter,

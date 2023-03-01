@@ -22,7 +22,7 @@ const getNotesResolver =
       const notes: Array<NoteWithName> = await prisonerProfileService.getNotes(user.token, id, action)
 
       for (let i = 0; i < notes.length; i += 1) {
-        notes[i].createdName = await getUserFullName(req, userService, user.token, notes[i].createdBy)
+        notes[i].createdName = await getUserFullName(req, res, userService, notes[i].createdBy)
       }
 
       req.context.notes = notes

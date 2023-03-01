@@ -1,14 +1,16 @@
 /* eslint-disable import/prefer-default-export */
-import type { Request } from 'express'
+import type { Request, Response } from 'express'
 
 import { UserService } from '../../services'
 import { getSessionData, setSessionData } from '../../utils/session'
 
-export const getUserFullName = async (req: Request, userService: UserService, token: string, userName: string) => {
+export const getUserFullName = async (req: Request, res: Response, userService: UserService, userName: string) => {
+  const { user } = res.locals
+
   try {
     let name = getSessionData(req, ['userNameCache', userName], '')
     if (!name) {
-      const found = await userService.getUserByUsername(token, userName)
+      const found = await userService.getUserByUsername(user.username, userName)
       name = found.name
       setSessionData(req, ['userNameCache', userName], found.name)
     }

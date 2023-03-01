@@ -8,7 +8,7 @@ const getCurrentOffenderActivitiesResolver =
   (prisonService: PrisonService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { user } = res.locals
+    const { username } = res.locals.user
 
     try {
       // Check session for cached currentOffenderActivities
@@ -18,7 +18,7 @@ const getCurrentOffenderActivitiesResolver =
         return
       }
 
-      const activitiesResult = await prisonService.getAllOffenderActivities(user.token, id)
+      const activitiesResult = await prisonService.getAllOffenderActivities(username, id)
       req.context.currentOffenderActivities = _.get(activitiesResult, 'content', []).filter(
         (a: { isCurrentActivity: boolean }) => a.isCurrentActivity === true,
       )
