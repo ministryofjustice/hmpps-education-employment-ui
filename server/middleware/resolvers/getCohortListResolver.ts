@@ -8,30 +8,36 @@ import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/u
 const getCohortListResolver =
   (prisonerSearch: PrisonerSearchService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '' } = req.query
+    const { page, sort, order, status = '', searchTerm = '' } = req.query
     const { userActiveCaseLoad } = res.locals
-    const { username } = res.locals.user
-    const { searchTerm = '' } = req.query
+    const { username, token } = res.locals.user
 
     // Prepare search & date parameters
-    const searchFilter = [status && `${status}`, searchTerm && `${decodeURIComponent(searchTerm.toString())}`]
-
-    const filter = searchFilter && searchFilter.join(',')
     const { weeksBeforeRelease } = config
-    const dateFilter = `${formatDateToyyyyMMdd(new Date().toString())}, ${offenderEarliestReleaseDate(
-      weeksBeforeRelease,
-    )}`
+
+    // Build search filter
+    const searchFilter = {
+      status: status.toString(),
+      searchTerm: decodeURIComponent(searchTerm.toString()),
+    }
+
+    // Build date filter
+    const dateFilter = {
+      earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
+      latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
+      prisonIds: [userActiveCaseLoad.caseLoadId],
+    }
 
     try {
-      req.context.cohortList = await prisonerSearch.searchByReleaseDateRaw(
+      req.context.cohortList = await prisonerSearch.searchPrisonersByReleaseDate({
+        userToken: token,
         username,
         dateFilter,
-        [userActiveCaseLoad.caseLoadId],
+        searchFilter,
         sort,
         order,
-        filter,
-        page ? +page - 1 : 0,
-      )
+        page: page ? +page - 1 : 0,
+      })
 
       next()
     } catch (err) {

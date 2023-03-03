@@ -19,14 +19,14 @@ describe('getCohortListResolver', () => {
   }
 
   const serviceMock = {
-    searchByReleaseDateRaw: jest.fn(),
+    searchPrisonersByReleaseDate: jest.fn(),
   }
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
   it('On error - Calls next with error', async () => {
-    serviceMock.searchByReleaseDateRaw.mockRejectedValue(error)
+    serviceMock.searchPrisonersByReleaseDate.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
@@ -34,7 +34,7 @@ describe('getCohortListResolver', () => {
   })
 
   it('On success - Attaches data to context and call next', async () => {
-    serviceMock.searchByReleaseDateRaw.mockResolvedValue(mockData.prisonerSearchResults)
+    serviceMock.searchPrisonersByReleaseDate.mockResolvedValue(mockData.prisonerSearchResults)
 
     await resolver(req, res, next)
 
