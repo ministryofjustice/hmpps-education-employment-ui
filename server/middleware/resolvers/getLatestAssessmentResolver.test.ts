@@ -5,6 +5,7 @@ import middleware from './getLatestAssessmentResolver'
 describe('getLatestAssessmentResolver', () => {
   const { req, res, next } = expressMocks()
 
+  res.locals.user = { username: 'mock_username' }
   req.params.id = 'mock_ref'
 
   const mockData = {

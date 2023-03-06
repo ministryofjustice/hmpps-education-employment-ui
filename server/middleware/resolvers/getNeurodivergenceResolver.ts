@@ -8,6 +8,7 @@ const getNeurodivergenceResolver =
   (curiousEsweService: CuriousEsweService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
+    const { username } = res.locals.user
 
     try {
       // Check session for cached neurodivergence data for this prisoner
@@ -18,7 +19,7 @@ const getNeurodivergenceResolver =
       }
 
       // Get neurodivergence data
-      req.context.neurodivergence = await curiousEsweService.getLearnerNeurodivergence(id)
+      req.context.neurodivergence = await curiousEsweService.getLearnerNeurodivergence(username, id)
       setSessionData(req, ['neurodivergence', id], req.context.neurodivergence)
 
       next()

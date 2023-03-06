@@ -24,13 +24,10 @@ export default class PrisonerSearchClient {
 
   newToken: string
 
-  userToken: string
-
-  constructor(userToken: string, token: string) {
+  constructor(token: string) {
     this.restClient = new RestClient('Prisoner Search', config.apis.prisonerSearch, token)
 
     this.newToken = token
-    this.userToken = userToken
   }
 
   async getPrisonersByReleaseDate(searchData: PrisonerSearchByReleaseDate) {

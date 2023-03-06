@@ -8,6 +8,7 @@ const getPomByIdResolver =
   (allocationManagerService: AllocationManagerService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
+    const { username } = res.locals.user
 
     try {
       // Check session for cached Pom
@@ -18,7 +19,7 @@ const getPomByIdResolver =
       }
 
       // Get Pom
-      req.context.pom = await allocationManagerService.getPomForOffender(id)
+      req.context.pom = await allocationManagerService.getPomForOffender(username, id)
       setSessionData(req, ['pom', id], req.context.pom)
 
       next()

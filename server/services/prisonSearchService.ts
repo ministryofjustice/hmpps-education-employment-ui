@@ -85,7 +85,7 @@ export default class PrisonerSearchService {
 
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    const offenders: any = await new PrisonerSearchClient(userToken, systemToken).getPrisonersByReleaseDate(dateFilter)
+    const offenders: any = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
 
     /* Combine offender data with their education profile where necessary */
     const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)
@@ -174,6 +174,6 @@ export default class PrisonerSearchService {
   async getPrisonerById(username: string, id: string): Promise<GetPrisonerByIdResult> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    return new PrisonerSearchClient(systemToken, systemToken).getPrisonerById(id)
+    return new PrisonerSearchClient(systemToken).getPrisonerById(id)
   }
 }

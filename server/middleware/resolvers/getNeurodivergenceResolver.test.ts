@@ -7,6 +7,7 @@ import { NeurodivergenceSupport } from '../../data/curious/types/Enums'
 describe('getNeurodivergenceResolver', () => {
   const { req, res, next } = expressMocks()
 
+  res.locals.user = { username: 'mock_username' }
   req.params.id = 'mock_ref'
 
   const mockData = {

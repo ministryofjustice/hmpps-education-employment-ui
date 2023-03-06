@@ -8,6 +8,7 @@ const getEmployabilitySkillsResolver =
   (curiousEsweService: CuriousEsweService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
+    const { username } = res.locals.user
 
     try {
       // Check session for cached employability skills data for this prisoner
@@ -18,7 +19,7 @@ const getEmployabilitySkillsResolver =
       }
 
       // Get employability skills data
-      req.context.employabilitySkills = await curiousEsweService.getLearnerEmployabilitySkills(id)
+      req.context.employabilitySkills = await curiousEsweService.getLearnerEmployabilitySkills(username, id)
       setSessionData(req, ['employabilitySkills', id], req.context.employabilitySkills)
 
       next()

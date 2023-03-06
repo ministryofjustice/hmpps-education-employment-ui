@@ -1,3 +1,4 @@
+import config from '../config'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import KeyworkerApiClient from '../data/keyworkerApi/keyworkerApiClient'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
