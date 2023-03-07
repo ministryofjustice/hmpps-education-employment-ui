@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
+import { trim } from 'lodash'
 
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
@@ -43,7 +44,7 @@ function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: st
     if (status && searchTerm) {
       if (filteredStatus.length) {
         const filteredByStatusAndName = (filteredStatus as any).filter(
-          (p: any) => p.searchTerms.indexOf(searchTerm.toLowerCase()) > -1,
+          (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
         )
         return [...filteredByStatusAndName]
       }
@@ -51,7 +52,7 @@ function filterOffenderProfiles(profiles: PrisonerSearchResult[], filterTerm: st
     }
     if (searchTerm) {
       const filteredByName: PrisonerSearchResult[] = profiles.filter(
-        (p: any) => p.searchTerms.indexOf(searchTerm.toLowerCase()) > -1,
+        (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
       )
       return [...filteredByName]
     }
@@ -104,10 +105,13 @@ export default class PrisonerSearchService {
         updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
         status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
         searchTerms: [
+          p.prisonerNumber.toLowerCase(),
           p.firstName.toLowerCase(),
           p.lastName.toLowerCase(),
+          `${p.firstName.toLowerCase()}, ${p.lastName.toLowerCase()}`,
           `${p.firstName.toLowerCase()} ${p.lastName.toLowerCase()}`,
           `${p.lastName.toLowerCase()}, ${p.firstName.toLowerCase()}`,
+          `${p.lastName.toLowerCase()} ${p.firstName.toLowerCase()}`,
           `${p.firstName.charAt(0).toLowerCase()} ${p.lastName.toLowerCase()}`,
         ].join('|'),
       }
