@@ -149,4 +149,5 @@ export default {
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
   weeksBeforeRelease: Number(get('WEEKS_BEFORE_RELEASE', 12)),
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
+  googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
 }
