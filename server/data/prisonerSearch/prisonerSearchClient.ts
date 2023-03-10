@@ -32,7 +32,7 @@ export default class PrisonerSearchClient {
 
   async getPrisonersByReleaseDate(searchData: PrisonerSearchByReleaseDate) {
     return this.restClient.post<string[]>({
-      path: `${PRISONER_SEARCH_BY_RELEASE_DATE}?size=${config.maximumNumberOfRecordsToReturn}&page=0`,
+      path: `${PRISONER_SEARCH_BY_RELEASE_DATE}?page=0&size=${config.maximumNumberOfRecordsToReturn}`,
       data: {
         ...searchData,
       },
