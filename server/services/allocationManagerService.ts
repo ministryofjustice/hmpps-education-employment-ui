@@ -1,4 +1,3 @@
-import config from '../config'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import AllocationManagerApiClient from '../data/allocationManagerApi/allocationManagerApiClient'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
