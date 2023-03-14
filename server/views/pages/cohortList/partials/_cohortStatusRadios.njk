@@ -10,7 +10,11 @@
                 name: "selectStatus",
                 id: "selectStatus",
                 fieldset: {
-                    attributes: { 'data-qa': 'status-input' },
+                    attributes: {
+                        'data-qa': 'status-input',
+                        'data-ga-category': 'Work readiness status',
+                        'data-ga-action': filterStatus
+                    },
                     legend: {
                         text: 'Status',
                         classes: "govuk-fieldset__legend--s govuk-!-margin-bottom-0"

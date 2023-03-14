@@ -19,9 +19,9 @@
 
   <!-- Google Analytics: Google Analytics 4 (GA4) -->
   {% if googleAnalyticsId | trim %}
-    <!-- Google tag (gtag.js) -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script>
-    <script>
+    <script nonce="{{ cspNonce }}">
       window.dataLayer = window.dataLayer || [];
 
       function gtag() {
@@ -29,10 +29,16 @@
       }
 
       gtag('js', new Date());
-      gtag('config', '{{ googleAnalyticsId }}', {'send_page_view': false}); // Avoid duplicate page view
+      gtag('config', '{{ googleAnalyticsId }}', {}); // Avoid duplicate page view
+      gtag('event', 'mon-premier-event', {
+        'test-param': 'Bonjour',
+        'test-value': '10'
+      })
     </script>
 
   {% endif %}
+  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+{#  <script src="/assets/js/jquery.min.js"></script>#}
 
 {% endblock %}
 
