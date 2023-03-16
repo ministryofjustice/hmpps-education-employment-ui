@@ -29,9 +29,9 @@ jobs:
       - checkout
       - run:
           name: Update npm
-          command: 'npm install -g npm@latest'
-#      - restore_cache:
-#          key: dependency-cache-{{ checksum "package-lock.json" }}
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm ci --no-audit
