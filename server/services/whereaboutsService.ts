@@ -6,11 +6,13 @@ export default class WhereaboutsService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
   async getUnacceptibleAbsenceCount(
-    userToken: string,
+    username: string,
     id: string,
     startDate: Date,
     endDate: Date,
   ): Promise<GetUnacceptibleAbsenceCountResult> {
-    return new WhereaboutsApiClient(userToken).getUnacceptibleAbsenceCount(id, startDate, endDate)
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new WhereaboutsApiClient(systemToken).getUnacceptibleAbsenceCount(id, startDate, endDate)
   }
 }

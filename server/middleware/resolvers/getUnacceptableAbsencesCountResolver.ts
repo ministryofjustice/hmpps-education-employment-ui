@@ -7,7 +7,7 @@ const getUnacceptableAbsencesCountResolver =
   (whereaboutsService: WhereaboutsService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { user } = res.locals
+    const { username } = res.locals.user
 
     try {
       // Check session for cached unacceptableAbsencesCount
@@ -21,7 +21,7 @@ const getUnacceptableAbsencesCountResolver =
       fromDate.setMonth(fromDate.getMonth() - 6)
       const toDate = new Date()
 
-      const results = await whereaboutsService.getUnacceptibleAbsenceCount(user.token, id, fromDate, toDate)
+      const results = await whereaboutsService.getUnacceptibleAbsenceCount(username, id, fromDate, toDate)
       req.context.unacceptableAbsencesCount = results
 
       next()

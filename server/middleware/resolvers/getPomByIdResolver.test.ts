@@ -5,8 +5,8 @@ import middleware from './getPomByIdResolver'
 describe('getPomByIdResolver', () => {
   const { req, res, next } = expressMocks()
 
+  res.locals.user = { username: 'mock_username' }
   req.params.id = 'mock_ref'
-  res.locals.user = {}
 
   const mockData = {
     staffId: 485588,
