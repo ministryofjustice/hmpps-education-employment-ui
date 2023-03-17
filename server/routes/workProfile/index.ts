@@ -11,8 +11,8 @@ import getPrisonerByIdResolver from '../../middleware/resolvers/getPrisonerByIdR
 import getProfileByIdResolver from '../../middleware/resolvers/getProfileByIdResolver'
 import getCurrentOffenderActivitiesResolver from '../../middleware/resolvers/getCurrentOffenderActivitiesResolver'
 import getUnacceptableAbsencesCountResolver from '../../middleware/resolvers/getUnacceptableAbsencesCountResolver'
-
 import getPomByIdResolver from '../../middleware/resolvers/getPomByIdResolver'
+import getComByIdResolver from '../../middleware/resolvers/getComByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new WorkProfileController()
@@ -30,6 +30,7 @@ export default (router: Router, services: Services) => {
       getUnacceptableAbsencesCountResolver(services.whereaboutsService),
       getKeyworkerByIdResolver(services.keyworkerService),
       getPomByIdResolver(services.allocationManagerService),
+      getComByIdResolver(services.communityService),
     ],
     controller.get,
   )

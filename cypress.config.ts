@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress'
+
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
@@ -8,6 +9,7 @@ import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
 import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
+import communityApi from './integration_tests/mockApis/communityApi'
 import allocationManagerApi from './integration_tests/mockApis/allocationManagerApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
@@ -44,6 +46,7 @@ export default defineConfig({
         ...whereaboutsApi,
         ...keyworkerApi,
         ...allocationManagerApi,
+        ...communityApi,
       })
     },
     baseUrl: 'http://localhost:3007',
