@@ -20,15 +20,13 @@ export default function setUpWebSecurity(): Router {
           defaultSrc: ["'self'"],
           formAction: ["'self'", new URL(config.apis.hmppsAuth.url).hostname],
           // Hash allows inline script pulled in from https://github.com/alphagov/govuk-frontend/blob/master/src/govuk/template.njk
-          // scriptSrc: ["'self'", 'code.jquery.com', "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='"],
           scriptSrc: [
             "'self'",
             '*.google-analytics.com',
             '*.googletagmanager.com',
             (req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
           ],
-          // styleSrc: ["'self'", 'code.jquery.com'],
-          styleSrc: ["'self'", (req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`],
+          styleSrc: ["'self'", 'code.jquery.com', "'unsafe-inline'"],
           fontSrc: ["'self'"],
           connectSrc: ['*.google-analytics.com', '*.googletagmanager.com', '*.analytics.google.com'],
           imgSrc: ["'self'", '*.google-analytics.com', '*.googletagmanager.com'],

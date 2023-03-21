@@ -11,10 +11,7 @@
   <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
   <![endif]-->
 
-  <script src="/assets/js/jquery.min.js"></script> 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-          crossorigin="anonymous"></script>
+{#  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>#}
   <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
 
   <!-- Google Analytics: Google Analytics 4 (GA4) -->
@@ -29,16 +26,13 @@
       }
 
       gtag('js', new Date());
-      gtag('config', '{{ googleAnalyticsId }}', {}); // Avoid duplicate page view
-      gtag('event', 'mon-premier-event', {
-        'test-param': 'Bonjour',
-        'test-value': '10'
-      })
+      gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode':true });
+
     </script>
 
   {% endif %}
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
-{#  <script src="/assets/js/jquery.min.js"></script>#}
+  <script src="/assets/js/jquery.min.js"></script>
 
 {% endblock %}
 
@@ -56,10 +50,10 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the
-  <body>, to avoid blocking the initial render. #}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="/assets/govuk/all.js"></script>
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/main.js"></script>
+  <script src="/assets/js/esweAnalytics.js"></script>
 {% endblock %}
