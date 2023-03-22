@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express'
 
 import CuriousEsweService from '../../services/curiousEsweService'
 import { getSessionData, setSessionData } from '../../utils/session'
+import getLatestAssessment from './utils/getLatestAssessment'
 
 // Gets learner employability skills data held in CuriousApi, based on id parameter and puts it into request context
 const getLatestAssessmentResolver =
@@ -19,7 +20,7 @@ const getLatestAssessmentResolver =
       }
 
       // Get employability skills data
-      req.context.learnerLatestAssessment = await curiousEsweService.getLearnerLatestAssessment(username, id)
+      req.context.learnerLatestAssessment = await getLatestAssessment(curiousEsweService, username, id)
       setSessionData(req, ['learnerLatestAssessment', id], req.context.learnerLatestAssessment)
 
       next()

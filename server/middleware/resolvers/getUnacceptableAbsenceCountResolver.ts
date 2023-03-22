@@ -1,6 +1,7 @@
 import type { RequestHandler } from 'express'
 import WhereaboutsService from '../../services/whereaboutsService'
 import { getSessionData } from '../../utils/session'
+import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
 
 // Gets unacceptable Absences Count based on id parameter and puts it into request context
 const getUnacceptableAbsencesCountResolver =
@@ -10,19 +11,15 @@ const getUnacceptableAbsencesCountResolver =
     const { username } = res.locals.user
 
     try {
-      // Check session for cached unacceptableAbsencesCount
-      if (getSessionData(req, ['unacceptableAbsencesCount', id])) {
-        req.context.unacceptableAbsencesCount = getSessionData(req, ['unacceptableAbsencesCount', id])
+      // Check session for cached unacceptableAbsenceCount
+      if (getSessionData(req, ['unacceptableAbsenceCount', id])) {
+        req.context.unacceptableAbsenceCount = getSessionData(req, ['unacceptableAbsenceCount', id])
         next()
         return
       }
 
-      const fromDate = new Date()
-      fromDate.setMonth(fromDate.getMonth() - 6)
-      const toDate = new Date()
-
-      const results = await whereaboutsService.getUnacceptibleAbsenceCount(username, id, fromDate, toDate)
-      req.context.unacceptableAbsencesCount = results
+      const results = await getUnacceptibleAbsenceCount(whereaboutsService, username, id)
+      req.context.unacceptableAbsenceCount = results
 
       next()
     } catch (err) {

@@ -11,7 +11,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/profile/create/:id/job-of-particular-interest/:mode',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
     controller.get,

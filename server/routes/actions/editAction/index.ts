@@ -12,7 +12,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/profile/actions/:id/edit/:action',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getNotesResolver(services.prisonerProfileService, services.userService),
     ],
@@ -21,7 +21,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/profile/actions/:id/edit/:action',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getNotesResolver(services.prisonerProfileService, services.userService),
     ],

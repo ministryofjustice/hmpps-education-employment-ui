@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import middleware from './getUnacceptableAbsencesCountResolver'
+import middleware from './getUnacceptableAbsenceCountResolver'
 
 describe('getUnacceptableAbsencesCountResolver', () => {
   const { req, res, next } = expressMocks()
@@ -34,7 +34,7 @@ describe('getUnacceptableAbsencesCountResolver', () => {
 
     await resolver(req, res, next)
 
-    expect(req.context.unacceptableAbsencesCount).toEqual({
+    expect(req.context.unacceptableAbsenceCount).toEqual({
       acceptableAbsence: 0,
       unacceptableAbsence: 2,
       total: 4,
