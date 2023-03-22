@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express'
 
 import KeyworkerService from '../../services/keyworkerService'
 import { getSessionData, setSessionData } from '../../utils/session'
+import getKeyworkerById from './utils/getKeyworkerById'
 
 // Gets keyworker based on id parameter and puts it into request context
 const getKeyworkerByIdResolver =
@@ -19,17 +20,11 @@ const getKeyworkerByIdResolver =
       }
 
       // Get keyworker
-      req.context.keyworker = await keyworkerService.getKeyworkerForOffender(username, id)
+      req.context.keyworker = await getKeyworkerById(keyworkerService, username, id)
       setSessionData(req, ['keyworker', id], req.context.keyworker)
 
       next()
     } catch (err) {
-      // Swallow not found errors
-      if (err?.data?.status === 404) {
-        next()
-        return
-      }
-
       next(err)
     }
   }

@@ -21,12 +21,12 @@ describe('getComByIdResolver', () => {
 
   const resolver = middleware(serviceMock as any)
 
-  it('On error - Calls next without error', async () => {
+  it('On error - Calls next with error', async () => {
     serviceMock.getComForOffender.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
-    expect(next).toHaveBeenCalledWith()
+    expect(next).toHaveBeenCalledWith(error)
   })
 
   it('On error - 404 - Calls next without error', async () => {
