@@ -16,10 +16,10 @@ const curiousApi = CuriousApi.create(clientFactory({ baseUrl: config.apis.curiou
 export default class CuriousEsweService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async getLearnerNeurodivergence(id: string): Promise<LearnerNeurodivergence[]> {
+  async getLearnerNeurodivergence(username: string, id: string): Promise<LearnerNeurodivergence[]> {
     try {
       const systemToken = {
-        access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
+        access_token: await this.hmppsAuthClient.getSystemClientToken(username),
         refresh_token: '',
       }
 
@@ -35,10 +35,10 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerEmployabilitySkills(id: string): Promise<LearnerEmployabilitySkills> {
+  async getLearnerEmployabilitySkills(username: string, id: string): Promise<LearnerEmployabilitySkills> {
     try {
       const systemToken = {
-        access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
+        access_token: await this.hmppsAuthClient.getSystemClientToken(username),
         refresh_token: '',
       }
       return await curiousApi.getLearnerEmployabilitySkillsRaw(systemToken, id)
@@ -52,10 +52,10 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerLatestAssessment(id: string): Promise<LearnerLatestAssessment[]> {
+  async getLearnerLatestAssessment(username: string, id: string): Promise<LearnerLatestAssessment[]> {
     try {
       const systemToken = {
-        access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
+        access_token: await this.hmppsAuthClient.getSystemClientToken(username),
         refresh_token: '',
       }
 
@@ -70,10 +70,15 @@ export default class CuriousEsweService {
     return null
   }
 
-  async getLearnerEducation(id: string, isCurrent?: boolean, establishmentId?: string): Promise<LearnerEducation> {
+  async getLearnerEducation(
+    username: string,
+    id: string,
+    isCurrent?: boolean,
+    establishmentId?: string,
+  ): Promise<LearnerEducation> {
     try {
       const systemToken = {
-        access_token: await this.hmppsAuthClient.getSystemClientToken(config.apis.hmppsAuth.systemClientId),
+        access_token: await this.hmppsAuthClient.getSystemClientToken(username),
         refresh_token: '',
       }
 

@@ -16,14 +16,14 @@ const getProfileByIdResolver =
       req.context.profile = profile
 
       if (profile.modifiedBy) {
-        req.context.profile.modifiedByName = await getUserFullName(req, userService, user.token, profile.modifiedBy)
+        req.context.profile.modifiedByName = await getUserFullName(req, res, userService, profile.modifiedBy)
       }
 
       if (profile.profileData?.supportDeclined?.modifiedBy) {
         req.context.profile.profileData.supportDeclined.modifiedByName = await getUserFullName(
           req,
+          res,
           userService,
-          user.token,
           profile.profileData.supportDeclined.modifiedBy,
         )
       }
@@ -31,8 +31,8 @@ const getProfileByIdResolver =
       if (profile.profileData?.supportAccepted?.actionsRequired?.modifiedBy) {
         req.context.profile.profileData.supportAccepted.actionsRequired.modifiedByName = await getUserFullName(
           req,
+          res,
           userService,
-          user.token,
           profile.profileData.supportAccepted.actionsRequired.modifiedBy,
         )
       }
@@ -40,8 +40,8 @@ const getProfileByIdResolver =
       if (profile.profileData?.supportAccepted?.workImpacts?.modifiedBy) {
         req.context.profile.profileData.supportAccepted.workImpacts.modifiedByName = await getUserFullName(
           req,
+          res,
           userService,
-          user.token,
           profile.profileData.supportAccepted.workImpacts.modifiedBy,
         )
       }
@@ -49,8 +49,8 @@ const getProfileByIdResolver =
       if (profile.profileData?.supportAccepted?.workExperience?.modifiedBy) {
         req.context.profile.profileData.supportAccepted.workExperience.modifiedByName = await getUserFullName(
           req,
+          res,
           userService,
-          user.token,
           profile.profileData.supportAccepted.workExperience.modifiedBy,
         )
       }
@@ -58,8 +58,8 @@ const getProfileByIdResolver =
       if (profile.profileData?.supportAccepted?.workInterests?.modifiedBy) {
         req.context.profile.profileData.supportAccepted.workInterests.modifiedByName = await getUserFullName(
           req,
+          res,
           userService,
-          user.token,
           profile.profileData.supportAccepted.workInterests.modifiedBy,
         )
       }

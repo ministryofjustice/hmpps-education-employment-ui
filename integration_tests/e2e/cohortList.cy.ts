@@ -77,7 +77,7 @@ context('SignIn', () => {
     })
 
     cy.get('#lastName-sort-action').click()
-    cy.visit(`${cohortListUrl}?sortBy=lastName&order=ascending`)
+    cy.visit(`${cohortListUrl}?sort=lastName&order=ascending`)
 
     cohortListPage.tableData().then(offenders => {
       expect(offenders[0].viewLink).to.contain('/profile/G6190UD/view/overview')
@@ -87,17 +87,17 @@ context('SignIn', () => {
       expect(offenders[0].workSummary).to.contain('Disclosure letter')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
     })
-    cy.url().should('include', '?sortBy=lastName&order=ascending')
+    cy.url().should('include', '?sort=lastName&order=ascending')
   })
 
-  it('Should filter result set by status [NEEDS SUPPORT] - no records returned', () => {
+  it('Should filter result set by status [READY_TO_WORK] - no records returned', () => {
     cy.task('stubCohortListSupportNeeded')
     const cohortListPage = Page.verifyOnPage(CohortListPage)
     cohortListPage.radioFieldNeedsSupport().click()
     cohortListPage.searchButton().click()
-    cy.visit(`${cohortListUrl}?status=SUPPORT_NEEDED`)
+    cy.visit(`${cohortListUrl}?status=READY_TO_WORK`)
 
-    cy.url().should('include', '?status=SUPPORT_NEEDED')
+    cy.url().should('include', '?status=READY_TO_WORK')
     cohortListPage.spanMessage().should('contain', '0 results in')
   })
 

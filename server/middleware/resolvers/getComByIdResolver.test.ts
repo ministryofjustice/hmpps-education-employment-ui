@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import middleware from './getPomByIdResolver'
+import middleware from './getComByIdResolver'
 
-describe('getPomByIdResolver', () => {
+describe('getComByIdResolver', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = { username: 'mock_username' }
@@ -15,14 +15,14 @@ describe('getPomByIdResolver', () => {
   }
 
   const serviceMock = {
-    getPomForOffender: jest.fn(),
+    getComForOffender: jest.fn(),
   }
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
   it('On error - Calls next without error', async () => {
-    serviceMock.getPomForOffender.mockRejectedValue(error)
+    serviceMock.getComForOffender.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
@@ -30,7 +30,7 @@ describe('getPomByIdResolver', () => {
   })
 
   it('On error - 404 - Calls next without error', async () => {
-    serviceMock.getPomForOffender.mockRejectedValue({
+    serviceMock.getComForOffender.mockRejectedValue({
       data: {
         status: 404,
       },
@@ -42,11 +42,11 @@ describe('getPomByIdResolver', () => {
   })
 
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getPomForOffender.mockResolvedValue(mockData)
+    serviceMock.getComForOffender.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 
-    expect(req.context.pom).toEqual(mockData)
+    expect(req.context.com).toEqual(mockData)
 
     expect(next).toHaveBeenCalledWith()
   })

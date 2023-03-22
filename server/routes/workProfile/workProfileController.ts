@@ -25,6 +25,7 @@ export default class WorkProfileController {
       currentOffenderActivities,
       unacceptableAbsencesCount,
       pom,
+      com,
     } = req.context
 
     try {
@@ -46,6 +47,7 @@ export default class WorkProfileController {
         contacts: {
           keyworker,
           pom,
+          com,
         },
         unacceptableAbsencesCount,
         tab,
