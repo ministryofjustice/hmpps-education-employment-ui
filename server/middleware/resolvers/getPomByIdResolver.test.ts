@@ -31,9 +31,7 @@ describe('getPomByIdResolver', () => {
 
   it('On error - 404 - Calls next without error', async () => {
     serviceMock.getPomForOffender.mockRejectedValue({
-      data: {
-        status: 404,
-      },
+      status: 404,
     })
 
     await resolver(req, res, next)

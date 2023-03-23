@@ -31,9 +31,7 @@ describe('getComByIdResolver', () => {
 
   it('On error - 404 - Calls next without error', async () => {
     serviceMock.getComForOffender.mockRejectedValue({
-      data: {
-        status: 404,
-      },
+      status: 404,
     })
 
     await resolver(req, res, next)

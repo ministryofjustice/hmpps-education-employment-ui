@@ -6,7 +6,7 @@ const getPomById = async (allocationManagerService: AllocationManagerService, us
     return await allocationManagerService.getPomForOffender(username, id)
   } catch (err) {
     // Handle no data
-    if (err?.data?.status === 404) {
+    if (err?.status === 404) {
       return undefined
     }
 
