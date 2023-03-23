@@ -4,6 +4,8 @@
 {% block head %}
   <!--[if !IE 8]><!-->
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
+          crossorigin="anonymous"></script>
   <!--<![endif]-->
 
   <!--[if lt IE 9]>
@@ -11,17 +13,14 @@
   <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
   <![endif]-->
 
-  <script src="/assets/js/jquery.min.js"></script> 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-          crossorigin="anonymous"></script>
   <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
 
   <!-- Google Analytics: Google Analytics 4 (GA4) -->
   {% if googleAnalyticsId | trim %}
-    <!-- Google tag (gtag.js) -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script>
-    <script>
+    <script nonce="{{ cspNonce }}">
       window.dataLayer = window.dataLayer || [];
 
       function gtag() {
@@ -29,10 +28,13 @@
       }
 
       gtag('js', new Date());
-      gtag('config', '{{ googleAnalyticsId }}', {'send_page_view': false}); // Avoid duplicate page view
+      gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode':true });
+
     </script>
 
   {% endif %}
+  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+  <script src="/assets/js/jquery.min.js"></script>
 
 {% endblock %}
 
@@ -50,10 +52,15 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the
-  <body>, to avoid blocking the initial render. #}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="/assets/govuk/all.js"></script>
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/main.js"></script>
+  <script src="/assets/js/esweAnalytics_id.js"></script>
+  <script src="/assets/js/esweAnalytics_cv.js"></script>
+  <script src="/assets/js/esweAnalytics_housing.js"></script>
+  <script src="/assets/js/esweAnalytics_bank_acct.js"></script>
+  <script src="/assets/js/esweAnalytics_disclosure_letter.js"></script>
+
 {% endblock %}
