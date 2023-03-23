@@ -4,6 +4,8 @@
 {% block head %}
   <!--[if !IE 8]><!-->
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
+          crossorigin="anonymous"></script>
   <!--<![endif]-->
 
   <!--[if lt IE 9]>
@@ -11,8 +13,8 @@
   <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
   <![endif]-->
 
-{#  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>#}
   <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
 
   <!-- Google Analytics: Google Analytics 4 (GA4) -->
   {% if googleAnalyticsId | trim %}
@@ -55,5 +57,10 @@
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/main.js"></script>
-  <script src="/assets/js/esweAnalytics.js"></script>
+  <script src="/assets/js/esweAnalytics_id.js"></script>
+  <script src="/assets/js/esweAnalytics_cv.js"></script>
+  <script src="/assets/js/esweAnalytics_housing.js"></script>
+  <script src="/assets/js/esweAnalytics_bank_acct.js"></script>
+  <script src="/assets/js/esweAnalytics_disclosure_letter.js"></script>
+
 {% endblock %}
