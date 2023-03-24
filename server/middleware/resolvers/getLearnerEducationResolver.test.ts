@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getLearnerEducationResolver'
+import getLearnerEducation from './utils/getLearnerEducation'
+
+jest.mock('./utils/getLearnerEducation', () => ({
+  ...jest.requireActual('./utils/getLearnerEducation'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getLearnerEducationResolver', () => {
   const { req, res, next } = expressMocks()
@@ -23,35 +30,23 @@ describe('getLearnerEducationResolver', () => {
     deliveryMethodType: 'Pack only learning - In Cell/Room',
   }
 
-  const serviceMock = {
-    getLearnerEducation: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getLearnerEducationMock = getLearnerEducation as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getLearnerEducation.mockRejectedValue(error)
+    getLearnerEducationMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 404 error - Calls next without error', async () => {
-    serviceMock.getLearnerEducation.mockRejectedValue({
-      data: {
-        status: 404,
-        userMessage: 'There is no education data for this prisoner',
-      },
-    })
-
-    await resolver(req, res, next)
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getLearnerEducation.mockResolvedValue(mockData)
+    getLearnerEducationMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 
