@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getComByIdResolver'
+import getComById from './utils/getComById'
+
+jest.mock('./utils/getComById', () => ({
+  ...jest.requireActual('./utils/getComById'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getComByIdResolver', () => {
   const { req, res, next } = expressMocks()
@@ -14,35 +21,23 @@ describe('getComByIdResolver', () => {
     lastName: 'RENDELL',
   }
 
-  const serviceMock = {
-    getComForOffender: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
+
+  const getComByIdMock = getComById as jest.Mock
 
   const resolver = middleware(serviceMock as any)
 
-  it('On error - Calls next without error', async () => {
-    serviceMock.getComForOffender.mockRejectedValue(error)
+  it('On error - Calls next with error', async () => {
+    getComByIdMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
-    expect(next).toHaveBeenCalledWith()
-  })
-
-  it('On error - 404 - Calls next without error', async () => {
-    serviceMock.getComForOffender.mockRejectedValue({
-      data: {
-        status: 404,
-      },
-    })
-
-    await resolver(req, res, next)
-
-    expect(next).toHaveBeenCalledWith()
+    expect(next).toHaveBeenCalledWith(error)
   })
 
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getComForOffender.mockResolvedValue(mockData)
+    getComByIdMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 

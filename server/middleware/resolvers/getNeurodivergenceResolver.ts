@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express'
 
 import CuriousEsweService from '../../services/curiousEsweService'
 import { getSessionData, setSessionData } from '../../utils/session'
+import getNeurodivergence from './utils/getNeurodivergence'
 
 // Gets prisoner neurodivergence data held in CuriousApi, based on id parameter and puts it into request context
 const getNeurodivergenceResolver =
@@ -19,19 +20,11 @@ const getNeurodivergenceResolver =
       }
 
       // Get neurodivergence data
-      req.context.neurodivergence = await curiousEsweService.getLearnerNeurodivergence(username, id)
+      req.context.neurodivergence = await getNeurodivergence(curiousEsweService, username, id)
       setSessionData(req, ['neurodivergence', id], req.context.neurodivergence)
 
       next()
     } catch (err) {
-      // Handle no neurodivergence data
-      if (
-        err?.data?.status === 404 &&
-        err?.data?.userMessage.indexOf('There is no neurodivergence data for this prisoner') > -1
-      ) {
-        next()
-        return
-      }
       next(err)
     }
   }

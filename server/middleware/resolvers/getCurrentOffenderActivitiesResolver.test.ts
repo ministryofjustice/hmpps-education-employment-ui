@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getCurrentOffenderActivitiesResolver'
+import getCurrentOffenderActivities from './utils/getCurrentOffenderActivities'
+
+jest.mock('./utils/getCurrentOffenderActivities', () => ({
+  ...jest.requireActual('./utils/getCurrentOffenderActivities'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getCurrentOffenderActivitiesResolver', () => {
   const { req, res, next } = expressMocks()
@@ -8,38 +15,27 @@ describe('getCurrentOffenderActivitiesResolver', () => {
   req.params.id = 'mock_ref'
   res.locals.user = {}
 
-  const mockData = {
-    content: [
-      {
-        bookingId: 1102484,
-        agencyLocationId: 'MDI',
-        agencyLocationDescription: 'Moorland (HMP & YOI)',
-        description: 'Braille am',
-        startDate: '2021-10-07',
-        endDate: '2022-01-27',
-        isCurrentActivity: true,
-      },
-      {
-        bookingId: 1102484,
-        agencyLocationId: 'MDI',
-        agencyLocationDescription: 'Moorland (HMP & YOI)',
-        description: 'Braille am',
-        startDate: '2021-10-07',
-        endDate: '2022-01-27',
-        isCurrentActivity: false,
-      },
-    ],
-  }
+  const mockData = [
+    {
+      bookingId: 1102484,
+      agencyLocationId: 'MDI',
+      agencyLocationDescription: 'Moorland (HMP & YOI)',
+      description: 'Braille am',
+      startDate: '2021-10-07',
+      endDate: '2022-01-27',
+      isCurrentActivity: true,
+    },
+  ]
 
-  const serviceMock = {
-    getAllOffenderActivities: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getCurrentOffenderActivitiesMock = getCurrentOffenderActivities as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getAllOffenderActivities.mockRejectedValue(error)
+    getCurrentOffenderActivitiesMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
@@ -47,21 +43,11 @@ describe('getCurrentOffenderActivitiesResolver', () => {
   })
 
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getAllOffenderActivities.mockResolvedValue(mockData)
+    getCurrentOffenderActivitiesMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 
-    expect(req.context.currentOffenderActivities).toEqual([
-      {
-        bookingId: 1102484,
-        agencyLocationId: 'MDI',
-        agencyLocationDescription: 'Moorland (HMP & YOI)',
-        description: 'Braille am',
-        startDate: '2021-10-07',
-        endDate: '2022-01-27',
-        isCurrentActivity: true,
-      },
-    ])
+    expect(req.context.currentOffenderActivities).toEqual(mockData)
 
     expect(next).toHaveBeenCalledWith()
   })

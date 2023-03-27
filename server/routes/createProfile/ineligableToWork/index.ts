@@ -9,12 +9,12 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/profile/create/:id/ineligable-to-work/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
     '/profile/create/:id/ineligable-to-work/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )
 }

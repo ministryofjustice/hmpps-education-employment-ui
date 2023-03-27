@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/profile/create/:id/identification/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post('/profile/create/:id/identification/:mode', [parseCheckBoxValue('identification')], controller.post)

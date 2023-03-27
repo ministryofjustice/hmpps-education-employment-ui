@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getEmployabilitySkillsResolver'
+import getEmployabilitySkills from './utils/getEmployabilitySkills'
+
+jest.mock('./utils/getEmployabilitySkills', () => ({
+  ...jest.requireActual('./utils/getEmployabilitySkills'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getEmployabilitySkillsResolver', () => {
   const { req, res, next } = expressMocks()
@@ -23,35 +30,23 @@ describe('getEmployabilitySkillsResolver', () => {
     ],
   }
 
-  const serviceMock = {
-    getLearnerEmployabilitySkills: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getEmployabilitySkillsMock = getEmployabilitySkills as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getLearnerEmployabilitySkills.mockRejectedValue(error)
+    getEmployabilitySkillsMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 404 error - Calls next without error', async () => {
-    serviceMock.getLearnerEmployabilitySkills.mockRejectedValue({
-      data: {
-        status: 404,
-        userMessage: 'There is no employability skills data for this prisoner',
-      },
-    })
-
-    await resolver(req, res, next)
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getLearnerEmployabilitySkills.mockResolvedValue(mockData.reviews)
+    getEmployabilitySkillsMock.mockResolvedValue(mockData.reviews)
 
     await resolver(req, res, next)
 
