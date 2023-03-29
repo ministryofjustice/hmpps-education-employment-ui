@@ -160,7 +160,9 @@ describe('EditActionController', () => {
 
       await controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(`${addressLookup.actions.editAction(id, action)}?noteAction=add`)
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.actions.editAction(id, action)}?noteAction=add#noteText`,
+      )
       expect(next).toHaveBeenCalledTimes(0)
     })
 

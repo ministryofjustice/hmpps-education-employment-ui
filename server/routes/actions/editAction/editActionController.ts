@@ -69,7 +69,7 @@ export default class EditActionController {
           ...req.body,
         })
 
-        res.redirect(`${addressLookup.actions.editAction(id, action)}?noteAction=add`)
+        res.redirect(`${addressLookup.actions.editAction(id, action)}?noteAction=add#noteText`)
         return
       }
 
