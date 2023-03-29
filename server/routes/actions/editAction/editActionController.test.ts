@@ -127,10 +127,12 @@ describe('EditActionController', () => {
       setSessionData(req, ['actions', id], {})
       mockService.updateProfile.mockResolvedValue({})
       req.params.action = 'cv_and_covering_letter'
+      req.body = {}
     })
 
     it('On error - Calls next with error', async () => {
       req.query.noteAction = 'add'
+      req.body.saveNote = ''
       validationMock.mockImplementation(() => {
         throw new Error('mock_error')
       })
@@ -143,16 +145,28 @@ describe('EditActionController', () => {
 
     it('On validation error - Calls render with the correct data', async () => {
       req.query.noteAction = 'add'
+      req.body.saveNote = ''
       validationMock.mockImplementation(() => errors)
 
       await controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/actions/editAction/index', { ...mockData, errors })
+      expect(res.render).toHaveBeenCalledWith('pages/actions/editAction/index', { ...mockData, saveNote: '', errors })
       expect(next).toHaveBeenCalledTimes(0)
     })
 
-    it('On Success - Add note - Calls add note API and refreshes page', async () => {
+    it('On Success - Add note - Redirects in correct mode', async () => {
+      req.query.noteAction = 'view'
+      req.body.addNote = ''
+
+      await controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(`${addressLookup.actions.editAction(id, action)}?noteAction=add`)
+      expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On Success - Save note - Calls add note API and refreshes page', async () => {
       req.query.noteAction = 'add'
+      req.body.saveNote = ''
 
       await controller.post(req, res, next)
 

@@ -1,4 +1,5 @@
 import type { Router } from 'express'
+import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getNotesResolver from '../../../middleware/resolvers/getNotesResolver'
 
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
@@ -24,6 +25,7 @@ export default (router: Router, services: Services) => {
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getNotesResolver(services.prisonerProfileService, services.userService),
+      parseCheckBoxValue('identification'),
     ],
     controller.post,
   )

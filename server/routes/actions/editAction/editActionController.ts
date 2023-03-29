@@ -4,7 +4,7 @@ import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
-import { getSessionData, setSessionData } from '../../../utils/session'
+import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
@@ -33,13 +33,15 @@ export default class EditActionController {
         return
       }
 
+      const cachedValues = getSessionData(req, ['editAction', id, 'cachedValues'], {})
+
       const data = {
         id,
         backLocation: addressLookup.workProfile(id),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         toDoItem: item.todoItem,
-        toDoStatus: item.status,
-        identification: item.id || [],
+        toDoStatus: cachedValues.toDoStatus || item.status,
+        identification: cachedValues.identification || item.id || [],
         noteAction,
         notes: plainToClass(NotesViewModel, notes),
       }
@@ -59,9 +61,19 @@ export default class EditActionController {
     const { profile } = req.context
 
     try {
-      // If validation errors render errors
       const data = getSessionData(req, ['editAction', id, 'data'])
 
+      // If addNote button clicked, redirect and show field
+      if ('addNote' in req.body) {
+        setSessionData(req, ['editAction', id, 'cachedValues'], {
+          ...req.body,
+        })
+
+        res.redirect(`${addressLookup.actions.editAction(id, action)}?noteAction=add`)
+        return
+      }
+
+      // If validation errors render errors
       if (noteAction === 'add') {
         const errors = validateFormSchema(req, validationSchema())
 
@@ -73,6 +85,10 @@ export default class EditActionController {
           })
           return
         }
+
+        setSessionData(req, ['editAction', id, 'cachedValues'], {
+          ...req.body,
+        })
 
         // Create note
         await this.prisonerProfileService.createNote(res.locals.user.token, id, action.toUpperCase(), req.body.noteText)
@@ -98,6 +114,8 @@ export default class EditActionController {
         modifiedBy: res.locals.user.username,
         modifiedDateTime: new Date().toISOString(),
       }
+
+      deleteSessionData(req, ['editAction', id, 'cachedValues'])
 
       // Call api, change status
       await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
