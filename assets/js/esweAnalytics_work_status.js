@@ -1,17 +1,17 @@
 $(() => {
-  // Track cv and covering letter progress
+  // Track change of work status
   const $btns = document.querySelectorAll('.govuk-button')
   $btns.forEach(btn => {
-    if (btn.baseURI.indexOf('edit/cv_and_covering_letter') > 0) {
-      const $btnCv = $('.govuk-button[data-ga-category]')
+    if (btn.baseURI.indexOf('new-status') > 0) {
+      const $btnWorkStatus = $('.govuk-button[data-ga-category]')
 
-      $btnCv.on('click', () => {
+      $btnWorkStatus.on('click', () => {
         const $radios = document.querySelectorAll('.govuk-radios__item')
         $radios.forEach(rad => {
           if (rad.firstElementChild.checked) {
             if (typeof gtag === typeof Function) {
-              gtag('event', `CV and letter - ${rad.innerText}`, {
-                category: 'eswe-cv-covering-letter',
+              gtag('event', `Work status - ${rad.innerText}`, {
+                category: 'eswe-work-status',
                 progress: rad.innerText,
               })
             }
