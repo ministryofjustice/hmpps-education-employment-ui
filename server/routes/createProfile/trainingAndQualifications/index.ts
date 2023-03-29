@@ -12,7 +12,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/profile/create/:id/training-and-qualifications/:mode',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
     controller.get,
@@ -20,7 +20,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/profile/create/:id/training-and-qualifications/:mode',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('trainingAndQualifications'),
     ],

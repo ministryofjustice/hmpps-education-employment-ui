@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getNeurodivergenceResolver'
-
 import { NeurodivergenceSupport } from '../../data/curious/types/Enums'
+import getNeurodivergence from './utils/getNeurodivergence'
+
+jest.mock('./utils/getNeurodivergence', () => ({
+  ...jest.requireActual('./utils/getNeurodivergence'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getNeurodivergenceResolver', () => {
   const { req, res, next } = expressMocks()
@@ -17,35 +23,23 @@ describe('getNeurodivergenceResolver', () => {
     neurodivergenceSupport: [NeurodivergenceSupport.MemorySupport, NeurodivergenceSupport.Reading],
   }
 
-  const serviceMock = {
-    getLearnerNeurodivergence: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getNeurodivergenceMock = getNeurodivergence as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getLearnerNeurodivergence.mockRejectedValue(error)
+    getNeurodivergenceMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 404 error - Calls next without error', async () => {
-    serviceMock.getLearnerNeurodivergence.mockRejectedValue({
-      data: {
-        status: 404,
-        userMessage: 'There is no neurodivergence data for this prisoner',
-      },
-    })
-
-    await resolver(req, res, next)
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getLearnerNeurodivergence.mockResolvedValue(mockData.neurodivergenceSupport)
+    getNeurodivergenceMock.mockResolvedValue(mockData.neurodivergenceSupport)
 
     await resolver(req, res, next)
 

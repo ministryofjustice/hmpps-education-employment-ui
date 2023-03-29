@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getKeyworkerByIdResolver'
+import getKeyworkerById from './utils/getKeyworkerById'
+
+jest.mock('./utils/getKeyworkerById', () => ({
+  ...jest.requireActual('./utils/getKeyworkerById'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getKeyworkerByIdResolver', () => {
   const { req, res, next } = expressMocks()
@@ -15,35 +22,23 @@ describe('getKeyworkerByIdResolver', () => {
     status: 'ACTIVE',
   }
 
-  const serviceMock = {
-    getKeyworkerForOffender: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getKeyworkerByIdMock = getKeyworkerById as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getKeyworkerForOffender.mockRejectedValue(error)
+    getKeyworkerByIdMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 404 - Calls next without error', async () => {
-    serviceMock.getKeyworkerForOffender.mockRejectedValue({
-      data: {
-        status: 404,
-      },
-    })
-
-    await resolver(req, res, next)
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getKeyworkerForOffender.mockResolvedValue(mockData)
+    getKeyworkerByIdMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 

@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import middleware from './getUnacceptableAbsencesCountResolver'
+import middleware from './getUnacceptableAbsenceCountResolver'
+import getUnacceptableAbsenceCount from './utils/getUnacceptableAbsenceCount'
+
+jest.mock('./utils/getUnacceptableAbsenceCount', () => ({
+  ...jest.requireActual('./utils/getUnacceptableAbsenceCount'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getUnacceptableAbsencesCountResolver', () => {
   const { req, res, next } = expressMocks()
@@ -14,15 +21,15 @@ describe('getUnacceptableAbsencesCountResolver', () => {
     total: 4,
   }
 
-  const serviceMock = {
-    getUnacceptibleAbsenceCount: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getUnacceptableAbsenceCountMock = getUnacceptableAbsenceCount as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getUnacceptibleAbsenceCount.mockRejectedValue(error)
+    getUnacceptableAbsenceCountMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
@@ -30,11 +37,11 @@ describe('getUnacceptableAbsencesCountResolver', () => {
   })
 
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getUnacceptibleAbsenceCount.mockResolvedValue(mockData)
+    getUnacceptableAbsenceCountMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 
-    expect(req.context.unacceptableAbsencesCount).toEqual({
+    expect(req.context.unacceptableAbsenceCount).toEqual({
       acceptableAbsence: 0,
       unacceptableAbsence: 2,
       total: 4,

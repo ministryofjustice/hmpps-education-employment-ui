@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/profile/create/:id/already-in-place/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post('/profile/create/:id/already-in-place/:mode', [parseCheckBoxValue('alreadyInPlace')], controller.post)

@@ -23,7 +23,7 @@ export default class WorkProfileController {
       learnerEducation,
       keyworker,
       currentOffenderActivities,
-      unacceptableAbsencesCount,
+      unacceptableAbsenceCount,
       pom,
       com,
     } = req.context
@@ -49,7 +49,7 @@ export default class WorkProfileController {
           pom,
           com,
         },
-        unacceptableAbsencesCount,
+        unacceptableAbsenceCount,
         tab,
       }
 

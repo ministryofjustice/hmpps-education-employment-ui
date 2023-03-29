@@ -14,7 +14,7 @@ export const services = () => {
   const { hmppsAuthClient } = dataAccess()
 
   const userService = new UserService(hmppsAuthClient)
-  const prisonerSearch = new PrisonerSearchService(hmppsAuthClient)
+  const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient)
   const prisonerSearchByReleaseDate = new PrisonerSearchService(hmppsAuthClient)
   const prisonerProfileService = new PrisonerProfileService(hmppsAuthClient)
   const paginationService = new PaginationService()
@@ -24,9 +24,10 @@ export const services = () => {
   const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
   const communityService = new CommunityService(hmppsAuthClient)
+
   return {
     userService,
-    prisonerSearch,
+    prisonerSearchService,
     paginationService,
     prisonerSearchByReleaseDate,
     prisonerProfileService,

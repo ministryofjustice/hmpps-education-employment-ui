@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
 import middleware from './getLatestAssessmentResolver'
+import getLatestAssessment from './utils/getLatestAssessment'
+
+jest.mock('./utils/getLatestAssessment', () => ({
+  ...jest.requireActual('./utils/getLatestAssessment'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('getLatestAssessmentResolver', () => {
   const { req, res, next } = expressMocks()
@@ -23,35 +30,23 @@ describe('getLatestAssessmentResolver', () => {
     ],
   }
 
-  const serviceMock = {
-    getLearnerLatestAssessment: jest.fn(),
-  }
+  const serviceMock = {}
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
+  const getLatestAssessmentMock = getLatestAssessment as jest.Mock
+
   it('On error - Calls next with error', async () => {
-    serviceMock.getLearnerLatestAssessment.mockRejectedValue(error)
+    getLatestAssessmentMock.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 404 error - Calls next without error', async () => {
-    serviceMock.getLearnerLatestAssessment.mockRejectedValue({
-      data: {
-        status: 404,
-        userMessage: 'There is no assessment data for this prisoner',
-      },
-    })
-
-    await resolver(req, res, next)
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and calls next', async () => {
-    serviceMock.getLearnerLatestAssessment.mockResolvedValue(mockData)
+    getLatestAssessmentMock.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 

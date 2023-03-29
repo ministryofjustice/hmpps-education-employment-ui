@@ -1,7 +1,7 @@
-import _ from 'lodash'
 import type { RequestHandler } from 'express'
 import PrisonService from '../../services/prisonService'
-import { getSessionData } from '../../utils/session'
+import { getSessionData, setSessionData } from '../../utils/session'
+import getCurrentOffenderActivities from './utils/getCurrentOffenderActivities'
 
 // Gets current Offender Activities based on id parameter and puts it into request context
 const getCurrentOffenderActivitiesResolver =
@@ -18,10 +18,8 @@ const getCurrentOffenderActivitiesResolver =
         return
       }
 
-      const activitiesResult = await prisonService.getAllOffenderActivities(username, id)
-      req.context.currentOffenderActivities = _.get(activitiesResult, 'content', []).filter(
-        (a: { isCurrentActivity: boolean }) => a.isCurrentActivity === true,
-      )
+      req.context.currentOffenderActivities = await getCurrentOffenderActivities(prisonService, username, id)
+      setSessionData(req, ['currentOffenderActivities', id], req.context.currentOffenderActivities)
 
       next()
     } catch (err) {

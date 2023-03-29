@@ -8,11 +8,15 @@ import CheckYourAnswersController from './checkYourAnswersController'
 export default (router: Router, services: Services) => {
   const controller = new CheckYourAnswersController(services.prisonerProfileService)
 
-  router.get('/profile/create/:id/check-answers', [getPrisonerByIdResolver(services.prisonerSearch)], controller.get)
+  router.get(
+    '/profile/create/:id/check-answers',
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
+    controller.get,
+  )
   router.post(
     '/profile/create/:id/check-answers',
     [
-      getPrisonerByIdResolver(services.prisonerSearch),
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
     controller.post,

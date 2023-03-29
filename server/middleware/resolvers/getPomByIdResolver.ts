@@ -2,6 +2,7 @@ import type { RequestHandler } from 'express'
 
 import AllocationManagerService from '../../services/allocationManagerService'
 import { getSessionData, setSessionData } from '../../utils/session'
+import getPomById from './utils/getPomById'
 
 // Gets Pom based on id parameter and puts it into request context
 const getPomByIdResolver =
@@ -19,12 +20,12 @@ const getPomByIdResolver =
       }
 
       // Get Pom
-      req.context.pom = await allocationManagerService.getPomForOffender(username, id)
+      req.context.pom = await getPomById(allocationManagerService, username, id)
       setSessionData(req, ['pom', id], req.context.pom)
 
       next()
     } catch (err) {
-      next()
+      next(err)
     }
   }
 

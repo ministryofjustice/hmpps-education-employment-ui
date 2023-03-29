@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
 
   router.get(
     '/profile/create/:id/support-opt-in/:mode',
-    [getPrisonerByIdResolver(services.prisonerSearch)],
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post('/profile/create/:id/support-opt-in/:mode', controller.post)
