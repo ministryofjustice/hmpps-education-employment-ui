@@ -42,6 +42,7 @@
     {{ govukButton({
       text: "Add note",
       type: "submit",
+      name: "saveNote",
       attributes: {"data-qa": "add-note-button" },
       classes: "govuk-button--secondary"
     }) }}
@@ -51,5 +52,7 @@
     </p>
   </div>
 {% else %}
-   <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" data-qa="add-note-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=add' }}">Add a note</a></p>
+  <p class="govuk-body govuk-!-margin-bottom-8">
+    <button class="govuk-link govuk-button-link" name="addNote" role="button" data-qa="add-note-link">Add a note</button>
+  </p>
 {% endif %}
