@@ -10,6 +10,7 @@ import ProfileViewModel from '../../viewModels/profileViewModel'
 import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
+import { deleteSessionData } from '../../utils/session'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -29,6 +30,8 @@ export default class WorkProfileController {
     } = req.context
 
     try {
+      deleteSessionData(req, ['editAction', id, 'cachedValues'])
+
       const data = {
         id,
         prisoner: {
