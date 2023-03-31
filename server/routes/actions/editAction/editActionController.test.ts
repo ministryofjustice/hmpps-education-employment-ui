@@ -9,6 +9,13 @@ import ProfileStatus from '../../../enums/profileStatus'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import NotesViewModel from '../../../viewModels/notesViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -24,6 +31,9 @@ jest.mock('./validationSchema', () => ({
 
 describe('EditActionController', () => {
   const { req, res, next } = expressMocks()
+
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -63,6 +73,7 @@ describe('EditActionController', () => {
 
   const mockData = {
     backLocation: addressLookup.workProfile(id),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     toDoItem: 'CV_AND_COVERING_LETTER',
     toDoStatus: 'IN_PROGRESS',

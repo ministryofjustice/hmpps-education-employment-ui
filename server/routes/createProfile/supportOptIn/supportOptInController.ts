@@ -7,6 +7,7 @@ import addressLookup from '../../addressLookup'
 import YesNoValue from '../../../enums/yesNoValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class SupportOptInController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -21,11 +22,17 @@ export default class SupportOptInController {
         return
       }
 
+      // Setup back location
+      const backLocation =
+        mode === 'new'
+          ? addressLookup.createProfile.rightToWork(id, mode)
+          : addressLookup.createProfile.checkAnswers(id)
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation:
-          mode === 'new'
-            ? addressLookup.createProfile.rightToWork(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         supportOptIn: record.supportOptIn,
       }

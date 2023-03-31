@@ -5,9 +5,19 @@ import Controller from './ineligableToWorkController'
 import addressLookup from '../../addressLookup'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('IneligableToWorkController', () => {
   const { req, res, next } = expressMocks()
+
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -20,6 +30,7 @@ describe('IneligableToWorkController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.rightToWork(id, mode),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 

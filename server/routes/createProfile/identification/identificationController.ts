@@ -7,6 +7,7 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class IdentificationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -21,13 +22,19 @@ export default class IdentificationController {
         return
       }
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: addressLookup.createProfile.alreadyInPlace(id, mode),
+        page: 'identification',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute: addressLookup.createProfile.alreadyInPlace(id, mode),
-          page: 'identification',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         identification: record.identification || [],
       }

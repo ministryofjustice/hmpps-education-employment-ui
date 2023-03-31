@@ -10,6 +10,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class SupportDeclinedReasonController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -26,16 +27,22 @@ export default class SupportDeclinedReasonController {
         return
       }
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createProfile.supportOptIn(id, mode)
+            : addressLookup.createProfile.checkAnswers(id),
+        page: 'supportDeclinedReason',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute:
-            mode === 'new'
-              ? addressLookup.createProfile.supportOptIn(id, mode)
-              : addressLookup.createProfile.checkAnswers(id),
-          page: 'supportDeclinedReason',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         supportDeclinedReason:
           mode === 'update'
