@@ -11,8 +11,9 @@ $(() => {
           if (rad.firstElementChild.checked) {
             if (typeof gtag === typeof Function) {
               gtag('event', `Right to work - ${rad.innerText}`, {
-                category: 'eswe-right-to-work',
-                progress: rad.innerText,
+                event_category: 'button',
+                event_label: rad.innerText,
+                value: 1,
               })
             }
           }

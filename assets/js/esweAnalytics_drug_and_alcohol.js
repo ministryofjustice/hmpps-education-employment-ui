@@ -11,8 +11,9 @@ $(() => {
           if (rad.firstElementChild.checked) {
             if (typeof gtag === typeof Function) {
               gtag('event', 'Drug and alcohol', {
-                category: 'eswe-drug-alcohol-dependency',
-                progress: rad.innerText,
+                event_category: 'button',
+                event_label: rad.innerText,
+                value: 1,
               })
             }
           }

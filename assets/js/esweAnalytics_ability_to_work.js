@@ -17,8 +17,9 @@ $(() => {
         if (abilityArray.length) {
           if (typeof gtag === typeof Function) {
             gtag('event', 'Ability to work', {
-              category: 'eswe-ability-to-work',
-              progress: abilityArray.join(','),
+              event_category: 'button',
+              event_label: abilityArray.join(','),
+              value: 1,
             })
           }
         }

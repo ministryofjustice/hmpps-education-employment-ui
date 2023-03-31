@@ -8,8 +8,9 @@ $(() => {
       $btnProfile.on('click', () => {
         if (typeof gtag === typeof Function) {
           gtag('event', 'Profile created', {
-            category: 'eswe-create-profile',
-            progress: btn.innerText,
+            event_category: 'button',
+            event_label: btn.innerText,
+            value: 1,
           })
         }
       })
