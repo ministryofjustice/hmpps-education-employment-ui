@@ -1,6 +1,6 @@
 import findValue from './findValue'
 
-describe('findValue', () => {
+describe('#findValue', () => {
   const lookup = {
     foo: 'bar',
     baz: 'qux',
