@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from 'express'
 import type { ParsedQs } from 'qs'
 
 export enum SortOrder {
@@ -6,6 +5,7 @@ export enum SortOrder {
   descending = 'descending',
   none = 'none',
 }
+
 export interface BuildSortUrlParams {
   query: ParsedQs
   sortField: string
@@ -13,6 +13,7 @@ export interface BuildSortUrlParams {
   defaultSort: string
   defaultOrder?: SortOrder
 }
+
 export const buildSortUrl = ({
   query,
   sortField,
@@ -35,22 +36,6 @@ export const buildSortUrl = ({
       ? `${redirectUrl}?${key}=${queryStringItems[key]}`
       : `${redirectUrl}&${key}=${queryStringItems[key]}`
   })
+  // console.log(`redirectUrl: ${redirectUrl}`)
   return redirectUrl
 }
-export const handleSortMiddleware =
-  (formFieldName: string, defaultSort: string, defaultOrder?: SortOrder) =>
-  (req: Request, res: Response, next: NextFunction): void => {
-    if (req.body[formFieldName]) {
-      res.redirect(
-        buildSortUrl({
-          query: req.query,
-          sortField: req.body[formFieldName],
-          currentUrl: req.originalUrl,
-          defaultSort,
-          defaultOrder,
-        }),
-      )
-      return
-    }
-    next()
-  }
