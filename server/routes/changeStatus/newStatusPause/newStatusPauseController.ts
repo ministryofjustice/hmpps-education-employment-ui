@@ -5,6 +5,7 @@ import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class NewStatusPauseController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -19,9 +20,15 @@ export default class NewStatusPauseController {
         return
       }
 
+      // Setup back location
+      const backLocation = addressLookup.changeStatus.newStatus(id)
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
         id,
-        backLocation: addressLookup.changeStatus.newStatus(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         newStatus: record.newStatus,
       }

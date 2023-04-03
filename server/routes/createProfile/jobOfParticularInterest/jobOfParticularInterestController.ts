@@ -12,6 +12,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../enums/workProfileTabs'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class JobOfParticularInterestController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -28,16 +29,22 @@ export default class JobOfParticularInterestController {
         return
       }
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createProfile.typeOfWork(id, mode)
+            : addressLookup.createProfile.checkAnswers(id),
+        page: 'jobOfParticularInterest',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute:
-            mode === 'new'
-              ? addressLookup.createProfile.typeOfWork(id, mode)
-              : addressLookup.createProfile.checkAnswers(id),
-          page: 'jobOfParticularInterest',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         jobOfParticularInterest:
           mode === 'update'

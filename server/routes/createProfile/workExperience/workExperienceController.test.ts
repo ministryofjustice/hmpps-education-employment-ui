@@ -9,6 +9,13 @@ import YesNoValue from '../../../enums/yesNoValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import workProfileTabs from '../../../enums/workProfileTabs'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -25,6 +32,9 @@ jest.mock('./validationSchema', () => ({
 describe('WorkExperienceController', () => {
   const { req, res, next } = expressMocks()
 
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
+
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
@@ -36,6 +46,7 @@ describe('WorkExperienceController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.jobOfParticularInterest(id, mode),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 

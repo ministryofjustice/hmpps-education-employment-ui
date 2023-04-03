@@ -8,6 +8,7 @@ import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { deleteSessionData, getSessionData, setSessionData } from '../../../utils/session'
 import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class AlreadyInPlaceController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -22,16 +23,22 @@ export default class AlreadyInPlaceController {
         return
       }
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute:
+          mode === 'new'
+            ? addressLookup.createProfile.supportOptIn(id, mode)
+            : addressLookup.createProfile.checkAnswers(id),
+        page: 'alreadyInPlace',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute:
-            mode === 'new'
-              ? addressLookup.createProfile.supportOptIn(id, mode)
-              : addressLookup.createProfile.checkAnswers(id),
-          page: 'alreadyInPlace',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         alreadyInPlace: record.alreadyInPlace || [],
       }

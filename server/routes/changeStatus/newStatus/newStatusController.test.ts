@@ -8,6 +8,13 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import ProfileStatus from '../../../enums/profileStatus'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -23,6 +30,9 @@ jest.mock('./validationSchema', () => ({
 
 describe('NewStatusController', () => {
   const { req, res, next } = expressMocks()
+
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -42,6 +52,7 @@ describe('NewStatusController', () => {
 
   const mockData = {
     backLocation: addressLookup.workProfile(id),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
 

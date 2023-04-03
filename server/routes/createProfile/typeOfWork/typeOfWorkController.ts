@@ -12,6 +12,7 @@ import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../enums/workProfileTabs'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class TypeOfWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -33,13 +34,19 @@ export default class TypeOfWorkController {
           ? addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)
           : addressLookup.createProfile.abilityToWork(id, mode)
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+        page: 'typeOfWork',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
-          page: 'typeOfWork',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         typeOfWork:
           mode === 'update'

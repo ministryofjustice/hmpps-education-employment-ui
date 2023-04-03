@@ -12,6 +12,7 @@ import ManageDrugsAndAlcoholValue from '../../../enums/manageDrugsAndAlcoholValu
 import PrisonerProfileService from '../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../enums/workProfileTabs'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class ManageDrugsAndAlcoholController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -28,13 +29,19 @@ export default class ManageDrugsAndAlcoholController {
         return
       }
 
+      // Setup back location
+      const backLocation = getBackLocation({
+        req,
+        defaultRoute: addressLookup.createProfile.abilityToWork(id, mode),
+        page: 'manageDrugsAndAlcohol',
+        uid: id,
+      })
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: getBackLocation({
-          req,
-          defaultRoute: addressLookup.createProfile.abilityToWork(id, mode),
-          page: 'manageDrugsAndAlcohol',
-          uid: id,
-        }),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         manageDrugsAndAlcohol:
           mode === 'update'

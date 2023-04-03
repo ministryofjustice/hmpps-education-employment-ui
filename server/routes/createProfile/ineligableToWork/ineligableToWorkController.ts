@@ -7,6 +7,7 @@ import PrisonerProfileService from '../../../services/prisonerProfileService'
 import addressLookup from '../../addressLookup'
 import { deleteSessionData, getSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class IneligableToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -23,8 +24,14 @@ export default class IneligableToWorkController {
         return
       }
 
+      // Setup back location
+      const backLocation = addressLookup.createProfile.rightToWork(id, mode)
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: addressLookup.createProfile.rightToWork(id, mode),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
       }
 

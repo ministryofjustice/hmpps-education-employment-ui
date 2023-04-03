@@ -10,6 +10,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import NotesViewModel from '../../../viewModels/notesViewModel'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -35,9 +36,15 @@ export default class EditActionController {
 
       const cachedValues = getSessionData(req, ['editAction', id, 'cachedValues'], {})
 
+      // Setup back location
+      const backLocation = addressLookup.workProfile(id)
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
         id,
-        backLocation: addressLookup.workProfile(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         toDoItem: item.todoItem,
         toDoStatus: cachedValues.toDoStatus || item.status,
