@@ -43,6 +43,7 @@
                     <a href="{{ addressLookup.workProfile(offender.prisonerNumber) }}"
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"
+                       aria-label="Profile link for {{ offender.displayName }}"
                        class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
                     </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                 </td>

@@ -11,6 +11,7 @@ import PrisonerProfileService from '../../../services/prisonerProfileService'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import EditProfileRequest from '../../../data/models/editProfileRequest'
 import PrisonerProfile from '../../../data/prisonerProfile/interfaces/prisonerProfile'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -28,8 +29,14 @@ export default class NewStatusController {
       // Get record in sessionData
       const record = getSessionData(req, ['changeStatus', id], {})
 
+      // Setup back location
+      const backLocation = addressLookup.workProfile(id)
+      const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
+
+      // Setup page data
       const data = {
-        backLocation: addressLookup.workProfile(id),
+        backLocation,
+        backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         newStatus: record.newStatus || profile.profileData.status,
       }

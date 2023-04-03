@@ -7,6 +7,13 @@ import addressLookup from '../../addressLookup'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -23,6 +30,9 @@ jest.mock('./validationSchema', () => ({
 describe('SupportDeclinedReasonController', () => {
   const { req, res, next } = expressMocks()
 
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
+
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
@@ -34,6 +44,7 @@ describe('SupportDeclinedReasonController', () => {
 
   const mockData = {
     backLocation: addressLookup.createProfile.supportOptIn(id, mode),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     alreadyInPlace: [] as any,
   }

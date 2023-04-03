@@ -6,9 +6,19 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import ProfileStatus from '../../../enums/profileStatus'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import pageTitleLookup from '../../../utils/pageTitleLookup'
+
+jest.mock('../../../utils/pageTitleLookup', () => ({
+  ...jest.requireActual('../../../utils/pageTitleLookup'),
+  __esModule: true,
+  default: jest.fn(),
+}))
 
 describe('NewStatusPauseController', () => {
   const { req, res, next } = expressMocks()
+
+  const pageTitleLookupMock = pageTitleLookup as jest.Mock
+  pageTitleLookupMock.mockReturnValue('mock_page_title')
 
   req.context.prisoner = {
     firstName: 'mock_firstName',
@@ -22,6 +32,7 @@ describe('NewStatusPauseController', () => {
   const mockData = {
     id: 'mock_ref',
     backLocation: addressLookup.changeStatus.newStatus(id),
+    backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     newStatus: 'READY_TO_WORK',
   }

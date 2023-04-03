@@ -19,7 +19,7 @@ const getBackLocation = (config: getBackLocationArgs) => {
     setSessionData(req, ['from', page, uid], from)
   }
 
-  return decodeURIComponent(from.toString()) || defaultRoute
+  return from ? decodeURIComponent(from && from.toString()) : defaultRoute
 }
 
 export default getBackLocation
