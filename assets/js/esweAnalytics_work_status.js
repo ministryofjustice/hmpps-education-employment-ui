@@ -1,16 +1,16 @@
 $(() => {
-  // Track disclosure letter
+  // Track change of work status
   const $btns = document.querySelectorAll('.govuk-button')
   $btns.forEach(btn => {
-    if (btn.baseURI.indexOf('edit/housing') > 0) {
-      const $btnLetter = $('.govuk-button[data-ga-category]')
+    if (btn.baseURI.indexOf('new-status') > 0) {
+      const $btnWorkStatus = $('.govuk-button[data-ga-category]')
 
-      $btnLetter.on('click', () => {
+      $btnWorkStatus.on('click', () => {
         const $radios = document.querySelectorAll('.govuk-radios__item')
         $radios.forEach(rad => {
           if (rad.firstElementChild.checked) {
             if (typeof gtag === typeof Function) {
-              gtag('event', `Disclosure letter - ${rad.innerText}`, {
+              gtag('event', `Work status - ${rad.innerText}`, {
                 event_category: 'button',
                 event_label: rad.innerText,
                 value: 1,

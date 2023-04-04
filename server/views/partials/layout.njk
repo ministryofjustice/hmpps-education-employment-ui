@@ -2,65 +2,72 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% block head %}
-  <!--[if !IE 8]><!-->
-  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
-  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
-          crossorigin="anonymous"></script>
-  <!--<![endif]-->
+    <!--[if !IE 8]><!-->
+    <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+    <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
+            crossorigin="anonymous"></script>
+    <!--<![endif]-->
 
-  <!--[if lt IE 9]>
-  <link href="/assets/stylesheets/application-ie8.css?{{ version }}" rel="stylesheet"/>
-  <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
+    <!--[if lt IE 9]>
+  <link href='/assets/stylesheets/application-ie8.css?{{ version }}' rel='stylesheet'/>
+  <script src='/assets/js/html5shiv-3.7.3.min.js'></script>
   <![endif]-->
 
-  <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
-  <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+    <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            crossorigin="anonymous"></script>
 
-  <!-- Google Analytics: Google Analytics 4 (GA4) -->
-  {% if googleAnalyticsId | trim %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script>
-    <script nonce="{{ cspNonce }}">
-      window.dataLayer = window.dataLayer || [];
+    <!-- Google Analytics: Google Analytics 4 (GA4) -->
+    {% if googleAnalyticsId | trim %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ googleAnalyticsId }}"></script>
+        <script nonce="{{ cspNonce }}">
+          window.dataLayer = window.dataLayer || []
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
+          function gtag() {
+            dataLayer.push(arguments)
+          }
 
-      gtag('js', new Date());
-      gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode':true });
+          gtag('js', new Date())
+          gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode': true })
 
-    </script>
+        </script>
 
-  {% endif %}
-  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
-  <script src="/assets/js/jquery.min.js"></script>
+    {% endif %}
+    <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
+    <script src="/assets/js/jquery.min.js"></script>
 
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
+{% block pageTitle %}{{ pageTitle | default(applicationName) }}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+    {% include "./header.njk" %}
 {% endblock %}
 
 {% block bodyStart %}
 {% endblock %}
 
 {% block footer %}
-  {% include "./footer.njk" %}
+    {% include "./footer.njk" %}
 {% endblock %}
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="/assets/govuk/all.js"></script>
-  <script src="/assets/govukFrontendInit.js"></script>
-  <script src="/assets/moj/all.js"></script>
-  <script src="/assets/main.js"></script>
-  <script src="/assets/js/esweAnalytics_id.js"></script>
-  <script src="/assets/js/esweAnalytics_cv.js"></script>
-  <script src="/assets/js/esweAnalytics_housing.js"></script>
-  <script src="/assets/js/esweAnalytics_bank_acct.js"></script>
-  <script src="/assets/js/esweAnalytics_disclosure_letter.js"></script>
+    {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+    <script src="/assets/govuk/all.js"></script>
+    <script src="/assets/govukFrontendInit.js"></script>
+    <script src="/assets/moj/all.js"></script>
+    <script src="/assets/main.js"></script>
+    <script src="/assets/js/esweAnalytics_id.js"></script>
+    <script src="/assets/js/esweAnalytics_cv.js"></script>
+    <script src="/assets/js/esweAnalytics_housing.js"></script>
+    <script src="/assets/js/esweAnalytics_bank_acct.js"></script>
+    <script src="/assets/js/esweAnalytics_disclosure_letter.js"></script>
+    <script src="/assets/js/esweAnalytics_ability_to_work.js"></script>
+    <script src="/assets/js/esweAnalytics_drug_and_alcohol.js"></script>
+    <script src="/assets/js/esweAnalytics_work_status.js"></script>
+    <script src="/assets/js/esweAnalytics_right_to_work.js"></script>
+    <script src="/assets/js/esweAnalytics_create_profile.js"></script>
+    <script src="/assets/js/esweAnalytics_email_and_phone.js"></script>
 
 {% endblock %}
