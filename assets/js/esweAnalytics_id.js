@@ -27,8 +27,8 @@ $(() => {
 
         if (progressStatus || typeOfIdInPlace) {
           if (typeof gtag === typeof Function) {
-            gtag('event', 'eswe-id-change_event', {
-              category: 'ID progress status',
+            gtag('event', `ID status - ${progressStatus}`, {
+              category: 'eswe-id-change_event',
               progress: progressStatus,
               idInPlace: typeOfIdInPlace,
             })

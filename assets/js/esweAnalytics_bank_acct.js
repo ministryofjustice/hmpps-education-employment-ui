@@ -10,8 +10,8 @@ $(() => {
         $radios.forEach(rad => {
           if (rad.firstElementChild.checked) {
             if (typeof gtag === typeof Function) {
-              gtag('event', 'eswe-bank-account', {
-                category: 'Bank account status',
+              gtag('event', `Bank account - ${rad.innerText}`, {
+                category: 'eswe-bank-account',
                 progress: rad.innerText,
               })
             }

@@ -37,24 +37,35 @@ If this situation changes we will update this project so that the workflow is tr
 Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-generated-from-template/136421>
 
 ## Manually branding from template app
+
 Run the `rename-project.bash` and create a PR.
 
-The rename-project.bash script takes a single argument - the name of the project and calculates from it the project description
+The rename-project.bash script takes a single argument - the name of the project and calculates from it the project
+description
 It then performs a search and replace and directory renames so the project is ready to be used.
 
 ## Ensuring slack notifications are raised correctly
 
-To ensure notifications are routed to the correct slack channels, update the `alerts-slack-channel` and `releases-slack-channel` parameters in `.circle/config.yml` to an appropriate channel.
+To ensure notifications are routed to the correct slack channels, update the `alerts-slack-channel`
+and `releases-slack-channel` parameters in `.circle/config.yml` to an appropriate channel.
+
+## Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm))
+
+run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version
+of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
 
 ## Running the app
-The easiest way to run the app is to use docker compose to create the service and all dependencies. 
+
+The easiest way to run the app is to use docker compose to create the service and all dependencies.
 
 `docker-compose pull`
 
 `docker-compose up`
 
 ### Dependencies
-The app requires: 
+
+The app requires:
+
 * hmpps-auth - for authentication
 * redis - session store and token caching
 
