@@ -1,5 +1,6 @@
 {% from "../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
 {% from "../../../macros/cohortListStatus.njk" import statusTag %}
+{% from "../../../macros/pagination/macro.njk" import pagination %}
 
 <div id="offender-container">
     {% if prisonerSearchResults.content.length >= 1 %}
@@ -74,7 +75,7 @@
     {% endif %}
 
     {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
-        {{ mojPagination( paginationData ) }}
+        {{ pagination( paginationData ) }}
     {% else %}
         {% include './_notFoundMessages.njk' %}
     {% endif %}
