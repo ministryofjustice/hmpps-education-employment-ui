@@ -41,7 +41,8 @@
               value: jobOfParticularInterestDetails,
               type: "text",
               label: {
-                text: "Give details"
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any job you are interested in" },
               errorMessage: errors.jobOfParticularInterestDetails
@@ -60,7 +61,7 @@
             items: [
               {
                 value: "YES",
-                text: contentLookup.fields.yesNo["YES"],
+                text: contentLookup.fields.yesNo["YES"] + " (Opens a dialogue box)",
                 checked: jobOfParticularInterest === "YES",
                 conditional: {
                   html: otherHtml

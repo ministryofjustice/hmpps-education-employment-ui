@@ -41,7 +41,8 @@
               value: typeOfWorkDetails,
               type: "text",
               label: {
-                text: "Give details"
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any work you are interested in" },
               errorMessage: errors.typeOfWorkDetails
@@ -168,7 +169,7 @@
               {
                 value: "OTHER",
                 checked: typeOfWork.indexOf("OTHER") > -1,
-                text: contentLookup.fields.typeOfWork["OTHER"],
+                text: contentLookup.fields.typeOfWork["OTHER"] + " (Opens a dialogue box)",
                 conditional: {
                   html: otherHtml
                 }
