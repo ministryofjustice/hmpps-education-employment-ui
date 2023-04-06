@@ -41,7 +41,8 @@
               value: whatNeedsToChangeDetails,
               type: "text",
               label: {
-                text: "Give details"
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any change of circumstance" },
               errorMessage: errors.whatNeedsToChangeDetails
@@ -83,7 +84,7 @@
               },
               {
                 value: "OTHER",
-                text: contentLookup.fields.whatNeedsToChange["OTHER"],
+                text: contentLookup.fields.whatNeedsToChange["OTHER"] + " (Opens a dialogue box)",
                 checked: whatNeedsToChange.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml

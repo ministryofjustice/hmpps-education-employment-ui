@@ -41,7 +41,8 @@
               value: supportDeclinedDetails,
               type: "text",
               label: {
-                text: "Give details"
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details why support is declined" },
               errorMessage: errors.supportDeclinedDetails
@@ -108,7 +109,7 @@
               },
               {
                 value: "OTHER",
-                text: contentLookup.fields.supportDeclinedReason["OTHER"],
+                text: contentLookup.fields.supportDeclinedReason["OTHER"] + " (Opens a dialogue box)",
                 checked: supportDeclinedReason.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml

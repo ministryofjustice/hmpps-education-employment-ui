@@ -9,7 +9,8 @@
     ------------------------------------------------------------- #}
 {% macro sortableTableHeader(config) %}
     <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-qa="{ config.fieldName }}-column-header">
-        <button type="submit" class="sortable-table-header__button" aria-label="Sort by {{ config.headerText }}" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}">
+        <button type="submit" class="sortable-table-header__button" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}">
+            <span class="govuk-visually-hidden">Sort by</span>
             {{ config.headerText }}
             <span class="govuk-visually-hidden">
                 {% if config.sort == config.fieldName %}

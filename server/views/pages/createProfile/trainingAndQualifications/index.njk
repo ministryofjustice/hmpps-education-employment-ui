@@ -41,7 +41,8 @@
               value: trainingAndQualificationsDetails,
               type: "text",
               label: {
-                text: "Give details"
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
               },
               attributes: { "aria-label" : "Give details of any qualifications or training" },
               errorMessage: errors.trainingAndQualificationsDetails
@@ -139,7 +140,7 @@
               {
                 value: "OTHER",
                 checked: trainingAndQualifications.indexOf("OTHER") > -1,
-                text: contentLookup.fields.trainingAndQualifications["OTHER"],
+                text: contentLookup.fields.trainingAndQualifications["OTHER"] + " (Opens a dialogue box)",
                 conditional: {
                   html: otherHtml
                 }
