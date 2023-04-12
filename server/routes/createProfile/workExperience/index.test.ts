@@ -1,15 +1,17 @@
 import { Router } from 'express'
-import Controller from './newStatusController'
+import Controller from './workExperienceController'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
+import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./newStatusController')
+jest.mock('./workExperienceController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
+jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('New status routes', () => {
+describe('Work experience routes', () => {
   let router: Router
   let services: Services
 
@@ -26,13 +28,14 @@ describe('New status routes', () => {
     }))
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for new status page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/change-status/:id/new-status',
+      '/profile/create/:id/work-experience/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -45,10 +48,9 @@ describe('New status routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/change-status/:id/new-status',
+      '/profile/create/:id/work-experience/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getProfileByIdResolver
       ],
       expect.any(Function), // controller.post
     )
