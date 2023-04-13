@@ -33,7 +33,7 @@ export interface ApiConfig {
 
 export default {
   https: production,
-  staticResourceCacheDuration: 20,
+  staticResourceCacheDuration: '1h',
   displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
   paginationPageSize: 20,
   recordingLifetimeDays: 90,
