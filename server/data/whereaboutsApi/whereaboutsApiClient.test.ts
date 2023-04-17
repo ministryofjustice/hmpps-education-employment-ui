@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import WhereaboutsApiClient from './whereaboutsApiClient'
 import RestClient from '../restClient'
 import GetUnacceptibleAbsenceCountResult from './getUnacceptibleAbsenceCountResult'

@@ -1,48 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import KeyworkerApiClient from './keyworkerApiClient'
 import RestClient from '../restClient'
+import GetKeyworkerForOffenderResponse from './getKeyworkerForOffenderResponse'
 import config from '../../config'
 
-// Mock the RestClient
 jest.mock('../restClient')
-
-const BASE_URL = '/key-worker'
 
 describe('KeyworkerApiClient', () => {
   let client: KeyworkerApiClient
   let restClientMock: jest.Mocked<RestClient>
-
-  const mockToken = 'mockToken'
+  const offenderNo = 'A1234BC'
 
   beforeEach(() => {
-    // Clear all instances and calls to constructor/mocks before each test
     restClientMock = new RestClient('Keyworker API', config.apis.keyworkerApi, 'token') as jest.Mocked<RestClient>
     ;(RestClient as any).mockImplementation(() => restClientMock)
-    client = new KeyworkerApiClient(mockToken)
+    client = new KeyworkerApiClient('token')
   })
 
   describe('getKeyworkerForOffender', () => {
-    const offenderNo = '12345'
-
-    it('should call RestClient.get with correct path and return the result', async () => {
-      const expectedPath = `${BASE_URL}/offender/${offenderNo}`
-      const expectedResult = {
-        staffId: 12345,
-        firstName: 'Bob',
-        lastName: 'Smith',
+    it('should make a GET request to the correct endpoint with the correct parameters', async () => {
+      const expectedPath = `/key-worker/offender/${offenderNo}`
+      const expectedResult: GetKeyworkerForOffenderResponse = {
+        staffId: 1234,
+        firstName: 'mockFirstName',
+        lastName: 'mockLastName',
       }
 
-      // Mock the RestClient.get method
       restClientMock.get.mockResolvedValue(expectedResult)
 
-      // Call the getKeyworkerForOffender method and get the result
       const result = await client.getKeyworkerForOffender(offenderNo)
 
-      // Expect the RestClient.get method to have been called with the correct arguments
       expect(restClientMock.get).toHaveBeenCalledWith({
         path: expectedPath,
       })
-
-      // Expect the result to be equal to the mock response
       expect(result).toEqual(expectedResult)
     })
   })
