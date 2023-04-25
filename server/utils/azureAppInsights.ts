@@ -4,6 +4,7 @@ import { EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contract
 import applicationVersion from '../applicationVersion'
 
 export type ContextObject = {
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   [name: string]: any
 }
 
@@ -21,8 +22,8 @@ function version(): string {
 
 export function initialiseAppInsights(): void {
   // Loads .env file contents into | process.env
-  // config()
-  console.log(`initialiseAppInsights - instrumentation key = ${process.env.APPINSIGHTS_INSTRUMENTATIONKEY}`)
+  config()
+
   if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     // eslint-disable-next-line no-console
     console.log('Enabling azure application insights')
