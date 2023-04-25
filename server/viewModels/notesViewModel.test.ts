@@ -16,7 +16,8 @@ describe('NotesViewModel', () => {
 
     expect(notesViewModel.createdBy).toBe(notesJson.createdBy)
     expect(notesViewModel.createdName).toBe(notesJson.createdName)
-    expect(notesViewModel.createdDateTime).toEqual(['30 Apr 2022', '14:00'])
+    expect(notesViewModel.createdDateTime[0]).toEqual('30 Apr 2022')
+    expect(notesViewModel.createdDateTime[1]).toEqual('14:00')
     expect(notesViewModel.attribute).toBe(notesJson.attribute)
     expect(notesViewModel.text).toBe(notesJson.text)
   })
