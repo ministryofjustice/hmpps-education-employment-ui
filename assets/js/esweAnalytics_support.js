@@ -9,6 +9,7 @@ $(() => {
         const $btnCv = $('.govuk-button[data-ga-category]')
         $btnCv.on('click', () => {
           const $radios = document.querySelectorAll('.govuk-radios__item')
+
           $radios.forEach(rad => {
             if (rad.firstElementChild.checked) {
               if (typeof gtag === typeof Function) {
@@ -82,9 +83,10 @@ $(() => {
         $btnWhatMightAffectAbilityToWork.on('click', () => {
           const $chksAbilityToWork = document.querySelectorAll('.govuk-checkboxes__input')
           let abilityAffected = ''
+
           $chksAbilityToWork.forEach(chk => {
             if (chk.checked) {
-              abilityAffected = chk.defaultValue.indexOf('None') !== -1 ? 'No' : 'Yes'
+              abilityAffected = chk.defaultValue.toString().startsWith('None') ? 'No' : 'Yes'
             }
           })
 
