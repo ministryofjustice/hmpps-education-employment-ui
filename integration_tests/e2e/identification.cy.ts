@@ -1,6 +1,5 @@
-import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
-import SupportOptIn from '../pages/supportOptIn'
+import SupportOptInPage from '../pages/supportOptIn'
 import AlreadyInPlacePage from '../pages/alreadyInPlace'
 import IdentificationPage from '../pages/identification'
 
@@ -16,21 +15,25 @@ context('SignIn', () => {
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
+
     cy.signIn()
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
-    const supportOptIn = Page.verifyOnPage(SupportOptIn)
+
+    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const identification = Page.verifyOnPage(IdentificationPage)
+    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
 
     identification.submitButton().click()
 
@@ -39,7 +42,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select PASSPORT - navigates to ability-to-work page', () => {
-    const identification = Page.verifyOnPage(IdentificationPage)
+    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
 
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()
@@ -50,7 +53,7 @@ context('SignIn', () => {
   it('Existing record - Select PASSPORT - navigates to check-answers page', () => {
     cy.visit('/profile/create/G6115VJ/identification/edit')
 
-    const identification = Page.verifyOnPage(IdentificationPage)
+    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
 
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()

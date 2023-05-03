@@ -13,11 +13,7 @@ export default class NewStatusPage extends Page {
 
   textareaField = (): PageElement => cy.get('#newStatus')
 
-  submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
-
   pageErrorMessage = (): PageElement => cy.get('[href="#newStatus"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#newStatus-error')
-
-  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

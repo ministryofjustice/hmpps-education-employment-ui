@@ -1,4 +1,3 @@
-import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
 
 context('SignIn', () => {
@@ -19,7 +18,7 @@ context('SignIn', () => {
 
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 
     rightToWorkPage.submitButton().click()
 
@@ -32,7 +31,7 @@ context('SignIn', () => {
 
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
@@ -45,7 +44,7 @@ context('SignIn', () => {
 
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 
     rightToWorkPage.radioFieldNo().click()
     rightToWorkPage.submitButton().click()
@@ -58,7 +57,7 @@ context('SignIn', () => {
 
     cy.visit('/profile/create/G6115VJ/right-to-work/edit')
 
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
