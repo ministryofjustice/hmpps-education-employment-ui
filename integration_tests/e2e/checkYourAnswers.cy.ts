@@ -34,40 +34,49 @@ context('SignIn', () => {
     const rightToWork = new RightToWorkPage('Right to work in the UK')
     rightToWork.radioFieldYes().click()
     rightToWork.submitButton().click()
+
     const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
+
     const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
+
     const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()
+
     const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
     abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.checkboxFieldValue('DEPENDENCY_ISSUES').click()
     abilityToWork.submitButton().click()
+
     const manageDrugsAndAlcohol = new ManageDrugsAndAlcoholPage(
       'Is Daniel Craig currently able to manage their drug or alcohol dependency?',
     )
     manageDrugsAndAlcohol.radioFieldValue('ABLE_TO_MANAGE').click()
     manageDrugsAndAlcohol.submitButton().click()
+
     const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.checkboxFieldValue('OTHER').click()
     typeOfWork.textareaField().type('Some Industry')
     typeOfWork.submitButton().click()
+
     const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
     jobOfParticularInterest.radioFieldValue('YES').click()
     jobOfParticularInterest.textareaField().type('Some Job')
     jobOfParticularInterest.submitButton().click()
+
     const workExperience = new WorkExperiencePage(
       'Does Daniel Craig have any previous work or volunteering experience?',
     )
     workExperience.radioFieldValue('YES').click()
     workExperience.textareaField().type('Some Experience')
     workExperience.submitButton().click()
+
     const trainingAndQualifications = new TrainingAndQualificationsPage(
       'Does Daniel Craig have any qualifications or training?',
     )
@@ -132,12 +141,15 @@ context('SignIn', () => {
     const rightToWork = new RightToWorkPage('Right to work in the UK')
     rightToWork.radioFieldYes().click()
     rightToWork.submitButton().click()
+
     const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
+
     const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()
+
     const whatNeedsToChange = new WhatNeedsToChangePage(
       'What change in circumstances would make Daniel Craig want to get work?',
     )
