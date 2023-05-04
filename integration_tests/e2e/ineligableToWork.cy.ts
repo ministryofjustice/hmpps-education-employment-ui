@@ -24,15 +24,15 @@ context('SignIn', () => {
 
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 
     rightToWorkPage.radioFieldNo().click()
     rightToWorkPage.submitButton().click()
 
-    const ineligableToWork = Page.verifyOnPage(IneligableToWorkPage)
+    const ineligableToWork = new IneligableToWorkPage('Daniel Craig is not allowed to work in the UK')
 
     ineligableToWork.submitButton().click()
 
-    Page.verifyOnPage(CohortListPage)
+    Page.verifyOnPage(CohortListPage, 'Get someone ready to work')
   })
 })

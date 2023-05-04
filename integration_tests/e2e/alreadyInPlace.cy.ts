@@ -1,6 +1,5 @@
-import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
-import SupportOptIn from '../pages/supportOptIn'
+import SupportOptInPage from '../pages/supportOptIn'
 import AlreadyInPlacePage from '../pages/alreadyInPlace'
 
 context('SignIn', () => {
@@ -15,18 +14,21 @@ context('SignIn', () => {
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
+
     cy.signIn()
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
-    const supportOptIn = Page.verifyOnPage(SupportOptIn)
+
+    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
 
     alreadyInPlace.submitButton().click()
 
@@ -35,7 +37,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select BANK_ACCOUNT - navigates to ability-to-work page', () => {
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
 
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
@@ -44,7 +46,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select ID - navigates to identification page', () => {
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
 
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
@@ -55,7 +57,7 @@ context('SignIn', () => {
   it('Existing record - Select BANK_ACCOUNT - navigates to check-answers page', () => {
     cy.visit('/profile/create/G6115VJ/already-in-place/edit')
 
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
 
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
@@ -66,7 +68,7 @@ context('SignIn', () => {
   it('Existing record - Select ID - navigates to identification page', () => {
     cy.visit('/profile/create/G6115VJ/already-in-place/edit')
 
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
 
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()

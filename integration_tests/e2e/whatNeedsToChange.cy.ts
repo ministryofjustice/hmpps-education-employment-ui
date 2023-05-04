@@ -1,6 +1,5 @@
-import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
-import SupportOptIn from '../pages/supportOptIn'
+import SupportOptInPage from '../pages/supportOptIn'
 import SupportDeclinedReasonPage from '../pages/supportDeclinedReason'
 import WhatNeedsToChangePage from '../pages/whatNeedsToChange'
 
@@ -16,14 +15,18 @@ context('SignIn', () => {
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
+
     cy.signIn()
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
-    const supportOptIn = Page.verifyOnPage(SupportOptIn)
+
+    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
+
     const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()

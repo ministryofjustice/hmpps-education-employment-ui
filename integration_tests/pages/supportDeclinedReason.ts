@@ -9,8 +9,6 @@ export default class SupportDeclinedReasonPage extends Page {
 
   textareaField = (): PageElement => cy.get('#supportDeclinedReason')
 
-  submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
-
   reasonPageErrorMessage = (): PageElement => cy.get('[href="#supportDeclinedReason"]')
 
   reasonFieldErrorMessage = (): PageElement => cy.get('#supportDeclinedReason-error')
@@ -18,6 +16,4 @@ export default class SupportDeclinedReasonPage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#supportDeclinedDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#supportDeclinedDetails-error')
-
-  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

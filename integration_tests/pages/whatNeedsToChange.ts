@@ -9,8 +9,6 @@ export default class WhatNeedsToChangePage extends Page {
 
   textareaField = (): PageElement => cy.get('#whatNeedsToChange')
 
-  submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
-
   checkboxPageErrorMessage = (): PageElement => cy.get('[href="#whatNeedsToChange"]')
 
   checkboxFieldErrorMessage = (): PageElement => cy.get('#whatNeedsToChange-error')
@@ -18,6 +16,4 @@ export default class WhatNeedsToChangePage extends Page {
   detailsPageErrorMessage = (): PageElement => cy.get('[href="#whatNeedsToChangeDetails"]')
 
   detailsFieldErrorMessage = (): PageElement => cy.get('#whatNeedsToChangeDetails-error')
-
-  backLink = (): PageElement => cy.get('.govuk-back-link')
 }

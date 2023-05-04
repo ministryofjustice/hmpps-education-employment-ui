@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NewStatusPage from '../pages/newStatus'
 import NewStatusPausePage from '../pages/newStatusPause'
-import Page from '../pages/page'
 import WorkProfilePage from '../pages/workProfile'
 
 context('SignIn', () => {
@@ -32,11 +31,11 @@ context('SignIn', () => {
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
-    const newStatusPage = Page.verifyOnPage(NewStatusPage)
+    const newStatusPage = new NewStatusPage()
     newStatusPage.radioFieldValue('SUPPORT_NEEDED').click()
     newStatusPage.submitButton().click()
 
-    const newStatusPausePage = Page.verifyOnPage(NewStatusPausePage)
+    const newStatusPausePage = new NewStatusPausePage("You must now complete Daniel Craig's work assessment")
     cy.contains('.govuk-link', 'Return to profile').should($a => {
       expect($a, $a.parent().parent().text()).to.have.attr('href', '/profile/G6115VJ/view/overview')
     })
@@ -58,7 +57,7 @@ context('SignIn', () => {
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
-    const newStatusPage = Page.verifyOnPage(NewStatusPage)
+    const newStatusPage = new NewStatusPage()
     newStatusPage.radioFieldValue('NO_RIGHT_TO_WORK').click()
     newStatusPage.submitButton().click()
 
@@ -79,7 +78,7 @@ context('SignIn', () => {
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
-    const newStatusPage = Page.verifyOnPage(NewStatusPage)
+    const newStatusPage = new NewStatusPage()
     newStatusPage.radioFieldValue('READY_TO_WORK').click()
     newStatusPage.submitButton().click()
 
@@ -99,7 +98,7 @@ context('SignIn', () => {
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
-    const newStatusPage = Page.verifyOnPage(NewStatusPage)
+    const newStatusPage = new NewStatusPage()
     newStatusPage.radioFieldValue('SUPPORT_DECLINED').click()
     newStatusPage.submitButton().click()
 

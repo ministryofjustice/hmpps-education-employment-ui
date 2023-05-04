@@ -35,7 +35,7 @@ context('SignIn', () => {
 
     workProfilePage.overviewChangeStatusLink().contains('Change').click()
 
-    const newStatusPage = Page.verifyOnPage(NewStatusPage)
+    Page.verifyOnPage(NewStatusPage)
   })
 
   it('Support Needed', () => {

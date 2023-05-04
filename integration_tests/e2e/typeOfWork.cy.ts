@@ -1,6 +1,5 @@
-import Page from '../pages/page'
 import RightToWorkPage from '../pages/rightToWork'
-import SupportOptIn from '../pages/supportOptIn'
+import SupportOptInPage from '../pages/supportOptIn'
 import AlreadyInPlacePage from '../pages/alreadyInPlace'
 import AbilityToWorkPage from '../pages/abilityToWork'
 import TypeOfWorkPage from '../pages/typeOfWork'
@@ -17,24 +16,29 @@ context('SignIn', () => {
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
+
     cy.signIn()
     cy.visit('/profile/create/G6115VJ/right-to-work/new')
-    const rightToWorkPage = Page.verifyOnPage(RightToWorkPage)
+
+    const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
-    const supportOptIn = Page.verifyOnPage(SupportOptIn)
+
+    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
-    const alreadyInPlace = Page.verifyOnPage(AlreadyInPlacePage)
+
+    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
-    const abilityToWork = Page.verifyOnPage(AbilityToWorkPage)
+
+    const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
     abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const typeOfWork = Page.verifyOnPage(TypeOfWorkPage)
+    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
 
     typeOfWork.submitButton().click()
 
@@ -49,7 +53,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select CONSTRUCTION - navigates to job-of-particular-interest page', () => {
-    const typeOfWork = Page.verifyOnPage(TypeOfWorkPage)
+    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
 
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.submitButton().click()
@@ -60,7 +64,7 @@ context('SignIn', () => {
   it('Existing record - Select CONSTRUCTION - navigates to check-answers page', () => {
     cy.visit('/profile/create/G6115VJ/type-of-work/edit')
 
-    const typeOfWork = Page.verifyOnPage(TypeOfWorkPage)
+    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
 
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.submitButton().click()

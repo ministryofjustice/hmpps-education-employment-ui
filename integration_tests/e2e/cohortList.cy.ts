@@ -1,4 +1,3 @@
-import Page from '../pages/page'
 import CohortListPage from '../pages/cohortList'
 
 const cohortListUrl = `/`
@@ -22,7 +21,7 @@ context('SignIn', () => {
 
   it('Should display correct number of records in page', () => {
     cy.visit(cohortListUrl)
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.tableData().then(offenders => {
       expect(offenders.length).equal(20)
     })
@@ -30,7 +29,7 @@ context('SignIn', () => {
 
   it('Should display the correct pagination when result set has more than 20 records ', () => {
     cy.visit(cohortListUrl)
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.paginationResult().should('contain', 'Showing')
     cohortListPage.paginationResult().then(page => {
       expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 results')
@@ -39,7 +38,7 @@ context('SignIn', () => {
 
   it('Should have correct number of columns to display', () => {
     cy.visit(cohortListUrl)
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.columnLabels().then(labels => {
       expect(labels[0]).to.deep.equal({
         viewLink: undefined,
@@ -54,7 +53,7 @@ context('SignIn', () => {
 
   it('Should show all offenders due to be released within 12 weeks', () => {
     cy.visit(cohortListUrl)
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.tableData().then(offenders => {
       expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
@@ -70,7 +69,7 @@ context('SignIn', () => {
   it('Should sort the result table in ascending order by lastname', () => {
     cy.task('stubCohortListSortedByLastName')
     cy.visit(cohortListUrl)
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.tableData().then(offenders => {
       expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
@@ -92,7 +91,7 @@ context('SignIn', () => {
 
   it('Should filter result set by status [READY_TO_WORK] - no records returned', () => {
     cy.task('stubCohortListSupportNeeded')
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.radioFieldNeedsSupport().click()
     cohortListPage.searchButton().click()
     cy.visit(`${cohortListUrl}?status=READY_TO_WORK`)
@@ -103,7 +102,7 @@ context('SignIn', () => {
 
   it('Should filter result to return 1 row corresponding to the name typed', () => {
     cy.task('stubCohortListNameFilter')
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.searchText().clear().type('ventour')
     cohortListPage.searchButton().click()
     cy.visit(`${cohortListUrl}?searchTerm=ventour`)
@@ -116,7 +115,7 @@ context('SignIn', () => {
 
   it('Should return empty table when offender name does not exist', () => {
     cy.task('stubCohortListNameNotExistFilter')
-    const cohortListPage = Page.verifyOnPage(CohortListPage)
+    const cohortListPage = new CohortListPage()
     cohortListPage.searchText().clear().type('unknown')
     cohortListPage.searchButton().click()
     cy.visit(`${cohortListUrl}?searchTerm=unknown`)
