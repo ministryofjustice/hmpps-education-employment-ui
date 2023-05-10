@@ -1,5 +1,6 @@
 import type { Request } from 'express'
 import { getSessionData, setSessionData } from './session'
+import { decryptUrlParameter } from './urlParameterEncryption'
 
 interface getBackLocationArgs {
   req: Request
@@ -16,6 +17,7 @@ const getBackLocation = (config: getBackLocationArgs) => {
   if (!from) {
     from = getSessionData(req, ['from', page, uid], '')
   } else {
+    from = decryptUrlParameter(from.toString())
     setSessionData(req, ['from', page, uid], from)
   }
 
