@@ -1,6 +1,7 @@
 import getBackLocation from './getBackLocation'
 import { getSessionData, setSessionData } from './session'
 import expressMocks from '../testutils/expressMocks'
+import { encryptUrlParameter } from './urlParameterEncryption'
 
 jest.mock('./session', () => ({
   getSessionData: jest.fn(),
@@ -27,8 +28,8 @@ describe('#getBackLocation', () => {
   })
 
   it('should return "from" query param value if it is set', () => {
-    const from = encodeURIComponent('/previous-page')
-    req.query = { from }
+    const from = '/previous-page'
+    req.query = { from: encryptUrlParameter(from) }
 
     const result = getBackLocation({ req, page, uid, defaultRoute })
     expect(result).toEqual('/previous-page')
@@ -37,8 +38,8 @@ describe('#getBackLocation', () => {
   })
 
   it('should decode URI component of "from" value before returning it', () => {
-    const from = encodeURIComponent('/previous/page?param=value')
-    req.query = { from }
+    const from = '/previous/page?param=value'
+    req.query = { from: encryptUrlParameter(from) }
 
     const result = getBackLocation({ req, page, uid, defaultRoute })
     expect(result).toEqual('/previous/page?param=value')

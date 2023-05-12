@@ -8,6 +8,7 @@ import IdentificationValue from '../../../enums/identificationValue'
 import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -78,7 +79,7 @@ describe('IdentificationController', () => {
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createProfile', id], { identification: IdentificationValue.PASSPORT })
-      req.query.from = '/profile/create/mock_ref/check-answers'
+      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
       req.params.mode = 'edit'
 
       controller.get(req, res, next)

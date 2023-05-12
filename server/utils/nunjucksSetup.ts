@@ -3,6 +3,7 @@ import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
 import config from '../config'
+import { decryptUrlParameter, encryptUrlParameter } from './urlParameterEncryption'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -72,4 +73,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
   njkEnv.addGlobal('phaseName', config.phaseName)
+  njkEnv.addGlobal('encryptUrlParameter', encryptUrlParameter)
+  njkEnv.addGlobal('decryptUrlParameter', decryptUrlParameter)
 }
