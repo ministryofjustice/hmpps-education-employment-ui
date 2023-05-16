@@ -13,6 +13,7 @@ import PrisonerProfileService from '../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class AbilityToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -99,7 +100,11 @@ export default class AbilityToWorkController {
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
         if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
-          res.redirect(`${addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)}?from=${req.originalUrl}`)
+          res.redirect(
+            `${addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)}?from=${encryptUrlParameter(
+              req.originalUrl,
+            )}`,
+          )
           return
         }
 

@@ -7,12 +7,15 @@ import ProfileStatus from '../../../enums/profileStatus'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
   __esModule: true,
   default: jest.fn(),
 }))
+
+jest.mock('../../../utils/urlParameterEncryption')
 
 describe('NewStatusPauseController', () => {
   const { req, res, next } = expressMocks()
@@ -81,7 +84,9 @@ describe('NewStatusPauseController', () => {
     it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
       await controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(`${addressLookup.createProfile.alreadyInPlace(id)}?from=mock_url`)
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
+      )
       expect(getSessionData(req, ['newStatusPause', id, 'data'])).toBeFalsy()
     })
   })

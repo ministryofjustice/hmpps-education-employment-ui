@@ -11,6 +11,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import workProfileTabs from '../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -29,6 +30,8 @@ jest.mock('./validationSchema', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
+
+jest.mock('../../../utils/urlParameterEncryption')
 
 describe('SupportDeclinedReasonController', () => {
   const { req, res, next } = expressMocks()
@@ -223,7 +226,9 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update')}?from=mock_url`,
+        `${addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update')}?from=${encryptUrlParameter(
+          req.originalUrl,
+        )}`,
       )
     })
 
