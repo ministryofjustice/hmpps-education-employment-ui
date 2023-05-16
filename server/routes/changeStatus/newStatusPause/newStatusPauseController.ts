@@ -6,6 +6,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import YesNoValue from '../../../enums/yesNoValue'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class NewStatusPauseController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -48,6 +49,6 @@ export default class NewStatusPauseController {
       supportOptIn: YesNoValue.YES,
     })
 
-    res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${req.originalUrl}`)
+    res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`)
   }
 }

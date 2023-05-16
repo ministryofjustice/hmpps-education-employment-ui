@@ -9,6 +9,7 @@ import ProfileStatus from '../../../enums/profileStatus'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -27,6 +28,8 @@ jest.mock('./validationSchema', () => ({
   __esModule: true,
   default: jest.fn(),
 }))
+
+jest.mock('../../../utils/urlParameterEncryption')
 
 describe('NewStatusController', () => {
   const { req, res, next } = expressMocks()
@@ -187,7 +190,7 @@ describe('NewStatusController', () => {
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=mock_url`,
+        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
     })
 
@@ -199,7 +202,7 @@ describe('NewStatusController', () => {
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=mock_url`,
+        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
     })
 
@@ -211,7 +214,7 @@ describe('NewStatusController', () => {
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=mock_url`,
+        `${addressLookup.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
     })
 
