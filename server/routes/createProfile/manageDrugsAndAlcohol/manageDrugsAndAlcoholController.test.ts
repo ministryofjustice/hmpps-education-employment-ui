@@ -10,6 +10,7 @@ import { getSessionData, setSessionData } from '../../../utils/session'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import workProfileTabs from '../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 jest.mock('../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../utils/pageTitleLookup'),
@@ -85,7 +86,7 @@ describe('ManageDrugsAndAlcoholController', () => {
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createProfile', id], { manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE })
-      req.query.from = '/profile/create/mock_ref/check-answers'
+      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
       req.params.mode = 'edit'
 
       controller.get(req, res, next)

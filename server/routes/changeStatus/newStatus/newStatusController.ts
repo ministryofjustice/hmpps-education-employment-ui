@@ -12,6 +12,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import EditProfileRequest from '../../../data/models/editProfileRequest'
 import PrisonerProfile from '../../../data/prisonerProfile/interfaces/prisonerProfile'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -109,7 +110,9 @@ export default class NewStatusController {
         })
 
         // Redirect to work profile
-        res.redirect(`${addressLookup.createProfile.supportDeclinedReason(id)}?from=${req.originalUrl}`)
+        res.redirect(
+          `${addressLookup.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
+        )
         return
       }
 

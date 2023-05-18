@@ -18,8 +18,8 @@
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions" id="interests-type-of-work-link">
-            <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.typeOfWork(id, 'update') + '?from=' + originalUrl }}">
-              Change<span class="govuk-visually-hidden"> type of work</span>
+            <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.createProfile.typeOfWork(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+              Change<span class="govuk-visually-hidden"> answer for Type of work</span>
             </a>
           </dd>
         </div>
@@ -33,8 +33,8 @@
             {{ ('Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest) | nl2br | safe }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link govuk-link--no-visited-state" id="interests-type-particular-interest-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + originalUrl }}">
-              Change<span class="govuk-visually-hidden"> job role of interest</span>
+            <a class="govuk-link govuk-link--no-visited-state" id="interests-type-particular-interest-link" href="{{ addressLookup.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+              Change<span class="govuk-visually-hidden"> answer for Specific job role of interest</span>
             </a>
           </dd>
         </div>
