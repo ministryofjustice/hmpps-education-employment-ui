@@ -29,7 +29,9 @@
           }
 
           gtag('js', new Date())
-          gtag('config', '{{ googleAnalyticsId }}', { 'debug_mode': true })
+          gtag('config', '{{ googleAnalyticsId }}', {
+            active_case_load: '{{ userActiveCaseLoad.description | default('') }}',
+            'debug_mode': true })
 
         </script>
 
@@ -58,16 +60,9 @@
     <script src="/assets/govukFrontendInit.js"></script>
     <script src="/assets/moj/all.js"></script>
     <script src="/assets/main.js"></script>
-    <script src="/assets/js/esweAnalytics_id.js"></script>
-    <script src="/assets/js/esweAnalytics_cv.js"></script>
-    <script src="/assets/js/esweAnalytics_housing.js"></script>
-    <script src="/assets/js/esweAnalytics_bank_acct.js"></script>
-    <script src="/assets/js/esweAnalytics_disclosure_letter.js"></script>
-    <script src="/assets/js/esweAnalytics_ability_to_work.js"></script>
-    <script src="/assets/js/esweAnalytics_drug_and_alcohol.js"></script>
-    <script src="/assets/js/esweAnalytics_work_status.js"></script>
-    <script src="/assets/js/esweAnalytics_right_to_work.js"></script>
-    <script src="/assets/js/esweAnalytics_create_profile.js"></script>
-    <script src="/assets/js/esweAnalytics_email_and_phone.js"></script>
+    <script src="/assets/js/esweAnalytics_begin_profile.js"></script>
+    <script src="/assets/js/esweAnalytics_support.js"></script>
+    <script src="/assets/js/esweAnalytics_filter_cohort_list.js"></script>
+
 
 {% endblock %}
