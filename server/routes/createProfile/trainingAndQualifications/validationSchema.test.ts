@@ -99,7 +99,7 @@ describe('validationSchema', () => {
           trainingAndQualifications: ['OTHER'],
         },
       },
-      message: 'Work experience details must be 4000 characters or less',
+      message: 'Qualifications or training details must be 4000 characters or less',
       path: [],
       type: 'any.length',
     })
