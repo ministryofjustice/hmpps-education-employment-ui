@@ -169,7 +169,8 @@
               {
                 value: "OTHER",
                 checked: typeOfWork.indexOf("OTHER") > -1,
-                text: contentLookup.fields.typeOfWork["OTHER"] + " (Opens a dialogue box)",
+                text: contentLookup.fields.typeOfWork["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.typeOfWork["OTHER"] + " (Opens a dialogue box)" },
                 conditional: {
                   html: otherHtml
                 }

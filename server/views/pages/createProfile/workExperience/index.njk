@@ -61,7 +61,8 @@
             items: [
               {
                 value: "YES",
-                text: contentLookup.fields.yesNo["YES"] + " (Opens a dialogue box)",
+                text: contentLookup.fields.yesNo["YES"],
+                attributes: { "aria-label": contentLookup.fields.yesNo["YES"] + " (Opens a dialogue box)" },
                 checked: workExperience === "YES",
                 conditional: {
                   html: otherHtml

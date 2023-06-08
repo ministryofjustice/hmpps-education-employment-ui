@@ -109,7 +109,8 @@
               },
               {
                 value: "OTHER",
-                text: contentLookup.fields.supportDeclinedReason["OTHER"] + " (Opens a dialogue box)",
+                text: contentLookup.fields.supportDeclinedReason["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.supportDeclinedReason["OTHER"] + " (Opens a dialogue box)" },
                 checked: supportDeclinedReason.indexOf("OTHER") > -1,
                 conditional: {
                   html: otherHtml

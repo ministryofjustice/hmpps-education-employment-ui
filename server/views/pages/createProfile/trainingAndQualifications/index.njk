@@ -140,7 +140,8 @@
               {
                 value: "OTHER",
                 checked: trainingAndQualifications.indexOf("OTHER") > -1,
-                text: contentLookup.fields.trainingAndQualifications["OTHER"] + " (Opens a dialogue box)",
+                text: contentLookup.fields.trainingAndQualifications["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.trainingAndQualifications["OTHER"] + " (Opens a dialogue box)" },
                 conditional: {
                   html: otherHtml
                 }
