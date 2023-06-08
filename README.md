@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/ministryofjustice/hmpps-education-employment-ui/tree/main.svg?style=svg)](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-education-employment-ui?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui/badge.svg)](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui)
-[![Repo Standards Badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.data%5B%3F%28%40.name%20%3D%3D%20%22hmpps-education-employment-ui%22%29%5D.status&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fgithub_repositories)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-education-employment-ui 'Link to report')
+[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fhmpps-education-employment-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-education-employment-ui "Link to report")
 
 [![JS](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=fff)](http://www.typescriptlang.org/)
@@ -81,7 +81,30 @@ This is probably the easiest way to run and develop on your machine: by hooking 
 in the `dev` environment.
 A user account is needed in hmpps-auth with the appropriate roles.
 
-Copy the `.env.sample` file to `.env` following the instructions in the file.
+Create a `.env` file and complete the following values:
+
+| Environment variable            | Value                                                                              |
+|:--------------------------------|:-----------------------------------------------------------------------------------|
+| API_CLIENT_ID                   | _<your client id>_                                                                 |
+| API_CLIENT_SECRET               | _<your client id secret>_                                                          |
+| SYSTEM_CLIENT_ID                |                                                                                    |
+| SYSTEM_CLIENT_SECRET            |                                                                                    |
+| DPS_URL                         | https://digital-dev.prison.service.justice.gov.uk                                  |
+| SUPPORT_URL                     | https://support-dev.hmpps.service.justice.gov.uk                                   |
+| HMPPS_AUTH_URL                  | https://sign-in-dev.hmpps.service.justice.gov.uk/auth                              |
+| HMPPS_PRISON_API_URL            | https://api-dev.prison.service.justice.gov.uk                                      |
+| NOMIS_USER_ROLES_API_URL        | https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk             |
+| TOKEN_VERIFICATION_API_URL      | https://token-verification-api-dev.prison.service.justice.gov.uk                   |
+| COMMUNITY_API_URL               | https://community-api-public.dev.probation.service.justice.gov.uk                  |
+| CURIOUS_API_URL                 | https://testservices.sequation.net/sequation-virtual-campus2-api/                  |
+| ESWE_PROFILE_API_URL            | https://education-employment-api-dev.hmpps.service.justice.gov.uk                  |
+| PRISONER_SEARCH_URL             | https://prisoner-offender-search-dev.prison.service.justice.gov.uk                 |
+| KEYWORKER_API_URL               | https://keyworker-api-dev.prison.service.justice.gov.uk                            |
+| WHEREABOUTS_API_URL             | https://whereabouts-api-dev.service.justice.gov.uk                                 |
+| ALLOCATION_MANAGER_ENDPOINT_URL | https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk |
+| SYSTEM_PHASE                    | DEV                                                                                |
+| WEEKS_BEFORE_RELEASE            | 12                                                                                 |
+
 
 Run the application in development mode, in separate shell sessions:
 
