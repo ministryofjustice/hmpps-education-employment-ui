@@ -16,6 +16,7 @@ export default class EditProfileRequest {
 
     this.profileData = {
       status: data.status,
+      prisonName: data.prisonName,
       supportDeclined: this.buildSupportDeclined(data),
       supportAccepted: this.buildSupportAccepted(data, existingProfile),
     }

@@ -67,6 +67,7 @@ export default class CheckYourAnswersController {
         workExperienceDetails: record.workExperienceDetails,
         trainingAndQualifications: record.trainingAndQualifications,
         trainingAndQualificationsDetails: record.trainingAndQualificationsDetails,
+        prisonName: prisoner.prisonName,
       }
 
       if (statusChange) {
