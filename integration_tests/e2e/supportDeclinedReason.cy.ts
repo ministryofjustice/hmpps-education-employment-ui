@@ -42,7 +42,7 @@ context('SignIn', () => {
     supportDeclinedReason.detailsFieldErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
   })
 
-  it('New record - Select YES - navigates to what-needs-to-change page', () => {
+  it('New record - Select NO_REASON - navigates to what-needs-to-change page', () => {
     const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
 
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
@@ -51,7 +51,7 @@ context('SignIn', () => {
     cy.url().should('include', 'what-needs-to-change/new')
   })
 
-  it('Existing record - Select YES - navigates to check-answers page', () => {
+  it('Existing record - edit - Select NO_REASON - navigates to check-answers page', () => {
     cy.visit('/profile/create/G6115VJ/support-declined-reason/edit')
 
     const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')

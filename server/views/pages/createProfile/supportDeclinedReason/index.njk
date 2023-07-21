@@ -63,6 +63,11 @@
             },
             items: [
               {
+                value: "ALREADY_HAS_WORK",
+                text: contentLookup.fields.supportDeclinedReason["ALREADY_HAS_WORK"],
+                checked: supportDeclinedReason.indexOf("ALREADY_HAS_WORK") > -1
+              },
+              {
                 value: "LIMIT_THEIR_ABILITY",
                 text: contentLookup.fields.supportDeclinedReason["LIMIT_THEIR_ABILITY"],
                 checked: supportDeclinedReason.indexOf("LIMIT_THEIR_ABILITY") > -1
@@ -73,14 +78,14 @@
                 checked: supportDeclinedReason.indexOf("FULL_TIME_CARER") > -1
               },
               {
-                value: "LACKS_CONFIDENCE",
-                text: contentLookup.fields.supportDeclinedReason["LACKS_CONFIDENCE"],
-                checked: supportDeclinedReason.indexOf("LACKS_CONFIDENCE") > -1
+                value: "HOUSING_NOT_IN_PLACE",
+                text: contentLookup.fields.supportDeclinedReason["HOUSING_NOT_IN_PLACE"],
+                checked: supportDeclinedReason.indexOf("HOUSING_NOT_IN_PLACE") > -1
               },
               {
-                value: "LACKS_MOTIVATION",
-                text: contentLookup.fields.supportDeclinedReason["LACKS_MOTIVATION"],
-                checked: supportDeclinedReason.indexOf("LACKS_MOTIVATION") > -1
+                value: "LACKS_CONFIDENCE_OR_MOTIVATION",
+                text: contentLookup.fields.supportDeclinedReason["LACKS_CONFIDENCE_OR_MOTIVATION"],
+                checked: supportDeclinedReason.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1
               },
               {
                 value: "HEALTH",
