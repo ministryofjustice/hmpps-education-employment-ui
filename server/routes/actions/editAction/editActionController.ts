@@ -82,7 +82,7 @@ export default class EditActionController {
 
       // If validation errors render errors
       if (noteAction === 'add') {
-        const errors = validateFormSchema(req, validationSchema())
+        const errors = validateFormSchema(req, validationSchema(true, data))
 
         if (errors) {
           res.render('pages/actions/editAction/index', {
@@ -100,6 +100,17 @@ export default class EditActionController {
         // Create note
         await this.prisonerProfileService.createNote(res.locals.user.token, id, action.toUpperCase(), req.body.noteText)
         res.redirect(addressLookup.actions.editAction(id, action))
+        return
+      }
+
+      const errors = validateFormSchema(req, validationSchema(false, data))
+
+      if (errors) {
+        res.render('pages/actions/editAction/index', {
+          ...data,
+          ...req.body,
+          errors,
+        })
         return
       }
 
