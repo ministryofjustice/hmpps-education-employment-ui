@@ -91,6 +91,21 @@ describe('IdentificationController', () => {
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
+
+    it('On success - Record found - ID selected is OTHER', async () => {
+      setSessionData(req, ['createProfile', id], { identification: IdentificationValue.OTHER })
+      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
+      req.params.mode = 'edit'
+
+      controller.get(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith('pages/createProfile/identification/index', {
+        ...mockData,
+        backLocation: addressLookup.createProfile.checkAnswers(id),
+        identification: IdentificationValue.OTHER,
+      })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
   })
 
   describe('#post(req, res)', () => {
