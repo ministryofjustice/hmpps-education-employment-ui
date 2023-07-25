@@ -41,6 +41,7 @@ describe('validationSchema', () => {
           IdentificationValue.BIRTH_CERTIFICATE,
           IdentificationValue.DRIVING_LICENCE,
           IdentificationValue.PASSPORT,
+          IdentificationValue.OTHER,
         ],
         value: 'SOME_VALUE',
       },

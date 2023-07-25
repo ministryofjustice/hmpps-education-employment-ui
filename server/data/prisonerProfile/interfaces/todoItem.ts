@@ -11,4 +11,5 @@ export default interface TodoItem {
   todoItem: AlreadyInPlaceValue
   status: ToDoStatus
   id?: IdentificationValue[]
+  other?: string
 }

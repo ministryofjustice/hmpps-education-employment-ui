@@ -25,6 +25,7 @@ export default function validationSchema(data: IdentificationData): ObjectSchema
             IdentificationValue.BIRTH_CERTIFICATE,
             IdentificationValue.DRIVING_LICENCE,
             IdentificationValue.PASSPORT,
+            IdentificationValue.OTHER,
           ),
       )
       .messages({

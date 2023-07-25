@@ -27,6 +27,7 @@ export default interface CreateProfileRequestArgs {
   // Support accepted fields
   alreadyInPlace?: AlreadyInPlaceValue[]
   identification?: IdentificationValue[]
+  typeOfIdentificationDetails?: string
   abilityToWork?: AbilityToWorkValue[]
   manageDrugsAndAlcohol?: ManageDrugsAndAlcoholValue
   typeOfWork?: TypeOfWorkValue[]
