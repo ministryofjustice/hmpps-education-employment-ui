@@ -6,7 +6,7 @@ import CreateProfileRequestArgs from '../prisonerProfile/interfaces/createProfil
 import ProfileDataSection from '../prisonerProfile/interfaces/profileDataSection'
 import TodoItem, { ToDoStatus } from '../prisonerProfile/interfaces/todoItem'
 
-// Model for use creating profile from scratch
+// Model to use for creating a profile from scratch
 export default class CreateProfileRequest {
   constructor(data: CreateProfileRequestArgs) {
     const now = new Date()
@@ -34,7 +34,7 @@ export default class CreateProfileRequest {
               actionsRequired: {
                 modifiedBy: data.currentUser,
                 modifiedDateTime: isoString,
-                actions: this.buildActions(data.alreadyInPlace, data.identification),
+                actions: this.buildActions(data.alreadyInPlace, data.identification, data.typeOfIdentificationDetails),
               },
               workImpacts: {
                 modifiedBy: data.currentUser,
@@ -70,6 +70,7 @@ export default class CreateProfileRequest {
   private buildActions(
     alreadyInPlace: AlreadyInPlaceValue[] = [],
     identification: IdentificationValue[] = [],
+    otherIdentification = '',
   ): TodoItem[] {
     return [
       {
@@ -91,10 +92,12 @@ export default class CreateProfileRequest {
           : ToDoStatus.NOT_STARTED,
       },
       {
-        todoItem: AlreadyInPlaceValue.EMAIL_OR_PHONE,
-        status: alreadyInPlace.includes(AlreadyInPlaceValue.EMAIL_OR_PHONE)
-          ? ToDoStatus.COMPLETED
-          : ToDoStatus.NOT_STARTED,
+        todoItem: AlreadyInPlaceValue.EMAIL,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.EMAIL) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.PHONE,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.PHONE) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
       },
       {
         todoItem: AlreadyInPlaceValue.HOUSING,
@@ -104,6 +107,7 @@ export default class CreateProfileRequest {
         todoItem: AlreadyInPlaceValue.ID,
         status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
         id: identification,
+        other: otherIdentification,
       },
     ]
   }

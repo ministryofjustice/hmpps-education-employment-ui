@@ -53,6 +53,7 @@ export default class CheckYourAnswersController {
         manageDrugsAndAlcohol: record.manageDrugsAndAlcohol,
         alreadyInPlace: record.alreadyInPlace,
         identification: record.identification,
+        typeOfIdentificationDetails: record.typeOfIdentificationDetails,
         rightToWork: record.rightToWork,
         supportOptIn: record.supportOptIn,
         supportDeclinedReason: record.supportDeclinedReason,

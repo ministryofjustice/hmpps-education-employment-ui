@@ -153,6 +153,7 @@ describe('IdentificationController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({
         identification: IdentificationValue.PASSPORT,
+        typeOfIdentificationDetails: '',
       })
       expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
@@ -166,6 +167,22 @@ describe('IdentificationController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({
         identification: IdentificationValue.PASSPORT,
+        typeOfIdentificationDetails: '',
+      })
+      expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+    })
+
+    it('On success - mode = edit - Sets session record with other ID details then redirects to checkAnswers', async () => {
+      req.body.identification = IdentificationValue.OTHER
+      req.body.typeOfIdentificationDetails = 'other id'
+      req.params.mode = 'edit'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['createProfile', id])).toEqual({
+        identification: IdentificationValue.OTHER,
+        typeOfIdentificationDetails: 'other id',
       })
       expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))

@@ -34,17 +34,17 @@
 
           {% set otherHtml %}
             {{ govukTextarea({
-              id: "otherIdentificationDetails",
-              name: "otherIdentificationDetails",
+              id: "typeOfIdentificationDetails",
+              name: "typeOfIdentificationDetails",
               rows: "2",
-              value: otherIdentificationDetails,
+              value: typeOfIdentificationDetails,
               type: "text",
               label: {
                 text: "Give details",
                 attributes: { "aria-live" : "polite" }
               },
               attributes: { "arial-label" : "Give details of any other identification"},
-              errorMessage: errors.otherIdentificationDetails
+              errorMessage: errors.typeOfIdentificationDetails
             }) }}
           {% endset -%}
 

@@ -50,10 +50,12 @@ export default class EditProfileRequest {
           : ToDoStatus.NOT_STARTED,
       },
       {
-        todoItem: AlreadyInPlaceValue.EMAIL_OR_PHONE,
-        status: alreadyInPlace.includes(AlreadyInPlaceValue.EMAIL_OR_PHONE)
-          ? ToDoStatus.COMPLETED
-          : ToDoStatus.NOT_STARTED,
+        todoItem: AlreadyInPlaceValue.EMAIL,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.EMAIL) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
+      },
+      {
+        todoItem: AlreadyInPlaceValue.PHONE,
+        status: alreadyInPlace.includes(AlreadyInPlaceValue.PHONE) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
       },
       {
         todoItem: AlreadyInPlaceValue.HOUSING,
