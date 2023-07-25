@@ -12,5 +12,6 @@ export default {
   WAREHOUSING: 'Warehousing and storage',
   EDUCATION_TRAINING: 'Training and support',
   WASTE_MANAGEMENT: 'Waste management',
+  CLEANING_AND_MAINTENANCE: 'Cleaning and maintenance',
   OTHER: 'Other',
 }

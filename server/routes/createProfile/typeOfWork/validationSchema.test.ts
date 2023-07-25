@@ -51,6 +51,7 @@ describe('validationSchema', () => {
           TypeOfWorkValue.WAREHOUSING,
           TypeOfWorkValue.WASTE_MANAGEMENT,
           TypeOfWorkValue.EDUCATION_TRAINING,
+          TypeOfWorkValue.CLEANING_AND_MAINTENANCE,
           TypeOfWorkValue.OTHER,
         ],
         value: 'SOME_VALUE',
