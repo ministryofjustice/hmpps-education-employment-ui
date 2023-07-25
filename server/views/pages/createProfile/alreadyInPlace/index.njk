@@ -60,9 +60,9 @@
                 checked: alreadyInPlace.indexOf("DISCLOSURE_LETTER") > -1
               },
               {
-                value: "EMAIL_OR_PHONE",
-                text: contentLookup.fields.alreadyInPlace["EMAIL_OR_PHONE"],
-                checked: alreadyInPlace.indexOf("EMAIL_OR_PHONE") > -1
+                value: "EMAIL",
+                text: contentLookup.fields.alreadyInPlace["EMAIL"],
+                checked: alreadyInPlace.indexOf("EMAIL") > -1
               },
               {
                 value: "HOUSING",
@@ -76,6 +76,11 @@
                 hint: {
                   text: "including things like a passport, UK driving licence or birth certificate"
                 }
+              },
+              {
+                value: "PHONE",
+                text: contentLookup.fields.alreadyInPlace["PHONE"],
+                checked: alreadyInPlace.indexOf("PHONE") > -1
               },
               {
                 divider: "or"

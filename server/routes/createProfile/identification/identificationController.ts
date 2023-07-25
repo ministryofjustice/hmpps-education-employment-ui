@@ -8,6 +8,7 @@ import { deleteSessionData, getSessionData, setSessionData } from '../../../util
 import getBackLocation from '../../../utils/getBackLocation'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import identificationValue from '../../../enums/identificationValue'
 
 export default class IdentificationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -37,6 +38,7 @@ export default class IdentificationController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         identification: record.identification || [],
+        typeOfIdentificationDetails: record.typeOfIdentificationDetails,
       }
 
       // Store page data for use if validation fails
@@ -50,7 +52,7 @@ export default class IdentificationController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
-    const { identification = [] } = req.body
+    const { identification = [], typeOfIdentificationDetails } = req.body
 
     try {
       // If validation errors render errors
@@ -61,6 +63,7 @@ export default class IdentificationController {
           ...data,
           errors,
           identification,
+          typeOfIdentificationDetails,
         })
         return
       }
@@ -70,6 +73,9 @@ export default class IdentificationController {
       setSessionData(req, ['createProfile', id], {
         ...record,
         identification,
+        typeOfIdentificationDetails: identification.includes(identificationValue.OTHER)
+          ? typeOfIdentificationDetails
+          : '',
       })
       deleteSessionData(req, ['identification', id, 'data'])
 

@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
 {% set title = "What type of ID does " + prisoner.firstName + " " + prisoner.lastName + " have?" %}
@@ -30,6 +31,22 @@
       <form class="form" method="post" novalidate="">
         <div class="govuk-form-group">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "typeOfIdentificationDetails",
+              name: "typeOfIdentificationDetails",
+              rows: "2",
+              value: typeOfIdentificationDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live" : "polite" }
+              },
+              attributes: { "arial-label" : "Give details of any other identification"},
+              errorMessage: errors.typeOfIdentificationDetails
+            }) }}
+          {% endset -%}
 
           {{ govukCheckboxes({
             name: "identification",
@@ -58,6 +75,15 @@
                 value: "DRIVING_LICENCE",
                 checked: identification.indexOf("DRIVING_LICENCE") > -1,
                 text: contentLookup.fields.identification["DRIVING_LICENCE"]
+              },
+              {
+                value: "OTHER",
+                text: contentLookup.fields.identification["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.identification["OTHER"] + " (Opens a dialogue box)" },
+                checked: identification.indexOf("OTHER") > -1,
+                conditional: {
+                  html: otherHtml
+                }
               }
             ],
              errorMessage: errors.identification
