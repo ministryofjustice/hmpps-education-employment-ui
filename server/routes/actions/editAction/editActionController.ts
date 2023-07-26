@@ -11,6 +11,7 @@ import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import NotesViewModel from '../../../viewModels/notesViewModel'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import IdentificationValue from '../../../enums/identificationValue'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -124,7 +125,11 @@ export default class EditActionController {
           ...actions.find((a: { todoItem: string }) => a.todoItem === action.toUpperCase()),
           status: req.body.toDoStatus,
           id: action.toUpperCase() === AlreadyInPlaceValue.ID ? req.body.identification : null,
-          other: req.body.other,
+          other:
+            action.toUpperCase() === AlreadyInPlaceValue.ID &&
+            (req.body.identification || []).includes(IdentificationValue.OTHER)
+              ? req.body.other
+              : null,
         },
       ]
 
