@@ -47,6 +47,7 @@ export default class EditActionController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         toDoItem: item.todoItem,
+        other: item.other,
         toDoStatus: cachedValues.toDoStatus || item.status,
         identification: cachedValues.identification || item.id || [],
         noteAction,
@@ -123,6 +124,7 @@ export default class EditActionController {
           ...actions.find((a: { todoItem: string }) => a.todoItem === action.toUpperCase()),
           status: req.body.toDoStatus,
           id: action.toUpperCase() === AlreadyInPlaceValue.ID ? req.body.identification : null,
+          other: req.body.other,
         },
       ]
 
