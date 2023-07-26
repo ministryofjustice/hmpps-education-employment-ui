@@ -11,6 +11,7 @@ import UpdateProfileRequest from '../../../data/models/updateProfileRequest'
 import NotesViewModel from '../../../viewModels/notesViewModel'
 import AlreadyInPlaceValue from '../../../enums/alreadyInPlaceValue'
 import pageTitleLookup from '../../../utils/pageTitleLookup'
+import IdentificationValue from '../../../enums/identificationValue'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -47,6 +48,7 @@ export default class EditActionController {
         backLocationAriaText,
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         toDoItem: item.todoItem,
+        other: item.other,
         toDoStatus: cachedValues.toDoStatus || item.status,
         identification: cachedValues.identification || item.id || [],
         noteAction,
@@ -82,7 +84,7 @@ export default class EditActionController {
 
       // If validation errors render errors
       if (noteAction === 'add') {
-        const errors = validateFormSchema(req, validationSchema())
+        const errors = validateFormSchema(req, validationSchema(true, data))
 
         if (errors) {
           res.render('pages/actions/editAction/index', {
@@ -103,6 +105,17 @@ export default class EditActionController {
         return
       }
 
+      const errors = validateFormSchema(req, validationSchema(false, data))
+
+      if (errors) {
+        res.render('pages/actions/editAction/index', {
+          ...data,
+          ...req.body,
+          errors,
+        })
+        return
+      }
+
       // Update data model
       const actions = profile.profileData.supportAccepted.actionsRequired.actions || []
       // Change status of action
@@ -112,6 +125,11 @@ export default class EditActionController {
           ...actions.find((a: { todoItem: string }) => a.todoItem === action.toUpperCase()),
           status: req.body.toDoStatus,
           id: action.toUpperCase() === AlreadyInPlaceValue.ID ? req.body.identification : null,
+          other:
+            action.toUpperCase() === AlreadyInPlaceValue.ID &&
+            (req.body.identification || []).includes(IdentificationValue.OTHER)
+              ? req.body.other
+              : null,
         },
       ]
 

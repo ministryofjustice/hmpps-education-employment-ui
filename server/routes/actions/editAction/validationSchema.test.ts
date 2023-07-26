@@ -4,11 +4,18 @@ import validationSchema from './validationSchema'
 describe('validationSchema', () => {
   const { req } = expressMocks()
 
-  const schema = validationSchema()
+  const mockData = {
+    prisoner: {
+      firstName: 'mock_firstName',
+      lastName: 'mock_lastName',
+    },
+  }
 
   const longStr = 'x'.repeat(4001)
 
   it('On validation error - Required - Returns the correct error message', () => {
+    const schema = validationSchema(true, mockData)
+
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error.details[0]).toEqual({
@@ -23,6 +30,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation error - Empty - Returns the correct error message', () => {
+    const schema = validationSchema(true, mockData)
+
     req.body.noteText = ''
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -39,6 +48,8 @@ describe('validationSchema', () => {
   })
 
   it('On validation error - Max length - Returns the correct error message', () => {
+    const schema = validationSchema(true, mockData)
+
     req.body.noteText = longStr
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -57,7 +68,70 @@ describe('validationSchema', () => {
   })
 
   it('On validation success - Returns no errors', () => {
+    const schema = validationSchema(true, mockData)
+
+    req.body = {}
     req.body.noteText = 'Some test data'
+
+    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
+
+    expect(error).toBeFalsy()
+  })
+
+  it('On validation error - OTHER - Required - Returns the correct error message', () => {
+    const schema = validationSchema(false, mockData)
+
+    req.body.noteText = ''
+    req.body.identification = ['OTHER']
+
+    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
+
+    expect(error.details[0]).toEqual({
+      context: {
+        key: 'other',
+        label: 'value',
+        value: {
+          identification: ['OTHER'],
+          noteText: '',
+        },
+      },
+      message: 'Enter the type of ID mock_firstName mock_lastName has',
+      path: [],
+      type: 'any.custom',
+    })
+  })
+
+  it('On validation error - OTHER - Max length - Returns the correct error message', () => {
+    const schema = validationSchema(false, mockData)
+
+    req.body.noteText = ''
+    req.body.identification = ['OTHER']
+    req.body.other = longStr
+
+    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
+
+    expect(error.details[0]).toEqual({
+      context: {
+        key: 'other',
+        label: 'value',
+        value: {
+          identification: ['OTHER'],
+          noteText: '',
+          other: longStr,
+        },
+      },
+      message: 'ID type must be 200 characters or less',
+      path: [],
+      type: 'any.length',
+    })
+  })
+
+  it('On validation success - Not OTHER - Returns no errors', () => {
+    req.body.noteText = ''
+    req.body.identification = ['BIRTH_CERTIFICATE']
+    req.body.other = ''
+
+    const schema = validationSchema(false, mockData)
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

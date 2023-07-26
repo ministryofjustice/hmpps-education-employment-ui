@@ -40,6 +40,24 @@
           <h1 class="govuk-heading-l">{{ title }}</h1>
         
           <h2 class="govuk-heading-m">Progress</h2>
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "other",
+              name: "other",
+              rows: "2",
+              value: other,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of the other ID type" },
+              errorMessage: errors.other
+            }) }}
+          {% endset -%}
+
+
           {{ govukRadios({
             name: "toDoStatus",
             fieldset: {
@@ -95,6 +113,14 @@
                   value: "DRIVING_LICENCE",
                   checked: identification.indexOf("DRIVING_LICENCE") > -1,
                   text: contentLookup.fields.identification["DRIVING_LICENCE"]
+                },
+                { 
+                  value: "OTHER",
+                  checked: identification.indexOf("OTHER") > -1,
+                  text: contentLookup.fields.identification["OTHER"],
+                  conditional: {
+                    html: otherHtml
+                  }
                 }
               ],
               errorMessage: errors.identification

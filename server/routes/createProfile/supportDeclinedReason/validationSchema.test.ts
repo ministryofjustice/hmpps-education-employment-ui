@@ -38,10 +38,11 @@ describe('validationSchema', () => {
         key: 0,
         label: 'supportDeclinedReason[0]',
         valids: [
+          SupportDeclinedReasonValue.ALREADY_HAS_WORK,
           SupportDeclinedReasonValue.LIMIT_THEIR_ABILITY,
           SupportDeclinedReasonValue.FULL_TIME_CARER,
-          SupportDeclinedReasonValue.LACKS_CONFIDENCE,
-          SupportDeclinedReasonValue.LACKS_MOTIVATION,
+          SupportDeclinedReasonValue.HOUSING_NOT_IN_PLACE,
+          SupportDeclinedReasonValue.LACKS_CONFIDENCE_OR_MOTIVATION,
           SupportDeclinedReasonValue.HEALTH,
           SupportDeclinedReasonValue.NO_REASON,
           SupportDeclinedReasonValue.RETIRED,
