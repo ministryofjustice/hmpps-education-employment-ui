@@ -29,6 +29,7 @@ export default class EditProfileRequest {
   private buildActions(
     alreadyInPlace: AlreadyInPlaceValue[] = [],
     identification: IdentificationValue[] = [],
+    otherIdentification = '',
   ): TodoItem[] {
     return [
       {
@@ -65,6 +66,7 @@ export default class EditProfileRequest {
         todoItem: AlreadyInPlaceValue.ID,
         status: alreadyInPlace.includes(AlreadyInPlaceValue.ID) ? ToDoStatus.COMPLETED : ToDoStatus.NOT_STARTED,
         id: identification,
+        other: otherIdentification,
       },
     ]
   }
@@ -82,7 +84,7 @@ export default class EditProfileRequest {
           actionsRequired: {
             modifiedBy: data.currentUser,
             modifiedDateTime: isoString,
-            actions: this.buildActions(data.alreadyInPlace),
+            actions: this.buildActions(data.alreadyInPlace, data.identification, data.typeOfIdentificationDetails),
           },
           workImpacts: {
             modifiedBy: data.currentUser,
