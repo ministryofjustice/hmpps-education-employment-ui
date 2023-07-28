@@ -12,6 +12,8 @@ describe('validationSchema', () => {
     },
   }
 
+  const longStr = 'x'.repeat(201)
+
   const schema = validationSchema(mockData)
 
   it('On validation error - Required - Returns the correct error message', () => {
@@ -53,6 +55,36 @@ describe('validationSchema', () => {
 
   it('On validation success - Returns no errors', () => {
     req.body.identification = ['BIRTH_CERTIFICATE']
+
+    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
+
+    expect(error).toBeFalsy()
+  })
+
+  it('On validation error - OTHER - Max length - Returns the correct error message', () => {
+    req.body.identification = ['OTHER']
+    req.body.typeOfIdentificationDetails = longStr
+
+    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
+
+    expect(error.details[0]).toEqual({
+      context: {
+        key: 'typeOfIdentificationDetails',
+        label: 'value',
+        value: {
+          identification: ['OTHER'],
+          typeOfIdentificationDetails: longStr,
+        },
+      },
+      message: 'ID type must be 200 characters or less',
+      path: [],
+      type: 'any.length',
+    })
+  })
+
+  it('On validation success - OTHER valid - Returns no errors', () => {
+    req.body.identification = ['OTHER']
+    req.body.typeOfIdentificationDetails = 'Some value'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
