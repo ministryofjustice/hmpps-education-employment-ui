@@ -6,7 +6,6 @@ import getEmployabilitySkills from './utils/getEmployabilitySkills'
 import getLearnerEducation from './utils/getLearnerEducation'
 import getNeurodivergence from './utils/getNeurodivergence'
 import getLatestAssessment from './utils/getLatestAssessment'
-import getComById from './utils/getComById'
 import getKeyworkerById from './utils/getKeyworkerById'
 import getPomById from './utils/getPomById'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
@@ -19,7 +18,6 @@ const getAllProfileDataResolver =
     const { username } = res.locals.user
     const {
       prisonerSearchService,
-      communityService,
       allocationManagerService,
       keyworkerService,
       prisonService,
@@ -37,7 +35,6 @@ const getAllProfileDataResolver =
         learnerLatestAssessment,
         unacceptableAbsenceCount,
         pom,
-        com,
         keyworker,
       ] = await Promise.all([
         prisonerSearchService.getPrisonerById(username, id),
@@ -48,7 +45,6 @@ const getAllProfileDataResolver =
         getLatestAssessment(curiousEsweService, username, id),
         getUnacceptibleAbsenceCount(whereaboutsService, username, id),
         getPomById(allocationManagerService, username, id),
-        getComById(communityService, username, id),
         getKeyworkerById(keyworkerService, username, id),
       ])
 
@@ -60,7 +56,6 @@ const getAllProfileDataResolver =
       req.context.neurodivergence = neurodivergence
       req.context.unacceptableAbsenceCount = unacceptableAbsenceCount
       req.context.pom = pom
-      req.context.com = com
       req.context.keyworker = keyworker
 
       next()
