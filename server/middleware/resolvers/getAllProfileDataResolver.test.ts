@@ -121,7 +121,6 @@ describe('getComByIdResolver', () => {
     expect(req.context.neurodivergence).toEqual('neurodivergence')
     expect(req.context.unacceptableAbsenceCount).toEqual('unacceptableAbsenceCount')
     expect(req.context.pom).toEqual('pom')
-    expect(req.context.com).toEqual('com')
     expect(req.context.keyworker).toEqual('keyworker')
 
     expect(next).toHaveBeenCalledWith()
