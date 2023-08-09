@@ -8,6 +8,7 @@ import getNeurodivergence from './utils/getNeurodivergence'
 import getLatestAssessment from './utils/getLatestAssessment'
 import getKeyworkerById from './utils/getKeyworkerById'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
+import getComById from './utils/getComById'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -15,7 +16,14 @@ const getAllProfileDataResolver =
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
-    const { prisonerSearchService, keyworkerService, prisonService, curiousEsweService, whereaboutsService } = services
+    const {
+      prisonerSearchService,
+      keyworkerService,
+      prisonService,
+      curiousEsweService,
+      whereaboutsService,
+      deliusIntegrationService,
+    } = services
 
     try {
       const [
@@ -27,6 +35,7 @@ const getAllProfileDataResolver =
         learnerLatestAssessment,
         unacceptableAbsenceCount,
         keyworker,
+        com,
       ] = await Promise.all([
         prisonerSearchService.getPrisonerById(username, id),
         getCurrentOffenderActivities(prisonService, username, id),
@@ -36,6 +45,7 @@ const getAllProfileDataResolver =
         getLatestAssessment(curiousEsweService, username, id),
         getUnacceptibleAbsenceCount(whereaboutsService, username, id),
         getKeyworkerById(keyworkerService, username, id),
+        getComById(deliusIntegrationService, username, id),
       ])
 
       req.context.prisoner = prisoner
@@ -46,6 +56,7 @@ const getAllProfileDataResolver =
       req.context.neurodivergence = neurodivergence
       req.context.unacceptableAbsenceCount = unacceptableAbsenceCount
       req.context.keyworker = keyworker
+      req.context.com = com
 
       next()
     } catch (err) {

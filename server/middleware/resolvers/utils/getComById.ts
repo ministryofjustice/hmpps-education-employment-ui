@@ -1,9 +1,9 @@
-import CommunityService from '../../../services/communityService'
+import DeliusIntegrationService from '../../../services/deliusIntegrationService'
 
-const getComById = async (communityService: CommunityService, username: string, id: string) => {
+const getComById = async (deliusIntegrationService: DeliusIntegrationService, username: string, id: string) => {
   try {
     // Get Com
-    return await communityService.getComForOffender(username, id)
+    return await deliusIntegrationService.getComForOffender(username, id)
   } catch (err) {
     // Handle no data
     if (err?.status === 404) {
