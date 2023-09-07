@@ -92,7 +92,7 @@ Create a `.env` file and complete the following values:
 | DPS_URL                         | https://digital-dev.prison.service.justice.gov.uk                                  |
 | SUPPORT_URL                     | https://support-dev.hmpps.service.justice.gov.uk                                   |
 | HMPPS_AUTH_URL                  | https://sign-in-dev.hmpps.service.justice.gov.uk/auth                              |
-| HMPPS_PRISON_API_URL            | https://api-dev.prison.service.justice.gov.uk                                      |
+| HMPPS_PRISON_API_URL            | https://prison-api-dev.prison.service.justice.gov.uk                                      |
 | NOMIS_USER_ROLES_API_URL        | https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk             |
 | TOKEN_VERIFICATION_API_URL      | https://token-verification-api-dev.prison.service.justice.gov.uk                   |
 | COMMUNITY_API_URL               | https://community-api-public.dev.probation.service.justice.gov.uk                  |
