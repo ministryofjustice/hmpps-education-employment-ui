@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import _ from 'lodash'
 import { WorkReadinessProfileStatus } from '../domain/types/profileStatus'
 
 export default function getActionsRequired(offenderProfile: any) {
@@ -22,7 +23,9 @@ export default function getActionsRequired(offenderProfile: any) {
     case WorkReadinessProfileStatus.NOT_STARTED:
       return status
     case WorkReadinessProfileStatus.SUPPORT_DECLINED: {
-      const supportDeclined = offenderProfile.profileData.supportDeclined.supportToWorkDeclinedReason.map((x: any) => x)
+      const supportDeclined = _.get(offenderProfile, 'profileData.supportDeclined.supportToWorkDeclinedReason', []).map(
+        (x: any) => x,
+      )
       return {
         supportDeclinedReasons: supportDeclined,
       }
