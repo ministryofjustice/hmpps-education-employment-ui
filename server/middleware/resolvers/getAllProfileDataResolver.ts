@@ -9,6 +9,7 @@ import getLatestAssessment from './utils/getLatestAssessment'
 import getKeyworkerById from './utils/getKeyworkerById'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
 import getComById from './utils/getComById'
+import getPomById from './utils/getPomById'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -23,6 +24,7 @@ const getAllProfileDataResolver =
       curiousEsweService,
       whereaboutsService,
       deliusIntegrationService,
+      allocationManagerService,
     } = services
 
     try {
@@ -36,6 +38,7 @@ const getAllProfileDataResolver =
         unacceptableAbsenceCount,
         keyworker,
         com,
+        pom,
       ] = await Promise.all([
         prisonerSearchService.getPrisonerById(username, id),
         getCurrentOffenderActivities(prisonService, username, id),
@@ -46,6 +49,7 @@ const getAllProfileDataResolver =
         getUnacceptibleAbsenceCount(whereaboutsService, username, id),
         getKeyworkerById(keyworkerService, username, id),
         getComById(deliusIntegrationService, username, id),
+        getPomById(allocationManagerService, username, id),
       ])
 
       req.context.prisoner = prisoner
@@ -57,6 +61,7 @@ const getAllProfileDataResolver =
       req.context.unacceptableAbsenceCount = unacceptableAbsenceCount
       req.context.keyworker = keyworker
       req.context.com = com
+      req.context.pom = pom
 
       next()
     } catch (err) {
