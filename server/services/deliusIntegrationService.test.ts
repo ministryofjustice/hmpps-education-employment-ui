@@ -1,30 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import CommunityApiClient from '../data/communityApi/communityApiClient'
+import DeliusIntegrationApiClient from '../data/deliusIntegrationApi/deliusIntegrationApiClient'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
-import CommunityService from './communityService'
+import DeliusIntegrationService from './deliusIntegrationService'
 
-jest.mock('../data/communityApi/communityApiClient')
+jest.mock('../data/deliusIntegrationApi/deliusIntegrationApiClient')
 jest.mock('../data/hmppsAuthClient')
 jest.mock('../data/nomisUserRolesApi/nomisUserRolesApiClient')
 
 describe('CommunityService', () => {
-  let communityService: CommunityService
+  let deliusIntegrationService: DeliusIntegrationService
   let hmppsAuthClient: jest.Mocked<HmppsAuthClient>
-  let communityApiClient: jest.Mocked<CommunityApiClient>
+  let deliusIntegrationApiClient: jest.Mocked<DeliusIntegrationApiClient>
   let nomisUserRolesApiClient: jest.Mocked<NomisUserRolesApiClient>
 
   beforeEach(() => {
     hmppsAuthClient = new HmppsAuthClient({} as any) as jest.Mocked<HmppsAuthClient>
     ;(HmppsAuthClient as any).mockImplementation(() => hmppsAuthClient)
 
-    communityApiClient = new CommunityApiClient({} as any) as jest.Mocked<CommunityApiClient>
-    ;(CommunityApiClient as any).mockImplementation(() => communityApiClient)
+    deliusIntegrationApiClient = new DeliusIntegrationApiClient({} as any) as jest.Mocked<DeliusIntegrationApiClient>
+    ;(DeliusIntegrationApiClient as any).mockImplementation(() => deliusIntegrationApiClient)
 
     nomisUserRolesApiClient = new NomisUserRolesApiClient({} as any) as jest.Mocked<NomisUserRolesApiClient>
     ;(NomisUserRolesApiClient as any).mockImplementation(() => nomisUserRolesApiClient)
 
-    communityService = new CommunityService(hmppsAuthClient)
+    deliusIntegrationService = new DeliusIntegrationService(hmppsAuthClient)
   })
 
   describe('getComForOffender', () => {
@@ -34,9 +34,9 @@ describe('CommunityService', () => {
       const id = '123'
 
       hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
-      communityApiClient.getAllOffenderManagers.mockResolvedValue([])
+      deliusIntegrationApiClient.getCommunityManager.mockResolvedValue(undefined)
 
-      const result = await communityService.getComForOffender(username, id)
+      const result = await deliusIntegrationService.getComForOffender(username, id)
 
       expect(result).toBeUndefined()
     })
@@ -55,16 +55,14 @@ describe('CommunityService', () => {
       }
 
       hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
-      communityApiClient.getAllOffenderManagers.mockResolvedValue([
-        {
-          staffId: 456,
-          isUnallocated: false,
-          isPrisonOffenderManager: false,
-        } as any,
-      ])
+      deliusIntegrationApiClient.getCommunityManager.mockResolvedValue({
+        email: 'john.doe@example.com',
+        firstName: 'John',
+        lastName: 'Doe',
+      } as any)
       nomisUserRolesApiClient.getStaffDetails.mockResolvedValue(staffDetails)
 
-      const result = await communityService.getComForOffender(username, id)
+      const result = await deliusIntegrationService.getComForOffender(username, id)
 
       expect(result).toEqual({
         email: 'john.doe@example.com',
@@ -78,29 +76,23 @@ describe('CommunityService', () => {
       const username = 'user'
       const id = '123'
       const com = {
-        staff: {
-          forenames: 'Jane Mary',
-          surname: 'Doe',
-        },
-        isUnallocated: false,
-        isPrisonOffenderManager: false,
+        email: 'john.doe@example.com',
+        firstName: 'John',
+        lastName: 'Doe',
       }
 
       hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
-      communityApiClient.getAllOffenderManagers.mockResolvedValue([
-        {
-          staffId: 456,
-          ...com,
-        } as any,
-      ])
+      deliusIntegrationApiClient.getCommunityManager.mockResolvedValue({
+        ...com,
+      } as any)
       nomisUserRolesApiClient.getStaffDetails.mockResolvedValue(undefined)
 
-      const result = await communityService.getComForOffender(username, id)
+      const result = await deliusIntegrationService.getComForOffender(username, id)
 
       expect(result).toEqual({
-        firstName: 'Jane',
+        email: 'john.doe@example.com',
+        firstName: 'John',
         lastName: 'Doe',
-        email: '',
       })
     })
   })

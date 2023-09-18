@@ -144,7 +144,7 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    communityApi: {
+    deliusIntegrationApi: {
       url: get('ALLOCATION_MANAGER_ENDPOINT_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
