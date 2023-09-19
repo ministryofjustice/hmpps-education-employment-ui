@@ -21,6 +21,7 @@ import expressContext from './middleware/expressContext'
 import routes from './routes'
 import type { Services } from './services'
 import setUpLocals from './middleware/setUpLocals'
+import getFrontendComponents from './middleware/getFrontendComponents'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -42,6 +43,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(expressContext())
+  app.get('*', getFrontendComponents(services))
 
   app.use(routes(services))
 
