@@ -14,7 +14,7 @@ generic-service:
     S3_REGION: eu-west-2
     INGRESS_URL: "https://get-ready-for-work-dev.hmpps.service.justice.gov.uk"
     DPS_URL: "https://digital-dev.prison.service.justice.gov.uk"
-    SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk"
+    SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk/feedback-and-support"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     HMPPS_PRISON_API_URL: "https://prison-api-dev.prison.service.justice.gov.uk"
     NOMIS_USER_ROLES_API_URL: "https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk"
@@ -27,6 +27,7 @@ generic-service:
     WHEREABOUTS_API_URL: "https://whereabouts-api-dev.service.justice.gov.uk"
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
+    SUPPORT_URL: "https://support-dev.hmpps.service.justice.gov.uk/feedback-and-support"
     SYSTEM_PHASE: DEV
     WEEKS_BEFORE_RELEASE: 100
 

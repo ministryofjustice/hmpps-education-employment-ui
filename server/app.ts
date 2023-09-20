@@ -22,6 +22,7 @@ import routes from './routes'
 import type { Services } from './services'
 import setUpLocals from './middleware/setUpLocals'
 import getFrontendComponents from './middleware/getFrontendComponents'
+import setUpEnvironmentName from './middleware/setUpEnvironmentName'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -36,6 +37,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
+  setUpEnvironmentName(app)
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())

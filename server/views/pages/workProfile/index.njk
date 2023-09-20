@@ -19,7 +19,7 @@
     {{ govukBreadcrumbs({
         items: [
             {
-                text: "Digital prison services",
+                text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
                 href: dpsUrl
             },
             {
