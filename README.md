@@ -98,7 +98,7 @@ Create a `.env` file and complete the following values:
 | DELIUS_INTEGRATION_API_URL      | https://https://prison-education-and-delius-dev.hmpps.service.justice.gov.uk               |
 | CURIOUS_API_URL                 | https://testservices.sequation.net/sequation-virtual-campus2-api/                  |
 | ESWE_PROFILE_API_URL            | https://education-employment-api-dev.hmpps.service.justice.gov.uk                  |
-| PRISONER_SEARCH_URL             | https://prisoner-offender-search-dev.prison.service.justice.gov.uk                 |
+| PRISONER_SEARCH_URL             | https://prisoner-search-dev.prison.service.justice.gov.uk                 |
 | KEYWORKER_API_URL               | https://keyworker-api-dev.prison.service.justice.gov.uk                            |
 | WHEREABOUTS_API_URL             | https://whereabouts-api-dev.service.justice.gov.uk                                 |
 | ALLOCATION_MANAGER_ENDPOINT_URL | https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk |
