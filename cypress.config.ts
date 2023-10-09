@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress'
 
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
+import manageUsersApi from './integration_tests/mockApis/manageUsersApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import esweProfileApi from './integration_tests/mockApis/esweProfileApi'
@@ -9,7 +10,7 @@ import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
 import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
 import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
-import communityApi from './integration_tests/mockApis/communityApi'
+import deliusIntegrationApi from './integration_tests/mockApis/deliusIntegrationApi'
 import allocationManagerApi from './integration_tests/mockApis/allocationManagerApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
@@ -34,6 +35,7 @@ export default defineConfig({
       on('task', {
         reset: resetStubs,
         ...auth,
+        ...manageUsersApi,
         ...tokenVerification,
         ...prisonerSearchApi,
         ...esweProfileApi,
@@ -46,7 +48,7 @@ export default defineConfig({
         ...whereaboutsApi,
         ...keyworkerApi,
         ...allocationManagerApi,
-        ...communityApi,
+        ...deliusIntegrationApi,
       })
     },
     baseUrl: 'http://localhost:3007',

@@ -33,7 +33,7 @@ The UI application needs a suite of services to work:
 |:-------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------|:---------------------------|:------------------------|
 |                                      prison-api                                       | Nomis API providing prisons/offender information                                           | http://localhost:8080      | HMPPS_PRISON_API_URL    |
 |                                      hmpps-auth                                       | OAuth2 API server for authenticating requests                                              | http://localhost:9090/auth | HMPPS_AUTH_URL          |
-|                                     community-api                                     | Delius API to access probation offender details                                            | http://localhost:8083      | COMMUNITY_API_URL       |
+|                                     prison-education-and-delius-api                                     | Delius API to access probation offender details                                            | http://localhost:8083      | DELIUS_INTEGRATION_API_URL       |
 |                                    offender-search                                    | Elasticsearch API to find probation offenders                                              | No default                 | PRISONER_SEARCH_URL     |
 |                                       postgres                                        | PostgreSQL database server for ESWE                                                        | psql://localhost:5432      | None - required locally |
 |                                         redis                                         | Redis cache for user 'session' data (roles)                                                | localhost:6379/tcp         | None - required locally |
@@ -95,10 +95,10 @@ Create a `.env` file and complete the following values:
 | HMPPS_PRISON_API_URL            | https://prison-api-dev.prison.service.justice.gov.uk                                      |
 | NOMIS_USER_ROLES_API_URL        | https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk             |
 | TOKEN_VERIFICATION_API_URL      | https://token-verification-api-dev.prison.service.justice.gov.uk                   |
-| COMMUNITY_API_URL               | https://community-api-public.dev.probation.service.justice.gov.uk                  |
+| DELIUS_INTEGRATION_API_URL      | https://https://prison-education-and-delius-dev.hmpps.service.justice.gov.uk               |
 | CURIOUS_API_URL                 | https://testservices.sequation.net/sequation-virtual-campus2-api/                  |
 | ESWE_PROFILE_API_URL            | https://education-employment-api-dev.hmpps.service.justice.gov.uk                  |
-| PRISONER_SEARCH_URL             | https://prisoner-offender-search-dev.prison.service.justice.gov.uk                 |
+| PRISONER_SEARCH_URL             | https://prisoner-search-dev.prison.service.justice.gov.uk                 |
 | KEYWORKER_API_URL               | https://keyworker-api-dev.prison.service.justice.gov.uk                            |
 | WHEREABOUTS_API_URL             | https://whereabouts-api-dev.service.justice.gov.uk                                 |
 | ALLOCATION_MANAGER_ENDPOINT_URL | https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk |

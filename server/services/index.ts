@@ -8,7 +8,8 @@ import KeyworkerService from './keyworkerService'
 import PrisonService from './prisonService'
 import WhereaboutsService from './whereaboutsService'
 import AllocationManagerService from './allocationManagerService'
-import CommunityService from './communityService'
+import DeliusIntegrationService from './deliusIntegrationService'
+import ComponentService from './componentService'
 
 export const services = () => {
   const { hmppsAuthClient } = dataAccess()
@@ -23,7 +24,8 @@ export const services = () => {
   const prisonService = new PrisonService(hmppsAuthClient)
   const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
-  const communityService = new CommunityService(hmppsAuthClient)
+  const deliusIntegrationService = new DeliusIntegrationService(hmppsAuthClient)
+  const componentService = new ComponentService()
 
   return {
     userService,
@@ -36,7 +38,8 @@ export const services = () => {
     prisonService,
     whereaboutsService,
     allocationManagerService,
-    communityService,
+    deliusIntegrationService,
+    componentService,
   }
 }
 

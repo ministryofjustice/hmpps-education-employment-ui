@@ -1,12 +1,12 @@
 import type { RequestHandler } from 'express'
 
-import CommunityService from '../../services/communityService'
+import DeliusIntegrationService from '../../services/deliusIntegrationService'
 import { getSessionData, setSessionData } from '../../utils/session'
 import getComById from './utils/getComById'
 
 // Gets Com based on id parameter and puts it into request context
 const getComByIdResolver =
-  (communityService: CommunityService): RequestHandler =>
+  (deliusIntegrationService: DeliusIntegrationService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
@@ -20,7 +20,7 @@ const getComByIdResolver =
       }
 
       // Get Com
-      req.context.com = await getComById(communityService, username, id)
+      req.context.com = await getComById(deliusIntegrationService, username, id)
       setSessionData(req, ['com', id], req.context.com)
 
       next()
