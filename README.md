@@ -93,7 +93,7 @@ Create a `.env` file and complete the following values:
 | SUPPORT_URL                     | https://support-dev.hmpps.service.justice.gov.uk                                   |
 | HMPPS_AUTH_URL                  | https://sign-in-dev.hmpps.service.justice.gov.uk/auth                              |
 | HMPPS_PRISON_API_URL            | https://prison-api-dev.prison.service.justice.gov.uk                                      |
-| NOMIS_USER_ROLES_API_URL        | https://nomis-user-dev.aks-dev-1.studio-hosting.service.justice.gov.uk             |
+| NOMIS_USER_ROLES_API_URL        | https://nomis-user-roles-api-dev.prison.service.justice.gov.uk             |
 | TOKEN_VERIFICATION_API_URL      | https://token-verification-api-dev.prison.service.justice.gov.uk                   |
 | DELIUS_INTEGRATION_API_URL      | https://https://prison-education-and-delius-dev.hmpps.service.justice.gov.uk               |
 | CURIOUS_API_URL                 | https://testservices.sequation.net/sequation-virtual-campus2-api/                  |
