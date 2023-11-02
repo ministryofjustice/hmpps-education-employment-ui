@@ -175,4 +175,5 @@ export default {
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
+  urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
 }
