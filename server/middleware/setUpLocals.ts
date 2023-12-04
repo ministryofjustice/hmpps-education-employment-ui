@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import contentLookup from '../constants/contentLookup'
 import addressLookup from '../routes/addressLookup'
+import config from '../config'
 
 // Add constants and utilities to locals
 export default function setUpLocals(): Router {
@@ -10,6 +11,7 @@ export default function setUpLocals(): Router {
     res.locals.addressLookup = addressLookup
     res.locals.contentLookup = contentLookup
     res.locals.originalUrl = req.originalUrl
+    res.locals.manageDetailsLink = `${config.apis.hmppsAuth.externalUrl}/account-details`
 
     next()
   })
