@@ -30,38 +30,29 @@ const getAllProfileDataResolver =
     try {
       const [
         prisoner,
-        currentOffenderActivities,
         employabilitySkills,
         learnerEducation,
         neurodivergence,
         learnerLatestAssessment,
         unacceptableAbsenceCount,
         keyworker,
-        com,
-        pom,
       ] = await Promise.all([
         prisonerSearchService.getPrisonerById(username, id),
-        getCurrentOffenderActivities(prisonService, username, id),
         getEmployabilitySkills(curiousEsweService, username, id),
         getLearnerEducation(curiousEsweService, username, id),
         getNeurodivergence(curiousEsweService, username, id),
         getLatestAssessment(curiousEsweService, username, id),
         getUnacceptibleAbsenceCount(whereaboutsService, username, id),
         getKeyworkerById(keyworkerService, username, id),
-        getComById(deliusIntegrationService, username, id),
-        getPomById(allocationManagerService, username, id),
       ])
 
       req.context.prisoner = prisoner
-      req.context.currentOffenderActivities = currentOffenderActivities
       req.context.employabilitySkills = employabilitySkills
       req.context.learnerEducation = learnerEducation
       req.context.learnerLatestAssessment = learnerLatestAssessment
       req.context.neurodivergence = neurodivergence
       req.context.unacceptableAbsenceCount = unacceptableAbsenceCount
       req.context.keyworker = keyworker
-      req.context.com = com
-      req.context.pom = pom
 
       next()
     } catch (err) {
