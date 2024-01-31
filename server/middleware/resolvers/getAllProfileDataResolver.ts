@@ -1,15 +1,12 @@
 import type { RequestHandler } from 'express'
 import { Services } from '../../services'
 
-import getCurrentOffenderActivities from './utils/getCurrentOffenderActivities'
 import getEmployabilitySkills from './utils/getEmployabilitySkills'
 import getLearnerEducation from './utils/getLearnerEducation'
 import getNeurodivergence from './utils/getNeurodivergence'
 import getLatestAssessment from './utils/getLatestAssessment'
 import getKeyworkerById from './utils/getKeyworkerById'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
-import getComById from './utils/getComById'
-import getPomById from './utils/getPomById'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -17,15 +14,7 @@ const getAllProfileDataResolver =
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
-    const {
-      prisonerSearchService,
-      keyworkerService,
-      prisonService,
-      curiousEsweService,
-      whereaboutsService,
-      deliusIntegrationService,
-      allocationManagerService,
-    } = services
+    const { prisonerSearchService, keyworkerService, curiousEsweService, whereaboutsService } = services
 
     try {
       const [
