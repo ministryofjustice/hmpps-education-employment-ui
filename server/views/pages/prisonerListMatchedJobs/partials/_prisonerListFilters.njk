@@ -1,0 +1,71 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+            Filter by
+        </h2>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-form-group">
+        <label class="govuk-label" for="search">
+            Prisoner's name
+        </label>
+        <input class="govuk-input" id="search" name="search" type="search" aria-describedby="search-hint">
+        </div>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+        <div class="govuk-form-group">
+        <label class="govuk-label" for="sort">
+            Work types of interest
+        </label>
+        <select class="govuk-select" id="type-of-work-filter" name="type-of-work-filter">
+            <option value="updated" selected="">All types of work</option>
+            <option value="published">Animal care and farming</option>
+            <option value="views">Cleaning and maintenance</option>
+            <option value="comments">Construction and trade</option>
+            <option value="published">Driving and transport</option>
+            <option value="views">Hair, beauty and wellbeing</option>
+            <option value="comments">Hospitality and catering</option>
+            <option value="published">IT and digital</option>
+            <option value="views">Manufacturing and technical</option>
+            <option value="comments">Office or desk-based</option>
+            <option value="comments">Retail and sales</option>
+            <option value="published">Sport and fitness</option>
+            <option value="views">Training and support</option>
+            <option value="comments">Warehousing and storage</option>
+            <option value="comments">Waste management</option>
+        </select>
+        </div>
+    </div>
+    </div>
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-3" data-module="govuk-checkboxes">
+        <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="filter" name="filter" type="checkbox" value="Show prisoners who need support" checked="">
+            <label class="govuk-label govuk-checkboxes__label" for="filter">
+            Show prisoners who 'Need support'
+            </label>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form method="post">
+        <div class="govuk-button-group govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+            <button class="govuk-button" data-module="govuk-button">
+            Apply filters
+            </button>
+            <a class="govuk-link" href="matching-list">Clear</a>
+        </div>
+    </form></div>
+    </div>
+
+</div>
