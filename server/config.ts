@@ -176,4 +176,13 @@ export default {
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
   urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
+  getSomeoneReadyForWork: {
+    ui_url: process.env.GET_SOMEONE_READY_FOR_WORK || 'http://localhost:3002',
+  },
+  matchJobsAndManageApplications: {
+    ui_url: process.env.MATCH_JOBS_AND_MANAGE_APPLICATIONS || 'http://localhost:3002',
+  },
+  reportingData: {
+    ui_url: process.env.REPORTING_DATA || 'http://localhost:3002',
+  },
 }

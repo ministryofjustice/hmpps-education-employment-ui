@@ -1,0 +1,65 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "./partials/card.njk" import card %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% set title = 'Work after release' %}
+
+{% block beforeContent %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services",
+                href: dpsUrl
+            },
+            {
+                text: title
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+{% endblock %}
+
+{% block content %}
+
+    {% if errors.length > 0 %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errors,
+            attributes: { 'data-qa': 'error-summary' }
+        }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row govuk-!-display-none-print">
+        {#                     This whole section has a grey background colour #}
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-l govuk-!-margin-top-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
+        </div>
+    </div>
+
+    <div class="homepage-content">
+        <div class="govuk-width-container">
+            <ul class="govuk-grid-row card-group">
+                {% for task in tasks %}
+                    <li class="govuk-grid-column-one-third card-group__item">
+                        {{ card({
+                            "href": task.href,
+                            "clickable": "true",
+                            "heading": task.heading,
+                            "description": task.description,
+                            "id": task.id
+                        }) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block pageScripts %}
+    <script src='../../../../assets/js/card.js'></script>
+{% endblock %}
+

@@ -149,3 +149,6 @@ export const mapToQueryString = (params: Record<never, never>): string =>
       return `${key}=${encodeURIComponent(params[key])}`
     })
     .join('&')
+
+export const hasAnyRole = (requiredRoles: string[], userRoles: string[]): boolean =>
+  requiredRoles.some(role => userRoles.includes(role))
