@@ -1,71 +1,74 @@
 <div class="govuk-form-group filter-box govuk-!-margin-top-4">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
-            Filter by
-        </h2>
-        </div>
-    </div>
+    <form method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
-    <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        <div class="govuk-form-group">
-        <label class="govuk-label" for="search">
-            Prisoner's name
-        </label>
-        <input class="govuk-input" id="search" name="search" type="search" aria-describedby="search-hint">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Filter by
+            </h2>
+            </div>
         </div>
-    </div>
 
-    <div class="govuk-grid-column-one-third">
-        <div class="govuk-form-group">
-        <label class="govuk-label" for="sort">
-            Work types of interest
-        </label>
-        <select class="govuk-select" id="type-of-work-filter" name="type-of-work-filter">
-            <option value="updated" selected="">All types of work</option>
-            <option value="published">Animal care and farming</option>
-            <option value="views">Cleaning and maintenance</option>
-            <option value="comments">Construction and trade</option>
-            <option value="published">Driving and transport</option>
-            <option value="views">Hair, beauty and wellbeing</option>
-            <option value="comments">Hospitality and catering</option>
-            <option value="published">IT and digital</option>
-            <option value="views">Manufacturing and technical</option>
-            <option value="comments">Office or desk-based</option>
-            <option value="comments">Retail and sales</option>
-            <option value="published">Sport and fitness</option>
-            <option value="views">Training and support</option>
-            <option value="comments">Warehousing and storage</option>
-            <option value="comments">Waste management</option>
-        </select>
-        </div>
-    </div>
-    </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="prisonerNameFilter">
+                        Prisoner's name
+                    </label>
+                    <input class="govuk-input" id="prisonerNameFilter" name="prisonerNameFilter" type="search" value="{{ prisonerNameFilter }}">
+                </div>
+            </div>
 
-    <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-3" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="filter" name="filter" type="checkbox" value="Show prisoners who need support" checked="">
-            <label class="govuk-label govuk-checkboxes__label" for="filter">
-            Show prisoners who 'Need support'
-            </label>
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="typeOfWorkFilter">
+                        Work types of interest
+                    </label>
+                    <select class="govuk-select" id="typeOfWorkFilter" name="typeOfWorkFilter">
+                        <option value="" {{ "selected" if typeOfWorkFilter === "" }}>All types of work</option>
+                        <option value="OUTDOOR" {{ "selected" if typeOfWorkFilter === "OUTDOOR" }}>Animal care and farming</option>
+                        <option value="CLEANING_AND_MAINTENANCE" {{ "selected" if typeOfWorkFilter === "CLEANING_AND_MAINTENANCE" }}>Cleaning and maintenance</option>
+                        <option value="CONSTRUCTION" {{ "selected" if typeOfWorkFilter === "CONSTRUCTION" }}>Construction and trade</option>
+                        <option value="DRIVING" {{ "selected" if typeOfWorkFilter === "DRIVING" }}>Driving and transport</option>
+                        <option value="BEAUTY" {{ "selected" if typeOfWorkFilter === "BEAUTY" }}>Hair, beauty and wellbeing</option>
+                        <option value="HOSPITALITY" {{ "selected" if typeOfWorkFilter === "HOSPITALITY" }}>Hospitality and catering</option>
+                        <option value="TECHNICAL" {{ "selected" if typeOfWorkFilter === "TECHNICAL" }}>IT and digital</option>
+                        <option value="MANUFACTURING" {{ "selected" if typeOfWorkFilter === "MANUFACTURING" }}>Manufacturing and technical</option>
+                        <option value="OFFICE" {{ "selected" if typeOfWorkFilter === "OFFICE" }}>Office or desk-based</option>
+                        <option value="RETAIL" {{ "selected" if typeOfWorkFilter === "RETAIL" }}>Retail and sales</option>
+                        <option value="SPORTS" {{ "selected" if typeOfWorkFilter === "SPORTS" }}>Sport and fitness</option>
+                        <option value="WAREHOUSING" {{ "selected" if typeOfWorkFilter === "WAREHOUSING" }}>Warehousing and storage</option>
+                        <option value="EDUCATION_TRAINING" {{ "selected" if typeOfWorkFilter === "EDUCATION_TRAINING" }}>Training and support</option>
+                        <option value="WASTE_MANAGEMENT" {{ "selected" if typeOfWorkFilter === "WASTE_MANAGEMENT" }}>Waste management</option>
+                        <option value="OTHER" {{ "selected" if typeOfWorkFilter === "OTHER" }}>Other</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
-    </div>
 
-    <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <form method="post">
-        <div class="govuk-button-group govuk-!-margin-top-3 govuk-!-margin-bottom-0">
-            <button class="govuk-button" data-module="govuk-button">
-            Apply filters
-            </button>
-            <a class="govuk-link" href="matching-list">Clear</a>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-margin-top-3" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="showNeedsSupportFilter" name="showNeedsSupportFilter" type="checkbox" value="Show prisoners who need support" {{ "selected" if showNeedsSupportFilter === true }}>
+                        <label class="govuk-label govuk-checkboxes__label" for="showNeedsSupportFilter">
+                        Show prisoners who 'Need support'
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form></div>
-    </div>
 
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+                <button class="govuk-button govuk-!-margin-top-3 govuk-!-margin-bottom-0" data-module="govuk-button" id="applyFiltersButton">
+                    Apply filters
+                </button>
+                {% if filtered %}
+                    <a class="govuk-link" href="{{ addressLookup.cms.prisonerList() }}">Clear</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
 </div>
