@@ -5,7 +5,7 @@ import config from '../../config'
 import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
 
 // Gets prisoner based on id parameter and puts it into request context
-const getPrisonerListMatchedJobsResolver =
+const getPrisonerListMatchJobsResolver =
   (prisonerSearch: PrisonerSearchService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { page, sort, order, status = '', searchTerm = '' } = req.query
@@ -45,4 +45,4 @@ const getPrisonerListMatchedJobsResolver =
     }
   }
 
-export default getPrisonerListMatchedJobsResolver
+export default getPrisonerListMatchJobsResolver

@@ -6,7 +6,7 @@ import config from '../../config'
 
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/'
 
-export default class PrisonerListMatchedJobsController {
+export default class PrisonerListMatchJobsController {
   constructor(
     private readonly prisonerSearchService: PrisonerSearchService,
     private readonly paginationService: PaginationService,

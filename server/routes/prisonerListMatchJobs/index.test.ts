@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import Controller from './prisonerListMatchedJobsController'
-import getPrisonerListMatchedJobsResolver from '../../middleware/resolvers/getPrisonerListMatchedJobsResolver'
+import Controller from './prisonerListMatchJobsController'
+import getPrisonerListMatchedJobsResolver from '../../middleware/resolvers/getPrisonerListMatchJobsResolver'
 import handleSortMiddleware from '../../middleware/handleSortMiddleware'
 import { Services } from '../../services'
 import routes from './index'
 
-jest.mock('./PrisonerListMatchedJobsController')
-jest.mock('../../middleware/resolvers/getPrisonerListMatchedJobsResolver')
+jest.mock('./PrisonerListMatchJobsController')
+jest.mock('../../middleware/resolvers/getPrisonerListMatchJobsResolver')
 jest.mock('../../middleware/handleSortMiddleware')
 
 describe('Cohort list routes', () => {

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import Controller from './prisonerListMatchedJobsController'
+import Controller from './prisonerListMatchJobsController'
 
-describe('PrisonerListMatchedJobsController', () => {
+describe('PrisonerListMatchJobsController', () => {
   const { res, req, next } = expressMocks()
 
   res.locals.user = {}
@@ -46,7 +46,7 @@ describe('PrisonerListMatchedJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.PrisonerListMatchedJobs
+  // const mockData = req.context.PrisonerListMatchedJobs
 
   const mockSearchService: any = {
     searchByReleaseDateRaw: jest.fn(),
