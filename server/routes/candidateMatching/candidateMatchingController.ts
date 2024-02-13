@@ -13,9 +13,9 @@ export default class CandidateMatchingController {
 
     try {
       // Prepare tasks that will constitute the tiles
-      const roleCodes = [...userRoles.map((userRole: any) => userRole)]
-      const getTasks = ({ roleCodes }: RoleCode) => {
-        const userHasRoles = (roles: any) => hasAnyRole(roleCodes, roles)
+      const roleCodes = [...userRoles.map((userRole: RoleCode) => userRole)]
+      const getTasks = (roleCodes: any) => {
+        const userHasRoles = (roles: string[]) => hasAnyRole(roles, roleCodes)
 
         return [
           {
@@ -48,7 +48,7 @@ export default class CandidateMatchingController {
       }
 
       // Render data
-      const allTasks = getTasks({ roleCodes })
+      const allTasks = getTasks(roleCodes)
       res.render('pages/candidateMatching/index.njk', {
         locationOptions: null,
         tasks: allTasks
