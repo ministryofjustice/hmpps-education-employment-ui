@@ -1,14 +1,14 @@
 import type { RequestHandler } from 'express'
 
-import PrisonerSearchService from '../../services/prisonSearchService'
 import config from '../../config'
 import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
+import PrisonerProfileService from '../../services/prisonerProfileService'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getPrisonerListMatchJobsResolver =
-  (prisonerSearch: PrisonerSearchService): RequestHandler =>
+  (prisonerProfileService: PrisonerProfileService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '', searchTerm = '' } = req.query
+    const { page, sort, order, showNeedsSupportFilter, prisonerNameFilter = '', typeOfWorkFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { username, token } = res.locals.user
 
@@ -17,8 +17,9 @@ const getPrisonerListMatchJobsResolver =
 
     // Build search filter
     const searchFilter = {
-      status: status.toString(),
-      searchTerm: decodeURIComponent(searchTerm.toString()),
+      status: showNeedsSupportFilter ? ['READY_TO_WORK', 'SUPPORT_NEEDED'] : ['READY_TO_WORK'],
+      typeOfWork: decodeURIComponent(typeOfWorkFilter.toString()),
+      searchTerm: decodeURIComponent(prisonerNameFilter.toString()),
     }
 
     // Build date filter
@@ -29,7 +30,7 @@ const getPrisonerListMatchJobsResolver =
     }
 
     try {
-      req.context.prisonerListMatchedJobs = await prisonerSearch.searchPrisonersByReleaseDate({
+      req.context.prisonerListMatchedJobs = await prisonerProfileService.getPrisonersToMatchJobs({
         userToken: token,
         username,
         dateFilter,

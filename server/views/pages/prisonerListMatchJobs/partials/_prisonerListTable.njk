@@ -25,6 +25,9 @@
                     fieldName: "releaseDate",
                     headerText: "Release type and date"
                 }) }}
+                {% if showNeedsSupportFilter %}
+                    <th scope="col" class="govuk-table__header sortable">Status</th>
+                {% endif %}
                 <th scope="col" class="govuk-table__header">Work types of interest</th>
                 <th scope="col" class="govuk-table__header">Release area</th>
             </tr>
@@ -47,6 +50,9 @@
                     {{ offender.releaseDate or 'N/A' }}</br>
                     {{ offender.nonDtoReleaseDateType or '' }}
                 </td>
+                {% if showNeedsSupportFilter %}
+                    <td class="govuk-table__cell"> {{ statusTag(offender.status) }}</td>
+                {% endif %}
                 <td class="govuk-table__cell">
                     <ul class="govuk-list govuk-list--bullet">
                         {% for item in offender.workTypeInterests %}

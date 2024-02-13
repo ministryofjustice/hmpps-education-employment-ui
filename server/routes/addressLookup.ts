@@ -25,4 +25,7 @@ export default {
   actions: {
     editAction: (id: string, action: string) => `/profile/actions/${id}/edit/${action.toLowerCase()}`,
   },
+  cms: {
+    prisonerMatchJobsList: () => '/cms/prisoners',
+  },
 }

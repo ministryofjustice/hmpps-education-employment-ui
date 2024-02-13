@@ -4,7 +4,7 @@ import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
 import config from '../../config'
 
-const PRISONER_SEARCH_BY_RELEASE_DATE = '/'
+const PRISONER_SEARCH_BY_RELEASE_DATE = '/cms/prisoners'
 
 export default class PrisonerListMatchJobsController {
   constructor(
@@ -13,7 +13,7 @@ export default class PrisonerListMatchJobsController {
   ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '', searchTerm = '' } = req.query
+    const { page, sort, order, typeOfWorkFilter = '', prisonerNameFilter = '', showNeedsSupportFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
     const prisonerSearchResults = req.context.prisonerListMatchedJobs
@@ -27,8 +27,9 @@ export default class PrisonerListMatchJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        status && status !== 'ALL' && `status=${status}`,
-        searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
+        prisonerNameFilter && `prisonerNameFilter=${decodeURIComponent(prisonerNameFilter as string)}`,
+        typeOfWorkFilter && `typeOfWorkFilter=${decodeURIComponent(typeOfWorkFilter as string)}`,
+        showNeedsSupportFilter && showNeedsSupportFilter !== '' && `showNeedsSupportFilter=true`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
@@ -50,11 +51,16 @@ export default class PrisonerListMatchJobsController {
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
-        searchTerm: decodeURIComponent(searchTerm as string),
-        filterStatus: status || 'ALL',
+        prisonerNameFilter: decodeURIComponent(prisonerNameFilter as string),
+        typeOfWorkFilter: decodeURIComponent(typeOfWorkFilter as string),
+        showNeedsSupportFilter: decodeURIComponent(showNeedsSupportFilter as string) === 'true',
+        filtered:
+          decodeURIComponent(prisonerNameFilter as string) ||
+          decodeURIComponent(typeOfWorkFilter as string) ||
+          decodeURIComponent(showNeedsSupportFilter as string),
       }
 
-      res.render('pages/prisonerListMatchedJobs/index', { ...data })
+      res.render('pages/prisonerListMatchJobs/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -62,14 +68,15 @@ export default class PrisonerListMatchJobsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { sort, order } = req.query
-    const { selectStatus, searchTerm } = req.body
+    const { typeOfWorkFilter, prisonerNameFilter, showNeedsSupportFilter } = req.body
 
     try {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
-        searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
+        showNeedsSupportFilter && `showNeedsSupportFilter=true`,
+        prisonerNameFilter && `prisonerNameFilter=${encodeURIComponent(prisonerNameFilter)}`,
+        typeOfWorkFilter && `typeOfWorkFilter=${encodeURIComponent(typeOfWorkFilter)}`,
       ].filter(val => !!val)
 
       res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)
