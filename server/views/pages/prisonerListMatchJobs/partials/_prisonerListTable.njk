@@ -3,10 +3,6 @@
 {% from "../../../macros/pagination/macro.njk" import pagination %}
 
 <div id="offender-container">
-    <h3 class="govuk-heading-s">
-        {{ prisonerSearchResults.totalElements }} results
-    </h3>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     {% if prisonerSearchResults.content.length >= 1 %}
         <table id="view-offender" class="govuk-table view-offender">
         <thead class="govuk-table__head">

@@ -17,6 +17,70 @@ import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import config from '../config'
 
+// Sort dataset, given criteria
+function sortPrisonersToMatchJobs(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
+  // eslint-disable-next-line array-callback-return,consistent-return
+  return profiles.sort((a, b) => {
+    if (sortBy === 'lastName') {
+      if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
+      if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
+    }
+    if (sortBy === 'releaseDate') {
+      if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
+      if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
+    }
+    if (sortBy === 'updatedOn') {
+      if (new Date(a.updatedOn) > new Date(b.updatedOn)) return orderBy === 'ascending' ? 1 : -1
+      if (new Date(b.updatedOn) > new Date(a.updatedOn)) return orderBy === 'ascending' ? -1 : 1
+    }
+  })
+}
+
+// Filter result set based on parameters
+function filterPrisonersToMatchJobs(
+  profiles: PrisonerSearchResult[],
+  status: string[],
+  searchTerm: string,
+  typeOfWork: string,
+) {
+  let filteredList: PrisonerSearchResult[]
+  filteredList = profiles.filter((p: any) => status.includes(p.status))
+
+  if (typeOfWork) {
+    filteredList = filteredList.filter((p: any) => (p.workTypeInterests || []).includes(typeOfWork))
+  }
+
+  const filteredSearch: () => PrisonerSearchResult[] = () => {
+    if (status && searchTerm) {
+      if (filteredList.length) {
+        const filteredByStatusAndName = (filteredList as any).filter(
+          (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
+        )
+        return [...filteredByStatusAndName]
+      }
+      return [...filteredList]
+    }
+    if (searchTerm) {
+      const filteredByName: PrisonerSearchResult[] = profiles.filter(
+        (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
+      )
+      return [...filteredByName]
+    }
+    return [...filteredList]
+  }
+  return filteredSearch()
+}
+
+export interface GetPrisonersToMatchJobsArgs {
+  userToken: string
+  username: string
+  dateFilter: { earliestReleaseDate: string; latestReleaseDate: string; prisonIds: string[] }
+  searchFilter: { status?: string[]; searchTerm?: string; typeOfWork: string }
+  sort?: any
+  order?: any
+  page?: number
+}
+
 export default class PrisonerProfileService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
@@ -84,12 +148,12 @@ export default class PrisonerProfileService {
 
     /* Sort the combined dataset according to sort parameters */
     if (sort && matchingProfiles.length) {
-      matchingProfiles = sortOffenderProfile(matchingProfiles, sort, order)
+      matchingProfiles = sortPrisonersToMatchJobs(matchingProfiles, sort, order)
     }
 
     // Filter result set if required
     if (status || searchTerm || typeOfWork) {
-      matchingProfiles = filterOffenderProfiles(matchingProfiles, status, searchTerm, typeOfWork)
+      matchingProfiles = filterPrisonersToMatchJobs(matchingProfiles, status, searchTerm, typeOfWork)
     }
 
     /* Workout pagination mechanism */
@@ -130,68 +194,4 @@ export default class PrisonerProfileService {
       ),
     }
   }
-}
-
-// Sort dataset, given criteria
-function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
-  // eslint-disable-next-line array-callback-return,consistent-return
-  return profiles.sort((a, b) => {
-    if (sortBy === 'lastName') {
-      if (a.lastName > b.lastName) return orderBy === 'ascending' ? 1 : -1
-      if (b.lastName > a.lastName) return orderBy === 'ascending' ? -1 : 1
-    }
-    if (sortBy === 'releaseDate') {
-      if (a.releaseDate > b.releaseDate) return orderBy === 'ascending' ? 1 : -1
-      if (b.releaseDate > a.releaseDate) return orderBy === 'ascending' ? -1 : 1
-    }
-    if (sortBy === 'updatedOn') {
-      if (new Date(a.updatedOn) > new Date(b.updatedOn)) return orderBy === 'ascending' ? 1 : -1
-      if (new Date(b.updatedOn) > new Date(a.updatedOn)) return orderBy === 'ascending' ? -1 : 1
-    }
-  })
-}
-
-// Filter result set based on parameters
-function filterOffenderProfiles(
-  profiles: PrisonerSearchResult[],
-  status: string[],
-  searchTerm: string,
-  typeOfWork: string,
-) {
-  let filteredList: PrisonerSearchResult[]
-  filteredList = profiles.filter((p: any) => status.includes(p.status))
-
-  if (typeOfWork) {
-    filteredList = filteredList.filter((p: any) => (p.workTypeInterests || []).includes(typeOfWork))
-  }
-
-  const filteredSearch: () => PrisonerSearchResult[] = () => {
-    if (status && searchTerm) {
-      if (filteredList.length) {
-        const filteredByStatusAndName = (filteredList as any).filter(
-          (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
-        )
-        return [...filteredByStatusAndName]
-      }
-      return [...filteredList]
-    }
-    if (searchTerm) {
-      const filteredByName: PrisonerSearchResult[] = profiles.filter(
-        (p: any) => p.searchTerms.indexOf(trim(searchTerm.toLowerCase())) > -1,
-      )
-      return [...filteredByName]
-    }
-    return [...filteredList]
-  }
-  return filteredSearch()
-}
-
-export interface GetPrisonersToMatchJobsArgs {
-  userToken: string
-  username: string
-  dateFilter: { earliestReleaseDate: string; latestReleaseDate: string; prisonIds: string[] }
-  searchFilter: { status?: string[]; searchTerm?: string; typeOfWork: string }
-  sort?: any
-  order?: any
-  page?: number
 }
