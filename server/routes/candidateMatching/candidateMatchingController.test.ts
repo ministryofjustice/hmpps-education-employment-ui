@@ -32,11 +32,6 @@ describe('CandidateMatchingController', () => {
     ],
   }
 
-  const mockService: any = {
-    getDpsUserRoles: jest.fn(),
-    getTasks: jest.fn(),
-  }
-
   const controller = new CandidateMatchingController()
 
   describe('#get(req, res)', () => {
@@ -65,7 +60,6 @@ describe('CandidateMatchingController', () => {
     it('should render tasks', async () => {
       setSessionData(req, ['userroles', username], mockData)
       await controller.get(req, res, next)
-      mockService.getTasks.mockResolvedValue(mockData)
 
       expect(next).toHaveBeenCalledTimes(1)
       expect(res.render).toHaveBeenCalledTimes(0)
