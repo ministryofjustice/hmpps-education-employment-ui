@@ -175,4 +175,14 @@ export default {
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
+  urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
+  getSomeoneReadyForWork: {
+    ui_url: process.env.GET_SOMEONE_READY_FOR_WORK_URL || 'http://localhost:3000',
+  },
+  matchJobsAndManageApplications: {
+    ui_url: process.env.MATCH_JOBS_AND_MANAGE_APPLICATIONS || 'http://localhost:3000',
+  },
+  reportingData: {
+    ui_url: process.env.REPORTING_DATA || 'http://localhost:3000',
+  },
 }
