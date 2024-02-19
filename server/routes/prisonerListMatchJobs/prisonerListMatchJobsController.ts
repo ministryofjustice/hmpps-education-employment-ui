@@ -3,6 +3,9 @@ import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../services/prisonSearchService'
 import PaginationService from '../../services/paginationServices'
 import config from '../../config'
+import { getSessionData } from '../../utils/session'
+import validateFormSchema from '../../utils/validateFormSchema'
+import validationSchema from './validationSchema'
 
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/cms/prisoners'
 
@@ -71,6 +74,18 @@ export default class PrisonerListMatchJobsController {
     const { typeOfWorkFilter, prisonerNameFilter, showNeedsSupportFilter } = req.body
 
     try {
+      // If validation errors render errors
+      const data = getSessionData(req, ['ciagList', 'data'])
+      const errors = validateFormSchema(req, validationSchema())
+      if (errors) {
+        res.render('pages/prisonerListMatchJobs/index', {
+          ...data,
+          errors,
+          ...req.body,
+        })
+        return
+      }
+
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
