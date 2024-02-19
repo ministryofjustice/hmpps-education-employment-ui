@@ -7,6 +7,7 @@ import changeStatusRoutes from './changeStatus'
 import actionsRoutes from './actions'
 import accessibilityStatementRoutes from './accessibilityStatement'
 import prisonerListMatchJobsRoutes from './prisonerListMatchJobs'
+import candidateMatchingRoutes from './candidateMatching'
 
 export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
@@ -19,6 +20,7 @@ export default function routes(services: Services): Router {
   actionsRoutes(router, services)
   accessibilityStatementRoutes(router)
   prisonerListMatchJobsRoutes(router, services)
+  candidateMatchingRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
