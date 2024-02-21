@@ -77,6 +77,7 @@ export default class PrisonerListMatchJobsController {
       // If validation errors render errors
       const data = getSessionData(req, ['ciagList', 'data'])
       const errors = validateFormSchema(req, validationSchema())
+
       if (errors) {
         res.render('pages/prisonerListMatchJobs/index', {
           ...data,
