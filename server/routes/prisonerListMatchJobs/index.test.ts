@@ -5,7 +5,7 @@ import handleSortMiddleware from '../../middleware/handleSortMiddleware'
 import { Services } from '../../services'
 import routes from './index'
 
-jest.mock('./PrisonerListMatchJobsController')
+jest.mock('./prisonerListMatchJobsController')
 jest.mock('../../middleware/resolvers/getPrisonerListMatchJobsResolver')
 jest.mock('../../middleware/handleSortMiddleware')
 
