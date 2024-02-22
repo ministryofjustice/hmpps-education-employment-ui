@@ -1,0 +1,71 @@
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "moj/components/pagination/macro.njk" import mojPagination %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set offendersToBeReleased = prisonerSearchResults.content %}
+{% set activeStatus = filterStatus %}
+{% set title = 'View matched jobs and manage applications' %}
+
+{% block beforeContent %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
+                href: dpsUrl
+            },
+            {
+                text: "Work after release",
+                href: '/'
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+{% endblock %}
+
+{% block content %}
+    {{ errorSummary(errors) }}
+
+    <div class="govuk-grid-row govuk-!-display-none-print">
+        {# This whole section has a grey background colour #}
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
+            <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-full">
+
+                    <nav class="moj-sub-navigation govuk-!-margin-bottom-2" aria-label="Sub navigation">
+                        <ul class="moj-sub-navigation__list">
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#">Match jobs</a>
+                        </li>
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link" href="managing-list">Manage applications</a>
+                        </li>
+                        </ul>
+                    </nav>
+
+                    </div>
+                </div>
+                
+                {% include './partials/_prisonerListFilters.njk' %}
+                {% include './partials/_resultsPanel.njk' %}
+                {% include './partials/_prisonerListTable.njk' %}
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+
