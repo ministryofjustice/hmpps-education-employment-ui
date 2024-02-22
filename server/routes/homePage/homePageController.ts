@@ -7,9 +7,9 @@ interface RoleCode {
   roleCodes: string[]
 }
 
-export default class CandidateMatchingController {
+export default class HomePageController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const userRoles = req.context.userroles
+    const { userRoles } = req.context
 
     try {
       // Prepare tasks that will constitute the tiles
@@ -49,7 +49,7 @@ export default class CandidateMatchingController {
 
       // Render data
       const allTasks = getTasks(roleCodes)
-      res.render('pages/candidateMatching/index.njk', {
+      res.render('pages/homePage/index.njk', {
         locationOptions: null,
         tasks: allTasks
           .filter(task => task.enabled())

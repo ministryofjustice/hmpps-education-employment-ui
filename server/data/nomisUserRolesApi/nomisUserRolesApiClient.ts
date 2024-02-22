@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
+import UserDetails from '../manageUsersApi/userDetails'
 import RestClient from '../restClient'
-import { UserDetails } from '../../services/userService'
 import GetStaffDetailsResponse from './getStaffDetailsResponse'
 
 interface UserCaseLoad {

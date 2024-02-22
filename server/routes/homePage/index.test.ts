@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import Controller from './candidateMatchingController'
-import getCandidateMatchingResolver from '../../middleware/resolvers/getCandidateMatchingResolver'
+import Controller from './homePageController'
+import getUserRolesResolver from '../../middleware/resolvers/getUserRolesResolver'
 import { Services } from '../../services'
 import routes from './index'
 
-jest.mock('./candidateMatchingController')
-jest.mock('../../middleware/resolvers/getCandidateMatchingResolver')
+jest.mock('./homePageController')
+jest.mock('../../middleware/resolvers/getUserRolesResolver')
 
 describe('Candidate matching routes', () => {
   let router: Router
@@ -14,20 +14,20 @@ describe('Candidate matching routes', () => {
   beforeEach(() => {
     router = { get: jest.fn() } as unknown as Router
     services = {
-      candidateMatchingService: {},
+      homePageService: {},
     } as unknown as Services
     ;(Controller as jest.Mock).mockImplementation(() => ({
       get: jest.fn(),
     }))
-    ;(getCandidateMatchingResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getUserRolesResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for home page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/candidateMatching',
-      expect.any(Function), // getCandidateMatchingResolver
+      '/homePage',
+      expect.any(Function), // getUserRolesResolver
       expect.any(Function), // controller.get
     )
   })

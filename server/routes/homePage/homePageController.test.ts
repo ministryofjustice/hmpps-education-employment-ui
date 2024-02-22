@@ -1,5 +1,5 @@
 import expressMocks from '../../testutils/expressMocks'
-import CandidateMatchingController from './candidateMatchingController'
+import HomePageController from './homePageController'
 import { setSessionData } from '../../utils/session'
 
 jest.mock('../../config', () => ({
@@ -14,9 +14,9 @@ jest.mock('../../utils/utils', () => ({
   default: jest.fn(),
 }))
 
-describe('CandidateMatchingController', () => {
+describe('HomePageController', () => {
   const { req, res, next } = expressMocks()
-  req.context.userroles = ['role-1', 'role-2']
+  req.context.userRoles = ['role-1', 'role-2']
   res.locals.user = { username: 'MOCK_USER' }
   const { username } = res.locals.user
 
@@ -32,13 +32,13 @@ describe('CandidateMatchingController', () => {
     ],
   }
 
-  const controller = new CandidateMatchingController()
+  const controller = new HomePageController()
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
-      setSessionData(req, ['userroles', username, 'data'], mockData)
+      setSessionData(req, ['userRoles', username, 'data'], mockData)
     })
 
     it('On error - Calls next with error', async () => {
@@ -58,7 +58,7 @@ describe('CandidateMatchingController', () => {
     })
 
     it('should render tasks', async () => {
-      setSessionData(req, ['userroles', username], mockData)
+      setSessionData(req, ['userRoles', username], mockData)
       await controller.get(req, res, next)
 
       expect(next).toHaveBeenCalledTimes(1)
