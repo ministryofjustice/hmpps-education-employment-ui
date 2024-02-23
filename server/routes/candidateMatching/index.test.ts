@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
-import homePageRoutes from './homePage'
-import accessibilityStatementRoutes from './accessibilityStatement'
-import { Services } from '../services'
+import prisonerListMatchJobs from './prisonerListMatchJobs'
 import routes from '.'
+import { Services } from '../../services'
 
-jest.mock('./homePage')
-jest.mock('./accessibilityStatement')
+jest.mock('./prisonerListMatchJobs')
 jest.mock('express', () => ({
   Router: jest.fn().mockImplementation(() => ({
     use: jest.fn(),
@@ -28,8 +26,7 @@ describe('Server routes', () => {
   })
 
   it('calls editActionRoutes with router and services', () => {
-    routes(services as any)
-    expect(homePageRoutes).toHaveBeenCalledWith(router, services)
-    expect(accessibilityStatementRoutes).toHaveBeenCalledWith(router)
+    routes(router as any, services as any)
+    expect(prisonerListMatchJobs).toHaveBeenCalledWith(router, services)
   })
 })

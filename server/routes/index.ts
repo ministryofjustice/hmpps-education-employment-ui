@@ -1,12 +1,8 @@
 import { Router } from 'express'
 import type { Services } from '../services'
-import workProfileRoutes from './workProfile'
-import cohortListRoutes from './cohortList'
-import createProfileRoutes from './createProfile'
-import changeStatusRoutes from './changeStatus'
-import actionsRoutes from './actions'
+import workReadinessRoutes from './workReadiness'
 import accessibilityStatementRoutes from './accessibilityStatement'
-import prisonerListMatchJobsRoutes from './prisonerListMatchJobs'
+import candidateMatchingRoutes from './candidateMatching'
 import homePageRoutes from './homePage'
 
 export default function routes(services: Services): Router {
@@ -14,17 +10,13 @@ export default function routes(services: Services): Router {
 
   // Append page routes
   homePageRoutes(router, services)
-
-  // Work readiness routes
-  cohortListRoutes(router, services)
-  workProfileRoutes(router, services)
-  createProfileRoutes(router, services)
-  changeStatusRoutes(router, services)
-  actionsRoutes(router, services)
   accessibilityStatementRoutes(router)
 
+  // Work readiness routes
+  workReadinessRoutes(router, services)
+
   // Candidate matching routes
-  prisonerListMatchJobsRoutes(router, services)
+  candidateMatchingRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
