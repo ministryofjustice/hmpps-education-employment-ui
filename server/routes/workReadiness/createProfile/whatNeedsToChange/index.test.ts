@@ -35,7 +35,7 @@ describe('What needs to change routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/what-needs-to-change/:mode',
+      '/wr/profile/create/:id/what-needs-to-change/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('What needs to change routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/what-needs-to-change/:mode',
+      '/wr/profile/create/:id/what-needs-to-change/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

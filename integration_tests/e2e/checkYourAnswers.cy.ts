@@ -27,7 +27,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
   })
 
   it('Positive flow - Check content and navigation', () => {

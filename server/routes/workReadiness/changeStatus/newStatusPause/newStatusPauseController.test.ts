@@ -34,7 +34,7 @@ describe('NewStatusPauseController', () => {
 
   const mockData = {
     id: 'mock_ref',
-    backLocation: addressLookup.changeStatus.newStatus(id),
+    backLocation: addressLookup.workReadiness.changeStatus.newStatus(id),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     newStatus: 'READY_TO_WORK',
@@ -85,7 +85,7 @@ describe('NewStatusPauseController', () => {
       await controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
+        `${addressLookup.workReadiness.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
       )
       expect(getSessionData(req, ['newStatusPause', id, 'data'])).toBeFalsy()
     })

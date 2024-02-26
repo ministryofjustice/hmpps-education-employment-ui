@@ -35,7 +35,7 @@ describe('Training and qualifications routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/training-and-qualifications/:mode',
+      '/wr/profile/create/:id/training-and-qualifications/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('Training and qualifications routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/training-and-qualifications/:mode',
+      '/wr/profile/create/:id/training-and-qualifications/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver

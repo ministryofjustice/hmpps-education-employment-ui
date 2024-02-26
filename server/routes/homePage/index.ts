@@ -7,5 +7,5 @@ import type { Services } from '../../services'
 export default (router: Router, services: Services) => {
   const controller = new HomePageController()
 
-  router.get('/homePage', getUserRolesResolver(services.userService), controller.get)
+  router.get('/', getUserRolesResolver(services.userService), controller.get)
 }

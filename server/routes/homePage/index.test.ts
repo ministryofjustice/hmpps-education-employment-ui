@@ -26,7 +26,7 @@ describe('Candidate matching routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/homePage',
+      '/',
       expect.any(Function), // getUserRolesResolver
       expect.any(Function), // controller.get
     )

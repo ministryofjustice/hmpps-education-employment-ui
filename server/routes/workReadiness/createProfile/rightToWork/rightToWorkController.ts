@@ -19,7 +19,10 @@ export default class RightToWorkController {
       const record = getSessionData(req, ['createProfile', id], {})
 
       // Setup back location
-      const backLocation = mode === 'new' ? addressLookup.workProfile(id) : addressLookup.createProfile.checkAnswers(id)
+      const backLocation =
+        mode === 'new'
+          ? addressLookup.workReadiness.workProfile(id)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -65,15 +68,15 @@ export default class RightToWorkController {
 
       // If NO redirect to ineligable-to-work
       if (rightToWork === YesNoValue.NO) {
-        res.redirect(addressLookup.createProfile.ineligableToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.ineligableToWork(id, mode))
         return
       }
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.supportOptIn(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.supportOptIn(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

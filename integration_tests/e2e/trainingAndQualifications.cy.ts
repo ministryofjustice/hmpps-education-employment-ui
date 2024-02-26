@@ -21,7 +21,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
@@ -91,7 +91,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select HIGHER_EDUCATION - navigates to check-answers page', () => {
-    cy.visit('/profile/create/G6115VJ/training-and-qualifications/edit')
+    cy.visit('/wr/profile/create/G6115VJ/training-and-qualifications/edit')
 
     const trainingAndQualifications = new TrainingAndQualificationsPage(
       'Does Daniel Craig have any qualifications or training?',

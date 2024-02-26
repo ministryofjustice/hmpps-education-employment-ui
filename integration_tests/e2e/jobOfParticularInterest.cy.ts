@@ -19,7 +19,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
@@ -73,7 +73,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select NO - navigates to check-answers page', () => {
-    cy.visit('/profile/create/G6115VJ/job-of-particular-interest/edit')
+    cy.visit('/wr/profile/create/G6115VJ/job-of-particular-interest/edit')
 
     const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
 

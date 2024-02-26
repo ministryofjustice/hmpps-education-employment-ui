@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new ManageDrugsAndAlcoholController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/manage-drugs-and-alcohol/:mode',
+    '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -17,7 +17,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/profile/create/:id/manage-drugs-and-alcohol/:mode',
+    '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
     [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
     controller.post,
   )

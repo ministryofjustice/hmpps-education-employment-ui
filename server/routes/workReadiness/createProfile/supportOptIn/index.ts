@@ -8,9 +8,9 @@ export default (router: Router, services: Services) => {
   const controller = new SupportOptInController()
 
   router.get(
-    '/profile/create/:id/support-opt-in/:mode',
+    '/wr/profile/create/:id/support-opt-in/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
-  router.post('/profile/create/:id/support-opt-in/:mode', controller.post)
+  router.post('/wr/profile/create/:id/support-opt-in/:mode', controller.post)
 }

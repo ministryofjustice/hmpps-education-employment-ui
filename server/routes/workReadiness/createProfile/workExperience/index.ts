@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new WorkExperienceController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/work-experience/:mode',
+    '/wr/profile/create/:id/work-experience/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -17,7 +17,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/profile/create/:id/work-experience/:mode',
+    '/wr/profile/create/:id/work-experience/:mode',
     [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
     controller.post,
   )

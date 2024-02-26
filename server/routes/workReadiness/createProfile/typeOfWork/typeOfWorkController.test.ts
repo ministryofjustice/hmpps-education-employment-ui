@@ -45,7 +45,7 @@ describe('TypeOfWorkController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.abilityToWork(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.abilityToWork(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     typeOfWork: [] as any,
@@ -91,7 +91,7 @@ describe('TypeOfWorkController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/typeOfWork/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         typeOfWork: TypeOfWorkValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -145,7 +145,9 @@ describe('TypeOfWorkController', () => {
         typeOfWork: TypeOfWorkValue.OTHER,
       })
       expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.jobOfParticularInterest(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.jobOfParticularInterest(id, 'new'),
+      )
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -158,7 +160,7 @@ describe('TypeOfWorkController', () => {
         typeOfWork: TypeOfWorkValue.OTHER,
       })
       expect(getSessionData(req, ['typeOfWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update - calls api and redirects to workProfile', async () => {
@@ -177,7 +179,7 @@ describe('TypeOfWorkController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

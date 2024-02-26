@@ -9,12 +9,12 @@ export default (router: Router, services: Services) => {
   const controller = new CheckYourAnswersController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/check-answers',
+    '/wr/profile/create/:id/check-answers',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
-    '/profile/create/:id/check-answers',
+    '/wr/profile/create/:id/check-answers',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),

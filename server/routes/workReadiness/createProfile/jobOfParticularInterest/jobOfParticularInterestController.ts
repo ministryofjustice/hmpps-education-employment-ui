@@ -25,7 +25,7 @@ export default class JobOfParticularInterestController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (mode !== 'update' && !record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
@@ -34,8 +34,8 @@ export default class JobOfParticularInterestController {
         req,
         defaultRoute:
           mode === 'new'
-            ? addressLookup.createProfile.typeOfWork(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+            ? addressLookup.workReadiness.createProfile.typeOfWork(id, mode)
+            : addressLookup.workReadiness.createProfile.checkAnswers(id),
         page: 'jobOfParticularInterest',
         uid: id,
       })
@@ -99,7 +99,7 @@ export default class JobOfParticularInterestController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
         return
       }
 
@@ -117,8 +117,8 @@ export default class JobOfParticularInterestController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.workExperience(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.workExperience(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

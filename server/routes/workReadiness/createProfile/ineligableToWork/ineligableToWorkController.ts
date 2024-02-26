@@ -20,12 +20,12 @@ export default class IneligableToWorkController {
       // If no record or incorrect value return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (!record || record.rightToWork !== YesNoValue.NO) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       // Setup back location
-      const backLocation = addressLookup.createProfile.rightToWork(id, mode)
+      const backLocation = addressLookup.workReadiness.createProfile.rightToWork(id, mode)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -57,7 +57,7 @@ export default class IneligableToWorkController {
       // Tidy up record in session
       deleteSessionData(req, ['createProfile', id])
 
-      res.redirect(addressLookup.cohortList())
+      res.redirect(addressLookup.workReadiness.cohortList())
     } catch (err) {
       next(err)
     }

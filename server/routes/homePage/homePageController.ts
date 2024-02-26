@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
 import { hasAnyRole } from '../../utils/utils'
-import config from '../../config'
+import addressLookup from '../addressLookup'
 
 interface RoleCode {
   roleCodes: string[]
@@ -23,26 +23,22 @@ export default class HomePageController {
             heading: 'Get someone ready to work',
             description:
               'Record what support a prisoner needs to get work. View who has been assessed as ready to work.',
-            href: `${config.getSomeoneReadyForWork.ui_url}?sort=releaseDate&order=descending`,
-            enabled: () =>
-              config.getSomeoneReadyForWork.ui_url && userHasRoles(['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']),
+            href: addressLookup.workReadiness.cohortList(),
+            enabled: () => userHasRoles(['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']),
           },
           {
             id: 'match-jobs-and-manage-applications',
             heading: 'Match jobs and manage applications',
             description: 'View jobs matched by work interests and release area. Manage the status of job applications.',
-            href: config.matchJobsAndManageApplications.ui_url,
-            enabled: () =>
-              config.matchJobsAndManageApplications.ui_url &&
-              userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
+            href: addressLookup.candidateMatching.prisonerMatchJobsList(),
+            enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
           },
           {
             id: 'reporting_data',
             heading: 'Reporting data',
             description: 'Create reports showing progress against work after release metrics.',
-            href: config.reportingData.ui_url,
-            enabled: () =>
-              config.reportingData.ui_url && userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
+            href: '/reporting',
+            enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
           },
         ]
       }

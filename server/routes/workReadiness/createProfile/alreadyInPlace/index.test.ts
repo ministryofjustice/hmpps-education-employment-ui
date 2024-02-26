@@ -35,7 +35,7 @@ describe('Already in place routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/already-in-place/:mode',
+      '/wr/profile/create/:id/already-in-place/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -47,7 +47,7 @@ describe('Already in place routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/already-in-place/:mode',
+      '/wr/profile/create/:id/already-in-place/:mode',
       [
         expect.any(Function), // parseCheckBoxValue
       ],

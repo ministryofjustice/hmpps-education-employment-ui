@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new TypeOfWorkController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/type-of-work/:mode',
+    '/wr/profile/create/:id/type-of-work/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -18,7 +18,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/profile/create/:id/type-of-work/:mode',
+    '/wr/profile/create/:id/type-of-work/:mode',
     [getProfileByIdResolver(services.prisonerProfileService, services.userService), parseCheckBoxValue('typeOfWork')],
     controller.post,
   )

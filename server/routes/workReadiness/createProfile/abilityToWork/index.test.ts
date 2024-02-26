@@ -35,7 +35,7 @@ describe('Ability to work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/ability-to-work/:mode',
+      '/wr/profile/create/:id/ability-to-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('Ability to work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/ability-to-work/:mode',
+      '/wr/profile/create/:id/ability-to-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // parseCheckBoxValue

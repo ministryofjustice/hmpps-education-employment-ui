@@ -28,7 +28,7 @@ describe('New status pause routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/change-status/:id/pause',
+      '/wr/profile/change-status/:id/pause',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -40,7 +40,7 @@ describe('New status pause routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/change-status/:id/pause',
+      '/wr/profile/change-status/:id/pause',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

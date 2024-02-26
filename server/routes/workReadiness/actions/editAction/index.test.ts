@@ -31,7 +31,7 @@ describe('Edit action routes', () => {
 
     // Check that the expected middleware functions and controller method are called
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/actions/:id/edit/:action',
+      '/wr/profile/actions/:id/edit/:action',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -47,7 +47,7 @@ describe('Edit action routes', () => {
 
     // Check that the expected middleware functions and controller method are called
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/actions/:id/edit/:action',
+      '/wr/profile/actions/:id/edit/:action',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver

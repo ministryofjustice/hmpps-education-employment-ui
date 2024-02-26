@@ -19,14 +19,14 @@ export default class IdentificationController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (!record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: addressLookup.createProfile.alreadyInPlace(id, mode),
+        defaultRoute: addressLookup.workReadiness.createProfile.alreadyInPlace(id, mode),
         page: 'identification',
         uid: id,
       })
@@ -82,8 +82,8 @@ export default class IdentificationController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.abilityToWork(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.abilityToWork(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

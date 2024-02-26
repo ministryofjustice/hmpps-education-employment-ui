@@ -18,15 +18,15 @@ export default class SupportOptInController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (!record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       // Setup back location
       const backLocation =
         mode === 'new'
-          ? addressLookup.createProfile.rightToWork(id, mode)
-          : addressLookup.createProfile.checkAnswers(id)
+          ? addressLookup.workReadiness.createProfile.rightToWork(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -81,15 +81,15 @@ export default class SupportOptInController {
 
       // If NO redirect to ineligable-to-work
       if (supportOptIn === YesNoValue.NO) {
-        res.redirect(addressLookup.createProfile.supportDeclinedReason(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.supportDeclinedReason(id, mode))
         return
       }
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.alreadyInPlace(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.alreadyInPlace(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

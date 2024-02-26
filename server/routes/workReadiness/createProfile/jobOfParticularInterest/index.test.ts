@@ -35,7 +35,7 @@ describe('Job of particular interest routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/job-of-particular-interest/:mode',
+      '/wr/profile/create/:id/job-of-particular-interest/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('Job of particular interest routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/job-of-particular-interest/:mode',
+      '/wr/profile/create/:id/job-of-particular-interest/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

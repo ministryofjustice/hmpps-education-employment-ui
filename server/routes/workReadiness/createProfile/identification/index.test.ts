@@ -35,7 +35,7 @@ describe('Identification routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/identification/:mode',
+      '/wr/profile/create/:id/identification/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -47,7 +47,7 @@ describe('Identification routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/identification/:mode',
+      '/wr/profile/create/:id/identification/:mode',
       [
         expect.any(Function), // parseCheckBoxValue
       ],

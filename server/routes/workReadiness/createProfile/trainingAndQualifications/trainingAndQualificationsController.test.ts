@@ -45,7 +45,7 @@ describe('TrainingAndQualificationsController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.workExperience(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.workExperience(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     trainingAndQualifications: [] as any,
@@ -93,7 +93,7 @@ describe('TrainingAndQualificationsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/trainingAndQualifications/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         trainingAndQualifications: TrainingAndQualificationsValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -147,7 +147,7 @@ describe('TrainingAndQualificationsController', () => {
         trainingAndQualifications: TrainingAndQualificationsValue.OTHER,
       })
       expect(getSessionData(req, ['trainingAndQualifications', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -160,7 +160,7 @@ describe('TrainingAndQualificationsController', () => {
         trainingAndQualifications: TrainingAndQualificationsValue.OTHER,
       })
       expect(getSessionData(req, ['trainingAndQualifications', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update - calls api and redirects to workProfile', async () => {
@@ -179,7 +179,7 @@ describe('TrainingAndQualificationsController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

@@ -6,56 +6,48 @@
 
 {% set title = 'Work after release' %}
 
-{% block beforeContent %}
-    {{ govukBreadcrumbs({
-        items: [
-            {
-                text: "Digital prison services",
-                href: dpsUrl
-            },
-            {
-                text: title
-            }
-        ],
-        classes: 'govuk-!-display-none-print'
-    }) }}
-{% endblock %}
-
-{% block content %}
-
-    {% if errors.length > 0 %}
-        {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: errors,
-            attributes: { 'data-qa': 'error-summary' }
-        }) }}
-    {% endif %}
-
-    <div class="govuk-grid-row govuk-!-display-none-print">
-        {#                     This whole section has a grey background colour #}
-        <div class="govuk-width-container">
-            <h1 class="govuk-heading-l govuk-!-margin-top-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
+{% block main %}
+    <main>
+        <div class="govuk-grid-row">
+            <div class="govuk-width-container">
+                {{ govukBreadcrumbs({
+                    items: [
+                        {
+                            text: "Digital prison services",
+                            href: dpsUrl
+                        }
+                    ],
+                    classes: 'govuk-!-display-none-print'
+                }) }}
+            </div>
         </div>
-    </div>
 
-    <div class="homepage-content">
-        <div class="govuk-width-container">
-            <ul class="govuk-grid-row card-group">
-                {% for task in tasks %}
-                    <li class="govuk-grid-column-one-third card-group__item">
-                        {{ card({
-                            "href": task.href,
-                            "clickable": "true",
-                            "heading": task.heading,
-                            "description": task.description,
-                            "id": task.id
-                        }) }}
-                    </li>
-                {% endfor %}
-            </ul>
+        <div class="govuk-grid-row govuk-!-display-none-print">
+            {#                     This whole section has a grey background colour #}
+            <div class="govuk-width-container">
+
+                <h1 class="govuk-heading-l govuk-!-margin-top-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
+            </div>
         </div>
-    </div>
 
+        <div class="homepage-content">
+            <div class="govuk-width-container">
+                <ul class="govuk-grid-row card-group">
+                    {% for task in tasks %}
+                        <li class="govuk-grid-column-one-third card-group__item">
+                            {{ card({
+                                "href": task.href,
+                                "clickable": "true",
+                                "heading": task.heading,
+                                "description": task.description,
+                                "id": task.id
+                            }) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
 {% endblock %}
 
 {% block pageScripts %}

@@ -35,7 +35,7 @@ describe('Manage drugs and alcohol routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/manage-drugs-and-alcohol/:mode',
+      '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('Manage drugs and alcohol routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/manage-drugs-and-alcohol/:mode',
+      '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

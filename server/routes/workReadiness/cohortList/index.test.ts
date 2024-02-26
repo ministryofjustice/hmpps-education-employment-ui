@@ -31,7 +31,7 @@ describe('Cohort list routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/',
+      '/wr/cohort-list',
       [
         expect.any(Function), // getCohortListResolver
       ],
@@ -43,7 +43,7 @@ describe('Cohort list routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/',
+      '/wr/cohort-list',
       [
         expect.any(Function), // handleSortMiddleware
       ],

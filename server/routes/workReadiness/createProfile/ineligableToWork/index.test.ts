@@ -35,7 +35,7 @@ describe('Ineligable to work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/ineligable-to-work/:mode',
+      '/wr/profile/create/:id/ineligable-to-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -47,7 +47,7 @@ describe('Ineligable to work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/ineligable-to-work/:mode',
+      '/wr/profile/create/:id/ineligable-to-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

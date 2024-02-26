@@ -23,7 +23,7 @@ export default class NewStatusController {
 
     try {
       if (!profile) {
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
@@ -31,7 +31,7 @@ export default class NewStatusController {
       const record = getSessionData(req, ['changeStatus', id], {})
 
       // Setup back location
-      const backLocation = addressLookup.workProfile(id)
+      const backLocation = addressLookup.workReadiness.workProfile(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -76,7 +76,7 @@ export default class NewStatusController {
 
       // Matching status no change
       if (newStatus === profile.profileData.status) {
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
@@ -98,7 +98,7 @@ export default class NewStatusController {
         )
 
         // Redirect to work profile
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
@@ -111,13 +111,15 @@ export default class NewStatusController {
 
         // Redirect to work profile
         res.redirect(
-          `${addressLookup.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
+          `${addressLookup.workReadiness.createProfile.supportDeclinedReason(id)}?from=${encryptUrlParameter(
+            req.originalUrl,
+          )}`,
         )
         return
       }
 
       // Redirect to the correct page based on mode
-      res.redirect(addressLookup.changeStatus.newStatusPause(id))
+      res.redirect(addressLookup.workReadiness.changeStatus.newStatusPause(id))
     } catch (err) {
       next(err)
     }

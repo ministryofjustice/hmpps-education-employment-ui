@@ -25,19 +25,19 @@ export default class TypeOfWorkController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (mode !== 'update' && !record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       const lastPage =
         mode !== 'update' && (record.abilityToWork || []).includes(AbilityToWorkValue.DEPENDENCY_ISSUES)
-          ? addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)
-          : addressLookup.createProfile.abilityToWork(id, mode)
+          ? addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, mode)
+          : addressLookup.workReadiness.createProfile.abilityToWork(id, mode)
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+        defaultRoute: mode === 'new' ? lastPage : addressLookup.workReadiness.createProfile.checkAnswers(id),
         page: 'typeOfWork',
         uid: id,
       })
@@ -102,7 +102,7 @@ export default class TypeOfWorkController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
         return
       }
 
@@ -118,8 +118,8 @@ export default class TypeOfWorkController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.jobOfParticularInterest(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.jobOfParticularInterest(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

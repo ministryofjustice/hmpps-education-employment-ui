@@ -11,7 +11,7 @@
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="{{ addressLookup.createProfile.alreadyInPlace(id, 'edit') }}" data-qa="alreadyInPlaceLink">
+      <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.alreadyInPlace(id, 'edit') }}" data-qa="alreadyInPlaceLink">
         Change<span class="govuk-visually-hidden"> things they have in place already</span>
       </a>
     </dd>
@@ -28,7 +28,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.identification(id, 'edit') + '?from=' + encryptUrlParameter(originalUrl) }}" data-qa="identificationLink">
+        <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.identification(id, 'edit') + '?from=' + encryptUrlParameter(originalUrl) }}" data-qa="identificationLink">
           Change<span class="govuk-visually-hidden"> type of ID they have</span>
         </a>
       </dd>

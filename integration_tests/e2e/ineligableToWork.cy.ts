@@ -22,7 +22,7 @@ context('SignIn', () => {
   it('New record - Select NO - navigates to ineligable-to-work page', () => {
     cy.signIn()
 
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
 

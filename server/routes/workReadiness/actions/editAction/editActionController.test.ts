@@ -72,7 +72,7 @@ describe('EditActionController', () => {
   const { id, action } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workProfile(id),
+    backLocation: addressLookup.workReadiness.workProfile(id),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     toDoItem: 'CV_AND_COVERING_LETTER',
@@ -119,7 +119,7 @@ describe('EditActionController', () => {
       req.params.action = 'id'
       controller.get(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
@@ -176,7 +176,7 @@ describe('EditActionController', () => {
       await controller.post(req, res, next)
 
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.actions.editAction(id, action)}?noteAction=add#noteText`,
+        `${addressLookup.workReadiness.actions.editAction(id, action)}?noteAction=add#noteText`,
       )
       expect(next).toHaveBeenCalledTimes(0)
     })
@@ -187,7 +187,7 @@ describe('EditActionController', () => {
 
       await controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.actions.editAction(id, action))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.actions.editAction(id, action))
       expect(next).toHaveBeenCalledTimes(0)
     })
 
@@ -196,7 +196,7 @@ describe('EditActionController', () => {
 
       await controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

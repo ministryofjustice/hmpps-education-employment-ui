@@ -8,12 +8,12 @@ export default (router: Router, services: Services) => {
   const controller = new NewStatusPauseController()
 
   router.get(
-    '/profile/change-status/:id/pause',
+    '/wr/profile/change-status/:id/pause',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
   router.post(
-    '/profile/change-status/:id/pause',
+    '/wr/profile/change-status/:id/pause',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.post,
   )

@@ -26,20 +26,20 @@ export default class AbilityToWorkController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (mode !== 'update' && !record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       // Calculate last page based on record in session
       const lastPage =
         mode !== 'update' && (record.alreadyInPlace || []).includes(AlreadyInPlaceValue.ID)
-          ? addressLookup.createProfile.identification(id, mode)
-          : addressLookup.createProfile.alreadyInPlace(id, mode)
+          ? addressLookup.workReadiness.createProfile.identification(id, mode)
+          : addressLookup.workReadiness.createProfile.alreadyInPlace(id, mode)
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: mode === 'new' ? lastPage : addressLookup.createProfile.checkAnswers(id),
+        defaultRoute: mode === 'new' ? lastPage : addressLookup.workReadiness.createProfile.checkAnswers(id),
         page: 'abilityToWork',
         uid: id,
       })
@@ -101,14 +101,14 @@ export default class AbilityToWorkController {
 
         if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
           res.redirect(
-            `${addressLookup.createProfile.manageDrugsAndAlcohol(id, mode)}?from=${encryptUrlParameter(
+            `${addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, mode)}?from=${encryptUrlParameter(
               req.originalUrl,
             )}`,
           )
           return
         }
 
-        res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
         return
       }
 
@@ -122,15 +122,15 @@ export default class AbilityToWorkController {
       deleteSessionData(req, ['abilityToWork', id, 'data'])
 
       if (abilityToWork.includes(AbilityToWorkValue.DEPENDENCY_ISSUES)) {
-        res.redirect(addressLookup.createProfile.manageDrugsAndAlcohol(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, mode))
         return
       }
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.typeOfWork(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.typeOfWork(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

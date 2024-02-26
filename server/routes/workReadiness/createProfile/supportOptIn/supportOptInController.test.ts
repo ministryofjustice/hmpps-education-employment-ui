@@ -42,7 +42,7 @@ describe('SupportOptInController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.rightToWork(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.rightToWork(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -81,7 +81,7 @@ describe('SupportOptInController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/supportOptIn/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         supportOptIn: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -131,7 +131,9 @@ describe('SupportOptInController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportDeclinedReason(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.supportDeclinedReason(id, 'new'),
+      )
       expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.NO })
     })
@@ -144,7 +146,7 @@ describe('SupportOptInController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.YES })
       expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.alreadyInPlace(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.alreadyInPlace(id, 'new'))
     })
 
     it('On success - supportOptIn = YES and mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -155,7 +157,7 @@ describe('SupportOptInController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({ supportOptIn: YesNoValue.YES })
       expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - supportOptIn changed and mode = edit - Sets session record then redirects to checkAnswers in new mode', async () => {
@@ -170,7 +172,9 @@ describe('SupportOptInController', () => {
         supportOptIn: YesNoValue.NO,
       })
       expect(getSessionData(req, ['supportOptIn', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportDeclinedReason(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.supportDeclinedReason(id, 'new'),
+      )
     })
   })
 })

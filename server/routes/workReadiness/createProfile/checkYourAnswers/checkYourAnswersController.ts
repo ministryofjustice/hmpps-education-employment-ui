@@ -20,7 +20,7 @@ export default class CheckYourAnswersController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (!record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id))
         return
       }
 
@@ -97,7 +97,7 @@ export default class CheckYourAnswersController {
       deleteSessionData(req, ['createProfile', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      res.redirect(addressLookup.workProfile(id))
+      res.redirect(addressLookup.workReadiness.workProfile(id))
     } catch (err) {
       next(err)
     }

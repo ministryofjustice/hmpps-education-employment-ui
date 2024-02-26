@@ -29,7 +29,7 @@ describe('IneligableToWorkController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.rightToWork(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.rightToWork(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -93,7 +93,7 @@ describe('IneligableToWorkController', () => {
 
       expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.cohortList())
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.cohortList())
       expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
     })
   })

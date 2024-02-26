@@ -31,7 +31,7 @@ describe('Cohort list routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/:id/view/:tab',
+      '/wr/profile/:id/view/:tab',
       [
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getAllProfileDataResolver

@@ -8,9 +8,9 @@ export default (router: Router, services: Services) => {
   const controller = new RightToWorkController()
 
   router.get(
-    '/profile/create/:id/right-to-work/:mode',
+    '/wr/profile/create/:id/right-to-work/:mode',
     [getPrisonerByIdResolver(services.prisonerSearchService)],
     controller.get,
   )
-  router.post('/profile/create/:id/right-to-work/:mode', controller.post)
+  router.post('/wr/profile/create/:id/right-to-work/:mode', controller.post)
 }

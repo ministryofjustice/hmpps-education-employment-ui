@@ -46,7 +46,7 @@ describe('ManageDrugsAndAlcoholController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.abilityToWork(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.abilityToWork(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -88,14 +88,14 @@ describe('ManageDrugsAndAlcoholController', () => {
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createProfile', id], { manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE })
-      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
+      req.query.from = encryptUrlParameter(addressLookup.workReadiness.createProfile.checkAnswers(id))
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/manageDrugsAndAlcohol/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -149,7 +149,7 @@ describe('ManageDrugsAndAlcoholController', () => {
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
       expect(getSessionData(req, ['manageDrugsAndAlcohol', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.typeOfWork(id, 'new'))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -162,7 +162,7 @@ describe('ManageDrugsAndAlcoholController', () => {
         manageDrugsAndAlcohol: ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
       })
       expect(getSessionData(req, ['manageDrugsAndAlcohol', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update - calls api and redirects to workProfile', async () => {
@@ -180,7 +180,7 @@ describe('ManageDrugsAndAlcoholController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
     })
   })
 })

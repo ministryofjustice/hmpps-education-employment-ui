@@ -23,7 +23,7 @@ export default class EditActionController {
 
     try {
       if (!profile) {
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
@@ -31,14 +31,14 @@ export default class EditActionController {
         (i: { todoItem: string }) => i.todoItem === action.toUpperCase(),
       )
       if (!item) {
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
       const cachedValues = getSessionData(req, ['editAction', id, 'cachedValues'], {})
 
       // Setup back location
-      const backLocation = addressLookup.workProfile(id)
+      const backLocation = addressLookup.workReadiness.workProfile(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -78,7 +78,7 @@ export default class EditActionController {
           ...req.body,
         })
 
-        res.redirect(`${addressLookup.actions.editAction(id, action)}?noteAction=add#noteText`)
+        res.redirect(`${addressLookup.workReadiness.actions.editAction(id, action)}?noteAction=add#noteText`)
         return
       }
 
@@ -101,7 +101,7 @@ export default class EditActionController {
 
         // Create note
         await this.prisonerProfileService.createNote(res.locals.user.token, id, action.toUpperCase(), req.body.noteText)
-        res.redirect(addressLookup.actions.editAction(id, action))
+        res.redirect(addressLookup.workReadiness.actions.editAction(id, action))
         return
       }
 
@@ -145,7 +145,7 @@ export default class EditActionController {
       // Call api, change status
       await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-      res.redirect(addressLookup.workProfile(id))
+      res.redirect(addressLookup.workReadiness.workProfile(id))
     } catch (err) {
       next(err)
     }

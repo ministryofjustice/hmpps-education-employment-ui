@@ -50,7 +50,7 @@ describe('SupportDeclinedReasonController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.alreadyInPlace(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.alreadyInPlace(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     abilityToWork: [] as any,
@@ -96,7 +96,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/abilityToWork/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -113,7 +113,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/abilityToWork/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.identification(id, 'new'),
+        backLocation: addressLookup.workReadiness.createProfile.identification(id, 'new'),
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -168,7 +168,9 @@ describe('SupportDeclinedReasonController', () => {
         abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, 'new'),
+      )
     })
 
     it('On success - mode = edit and value = DEPENDENCY_ISSUES - Sets session record then redirects to manageDrugsAndAlcohol', async () => {
@@ -181,7 +183,9 @@ describe('SupportDeclinedReasonController', () => {
         abilityToWork: AbilityToWorkValue.DEPENDENCY_ISSUES,
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.manageDrugsAndAlcohol(id, 'edit'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, 'edit'),
+      )
     })
 
     it('On success - mode = new and value != ID - Sets session record then redirects to typeOfWork', async () => {
@@ -194,7 +198,7 @@ describe('SupportDeclinedReasonController', () => {
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.typeOfWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.typeOfWork(id, 'new'))
     })
 
     it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
@@ -207,7 +211,7 @@ describe('SupportDeclinedReasonController', () => {
         abilityToWork: AbilityToWorkValue.EDUCATION_ENROLLMENT,
       })
       expect(getSessionData(req, ['abilityToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update and DEPENDENCY_ISSUES - calls api and redirects to manageDrugsAndAlcohol', async () => {
@@ -226,7 +230,7 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(
-        `${addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update')}?from=${encryptUrlParameter(
+        `${addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, 'update')}?from=${encryptUrlParameter(
           req.originalUrl,
         )}`,
       )
@@ -247,7 +251,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
     })
   })
 })

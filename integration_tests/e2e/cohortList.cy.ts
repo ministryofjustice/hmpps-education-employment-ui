@@ -55,7 +55,7 @@ context('SignIn', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = new CohortListPage()
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
+      expect(offenders[0].viewLink).to.contain('/wr/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
       expect(offenders[0].status).to.contain('DOES NOT WANT SUPPORT')
@@ -71,7 +71,7 @@ context('SignIn', () => {
     cy.visit(cohortListUrl)
     const cohortListPage = new CohortListPage()
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/profile/G5336UH/view/overview')
+      expect(offenders[0].viewLink).to.contain('/wr/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
     })
 
@@ -79,7 +79,7 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?sort=lastName&order=ascending`)
 
     cohortListPage.tableData().then(offenders => {
-      expect(offenders[0].viewLink).to.contain('/profile/G6190UD/view/overview')
+      expect(offenders[0].viewLink).to.contain('/wr/profile/G6190UD/view/overview')
       expect(offenders[0].displayName).to.contain('Dool, Curt')
       expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
       expect(offenders[0].status).to.contain('NEEDS SUPPORT')

@@ -23,7 +23,7 @@ export default class SupportDeclinedReasonController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (mode !== 'update' && !record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
@@ -32,8 +32,8 @@ export default class SupportDeclinedReasonController {
         req,
         defaultRoute:
           mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+            ? addressLookup.workReadiness.createProfile.supportOptIn(id, mode)
+            : addressLookup.workReadiness.createProfile.checkAnswers(id),
         page: 'supportDeclinedReason',
         uid: id,
       })
@@ -98,7 +98,7 @@ export default class SupportDeclinedReasonController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workProfile(id))
+        res.redirect(addressLookup.workReadiness.workProfile(id))
         return
       }
 
@@ -115,8 +115,8 @@ export default class SupportDeclinedReasonController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.whatNeedsToChange(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.whatNeedsToChange(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

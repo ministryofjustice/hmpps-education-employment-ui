@@ -35,7 +35,7 @@ describe('Work experience routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/work-experience/:mode',
+      '/wr/profile/create/:id/work-experience/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -48,7 +48,7 @@ describe('Work experience routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/work-experience/:mode',
+      '/wr/profile/create/:id/work-experience/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

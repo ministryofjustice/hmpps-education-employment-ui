@@ -43,7 +43,7 @@ describe('SupportDeclinedReasonController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.supportOptIn(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.supportOptIn(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     alreadyInPlace: [] as any,
@@ -84,7 +84,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/alreadyInPlace/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -138,7 +138,7 @@ describe('SupportDeclinedReasonController', () => {
         alreadyInPlace: AlreadyInPlaceValue.ID,
       })
       expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.identification(id, 'new'))
     })
 
     it('On success - mode = edit and value = ID - Sets session record then redirects to identification', async () => {
@@ -151,7 +151,7 @@ describe('SupportDeclinedReasonController', () => {
         alreadyInPlace: AlreadyInPlaceValue.ID,
       })
       expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.identification(id, 'edit'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.identification(id, 'edit'))
     })
 
     it('On success - mode = new and value != ID - Sets session record then redirects to abilityToWork', async () => {
@@ -164,7 +164,7 @@ describe('SupportDeclinedReasonController', () => {
         alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.abilityToWork(id, 'new'))
     })
 
     it('On success - mode = edit and value != ID - Sets session record then redirects to checkAnswers', async () => {
@@ -177,7 +177,7 @@ describe('SupportDeclinedReasonController', () => {
         alreadyInPlace: AlreadyInPlaceValue.HOUSING,
       })
       expect(getSessionData(req, ['alreadyInPlace', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
   })
 })

@@ -6,7 +6,7 @@ import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 
 export default (router: Router, services: Services) => {
   const controller = new CohortListController(services.prisonerSearchService, services.paginationService)
-  router.get('/', [getCohortListResolver(services.prisonerSearchService)], controller.get)
+  router.get('/wr/cohort-list', [getCohortListResolver(services.prisonerSearchService)], controller.get)
 
-  router.post('/', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
+  router.post('/wr/cohort-list', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
 }

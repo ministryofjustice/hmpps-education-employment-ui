@@ -45,7 +45,7 @@ describe('WorkExperienceController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.jobOfParticularInterest(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.jobOfParticularInterest(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -143,7 +143,9 @@ describe('WorkExperienceController', () => {
         workExperience: YesNoValue.YES,
       })
       expect(getSessionData(req, ['workExperience', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.trainingAndQualifications(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(
+        addressLookup.workReadiness.createProfile.trainingAndQualifications(id, 'new'),
+      )
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -156,7 +158,7 @@ describe('WorkExperienceController', () => {
         workExperience: YesNoValue.YES,
       })
       expect(getSessionData(req, ['workExperience', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update - calls api and redirects to workProfile', async () => {
@@ -175,7 +177,7 @@ describe('WorkExperienceController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

@@ -35,7 +35,7 @@ describe('Support opt inroutes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/create/:id/support-opt-in/:mode',
+      '/wr/profile/create/:id/support-opt-in/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],
@@ -47,7 +47,7 @@ describe('Support opt inroutes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/create/:id/support-opt-in/:mode',
+      '/wr/profile/create/:id/support-opt-in/:mode',
       expect.any(Function), // controller.post
     )
   })

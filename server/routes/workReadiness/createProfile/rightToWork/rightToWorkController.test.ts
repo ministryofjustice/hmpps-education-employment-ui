@@ -42,7 +42,7 @@ describe('RightToWorkController', () => {
   const { id } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workProfile(id),
+    backLocation: addressLookup.workReadiness.workProfile(id),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -81,7 +81,7 @@ describe('RightToWorkController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/rightToWork/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         rightToWork: YesNoValue.YES,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -131,7 +131,7 @@ describe('RightToWorkController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.ineligableToWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.ineligableToWork(id, 'new'))
       expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
       expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.NO })
     })
@@ -144,7 +144,7 @@ describe('RightToWorkController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.YES })
       expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.supportOptIn(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.supportOptIn(id, 'new'))
     })
 
     it('On success - rightToWork = YES and mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -155,7 +155,7 @@ describe('RightToWorkController', () => {
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({ rightToWork: YesNoValue.YES })
       expect(getSessionData(req, ['rightToWork', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
   })
 })

@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new SupportDeclinedReasonController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/support-declined-reason/:mode',
+    '/wr/profile/create/:id/support-declined-reason/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -18,7 +18,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/profile/create/:id/support-declined-reason/:mode',
+    '/wr/profile/create/:id/support-declined-reason/:mode',
     [
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('supportDeclinedReason'),

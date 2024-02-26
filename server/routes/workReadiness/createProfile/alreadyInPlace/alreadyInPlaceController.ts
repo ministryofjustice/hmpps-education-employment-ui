@@ -19,7 +19,7 @@ export default class AlreadyInPlaceController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (!record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
@@ -28,8 +28,8 @@ export default class AlreadyInPlaceController {
         req,
         defaultRoute:
           mode === 'new'
-            ? addressLookup.createProfile.supportOptIn(id, mode)
-            : addressLookup.createProfile.checkAnswers(id),
+            ? addressLookup.workReadiness.createProfile.supportOptIn(id, mode)
+            : addressLookup.workReadiness.createProfile.checkAnswers(id),
         page: 'alreadyInPlace',
         uid: id,
       })
@@ -78,15 +78,15 @@ export default class AlreadyInPlaceController {
       deleteSessionData(req, ['alreadyInPlace', id, 'data'])
 
       if (alreadyInPlace.includes(AlreadyInPlaceValue.ID)) {
-        res.redirect(addressLookup.createProfile.identification(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.identification(id, mode))
         return
       }
 
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.abilityToWork(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.abilityToWork(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

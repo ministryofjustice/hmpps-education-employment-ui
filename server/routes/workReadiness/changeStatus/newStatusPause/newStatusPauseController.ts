@@ -17,12 +17,12 @@ export default class NewStatusPauseController {
       // If no record or incorrect value return to rightToWork
       const record = getSessionData(req, ['changeStatus', id])
       if (!record || !record?.newStatus) {
-        res.redirect(addressLookup.changeStatus.newStatus(id))
+        res.redirect(addressLookup.workReadiness.changeStatus.newStatus(id))
         return
       }
 
       // Setup back location
-      const backLocation = addressLookup.changeStatus.newStatus(id)
+      const backLocation = addressLookup.workReadiness.changeStatus.newStatus(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -49,6 +49,8 @@ export default class NewStatusPauseController {
       supportOptIn: YesNoValue.YES,
     })
 
-    res.redirect(`${addressLookup.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`)
+    res.redirect(
+      `${addressLookup.workReadiness.createProfile.alreadyInPlace(id)}?from=${encryptUrlParameter(req.originalUrl)}`,
+    )
   }
 }

@@ -44,7 +44,7 @@ describe('IdentificationController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.alreadyInPlace(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.alreadyInPlace(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     identification: [] as any,
@@ -79,14 +79,14 @@ describe('IdentificationController', () => {
 
     it('On success - Record found - Calls render with the correct data', async () => {
       setSessionData(req, ['createProfile', id], { identification: IdentificationValue.PASSPORT })
-      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
+      req.query.from = encryptUrlParameter(addressLookup.workReadiness.createProfile.checkAnswers(id))
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/identification/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         identification: IdentificationValue.PASSPORT,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -94,14 +94,14 @@ describe('IdentificationController', () => {
 
     it('On success - Record found - ID selected is OTHER', async () => {
       setSessionData(req, ['createProfile', id], { identification: IdentificationValue.OTHER })
-      req.query.from = encryptUrlParameter('/profile/create/mock_ref/check-answers')
+      req.query.from = encryptUrlParameter(addressLookup.workReadiness.createProfile.checkAnswers(id))
       req.params.mode = 'edit'
 
       controller.get(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/identification/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         identification: IdentificationValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -156,7 +156,7 @@ describe('IdentificationController', () => {
         typeOfIdentificationDetails: '',
       })
       expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.abilityToWork(id, 'new'))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.abilityToWork(id, 'new'))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -170,7 +170,7 @@ describe('IdentificationController', () => {
         typeOfIdentificationDetails: '',
       })
       expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = edit - Sets session record with other ID details then redirects to checkAnswers', async () => {
@@ -185,7 +185,7 @@ describe('IdentificationController', () => {
         typeOfIdentificationDetails: 'other id',
       })
       expect(getSessionData(req, ['identification', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
   })
 })

@@ -10,7 +10,7 @@
         {{ contentLookup.fields.yesNo[record.rightToWork] }}
       </dd>
       <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ addressLookup.createProfile.rightToWork(id, 'edit') }}"  data-qa="rightToWorkLink">
+          <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.rightToWork(id, 'edit') }}"  data-qa="rightToWorkLink">
             Change<span class="govuk-visually-hidden"> right to work</span>
           </a>
       </dd>
@@ -23,7 +23,7 @@
         {{ contentLookup.fields.yesNo[record.supportOptIn] }}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.supportOptIn(id, 'edit') }}" data-qa="supportOptInLink">
+        <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.supportOptIn(id, 'edit') }}" data-qa="supportOptInLink">
           Change<span class="govuk-visually-hidden"> whether they want support</span>
         </a>
       </dd>
@@ -41,7 +41,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.supportDeclinedReason(id, 'edit') }}" data-qa="supportDeclinedReasonLink">
+        <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.supportDeclinedReason(id, 'edit') }}" data-qa="supportDeclinedReasonLink">
           Change<span class="govuk-visually-hidden"> their reasons for declining support</span>
         </a>
       </dd>
@@ -57,7 +57,7 @@
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
-        <a class="govuk-link" href="{{ addressLookup.createProfile.whatNeedsToChange(id, 'edit') }}" data-qa="whatNeedsToChangeLink">
+        <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.whatNeedsToChange(id, 'edit') }}" data-qa="whatNeedsToChangeLink">
           Change<span class="govuk-visually-hidden"> things needed for them to want support</span>
         </a>
       </dd>

@@ -32,7 +32,7 @@ describe('New status routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/profile/change-status/:id/new-status',
+      '/wr/profile/change-status/:id/new-status',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
@@ -45,7 +45,7 @@ describe('New status routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/profile/change-status/:id/new-status',
+      '/wr/profile/change-status/:id/new-status',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver

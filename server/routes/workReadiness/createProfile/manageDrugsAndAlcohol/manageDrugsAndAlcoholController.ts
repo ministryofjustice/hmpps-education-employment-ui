@@ -25,14 +25,14 @@ export default class ManageDrugsAndAlcoholController {
       // If no record return to rightToWork
       const record = getSessionData(req, ['createProfile', id])
       if (mode !== 'update' && !record) {
-        res.redirect(addressLookup.createProfile.rightToWork(id, mode))
+        res.redirect(addressLookup.workReadiness.createProfile.rightToWork(id, mode))
         return
       }
 
       // Setup back location
       const backLocation = getBackLocation({
         req,
-        defaultRoute: addressLookup.createProfile.abilityToWork(id, mode),
+        defaultRoute: addressLookup.workReadiness.createProfile.abilityToWork(id, mode),
         page: 'manageDrugsAndAlcohol',
         uid: id,
       })
@@ -90,7 +90,7 @@ export default class ManageDrugsAndAlcoholController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
         return
       }
 
@@ -106,8 +106,8 @@ export default class ManageDrugsAndAlcoholController {
       // Redirect to the correct page based on mode
       res.redirect(
         mode === 'new'
-          ? addressLookup.createProfile.typeOfWork(id, mode)
-          : addressLookup.createProfile.checkAnswers(id),
+          ? addressLookup.workReadiness.createProfile.typeOfWork(id, mode)
+          : addressLookup.workReadiness.createProfile.checkAnswers(id),
       )
     } catch (err) {
       next(err)

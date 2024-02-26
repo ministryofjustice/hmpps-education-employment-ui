@@ -10,7 +10,7 @@ export default (router: Router, services: Services) => {
   const controller = new TrainingAndQualificationsController(services.prisonerProfileService)
 
   router.get(
-    '/profile/create/:id/training-and-qualifications/:mode',
+    '/wr/profile/create/:id/training-and-qualifications/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -18,7 +18,7 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
   router.post(
-    '/profile/create/:id/training-and-qualifications/:mode',
+    '/wr/profile/create/:id/training-and-qualifications/:mode',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),

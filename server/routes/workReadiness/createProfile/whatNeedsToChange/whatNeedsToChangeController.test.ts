@@ -44,7 +44,7 @@ describe('SupportDeclinedReasonController', () => {
   const { id, mode } = req.params
 
   const mockData = {
-    backLocation: addressLookup.createProfile.supportDeclinedReason(id, mode),
+    backLocation: addressLookup.workReadiness.createProfile.supportDeclinedReason(id, mode),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     whatNeedsToChange: [] as any,
@@ -92,7 +92,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/workReadiness/createProfile/whatNeedsToChange/index', {
         ...mockData,
-        backLocation: addressLookup.createProfile.checkAnswers(id),
+        backLocation: addressLookup.workReadiness.createProfile.checkAnswers(id),
         whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -146,7 +146,7 @@ describe('SupportDeclinedReasonController', () => {
         whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(getSessionData(req, ['whatNeedsToChange', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = edit - Sets session record then redirects to checkAnswers', async () => {
@@ -159,7 +159,7 @@ describe('SupportDeclinedReasonController', () => {
         whatNeedsToChange: WhatNeedsToChangeValue.OTHER,
       })
       expect(getSessionData(req, ['whatNeedsToChange', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.createProfile.checkAnswers(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.createProfile.checkAnswers(id))
     })
 
     it('On success - mode = update - calls api and redirects to workProfile', async () => {
@@ -176,7 +176,7 @@ describe('SupportDeclinedReasonController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
     })
   })
 })
