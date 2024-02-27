@@ -3,8 +3,7 @@ import { RequestHandler } from 'express'
 import type PrisonerSearchService from '../../../services/prisonSearchService'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
-
-const PRISONER_SEARCH_BY_RELEASE_DATE = '/'
+import addressLookup from '../../addressLookup'
 
 export default class CohortListController {
   constructor(
@@ -37,7 +36,7 @@ export default class CohortListController {
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPagination(
             prisonerSearchResults,
-            new URL(`${req.protocol}://${req.get('host')}${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}`),
+            new URL(`${req.protocol}://${req.get('host')}${addressLookup.workReadiness.cohortList()}?${uri.join('&')}`),
           )
         }
       }
@@ -72,7 +71,11 @@ export default class CohortListController {
         searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
       ].filter(val => !!val)
 
-      res.redirect(uri.length ? `${PRISONER_SEARCH_BY_RELEASE_DATE}?${uri.join('&')}` : PRISONER_SEARCH_BY_RELEASE_DATE)
+      res.redirect(
+        uri.length
+          ? `${addressLookup.workReadiness.cohortList()}?${uri.join('&')}`
+          : addressLookup.workReadiness.cohortList(),
+      )
     } catch (err) {
       next(err)
     }

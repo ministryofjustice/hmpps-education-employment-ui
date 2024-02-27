@@ -12,6 +12,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getPrisonerById')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')

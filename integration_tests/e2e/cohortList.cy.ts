@@ -1,12 +1,13 @@
 import CohortListPage from '../pages/cohortList'
 
-const cohortListUrl = `/`
+const cohortListUrl = `/wr/cohort-list`
 
 context('SignIn', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
