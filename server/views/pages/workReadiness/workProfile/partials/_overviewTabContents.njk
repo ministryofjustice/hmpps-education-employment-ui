@@ -1,0 +1,52 @@
+{% from "../../../../macros/cohortListStatus.njk" import statusTag %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Overview</h1>
+
+    {% if profile %}
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h3 class="app-summary-card__title">
+            Status
+          </h3>
+        </header>
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Current work status
+              </dt>
+              <dd class="govuk-summary-list__value" data-qa="overview-status">
+                {{ statusTag(profile.profileData.status) }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link govuk-link--no-visited-state" id="change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) }}">
+                  Change<span class="govuk-visually-hidden"> status</span>
+                </a>
+              </dd>
+            </div>
+            {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
+              {% include './_supportDeclinedSection.njk' %}
+            {% endif %}
+            <div class="govuk-summary-list__row">
+            </div>
+          </dl>
+          
+          {% if profile.profileData.status === 'SUPPORT_DECLINED' and profile.profileData.supportDeclined %}
+            <p class="app-summary-card__hint" data-qa="overview-declines-last-updated">Last updated {{ profile.profileData.supportDeclined.modifiedDateTime }} by {{ profile.profileData.supportDeclined.modifiedByName if profile.profileData.supportDeclined.modifiedByName else profile.profileData.supportDeclined.modifiedBy }}</p>
+          {% else %}
+            <p class="app-summary-card__hint" data-qa="overview-declines-last-updated">Last updated {{ profile.modifiedDateTime }} by {{ profile.modifiedByName if profile.modifiedByName else profile.modifiedBy }}</p>
+          {% endif %}
+        </div>
+      </section>
+    {% else %}
+      {% include './_noAssessmentComplete.njk' %}
+    {% endif %}
+
+    {% if profile.profileData.supportAccepted %}
+      {% include './_toDoListSection.njk' %}
+    {% endif %}
+  </div>
+</div>
+

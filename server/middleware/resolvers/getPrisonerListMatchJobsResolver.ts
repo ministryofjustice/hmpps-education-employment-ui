@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express'
 
 import config from '../../config'
-import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
+import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/index'
 import PrisonerProfileService from '../../services/prisonerProfileService'
 
 // Gets prisoner based on id parameter and puts it into request context
