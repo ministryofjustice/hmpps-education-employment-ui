@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
-import { getAge } from '../../../utils/utils'
+import { getAge } from '../../../utils/index'
 import NeurodivergenceViewModel from '../../../viewModels/neurodivergenceViewModel'
 import LearnerEducationViewModel from '../../../viewModels/learnerEducationViewModel'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'

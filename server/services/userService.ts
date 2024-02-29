@@ -1,4 +1,4 @@
-import { convertToTitleCase } from '../utils/utils'
+import { convertToTitleCase } from '../utils/index'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 import ManageUsersApiClient from '../data/manageUsersApi/manageUsersApiClient'
 import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'

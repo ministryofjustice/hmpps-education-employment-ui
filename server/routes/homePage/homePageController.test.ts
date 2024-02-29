@@ -8,7 +8,7 @@ jest.mock('../../config', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('../../utils/utils', () => ({
+jest.mock('../../utils/index', () => ({
   ...jest.requireActual('../../utils'),
   __esModule: true,
   default: jest.fn(),

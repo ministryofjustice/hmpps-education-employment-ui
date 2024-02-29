@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
-import { hasAnyRole } from '../../utils/utils'
+import { hasAnyRole } from '../../utils/index'
 import addressLookup from '../addressLookup'
 
 interface RoleCode {
