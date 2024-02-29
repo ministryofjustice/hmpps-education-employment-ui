@@ -2,7 +2,7 @@ import type { RequestHandler } from 'express'
 
 import PrisonerSearchService from '../../services/prisonSearchService'
 import config from '../../config'
-import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/utils'
+import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/index'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getCohortListResolver =

@@ -10,6 +10,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubVerifyToken', true)
     cy.task('stubReadinessProfileSearch')
@@ -31,7 +32,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'H4115SD')
     cy.task('getCommunityManager', 'H4115SD')
 
-    cy.visit('/profile/H4115SD/view/overview')
+    cy.visit('/wr/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.editActionLink('BANK_ACCOUNT').click()
 
@@ -40,7 +41,7 @@ context('SignIn', () => {
 
     editActionPage.submitButton().click()
 
-    cy.url().should('include', '/profile/H4115SD/view/overview')
+    cy.url().should('include', '/wr/profile/H4115SD/view/overview')
   })
 
   it('Edit action - add note', () => {
@@ -55,7 +56,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'H4115SD')
     cy.task('getCommunityManager', 'H4115SD')
 
-    cy.visit('/profile/H4115SD/view/overview')
+    cy.visit('/wr/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.editActionLink('BANK_ACCOUNT').click()
 
@@ -76,7 +77,7 @@ context('SignIn', () => {
     editActionPage.addNoteButton().click()
     editActionPage.submitButton().click()
 
-    cy.url().should('include', '/profile/H4115SD/view/overview')
+    cy.url().should('include', '/wr/profile/H4115SD/view/overview')
   })
 
   it('Edit action - ID field is displayed', () => {
@@ -91,7 +92,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'H4115SD')
     cy.task('getCommunityManager', 'H4115SD')
 
-    cy.visit('/profile/H4115SD/view/overview')
+    cy.visit('/wr/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
     workProfilePage.editActionLink('ID').click()
 
@@ -100,6 +101,6 @@ context('SignIn', () => {
 
     editActionPage.submitButton().click()
 
-    cy.url().should('include', '/profile/H4115SD/view/overview')
+    cy.url().should('include', '/wr/profile/H4115SD/view/overview')
   })
 })

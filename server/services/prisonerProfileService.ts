@@ -12,7 +12,7 @@ import UpdatePrisonerProfile from '../data/prisonerProfile/interfaces/updatePris
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
 import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import getActionsRequired from '../data/prisonerSearch/utils'
-import { convertToTitleCase } from '../utils/utils'
+import { convertToTitleCase } from '../utils/index'
 import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import config from '../config'

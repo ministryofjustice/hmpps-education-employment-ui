@@ -1,34 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
-import Controller from './candidateMatchingController'
-import getCandidateMatchingResolver from '../../middleware/resolvers/getCandidateMatchingResolver'
+import prisonerListMatchJobs from './prisonerListMatchJobs'
+import routes from '.'
 import { Services } from '../../services'
-import routes from './index'
 
-jest.mock('./candidateMatchingController')
-jest.mock('../../middleware/resolvers/getCandidateMatchingResolver')
+jest.mock('./prisonerListMatchJobs')
+jest.mock('express', () => ({
+  Router: jest.fn().mockImplementation(() => ({
+    use: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+  })),
+}))
 
-describe('Candidate matching routes', () => {
+describe('Server routes', () => {
   let router: Router
   let services: Services
 
   beforeEach(() => {
-    router = { get: jest.fn() } as unknown as Router
-    services = {
-      candidateMatchingService: {},
-    } as unknown as Services
-    ;(Controller as jest.Mock).mockImplementation(() => ({
-      get: jest.fn(),
-    }))
-    ;(getCandidateMatchingResolver as jest.Mock).mockImplementation(() => jest.fn())
+    router = Router() as Router
+    ;(Router as any).mockImplementation(() => router)
+    services = {} as Services
   })
 
-  it('should register GET route for home page', () => {
-    routes(router, services)
-
-    expect(router.get).toHaveBeenCalledWith(
-      '/candidateMatching',
-      expect.any(Function), // getCandidateMatchingResolver
-      expect.any(Function), // controller.get
-    )
+  it('calls editActionRoutes with router and services', () => {
+    routes(router as any, services as any)
+    expect(prisonerListMatchJobs).toHaveBeenCalledWith(router, services)
   })
 })

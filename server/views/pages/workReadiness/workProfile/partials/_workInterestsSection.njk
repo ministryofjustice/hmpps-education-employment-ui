@@ -1,0 +1,48 @@
+{% if profile.profileData.supportAccepted and profile.profileData.supportAccepted.workInterests %}
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <header class="app-summary-card__header">
+      <h3 class="app-summary-card__title">
+        Work interests
+      </h3>
+    </header>
+
+    <div class="app-summary-card__body">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Type of work
+          </dt>
+          <dd class="govuk-summary-list__value" data-qa="interests-type-of-work">
+            {% for item in profile.profileData.supportAccepted.workInterests.workTypesOfInterest %}
+              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}{{ ',' if profile.profileData.supportAccepted.workInterests.workTypesOfInterest.length !== loop.index }}</div>
+            {% endfor %}
+          </dd>
+          <dd class="govuk-summary-list__actions" id="interests-type-of-work-link">
+            <a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.workReadiness.createProfile.typeOfWork(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+              Change<span class="govuk-visually-hidden"> answer for Type of work</span>
+            </a>
+          </dd>
+        </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Specific job role of interest
+          </dt>
+          <dd class="govuk-summary-list__value" data-qa="interests-type-particular-interest">
+            {{ contentLookup.fields.yesNo.YES if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest else contentLookup.fields.yesNo.NO }} <br><br>
+            {{ ('Details: ' + profile.profileData.supportAccepted.workInterests.jobOfParticularInterest if profile.profileData.supportAccepted.workInterests.jobOfParticularInterest) | nl2br | safe }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link govuk-link--no-visited-state" id="interests-type-particular-interest-link" href="{{ addressLookup.workReadiness.createProfile.jobOfParticularInterest(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+              Change<span class="govuk-visually-hidden"> answer for Specific job role of interest</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+        </div>
+      </dl>
+
+      <p class="app-summary-card__hint" data-qa="interests-type-last-updated">Last updated {{ profile.profileData.supportAccepted.workInterests.modifiedDateTime }} by {{ profile.profileData.supportAccepted.workInterests.modifiedByName }}</p>
+    </div>
+  </section>
+{% endif %}
