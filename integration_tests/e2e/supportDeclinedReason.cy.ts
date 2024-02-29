@@ -7,6 +7,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getPrisonerById')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
@@ -16,7 +17,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
@@ -52,7 +53,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - edit - Select NO_REASON - navigates to check-answers page', () => {
-    cy.visit('/profile/create/G6115VJ/support-declined-reason/edit')
+    cy.visit('/wr/profile/create/G6115VJ/support-declined-reason/edit')
 
     const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
 

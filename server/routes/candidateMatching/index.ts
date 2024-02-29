@@ -1,11 +1,7 @@
-import type { Router } from 'express'
-
-import CandidateMatchingController from './candidateMatchingController'
-import getCandidateMatchingResolver from '../../middleware/resolvers/getCandidateMatchingResolver'
+import { Router } from 'express'
 import type { Services } from '../../services'
+import prisonerListMatchJobsRoutes from './prisonerListMatchJobs'
 
-export default (router: Router, services: Services) => {
-  const controller = new CandidateMatchingController()
-
-  router.get('/candidateMatching', getCandidateMatchingResolver(services.candidateMatchingService), controller.get)
+export default function attachRoutes(router: Router, services: Services): void {
+  prisonerListMatchJobsRoutes(router, services)
 }

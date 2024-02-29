@@ -1,19 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
-import workProfileRoutes from './workProfile'
-import cohortListRoutes from './cohortList'
-import createProfileRoutes from './createProfile'
-import changeStatusRoutes from './changeStatus'
-import actionsRoutes from './actions'
+import homePageRoutes from './homePage'
 import accessibilityStatementRoutes from './accessibilityStatement'
 import { Services } from '../services'
 import routes from '.'
 
-jest.mock('./workProfile')
-jest.mock('./cohortList')
-jest.mock('./createProfile')
-jest.mock('./changeStatus')
-jest.mock('./actions')
+jest.mock('./homePage')
 jest.mock('./accessibilityStatement')
 jest.mock('express', () => ({
   Router: jest.fn().mockImplementation(() => ({
@@ -37,11 +29,7 @@ describe('Server routes', () => {
 
   it('calls editActionRoutes with router and services', () => {
     routes(services as any)
-    expect(workProfileRoutes).toHaveBeenCalledWith(router, services)
-    expect(cohortListRoutes).toHaveBeenCalledWith(router, services)
-    expect(createProfileRoutes).toHaveBeenCalledWith(router, services)
-    expect(changeStatusRoutes).toHaveBeenCalledWith(router, services)
-    expect(actionsRoutes).toHaveBeenCalledWith(router, services)
+    expect(homePageRoutes).toHaveBeenCalledWith(router, services)
     expect(accessibilityStatementRoutes).toHaveBeenCalledWith(router)
   })
 })
