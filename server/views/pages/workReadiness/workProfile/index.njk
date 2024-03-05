@@ -38,18 +38,7 @@
 
 {% block content %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-quarter">
-      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Prison number: <span class="govuk-body" data-qa="prison-number">{{ prisoner.prisonerNumber }}</span></p>
-    </div>
-    <div class="govuk-grid-column-three-quarters">
-      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Release date: <span class="govuk-body" data-qa="release-date">{{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}</span></p>
-    </div>
-  </div>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">{{ title }}</h1>
-    </div>
+    {% include './partials/_profileHeader.njk' %}
   </div>
 
   {% include './partials/_navigation.njk' %}

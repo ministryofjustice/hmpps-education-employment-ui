@@ -1,0 +1,42 @@
+{% from "../../../../macros/cohortListStatus.njk" import statusTag %}
+
+<div class="dps-mini-profile-header">
+  <img class="app-prisoner-photo" src="/assets/images/image-missing.jpg" alt="Prisoner image">
+
+  <dl>
+    <dt>
+      <a href="#" class="govuk-link">
+      <strong>
+        {{ prisoner.lastName }}, {{ prisoner.firstName }}
+      </strong>
+    </a>
+    </dt>
+    <dd class="govuk-body">
+      {{ prisoner.prisonerNumber }}
+    </dd>
+
+    {{ statusTag(profile.profileData.status) }}
+    <a class="govuk-link govuk-link--no-visited-state" id="change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) }}">
+      Change<span class="govuk-visually-hidden"> status</span>
+    </a>
+  </dl>
+  <dl>
+    <dt>Location</dt>
+    <dd class="govuk-body">
+      {{ prisoner.cellLocation }}
+    </dd>
+  </dl>
+  <dl>
+    <dt>Release date and type</dt>
+    <dd class="govuk-body">
+      {{ prisoner.releaseDate }}<br>
+      {{ prisoner.nonDtoReleaseDateType }}
+    </dd>
+  </dl>
+  <dl>
+    <dt>Release area</dt>
+    <dd class="govuk-body">
+      
+    </dd>
+  </dl>
+</div>
