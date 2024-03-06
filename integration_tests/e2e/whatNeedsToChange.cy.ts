@@ -8,6 +8,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getPrisonerById')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
@@ -17,7 +18,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
@@ -69,7 +70,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select YES - navigates to check-answers page', () => {
-    cy.visit('/profile/create/G6115VJ/what-needs-to-change/edit')
+    cy.visit('/wr/profile/create/G6115VJ/what-needs-to-change/edit')
 
     const whatNeedsToChange = new WhatNeedsToChangePage(
       'What change in circumstances would make Daniel Craig want to get work?',
