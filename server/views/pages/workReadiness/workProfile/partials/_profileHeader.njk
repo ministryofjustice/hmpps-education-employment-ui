@@ -1,13 +1,13 @@
 {% from "../../../../macros/cohortListStatus.njk" import statusTag %}
 
 <div class="dps-mini-profile-header">
-  <img class="app-prisoner-photo" src="/assets/images/image-missing.jpg" alt="Prisoner image">
+  <img class="app-prisoner-photo" src="/api/prisoner-image/{{ id }}" alt="Prisoner image">
 
   <dl>
     <dt>
-      <a href="#" class="govuk-link">
+      <a href="{{ dpsUrl }}/prisoner/{{ id }}" class="govuk-link">
       <strong>
-        {{ prisoner.lastName }}, {{ prisoner.firstName }}
+        {{ prisoner.lastName }}, {{ prisoner.firstName }}<span class="govuk-visually-hidden"> DPS profile</span>
       </strong>
     </a>
     </dt>
@@ -15,8 +15,8 @@
       {{ prisoner.prisonerNumber }}
     </dd>
 
-    {{ statusTag(profile.profileData.status) }}
-    <a class="govuk-link govuk-link--no-visited-state" id="change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) }}">
+    {{ statusTag(profile.profileData.status) if profile.profileData.status else statusTag("NOT_STARTED") }}
+    <a class="govuk-link govuk-link--no-visited-state" id="change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) if profile.profileData.status else addressLookup.workReadiness.createProfile.rightToWork(prisoner.prisonerNumber) }}">
       Change<span class="govuk-visually-hidden"> status</span>
     </a>
   </dl>

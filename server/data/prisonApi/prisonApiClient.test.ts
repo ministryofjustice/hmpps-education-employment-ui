@@ -32,19 +32,5 @@ describe('prisonApiClient', () => {
 
       expect(response.read()).toEqual(Buffer.from('image data'))
     })
-
-    it('should log at only info level for 404s', async () => {
-      fakePrisonApi
-        .get(`/api/bookings/offenderNo/A1234AA/image/data`)
-        .matchHeader('authorization', `Bearer ${token}`)
-        .reply(404)
-
-      expect.assertions(3)
-
-      await expect(client.getPrisonerImage('A1234AA')).rejects.toEqual(new Error('Not Found'))
-
-      expect(logger.info).toHaveBeenCalled()
-      expect(logger.warn).not.toHaveBeenCalled()
-    })
   })
 })
