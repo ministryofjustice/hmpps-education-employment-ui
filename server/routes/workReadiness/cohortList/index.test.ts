@@ -27,7 +27,7 @@ describe('Cohort list routes', () => {
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('should register GET route for new status page', () => {
+  it('should register GET route Cohort list page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
@@ -39,7 +39,7 @@ describe('Cohort list routes', () => {
     )
   })
 
-  it('should register POST route for new status page', () => {
+  it('should register POST route Cohort list page', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(

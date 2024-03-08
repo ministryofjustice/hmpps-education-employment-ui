@@ -9,7 +9,7 @@ jest.mock('./prisonerListMatchJobsController')
 jest.mock('../../../middleware/resolvers/getPrisonerListMatchJobsResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
 
-describe('Cohort list routes', () => {
+describe('Prisoner list routes', () => {
   let router: Router
   let services: Services
 
@@ -27,7 +27,7 @@ describe('Cohort list routes', () => {
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('should register GET route for new status page', () => {
+  it('should register GET route prisoner list page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
@@ -39,7 +39,7 @@ describe('Cohort list routes', () => {
     )
   })
 
-  it('should register POST route for new status page', () => {
+  it('should register POST route prisoner list page', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
