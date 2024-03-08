@@ -1,7 +1,6 @@
 import { Readable } from 'stream'
 import fs from 'fs'
 
-import superagent from 'superagent'
 import path from 'path'
 import config from '../../config'
 import logger from '../../log'
