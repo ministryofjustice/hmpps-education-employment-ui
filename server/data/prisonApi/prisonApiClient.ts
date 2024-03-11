@@ -1,5 +1,7 @@
-import type { Readable } from 'stream'
+import { Readable } from 'stream'
+import fs from 'fs'
 
+import path from 'path'
 import config from '../../config'
 import logger from '../../log'
 import RestClient from '../restClient'
@@ -34,13 +36,23 @@ export default class PrisonApiClient {
   }
 
   async getPrisonerImage(prisonerNumber: string): Promise<Readable> {
-    return this.restClient.stream({
-      path: `/api/bookings/offenderNo/${prisonerNumber}/image/data`,
-      errorLogger: error =>
-        error.status === 404
-          ? logger.info(`No prisoner image available for prisonerNumber: ${prisonerNumber}`)
-          : this.restClient.defaultErrorLogger(error),
-    }) as Promise<Readable>
+    try {
+      const imageResponse = await this.restClient.get<Buffer>({
+        path: `/api/bookings/offenderNo/${prisonerNumber}/image/data`,
+      })
+
+      const stream = new Readable()
+      stream.push(imageResponse)
+      stream.push(null)
+      return stream
+    } catch (error) {
+      logger.info(`No prisoner image available for prisonerNumber: ${prisonerNumber}`)
+
+      const file = `${path.resolve('./')}/assets/images/image-missing.jpg`
+      const filestream: Readable = fs.createReadStream(file)
+
+      return filestream
+    }
   }
 
   async getLastMovement(prisonerNumber: string): Promise<PrisonerMovement[]> {
