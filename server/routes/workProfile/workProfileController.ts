@@ -2,19 +2,19 @@ import _ from 'lodash'
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
-import { getAge } from '../../../utils/index'
-import NeurodivergenceViewModel from '../../../viewModels/neurodivergenceViewModel'
-import LearnerEducationViewModel from '../../../viewModels/learnerEducationViewModel'
-import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
-import ProfileViewModel from '../../../viewModels/profileViewModel'
-import AssessmentViewModel from '../../../viewModels/assessmentViewModel'
-import EmployabilitySkillViewModel from '../../../viewModels/employabilitySkillViewModel'
-import ActivityViewModel from '../../../viewModels/activityViewModel'
-import { deleteSessionData } from '../../../utils/session'
+import { getAge } from '../../utils/index'
+import NeurodivergenceViewModel from '../../viewModels/neurodivergenceViewModel'
+import LearnerEducationViewModel from '../../viewModels/learnerEducationViewModel'
+import PrisonerViewModel from '../../viewModels/prisonerViewModel'
+import ProfileViewModel from '../../viewModels/profileViewModel'
+import AssessmentViewModel from '../../viewModels/assessmentViewModel'
+import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
+import ActivityViewModel from '../../viewModels/activityViewModel'
+import { deleteSessionData } from '../../utils/session'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { id, tab } = req.params
+    const { module, id, tab } = req.params
     const {
       prisoner,
       profile,
@@ -33,6 +33,7 @@ export default class WorkProfileController {
       deleteSessionData(req, ['editAction', id, 'cachedValues'])
 
       const data = {
+        module,
         id,
         prisoner: {
           ...plainToClass(PrisonerViewModel, prisoner),
@@ -56,7 +57,7 @@ export default class WorkProfileController {
         tab,
       }
 
-      res.render('pages/workReadiness/workProfile/index', { ...data })
+      res.render('pages/workProfile/index', { ...data })
     } catch (err) {
       next(err)
     }
