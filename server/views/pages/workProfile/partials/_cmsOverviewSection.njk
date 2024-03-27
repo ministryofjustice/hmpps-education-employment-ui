@@ -40,18 +40,12 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Forklift operator<br> <span class="govuk-hint govuk-!-margin-bottom-0"> Amazon</span></td>
-              <td class="govuk-table__cell">10 February 2024</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Warehouse handler<br> <span class="govuk-hint govuk-!-margin-bottom-0"> Tesco</span></td>
-              <td class="govuk-table__cell">15 February 2024</td>
-            </tr>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Workshop operative / handler<br> <span class="govuk-hint govuk-!-margin-bottom-0"> Exchange People</span></td>
-              <td class="govuk-table__cell">15 February 2024</td>
-            </tr>
+            {% for item in matchedJobs %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.closingDate }}</td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
         <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
@@ -65,10 +59,12 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Bricklayer<br> <span class="govuk-hint govuk-!-margin-bottom-0"> ABC Construction</span></td>
-              <td class="govuk-table__cell">31 January 2024</td>
-            </tr>
+            {% for item in flaggedJobs %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.closingDate }}</td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
 
@@ -88,11 +84,13 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Vegetable packing operative<br> <span class="govuk-hint govuk-!-margin-bottom-0"> CBS Labour</span></td>
-              <td class="govuk-table__cell">Application submitted</td>
-              <td class="govuk-table__cell"><a href="../manage-progress-applied" aria-describedby="job1-details">View details</a></td>
-            </tr>
+            {% for item in openApplications %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
+                <td class="govuk-table__cell"><a href="../manage-progress-applied" aria-describedby="job1-details">View details</a></td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -109,11 +107,13 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell">Forklift operator<br> <span class="govuk-hint govuk-!-margin-bottom-0"> Z Labour</span></td>
-              <td class="govuk-table__cell">Unsuccessful application</td>
-              <td class="govuk-table__cell"><a href="#" aria-describedby="job1-details">View details</a></td>
-            </tr>
+            {% for item in closedApplications %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
+                <td class="govuk-table__cell"><a href="../manage-progress-applied" aria-describedby="job1-details">View details</a></td>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

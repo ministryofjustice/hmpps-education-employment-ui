@@ -11,6 +11,7 @@ import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
 import { deleteSessionData } from '../../utils/session'
+import JobViewModel from '../../viewModels/jobViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -27,6 +28,10 @@ export default class WorkProfileController {
       unacceptableAbsenceCount,
       pom,
       com,
+      matchedJobs,
+      flaggedJobs,
+      openApplications,
+      closedApplications,
     } = req.context
 
     try {
@@ -34,6 +39,7 @@ export default class WorkProfileController {
 
       const data = {
         module,
+        tab,
         id,
         prisoner: {
           ...plainToClass(PrisonerViewModel, prisoner),
@@ -54,7 +60,10 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        tab,
+        matchedJobs: plainToClass(JobViewModel, _.get(matchedJobs, 'content', [])),
+        flaggedJobs: plainToClass(JobViewModel, _.get(flaggedJobs, 'content', [])),
+        openApplications: _.get(openApplications, 'content', []),
+        closedApplications: _.get(closedApplications, 'content', []),
       }
 
       res.render('pages/workProfile/index', { ...data })
