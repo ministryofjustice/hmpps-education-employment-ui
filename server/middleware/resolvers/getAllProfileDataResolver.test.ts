@@ -223,6 +223,8 @@ describe('getComByIdResolver', () => {
 
     expect(req.context.prisoner).toEqual('prisoner')
     expect(req.context.keyworker).toEqual('keyworker')
+    expect(req.context.com).toEqual('com')
+    expect(req.context.pom).toEqual('pom')
 
     expect(next).toHaveBeenCalledWith()
   })

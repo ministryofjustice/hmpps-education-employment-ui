@@ -13,6 +13,8 @@ import getMatchedJobs from './utils/getMatchedJobs'
 import getFlaggedJobs from './utils/getFlaggedJobs'
 import getOpenApplications from './utils/getOpenApplications'
 import getClosedApplications from './utils/getClosedApplications'
+import getComById from './utils/getComById'
+import getPomById from './utils/getPomById'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -61,11 +63,17 @@ const getPersonalTabData = async (req: any, res: any, services: Services): Promi
 const getContactTabData = async (req: any, res: any, services: Services): Promise<void> => {
   const { id } = req.params
   const { username } = res.locals.user
-  const { keyworkerService } = services
+  const { keyworkerService, deliusIntegrationService, allocationManagerService } = services
 
   // TODO: put failing calls back in
-  const [keyworker] = await Promise.all([getKeyworkerById(keyworkerService, username, id)])
+  const [com, pom, keyworker] = await Promise.all([
+    getComById(deliusIntegrationService, username, id),
+    getPomById(allocationManagerService, username, id),
+    getKeyworkerById(keyworkerService, username, id),
+  ])
 
+  req.context.com = com
+  req.context.pom = pom
   req.context.keyworker = keyworker
 }
 
