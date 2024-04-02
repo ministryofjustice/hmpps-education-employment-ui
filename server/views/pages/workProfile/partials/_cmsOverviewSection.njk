@@ -1,0 +1,125 @@
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h2 class="app-summary-card__title">
+      Matched jobs and applications
+    </h2>
+  </header>
+
+  <div class="app-summary-card__body">
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">
+        Matched jobs and applications
+      </h2>
+      <ul class="govuk-tabs__list" role="tablist">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+          <a class="govuk-tabs__tab" href="#matched-jobs" id="tab_matched-jobs" role="tab" aria-controls="matched-jobs" aria-selected="true" tabindex="0">
+            Matched jobs
+          </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+          <a class="govuk-tabs__tab" href="#open-applications" id="tab_open-applications" role="tab" aria-controls="open-applications" aria-selected="false" tabindex="-1">
+            Open applications
+          </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+          <a class="govuk-tabs__tab" href="#closed-applications" id="tab_closed-applications" role="tab" aria-controls="closed-applications" aria-selected="false" tabindex="-1">
+            Closed applications
+          </a>
+        </li>
+      </ul>
+
+      
+      <!-- TAB 1 -->
+      <div class="govuk-tabs__panel" id="matched-jobs" role="tabpanel" aria-labelledby="tab_matched-jobs">
+        <h2 class="govuk-heading-s">Matched jobs closing soon</h2>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Job</th>
+              <th scope="col" class="govuk-table__header">Closing date</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in matchedJobs %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.closingDate }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
+        <p class="govuk-hint">Other jobs the prisoner noted an interest in on the jobs board.</p>
+
+        <table class="govuk-table govuk-!-margin-bottom-5">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Job</th>
+              <th scope="col" class="govuk-table__header">Closing date</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in flaggedJobs %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.closingDate }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <p class="govuk-body"><a class="govuk-link" href="../job-match-list-suggested">View all matched jobs</a></p>
+
+      </div>
+
+      <!-- TAB 2 -->
+      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="open-applications" role="tabpanel" aria-labelledby="tab_open-applications">
+        <h2 class="govuk-heading-s">Open applications</h2>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Job</th>
+              <th scope="col" class="govuk-table__header">Application status</th>
+              <th scope="col" class="govuk-table__header"></th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in openApplications %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
+                <td class="govuk-table__cell"><a href="../manage-progress-applied" aria-describedby="job1-details">View details</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TAB 3 -->
+      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="closed-applications" role="tabpanel" aria-labelledby="tab_closed-applications">
+        <h2 class="govuk-heading-s">Closed applications</h2>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Job</th>
+              <th scope="col" class="govuk-table__header">Application status</th>
+              <th scope="col" class="govuk-table__header"></th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in closedApplications %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
+                <td class="govuk-table__cell"><a href="../manage-progress-applied" aria-describedby="job1-details">View details</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+</section>
