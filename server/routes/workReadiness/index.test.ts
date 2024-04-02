@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Router } from 'express'
-import workProfileRoutes from './workProfile'
 import cohortListRoutes from './cohortList'
 import createProfileRoutes from './createProfile'
 import changeStatusRoutes from './changeStatus'
@@ -8,7 +7,6 @@ import actionsRoutes from './actions'
 import { Services } from '../../services'
 import routes from '.'
 
-jest.mock('./workProfile')
 jest.mock('./cohortList')
 jest.mock('./createProfile')
 jest.mock('./changeStatus')
@@ -35,7 +33,6 @@ describe('Server routes', () => {
 
   it('calls editActionRoutes with router and services', () => {
     routes(router as any, services as any)
-    expect(workProfileRoutes).toHaveBeenCalledWith(router, services)
     expect(cohortListRoutes).toHaveBeenCalledWith(router, services)
     expect(createProfileRoutes).toHaveBeenCalledWith(router, services)
     expect(changeStatusRoutes).toHaveBeenCalledWith(router, services)

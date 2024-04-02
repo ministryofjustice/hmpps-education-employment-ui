@@ -2,11 +2,13 @@
 import { Router } from 'express'
 import homePageRoutes from './homePage'
 import accessibilityStatementRoutes from './accessibilityStatement'
+import workProfileRoutes from './workProfile'
 import { Services } from '../services'
 import routes from '.'
 
 jest.mock('./homePage')
 jest.mock('./accessibilityStatement')
+jest.mock('./workProfile')
 jest.mock('express', () => ({
   Router: jest.fn().mockImplementation(() => ({
     use: jest.fn(),
@@ -31,5 +33,6 @@ describe('Server routes', () => {
     routes(services as any)
     expect(homePageRoutes).toHaveBeenCalledWith(router, services)
     expect(accessibilityStatementRoutes).toHaveBeenCalledWith(router)
+    expect(workProfileRoutes).toHaveBeenCalledWith(router, services)
   })
 })
