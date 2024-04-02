@@ -1,6 +1,6 @@
-{% extends "../../../partials/layout.njk" %}
-{% from "../../../partials/navBar.njk" import navBar with context %}
-{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% extends "../../partials/layout.njk" %}
+{% from "../../partials/navBar.njk" import navBar with context %}
+{% from "../../partials/breadCrumb.njk" import breadCrumb %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
@@ -27,8 +27,8 @@
                 href: '/'
             },
             {
-                text: "Get someone ready to work",
-                href: "/wr/cohort-list"
+                text: "Get someone ready to work" if module === 'wr' else 'Match jobs and manage applications',
+                href: "/wr/cohort-list" if module === 'wr' else '/cms/prisoners'
             }
         ],
         classes: 'govuk-!-display-none-print'

@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import Controller from './workProfileController'
-import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
-import getAllProfileDataResolver from '../../../middleware/resolvers/getAllProfileDataResolver'
-import { Services } from '../../../services'
+import getProfileByIdResolver from '../../middleware/resolvers/getProfileByIdResolver'
+import getAllProfileDataResolver from '../../middleware/resolvers/getAllProfileDataResolver'
+import { Services } from '../../services'
 import routes from './index'
 
 jest.mock('./workProfileController')
-jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
-jest.mock('../../../middleware/resolvers/getAllProfileDataResolver')
+jest.mock('../../middleware/resolvers/getProfileByIdResolver')
+jest.mock('../../middleware/resolvers/getAllProfileDataResolver')
 
 describe('Cohort list routes', () => {
   let router: Router
@@ -31,7 +31,7 @@ describe('Cohort list routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/wr/profile/:id/view/:tab',
+      '/:module/profile/:id/view/:tab',
       [
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getAllProfileDataResolver

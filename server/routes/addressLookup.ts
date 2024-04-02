@@ -31,5 +31,6 @@ export default {
   },
   candidateMatching: {
     prisonerMatchJobsList: () => '/cms/prisoners',
+    workProfile: (id: string, tab = 'overview') => `/cms/profile/${id}/view/${tab}`,
   },
 }

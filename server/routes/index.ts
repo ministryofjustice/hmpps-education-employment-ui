@@ -5,6 +5,7 @@ import accessibilityStatementRoutes from './accessibilityStatement'
 import candidateMatchingRoutes from './candidateMatching'
 import homePageRoutes from './homePage'
 import apiRoutes from './api'
+import workProfileRoutes from './workProfile'
 
 export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
@@ -12,6 +13,7 @@ export default function routes(services: Services): Router {
   // Append page routes
   homePageRoutes(router, services)
   accessibilityStatementRoutes(router)
+  workProfileRoutes(router, services)
 
   // Work readiness routes
   workReadinessRoutes(router, services)
