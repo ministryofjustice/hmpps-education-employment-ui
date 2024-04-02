@@ -114,7 +114,7 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
-    // expect(req.context.currentOffenderActivities).toEqual('currentOffenderActivities')
+    expect(req.context.currentOffenderActivities).toEqual('currentOffenderActivities')
     expect(req.context.employabilitySkills).toEqual('employabilitySkills')
     expect(req.context.learnerEducation).toEqual('learnerEducation')
     expect(req.context.learnerLatestAssessment).toEqual('learnerLatestAssessment')
