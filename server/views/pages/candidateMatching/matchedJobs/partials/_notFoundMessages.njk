@@ -1,0 +1,22 @@
+{% if matchedJobsResults.totalElements === 0 %}
+  {% if showNeedsSupportFilter %}
+    <span class="govuk-heading-m">0 results for prisoners ready for job-matching</span>
+    <p>To match people to jobs you must first complete their Get someone ready to work assessment.</p>
+
+  {% elif showNeedsSupportFilter === false and typeOfWorkFilter and prisonerNameFilter %}
+    <span class="govuk-heading-m">0 results for "{{ prisonerNameFilter }}" in {{ contentLookup.fields.typeOfWork[typeOfWorkFilter] }}</span>
+    <p>Check your spelling and search again, or select another type of work.</p>
+
+  {% elif showNeedsSupportFilter === false and typeOfWorkFilter %}
+    <span class="govuk-heading-m">0 results in {{ contentLookup.fields.typeOfWork[typeOfWorkFilter] }}</span>
+    <p>Select another type of work, or search by prisoner name.</p>
+
+  {% elif showNeedsSupportFilter === false and prisonerNameFilter %}
+    <span class="govuk-heading-m">0 results for "{{ prisonerNameFilter }}"</span>
+    <p>Check your spelling and search again.</p>
+
+  {% else %}
+    <span class="govuk-heading-m">0 results for prisoners with “Ready to work” status</h3>
+    <p>Select "Show prisoners who 'Need support'" or update prisoner statuses in Get someone ready to work.</p>
+  {% endif %}
+{% endif %}

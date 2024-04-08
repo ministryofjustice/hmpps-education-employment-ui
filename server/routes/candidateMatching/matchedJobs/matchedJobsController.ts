@@ -12,10 +12,10 @@ export default class MatchedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { page, sort, order, typeOfWorkFilter = '', prisonerNameFilter = '', showNeedsSupportFilter = '' } = req.query
+    const { page, sort, order, typeOfWorkFilter = '', locationFilter = '', distanceFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const prisonerSearchResults = req.context.prisonerListMatchedJobs
+    const { matchedJobsResults } = req.context
 
     try {
       // Paginate where necessary
@@ -26,17 +26,17 @@ export default class MatchedJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        prisonerNameFilter && `prisonerNameFilter=${decodeURIComponent(prisonerNameFilter as string)}`,
+        locationFilter && `locationFilter=${decodeURIComponent(locationFilter as string)}`,
         typeOfWorkFilter && `typeOfWorkFilter=${decodeURIComponent(typeOfWorkFilter as string)}`,
-        showNeedsSupportFilter && showNeedsSupportFilter !== '' && `showNeedsSupportFilter=true`,
+        distanceFilter && distanceFilter !== '' && `distanceFilter=true`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
       // Build pagination or error messages
-      if (prisonerSearchResults.totalElements) {
-        if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (matchedJobsResults.totalElements) {
+        if (matchedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPagination(
-            prisonerSearchResults,
+            matchedJobsResults,
             new URL(`${req.protocol}://${req.get('host')}${MATCHED_JOBS}?${uri.join('&')}`),
           )
         }
@@ -44,19 +44,19 @@ export default class MatchedJobsController {
 
       // Render data
       const data = {
-        prisonerSearchResults,
+        matchedJobsResults,
         sort,
         order,
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
-        prisonerNameFilter: decodeURIComponent(prisonerNameFilter as string),
+        locationFilter: decodeURIComponent(locationFilter as string),
         typeOfWorkFilter: decodeURIComponent(typeOfWorkFilter as string),
-        showNeedsSupportFilter: decodeURIComponent(showNeedsSupportFilter as string) === 'true',
+        distanceFilter: decodeURIComponent(distanceFilter as string) === 'true',
         filtered:
-          decodeURIComponent(prisonerNameFilter as string) ||
+          decodeURIComponent(locationFilter as string) ||
           decodeURIComponent(typeOfWorkFilter as string) ||
-          decodeURIComponent(showNeedsSupportFilter as string),
+          decodeURIComponent(distanceFilter as string),
       }
 
       res.render('pages/candidateMatching/matchedJobs/index', { ...data })
@@ -67,7 +67,7 @@ export default class MatchedJobsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { sort, order } = req.query
-    const { typeOfWorkFilter, prisonerNameFilter, showNeedsSupportFilter } = req.body
+    const { typeOfWorkFilter, locationFilter, distanceFilter } = req.body
 
     try {
       // If validation errors render errors
@@ -86,8 +86,8 @@ export default class MatchedJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        showNeedsSupportFilter && `showNeedsSupportFilter=true`,
-        prisonerNameFilter && `prisonerNameFilter=${encodeURIComponent(prisonerNameFilter)}`,
+        distanceFilter && `distanceFilter=true`,
+        locationFilter && `locationFilter=${encodeURIComponent(locationFilter)}`,
         typeOfWorkFilter && `typeOfWorkFilter=${encodeURIComponent(typeOfWorkFilter)}`,
       ].filter(val => !!val)
 

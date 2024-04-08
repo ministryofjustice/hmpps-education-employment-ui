@@ -16,9 +16,9 @@ describe('MatchedJobsController', () => {
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
-  req.context.prisonerListMatchedJobs = {
-    prisonerSearchResults: {
-      prisonerSearchResults: [
+  req.context.matchedJobsResults = {
+    matchedJobsResults: {
+      content: [
         {
           displayName: 'mock_displayName',
           releaseDate: 'mock_releaseDate',
@@ -50,7 +50,7 @@ describe('MatchedJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.prisonerListMatchedJobs
+  const mockData = req.context.matchedJobsResults
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -85,12 +85,12 @@ describe('MatchedJobsController', () => {
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
-        prisonerNameFilter: '',
-        prisonerSearchResults: {
+        locationFilter: '',
+        matchedJobsResults: {
           filterStatus: 'ALL',
           order: 'descending',
-          prisonerSearchResults: {
-            prisonerSearchResults: [
+          matchedJobsResults: {
+            content: [
               { displayName: 'mock_displayName', releaseDate: 'mock_releaseDate', status: 'mock_status' },
               { displayName: 'mock_displayName2', releaseDate: 'mock_releaseDate', status: 'mock_status' },
             ],
@@ -100,7 +100,7 @@ describe('MatchedJobsController', () => {
           sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
         },
-        showNeedsSupportFilter: false,
+        distanceFilter: false,
         sort: 'releaseDate',
         typeOfWorkFilter: '',
         userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
@@ -149,15 +149,15 @@ describe('MatchedJobsController', () => {
     })
 
     it('On successful POST - call renders with the correct data', async () => {
-      req.body.prisonerNameFilter = 'name1'
+      req.body.locationFilter = 'name1'
       req.body.typeOfWorkFilter = 'COOKING'
-      req.body.showNeedsSupportFilter = 'true'
+      req.body.distanceFilter = 'true'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/jobs/matched?sort=releaseDate&order=descending&showNeedsSupportFilter=true&prisonerNameFilter=name1&typeOfWorkFilter=COOKING`,
+        `/cms/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&locationFilter=name1&typeOfWorkFilter=COOKING`,
       )
     })
   })
