@@ -115,7 +115,7 @@ const getCmsData = async (req: any, res: any, services: Services): Promise<void>
     getClosedApplications(jobApplicationService, username, id),
   ])
 
-  req.context.matchedJobs = matchedJobs
+  req.context.matchedJobsResults = matchedJobs
   req.context.flaggedJobs = flaggedJobs
   req.context.openApplications = openApplications
   req.context.closedApplications = closedApplications

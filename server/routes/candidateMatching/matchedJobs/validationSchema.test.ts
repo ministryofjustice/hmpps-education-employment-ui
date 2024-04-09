@@ -7,32 +7,32 @@ describe('validationSchema', () => {
   const longStr = 'x'.repeat(201)
   const schema = validationSchema()
 
-  it('On validation success - should allow a prisonerNameFilter with 200 characters', () => {
-    req.body.prisonerNameFilter = 'x'.repeat(200)
+  it('On validation success - should allow a distanceFilter with 200 characters', () => {
+    req.body.distanceFilter = 'x'.repeat(200)
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeFalsy()
   })
 
-  it('On validation error - should disallow a prisonerNameFilter longer than 200 characters', () => {
-    req.body.prisonerNameFilter = longStr
+  it('On validation error - should disallow a distanceFilter longer than 200 characters', () => {
+    req.body.distanceFilter = longStr
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeTruthy()
     expect(error.details[0].message).toBe('Name must be 200 characters or less')
   })
-  it('On validation success - should allow a prisonerNameFilter with 200 characters', () => {
-    req.body.prisonerNameFilter = 'xx'
+  it('On validation success - should allow a distanceFilter with 200 characters', () => {
+    req.body.distanceFilter = 'xx'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeFalsy()
   })
 
-  it('On validation error - should disallow a prisonerNameFilter shorter than 2 characters', () => {
-    req.body.prisonerNameFilter = 'x'
+  it('On validation error - should disallow a distanceFilter shorter than 2 characters', () => {
+    req.body.distanceFilter = 'x'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 

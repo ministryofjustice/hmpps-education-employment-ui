@@ -17,21 +17,8 @@ describe('MatchedJobsController', () => {
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
   req.context.matchedJobsResults = {
-    matchedJobsResults: {
-      content: [
-        {
-          displayName: 'mock_displayName',
-          releaseDate: 'mock_releaseDate',
-          status: 'mock_status',
-        },
-        {
-          displayName: 'mock_displayName2',
-          releaseDate: 'mock_releaseDate',
-          status: 'mock_status',
-        },
-      ],
-      totalElements: 2,
-    },
+    content: [],
+    totalElements: 0,
     sort: 'releaseDate',
     order: 'descending',
     userActiveCaseLoad: {
@@ -45,7 +32,8 @@ describe('MatchedJobsController', () => {
 
   req.params.sort = 'releaseDate'
   req.params.order = 'descending'
-  const { sort, order } = req.params
+  req.params.id = 'mock_id'
+  const { sort, order, id } = req.params
 
   req.query = { sort, order }
   req.get = jest.fn()
@@ -81,7 +69,7 @@ describe('MatchedJobsController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
-        filtered: '',
+        profile: undefined,
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
@@ -89,20 +77,32 @@ describe('MatchedJobsController', () => {
         matchedJobsResults: {
           filterStatus: 'ALL',
           order: 'descending',
-          matchedJobsResults: {
-            content: [
-              { displayName: 'mock_displayName', releaseDate: 'mock_releaseDate', status: 'mock_status' },
-              { displayName: 'mock_displayName2', releaseDate: 'mock_releaseDate', status: 'mock_status' },
-            ],
-            totalElements: 2,
-          },
+          content: [],
+          totalElements: 0,
           searchTerm: '',
           sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
         },
-        distanceFilter: false,
+        distanceFilter: '10',
         sort: 'releaseDate',
         typeOfWorkFilter: '',
+        typeOfWorkOptions: [],
+        typeOfWorkOtherOptions: [
+          'OUTDOOR',
+          'CONSTRUCTION',
+          'DRIVING',
+          'BEAUTY',
+          'HOSPITALITY',
+          'TECHNICAL',
+          'MANUFACTURING',
+          'OFFICE',
+          'RETAIL',
+          'SPORTS',
+          'WAREHOUSING',
+          'EDUCATION_TRAINING',
+          'WASTE_MANAGEMENT',
+          'CLEANING_AND_MAINTENANCE',
+        ],
         userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
       })
       expect(next).toHaveBeenCalledTimes(0)
@@ -150,14 +150,14 @@ describe('MatchedJobsController', () => {
 
     it('On successful POST - call renders with the correct data', async () => {
       req.body.locationFilter = 'name1'
-      req.body.typeOfWorkFilter = 'COOKING'
+      req.body.typeOfWorkFilter = ['COOKING']
       req.body.distanceFilter = 'true'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&locationFilter=name1&typeOfWorkFilter=COOKING`,
+        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&locationFilter=name1&typeOfWorkFilter=COOKING`,
       )
     })
   })

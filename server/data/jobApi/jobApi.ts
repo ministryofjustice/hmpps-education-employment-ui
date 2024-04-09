@@ -1,5 +1,6 @@
 import config from '../../config'
 import RestClient from '../restClient'
+import mockJobs from './mockJobs'
 
 // const BASE_URL = '/jobs'
 
@@ -21,23 +22,17 @@ export default class JobApiClient {
 
 const mockMatchedJobs = {
   default: {
-    content: [
-      {
-        employerName: 'Amazon',
-        jobTitle: 'Forklift operator',
-        closingDate: new Date().toISOString(),
-      },
-      {
-        employerName: 'Tesco',
-        jobTitle: 'Warehouse handler',
-        closingDate: new Date().toISOString(),
-      },
-      {
-        employerName: 'Exchange People',
-        jobTitle: 'Workshop operative / handler',
-        closingDate: new Date().toISOString(),
-      },
-    ],
+    content: mockJobs,
+    number: 0,
+    size: 10,
+    totalElements: 24,
+    first: true,
+    last: false,
+    numberOfElements: 10,
+    totalPages: 3,
+    hasContent: true,
+    pageable: { sort: ['closingDate'], pageNumber: 0, pageSize: 10, offset: 0, paged: true, unpaged: false },
+    empty: false,
   },
 }
 
@@ -50,5 +45,15 @@ const mockFlaggedJobs = {
         closingDate: new Date().toISOString(),
       },
     ],
+    number: 0,
+    size: 10,
+    totalElements: 24,
+    first: true,
+    last: false,
+    numberOfElements: 10,
+    totalPages: 3,
+    hasContent: true,
+    pageable: { sort: ['closingDate'], pageNumber: 0, pageSize: 10, offset: 0, paged: true, unpaged: false },
+    empty: false,
   },
 }

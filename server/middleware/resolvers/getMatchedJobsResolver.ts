@@ -10,9 +10,9 @@ const getMatchedJobsResolver =
     const { username } = res.locals.user
 
     try {
-      const matchedJobs = getMatchedJobs(jobService, username, id)
+      const matchedJobs = await getMatchedJobs(jobService, username, id)
 
-      req.context.matchedJobs = matchedJobs
+      req.context.matchedJobsResults = matchedJobs
 
       next()
     } catch (err) {

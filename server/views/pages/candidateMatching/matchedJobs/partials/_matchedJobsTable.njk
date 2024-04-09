@@ -7,10 +7,28 @@
         <table id="view-offender" class="govuk-table view-offender">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header" aria-sort="ascending"><button type="button" data-index="0">Job role</button></th>
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "jobTitle",
+                    headerText: "Job role"
+                }) }}
                 <th scope="col" class="govuk-table__header">Type of work</th>
-                <th scope="col" class="govuk-table__header" aria-sort="ascending"><button type="button" data-index="2">Job location</button></th>
-                <th scope="col" class="govuk-table__header" aria-sort="ascending"><button type="button" data-index="3">Closing date</button></th>
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "distance",
+                    headerText: "Job location"
+                }) }}
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "closingDate",
+                    headerText: "Closing date"
+                }) }}
             </tr>
         </thead>
 
@@ -19,24 +37,21 @@
 
         {% for job in matchedJobsResults.content %}
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="Forklift operator" href="job-description-forklift">Forklift operator</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> Amazon</span></td>
-                <td class="govuk-table__cell">Warehousing and storage</td>
-                <td class="govuk-table__cell" data-sort-value="4.1">
-                    Leeds, LS12
+                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="{{ job.jobTitle }}" href="job-description-forklift">{{ job.jobTitle }}</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.distance }}">
+                    {{ job.town }}, {{ job.postcode }}
                     <div class="timeline">
                         <ul>
                             <li>
-                            <!-- <h3>1.5 miles<h3>
-                            <p>Public transport: 31 minutes</p>
-                            <p style="margin-bottom: 0px">Car: 27 minutes</p> -->
-                            <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">4.1 miles</p>
+                            <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">{{ job.distance }} miles</p>
                             </li>
                             <li>
                             </li>
                         </ul>
                     </div>
                 </td>
-                <td class="govuk-table__cell" data-sort-value="2024.02.10">10 Feb 2024</td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate }}</td>
             </tr>
         {% endfor %}
 

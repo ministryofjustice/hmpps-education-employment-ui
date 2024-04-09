@@ -2,12 +2,16 @@ import { Router } from 'express'
 import Controller from './matchedJobsController'
 import getPrisonerListMatchedJobsResolver from '../../../middleware/resolvers/getMatchedJobsResolver'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
+import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
+import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./matchedJobsController')
+jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../middleware/resolvers/getMatchedJobsResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
+jest.mock('../../../middleware/parseCheckBoxValue')
 
 describe('Prisoner list routes', () => {
   let router: Router
@@ -25,14 +29,17 @@ describe('Prisoner list routes', () => {
     }))
     ;(getPrisonerListMatchedJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route prisoner list page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/jobs/matched',
+      '/cms/:id/jobs/matched',
       [
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerListMatchedJobsResolver
       ],
       expect.any(Function), // controller.get
@@ -43,9 +50,11 @@ describe('Prisoner list routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/jobs/matched',
+      '/cms/:id/jobs/matched',
       [
         expect.any(Function), // handleSortMiddleware
+        expect.any(Function), // parseCheckBoxValue
+        expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post
     )
