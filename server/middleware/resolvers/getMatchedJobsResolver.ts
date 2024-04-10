@@ -8,9 +8,18 @@ const getMatchedJobsResolver =
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
+    const { page, sort = '', order = '', typeOfWorkFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
 
     try {
-      const matchedJobs = await getMatchedJobs(jobService, username, id)
+      const matchedJobs = await getMatchedJobs(jobService, username, {
+        offenderNo: id,
+        page: Number(page),
+        sort: sort.toString(),
+        order: order.toString(),
+        typeOfWorkFilter: typeOfWorkFilter.toString(),
+        locationFilter: locationFilter.toString(),
+        distanceFilter: Number(distanceFilter),
+      })
 
       req.context.matchedJobsResults = matchedJobs
 

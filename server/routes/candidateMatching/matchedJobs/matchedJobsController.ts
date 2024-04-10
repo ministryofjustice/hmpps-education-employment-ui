@@ -33,7 +33,7 @@ export default class MatchedJobsController {
         order && `order=${order}`,
         locationFilter && `locationFilter=${decodeURIComponent(locationFilter as string)}`,
         typeOfWorkFilter && `typeOfWorkFilter=${decodeURIComponent(typeOfWorkFilter as string)}`,
-        distanceFilter && distanceFilter !== '' && `distanceFilter=${decodeURIComponent(distanceFilter as string)}`,
+        distanceFilter && `distanceFilter=${decodeURIComponent(distanceFilter as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
