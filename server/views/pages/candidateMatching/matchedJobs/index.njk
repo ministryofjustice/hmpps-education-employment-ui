@@ -6,9 +6,9 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "moj/components/pagination/macro.njk" import mojPagination %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
 {% set offendersToBeReleased = matchedJobsResults.content %}
@@ -16,7 +16,7 @@
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName +"'s work profile" %}
 
 {% block beforeContent %}
-
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
 {% endblock %}
 
 {% block content %}

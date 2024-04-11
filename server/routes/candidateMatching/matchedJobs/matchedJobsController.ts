@@ -11,6 +11,7 @@ import validationSchema from './validationSchema'
 import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import typeOfWorkLookup from '../../../constants/contentLookup/typeOfWork'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class MatchedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -20,7 +21,7 @@ export default class MatchedJobsController {
     const { page, sort, order, typeOfWorkFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { profile, matchedJobsResults } = req.context
+    const { prisoner, profile, matchedJobsResults } = req.context
 
     try {
       // Paginate where necessary
@@ -57,6 +58,9 @@ export default class MatchedJobsController {
 
       // Render data
       const data = {
+        id,
+        backLocation: addressLookup.candidateMatching.workProfile(id),
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
         profile,
         matchedJobsResults,
         sort,
@@ -69,8 +73,12 @@ export default class MatchedJobsController {
           p => !workTypesOfInterest.includes(p) && p !== 'OTHER',
         ),
         locationFilter: decodeURIComponent(locationFilter as string),
-        typeOfWorkFilter: decodeURIComponent(typeOfWorkFilter as string),
+        typeOfWorkFilter: _.compact(decodeURIComponent(typeOfWorkFilter as string).split(',')),
         distanceFilter: decodeURIComponent(distanceFilter as string),
+        filtered:
+          decodeURIComponent(locationFilter as string) ||
+          decodeURIComponent(typeOfWorkFilter as string) ||
+          decodeURIComponent(distanceFilter as string) !== '10',
       }
 
       res.render('pages/candidateMatching/matchedJobs/index', { ...data })

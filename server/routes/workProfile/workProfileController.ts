@@ -60,8 +60,8 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        matchedJobs: plainToClass(JobViewModel, _.get(matchedJobsResults, 'content', [])),
-        flaggedJobs: plainToClass(JobViewModel, _.get(flaggedJobs, 'content', [])),
+        matchedJobs: plainToClass(JobViewModel, _.take(_.get(matchedJobsResults, 'content', []), 3)),
+        flaggedJobs: plainToClass(JobViewModel, _.take(_.get(flaggedJobs, 'content', []), 3)),
         openApplications: _.get(openApplications, 'content', []),
         closedApplications: _.get(closedApplications, 'content', []),
       }

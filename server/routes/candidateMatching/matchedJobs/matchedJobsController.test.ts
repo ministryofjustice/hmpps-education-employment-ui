@@ -69,11 +69,15 @@ describe('MatchedJobsController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
+        backLocation: '/cms/profile/mock_id/view/overview',
         profile: undefined,
+        prisoner: undefined,
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
         locationFilter: '',
+        filtered: false,
+        id: 'mock_id',
         matchedJobsResults: {
           filterStatus: 'ALL',
           order: 'descending',
@@ -85,7 +89,7 @@ describe('MatchedJobsController', () => {
         },
         distanceFilter: '10',
         sort: 'releaseDate',
-        typeOfWorkFilter: '',
+        typeOfWorkFilter: [],
         typeOfWorkOptions: [],
         typeOfWorkOtherOptions: [
           'OUTDOOR',
