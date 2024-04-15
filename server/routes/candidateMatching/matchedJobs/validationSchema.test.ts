@@ -21,7 +21,7 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeTruthy()
-    expect(error.details[0].message).toBe('Name must be 200 characters or less')
+    expect(error.details[0].message).toBe('Release area must be 200 characters or less')
   })
   it('On validation success - should allow a locationFilter with 200 characters', () => {
     req.body.locationFilter = 'xx'
@@ -37,6 +37,6 @@ describe('validationSchema', () => {
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeTruthy()
-    expect(error.details[0].message).toBe('Name must be 2 characters or more')
+    expect(error.details[0].message).toBe('Release area must be 2 characters or more')
   })
 })
