@@ -19,7 +19,7 @@ describe('getMatchedJobs', () => {
     serviceMock.getMatchedJobs.mockRejectedValue(error)
 
     try {
-      await getMatchedJobs(serviceMock as any, username, id)
+      await getMatchedJobs(serviceMock as any, username, { offenderNo: id })
     } catch (err) {
       expect(err).toEqual(error)
     }
@@ -30,7 +30,7 @@ describe('getMatchedJobs', () => {
       status: 404,
     })
 
-    const result = await getMatchedJobs(serviceMock as any, username, id)
+    const result = await getMatchedJobs(serviceMock as any, username, { offenderNo: id })
 
     expect(result).toEqual(undefined)
   })
@@ -38,7 +38,7 @@ describe('getMatchedJobs', () => {
   it('On success - Returns correct data', async () => {
     serviceMock.getMatchedJobs.mockResolvedValue(mockData)
 
-    const result = await getMatchedJobs(serviceMock as any, username, id)
+    const result = await getMatchedJobs(serviceMock as any, username, { offenderNo: id })
 
     expect(result).toEqual(mockData)
   })

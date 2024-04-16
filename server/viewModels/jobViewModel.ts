@@ -13,4 +13,16 @@ export default class JobViewModel {
   @Expose()
   @Transform(formatDateStringToddMMMyyyy)
   closingDate: string
+
+  @Expose()
+  distance: string
+
+  @Expose()
+  city: string
+
+  @Expose()
+  postcode: string
+
+  @Expose()
+  typeOfWork: string
 }

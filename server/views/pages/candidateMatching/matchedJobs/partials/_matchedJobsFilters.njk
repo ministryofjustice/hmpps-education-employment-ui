@@ -1,0 +1,105 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+      <div class="govuk-grid-row">
+
+        <div class="filter-box-width-override-60">
+          <div class="govuk-form-group">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-2" style="padding-left: 15px">
+              Type of work interested in
+            </h3>
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              {% for typeOfWork in typeOfWorkOptions %}
+                <div class="govuk-grid-column-one-half">
+                  <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                    <input class="govuk-checkboxes__input" id="typeOfWorkFilter-{{ loop.index }}" name="typeOfWorkFilter" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if typeOfWorkFilter.includes(typeOfWork) }}>
+                    <label class="govuk-label govuk-checkboxes__label" for="typeOfWorkFilter-{{ loop.index }}">
+                      {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
+                    </label>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-2" style="padding-left: 15px">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Show other types of work
+              </span>
+            </summary>
+            <div class="govuk-details__text" style="border-left: none; padding-left: 0px">
+
+              <div class="govuk-grid-row">
+                <div class="filter-box">
+                  <div class="govuk-form-group">
+                    <h3 class="govuk-heading-s govuk-!-margin-bottom-2" style="padding-left: 15px">
+                      Type of work interested in
+                    </h3>
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                      {% for typeOfWork in typeOfWorkOtherOptions %}
+                        <div class="govuk-grid-column-one-half">
+                          <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                            <input class="govuk-checkboxes__input" id="typeOfWorkFilterOther-{{ loop.index }}" name="typeOfWorkFilterOther" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if typeOfWorkFilter.includes(typeOfWork) }}>
+                            <label class="govuk-label govuk-checkboxes__label" for="typeOfWorkFilterOther-{{ loop.index }}">
+                              {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
+                            </label>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+
+            </div>
+            </div>
+          </details>
+
+        </div>
+
+        <div class="filter-box-width-override-20">
+          <div class="govuk-form-group">
+            <label class="govuk-heading-s govuk-!-margin-bottom-1" for="distanceFilter">
+              Search radius
+            </label>
+            <div id="radius-hint" class="govuk-body govuk-!-margin-bottom-2">
+              From release area
+            </div>
+            <select class="govuk-select" id="distanceFilter" name="distanceFilter">
+              <option value="1" {{ "selected" if distanceFilter === "1" }}>1 mile</option>
+              <option value="4" {{ "selected" if distanceFilter === "4" }}>5 miles</option>
+              <option value="10" {{ "selected" if distanceFilter === "10" }}>10 miles</option>
+              <option value="20" {{ "selected" if distanceFilter === "20" }}>20 miles</option>
+              <option value="50" {{ "selected" if distanceFilter === "50" }}>50 miles</option>
+              <option value="0" {{ "selected" if distanceFilter === "0" }}>National</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-box-width-override-20">
+          <div class="govuk-form-group">
+            <label class="govuk-heading-s govuk-!-margin-bottom-1" for="locationFilter">
+              Release area
+            </label>
+            <div id="locationFilter-hint" class="govuk-body govuk-!-margin-bottom-2">
+              Default is probation office
+            </div>
+            <input class="govuk-input govuk-!-width-two-thirds" id="locationFilter" name="locationFilter" type="text" value="{{ locationFilter }}">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <button class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
+            Apply filters
+          </button>
+          {% if filtered %}
+            <div style="display: inline-block; padding-left: 10px; padding-top: 10px">
+              <a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}" aria-label="Reset filters">Reset filters</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>

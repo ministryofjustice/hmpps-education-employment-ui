@@ -3,6 +3,10 @@ interface GetMatchedJobsResponse {
     employerName: string
     jobTitle: string
     closingDate: string
+    distance: number
+    city: string
+    postcode: string
+    typeOfWork: string
   }[]
 }
 
