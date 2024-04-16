@@ -158,7 +158,7 @@ describe('getComByIdResolver', () => {
 
     expect(req.context.prisoner).toEqual('prisoner')
 
-    expect(req.context.matchedJobs).toEqual('matchedJobs')
+    expect(req.context.matchedJobsResults).toEqual('matchedJobs')
     expect(req.context.flaggedJobs).toEqual('flaggedJobs')
     expect(req.context.openApplications).toEqual('openApplications')
     expect(req.context.closedApplications).toEqual('closedApplications')
@@ -176,7 +176,7 @@ describe('getComByIdResolver', () => {
 
     expect(req.context.prisoner).toEqual('prisoner')
 
-    expect(req.context.matchedJobs).not.toEqual('matchedJobs')
+    expect(req.context.matchedJobsResults).not.toEqual('matchedJobs')
     expect(req.context.flaggedJobs).not.toEqual('flaggedJobs')
     expect(req.context.openApplications).not.toEqual('openApplications')
     expect(req.context.closedApplications).not.toEqual('closedApplications')

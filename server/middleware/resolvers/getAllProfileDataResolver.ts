@@ -109,13 +109,13 @@ const getCmsData = async (req: any, res: any, services: Services): Promise<void>
   const { jobService, jobApplicationService } = services
 
   const [matchedJobs, flaggedJobs, openApplications, closedApplications] = await Promise.all([
-    getMatchedJobs(jobService, username, id),
-    getFlaggedJobs(jobService, username, id),
+    getMatchedJobs(jobService, username, { offenderNo: id }),
+    getFlaggedJobs(jobService, username, { offenderNo: id }),
     getOpenApplications(jobApplicationService, username, id),
     getClosedApplications(jobApplicationService, username, id),
   ])
 
-  req.context.matchedJobs = matchedJobs
+  req.context.matchedJobsResults = matchedJobs
   req.context.flaggedJobs = flaggedJobs
   req.context.openApplications = openApplications
   req.context.closedApplications = closedApplications
