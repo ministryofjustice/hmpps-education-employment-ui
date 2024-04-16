@@ -1,0 +1,13 @@
+{% if matchedJobsResults.totalElements === 0 %}
+  {% if typeOfWorkFilter %}
+    <span class="govuk-heading-m">0 results in 
+      {% for typeOfWork in typeOfWorkFilter %}
+        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== typeOfWorkFilter.length }} </span>
+      {% endfor %}
+    </span>
+    <p>Increase the search radius, change the area or show more types of work.</p>
+  {% else %}
+    <span class="govuk-heading-m">0 results</span>
+    <p>Increase the search radius, change the area or show more types of work.</p>
+  {% endif %}
+{% endif %}
