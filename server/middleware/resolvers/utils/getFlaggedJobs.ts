@@ -8,9 +8,6 @@ const getFlaggedJobs = async (
     page?: number
     sort?: string
     order?: string
-    typeOfWorkFilter?: string
-    locationFilter?: string
-    distanceFilter?: string
   },
 ) => {
   try {

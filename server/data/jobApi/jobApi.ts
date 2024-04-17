@@ -66,15 +66,7 @@ export default class JobApiClient {
     }
   }
 
-  async getFlaggedJobs(params: {
-    offenderNo: string
-    page?: number
-    sort?: string
-    order?: string
-    typeOfWorkFilter?: string
-    locationFilter?: string
-    distanceFilter?: string
-  }) {
+  async getFlaggedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo } = params
 
     return mockFlaggedJobs[offenderNo] ? mockFlaggedJobs[offenderNo] : mockFlaggedJobs.default
