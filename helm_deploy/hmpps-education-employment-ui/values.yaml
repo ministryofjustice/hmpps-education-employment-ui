@@ -64,7 +64,6 @@ generic-service:
       - internal
       - prisons
       - private_prisons
-      - police
 
 generic-prometheus-alerts:
   targetApplication: hmpps-education-employment-ui
