@@ -15,7 +15,7 @@ jest.mock('../../../middleware/resolvers/getMatchedJobsResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Prisoner list routes', () => {
+describe('Matched jobs routes', () => {
   let router: Router
   let services: Services
 

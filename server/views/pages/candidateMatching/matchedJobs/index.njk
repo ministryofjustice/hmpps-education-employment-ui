@@ -35,10 +35,10 @@
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) }}">Matched jobs</a>
+                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.flaggedJobs(id) }}">Other jobs chosen by prisoner</a>
+                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.flaggedJobs(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
                         </li>
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" href="job-match-list-archived">Archived jobs</a>
