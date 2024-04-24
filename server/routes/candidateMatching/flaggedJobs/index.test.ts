@@ -1,21 +1,17 @@
 import { Router } from 'express'
-import Controller from './matchedJobsController'
-import getPrisonerListMatchedJobsResolver from '../../../middleware/resolvers/getMatchedJobsResolver'
+import Controller from './flaggedJobsController'
+import getFlaggedJobsResolver from '../../../middleware/resolvers/getFlaggedJobsResolver'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
-import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
-import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./matchedJobsController')
-jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
+jest.mock('./flaggedJobsController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getMatchedJobsResolver')
+jest.mock('../../../middleware/resolvers/getFlaggedJobsResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
-jest.mock('../../../middleware/parseCheckBoxValue')
 
-describe('Matched jobs routes', () => {
+describe('Flagged jobs routes', () => {
   let router: Router
   let services: Services
 
@@ -29,22 +25,19 @@ describe('Matched jobs routes', () => {
       get: jest.fn(),
       post: jest.fn(),
     }))
-    ;(getPrisonerListMatchedJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getFlaggedJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
-    ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
-    ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route prisoner list page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/jobs/matched',
+      '/cms/:id/jobs/flagged',
       [
-        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getPrisonerListMatchedJobsResolver
+        expect.any(Function), // getPrisonerListFlaggedJobsResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -54,11 +47,9 @@ describe('Matched jobs routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/jobs/matched',
+      '/cms/:id/jobs/flagged',
       [
         expect.any(Function), // handleSortMiddleware
-        expect.any(Function), // parseCheckBoxValue
-        expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post
     )
