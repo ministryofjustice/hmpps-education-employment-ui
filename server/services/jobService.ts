@@ -30,9 +30,6 @@ export default class JobService {
       page?: number
       sort?: string
       order?: string
-      typeOfWorkFilter?: string
-      locationFilter?: string
-      distanceFilter?: string
     },
   ): Promise<GetFlaggedJobsResponse> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)

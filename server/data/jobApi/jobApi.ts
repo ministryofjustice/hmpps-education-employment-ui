@@ -66,15 +66,7 @@ export default class JobApiClient {
     }
   }
 
-  async getFlaggedJobs(params: {
-    offenderNo: string
-    page?: number
-    sort?: string
-    order?: string
-    typeOfWorkFilter?: string
-    locationFilter?: string
-    distanceFilter?: string
-  }) {
+  async getFlaggedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo } = params
 
     return mockFlaggedJobs[offenderNo] ? mockFlaggedJobs[offenderNo] : mockFlaggedJobs.default
@@ -85,20 +77,24 @@ const mockFlaggedJobs = {
   default: {
     content: [
       {
-        employerName: 'ABC Construction',
-        jobTitle: 'Bricklayer',
+        employerName: 'Amazon',
+        jobTitle: 'Forklift operator',
         closingDate: new Date().toISOString(),
+        distance: 4.1,
+        city: 'Leeds',
+        postcode: 'LS23 3JF',
+        typeOfWork: 'OUTDOOR',
       },
     ],
     number: 0,
     size: 10,
-    totalElements: 24,
+    totalElements: 1,
     first: true,
     last: false,
-    numberOfElements: 10,
-    totalPages: 3,
+    numberOfElements: 1,
+    totalPages: 1,
     hasContent: true,
-    pageable: { sort: ['closingDate'], pageNumber: 0, pageSize: 10, offset: 0, paged: true, unpaged: false },
+    pageable: { sort: ['closingDate'], pageNumber: 0, pageSize: 10, offset: 0, paged: false, unpaged: true },
     empty: false,
   },
 }
