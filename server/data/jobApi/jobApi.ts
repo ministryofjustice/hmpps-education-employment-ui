@@ -71,6 +71,56 @@ export default class JobApiClient {
 
     return mockFlaggedJobs[offenderNo] ? mockFlaggedJobs[offenderNo] : mockFlaggedJobs.default
   }
+
+  async getArchivedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
+    const { offenderNo } = params
+
+    return mockArchivedJobs[offenderNo] ? mockArchivedJobs[offenderNo] : mockArchivedJobs.default
+  }
+}
+
+const mockArchivedJobs = {
+  default: {
+    content: [
+      {
+        employerName: "McDonald's",
+        jobTitle: 'Crew Member',
+        closingDate: new Date().toISOString(),
+        distance: 3.2,
+        city: 'Birmingham',
+        postcode: 'B4 6UD',
+        typeOfWork: 'HOSPITALITY',
+      },
+      {
+        employerName: 'Starbucks',
+        jobTitle: 'Barista',
+        closingDate: new Date().toISOString(),
+        distance: 1.8,
+        city: 'London',
+        postcode: 'SW1A 1AA',
+        typeOfWork: 'HOSPITALITY',
+      },
+      {
+        employerName: 'UPS',
+        jobTitle: 'Delivery Driver',
+        closingDate: new Date().toISOString(),
+        distance: 9.4,
+        city: 'Liverpool',
+        postcode: 'L2 5QQ',
+        typeOfWork: 'DRIVING',
+      },
+    ],
+    number: 0,
+    size: 10,
+    totalElements: 1,
+    first: true,
+    last: false,
+    numberOfElements: 1,
+    totalPages: 1,
+    hasContent: true,
+    pageable: { sort: ['closingDate'], pageNumber: 0, pageSize: 10, offset: 0, paged: false, unpaged: true },
+    empty: false,
+  },
 }
 
 const mockFlaggedJobs = {
