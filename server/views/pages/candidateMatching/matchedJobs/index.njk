@@ -41,7 +41,7 @@
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.flaggedJobs(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="job-match-list-archived">Archived jobs</a>
+                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
                         </li>
                         </ul>
                     </nav>
