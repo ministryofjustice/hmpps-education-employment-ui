@@ -168,14 +168,6 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    jobApplicationApi: {
-      url: get('JOB_APPLICATION_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('JOB_APPLICATION_API_URL', 10000)),
-        deadline: Number(get('JOB_APPLICATION_API_URL', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
     frontendComponents: {
       url: get('COMPONENT_API_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
