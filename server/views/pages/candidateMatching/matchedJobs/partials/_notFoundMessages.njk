@@ -1,5 +1,5 @@
 {% if matchedJobsResults.totalElements === 0 %}
-  {% if typeOfWorkFilter %}
+  {% if typeOfWorkFilter.length %}
     <span class="govuk-heading-m">0 results in 
       {% for typeOfWork in typeOfWorkFilter %}
         <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== typeOfWorkFilter.length }} </span>

@@ -38,10 +38,10 @@
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.flaggedJobs(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.flaggedJobs(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
+                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
                         </li>
                         </ul>
                     </nav>
@@ -51,16 +51,17 @@
 
 
                 <h2 class="govuk-heading-m">
-                    Other jobs chosen by the prisoner
+                    Archived jobs
                 </h2>
 
-                {% if flaggedJobsResults.totalElements === 0 %}
-                    <p>{{ prisoner.firstName + " " + prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
+                {% if archivedJobsResults.totalElements === 0 %}
+                    <p>There are no archived jobs for {{ prisoner.firstName + " " + prisoner.lastName }}.</p>
                 {% else %}
-                    <p class="govuk-body">Other jobs the prisoner noted an interest in on the jobs board.</p>
+                    <h3 class="govuk-heading-s">{{ archivedJobsResults.totalElements }} {{ 'results' if  archivedJobsResults.totalElements > 1 else 'result' }}</h3>
+                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                 {% endif %}
                
-                {% include './partials/_flaggedJobsTable.njk' %}
+                {% include './partials/_archivedJobsTable.njk' %}
             </form>
         </div>
     </div>
