@@ -22,7 +22,7 @@ export default class JobDetailsController {
         jobDetailsResult,
       }
 
-      res.render('pages/candidateMatching/completeJobDetails/index', { ...data })
+      res.render('pages/candidateMatching/jobDetails/index', { ...data })
     } catch (err) {
       next(err)
     }

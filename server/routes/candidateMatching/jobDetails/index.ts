@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import type { Services } from '../../../services'
-import getCompleteJobsResolver from '../../../middleware/resolvers/getCompletedJobsResolver'
+import getJobDetailsResolver from '../../../middleware/resolvers/getJobDetailsResolver'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import JobDetailsController from './jobDetailsController'
 
@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new JobDetailsController()
   router.get(
     '/cms/:id/jobs/details/:employerName',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getCompleteJobsResolver(services.jobService)],
+    [getPrisonerByIdResolver(services.prisonerSearchService), getJobDetailsResolver(services.jobService)],
     controller.get,
   )
 

@@ -1,6 +1,7 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import GetMatchedJobsResponse from '../data/jobApi/getMatchedJobsResponse'
 import GetFlaggedJobsResponse from '../data/jobApi/getFlaggedJobsResponse'
+import GetArchivedJobsResponse from '../data/jobApi/geArchivedJobsResponse'
 import GetJobDetailsResponse from '../data/jobApi/getJobDetailsResponse'
 import JobApiClient from '../data/jobApi/jobApi'
 
@@ -36,6 +37,20 @@ export default class JobService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getFlaggedJobs(params)
+  }
+
+  async getArchivedJobs(
+    username: string,
+    params: {
+      offenderNo: string
+      page?: number
+      sort?: string
+      order?: string
+    },
+  ): Promise<GetArchivedJobsResponse> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getArchivedJobs(params)
   }
 
   async getCompleteJobDetails(

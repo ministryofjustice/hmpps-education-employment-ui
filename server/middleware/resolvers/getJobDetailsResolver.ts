@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 import JobService from '../../services/jobService'
 import getJobDetails from './utils/getJobDetails'
 
-const getCompleteJobsResolver =
+const getJobDetailsResolver =
   (jobService: JobService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { username } = res.locals.user
@@ -24,4 +24,4 @@ const getCompleteJobsResolver =
     }
   }
 
-export default getCompleteJobsResolver
+export default getJobDetailsResolver

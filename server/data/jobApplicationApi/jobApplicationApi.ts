@@ -7,7 +7,7 @@ export default class JobApplicationApiClient {
   restClient: RestClient
 
   constructor(token: string) {
-    this.restClient = new RestClient('Job Application API', config.apis.jobApplicationApi, token)
+    this.restClient = new RestClient('Job Application API', config.apis.jobApi, token)
   }
 
   async getOpenApplications(offenderNo: string) {

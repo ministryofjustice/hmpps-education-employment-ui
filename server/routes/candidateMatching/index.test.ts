@@ -3,12 +3,14 @@ import { Router } from 'express'
 import prisonerListMatchJobs from './prisonerListMatchJobs'
 import matchedJobsRoutes from './matchedJobs'
 import flaggedJobsRoutes from './flaggedJobs'
+import archivedJobsRoutes from './archivedJobs'
 import routes from '.'
 import { Services } from '../../services'
 
 jest.mock('./prisonerListMatchJobs')
 jest.mock('./matchedJobs')
 jest.mock('./flaggedJobs')
+jest.mock('./archivedJobs')
 jest.mock('express', () => ({
   Router: jest.fn().mockImplementation(() => ({
     use: jest.fn(),
@@ -34,5 +36,6 @@ describe('Server routes', () => {
     expect(prisonerListMatchJobs).toHaveBeenCalledWith(router, services)
     expect(matchedJobsRoutes).toHaveBeenCalledWith(router, services)
     expect(flaggedJobsRoutes).toHaveBeenCalledWith(router, services)
+    expect(archivedJobsRoutes).toHaveBeenCalledWith(router, services)
   })
 })
