@@ -2,6 +2,7 @@ import _ from 'lodash'
 import config from '../../config'
 import RestClient from '../restClient'
 import mockJobs from './mockJobs'
+import mockJobDetails from './mockJobDetails'
 
 // const BASE_URL = '/jobs'
 
@@ -70,6 +71,25 @@ export default class JobApiClient {
     const { offenderNo } = params
 
     return mockFlaggedJobs[offenderNo] ? mockFlaggedJobs[offenderNo] : mockFlaggedJobs.default
+  }
+
+  async getCompleteJobDetail(params: { employerName: string; jobTitle?: string; city?: string }) {
+    const { employerName, jobTitle, city } = params
+
+    const jobs = mockJobDetails
+    if (employerName) {
+      if (jobs.employerName !== employerName) return null
+    }
+
+    if (jobTitle) {
+      if (jobs.jobTitle !== jobTitle) return null
+    }
+
+    if (city) {
+      if (jobs.city !== city) return null
+    }
+
+    return jobs
   }
 }
 

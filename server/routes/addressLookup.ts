@@ -34,5 +34,6 @@ export default {
     flaggedJobs: (id: string) => `/cms/${id}/jobs/flagged`,
     matchedJobs: (id: string) => `/cms/${id}/jobs/matched`,
     workProfile: (id: string, tab = 'overview') => `/cms/profile/${id}/view/${tab}`,
+    jobDetails: (id: string, employerName: string) => `/cms/${id}/jobs/details/${employerName}`,
   },
 }
