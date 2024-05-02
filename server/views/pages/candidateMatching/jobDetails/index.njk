@@ -12,42 +12,136 @@
 {% set title = jobTitle %}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s job list"} }) }}
 {% endblock %}
 
 {% block content %}
     {{ errorSummary(errors) }}
 
-    <div class="govuk-grid-row govuk-!-display-none-print">
-        {# This whole section has a grey background colour #}
-        <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
-            <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
-                <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l govuk-!-margin-bottom-2">
+            {{ job.jobTitle }}
+          </h1>
+          <p class="govuk-body govuk-!-margin-bottom-2">Employer: {{ job.employerName }}</p>
+          <p class="govuk-body govuk-!-margin-bottom-5"><a class="govuk-link" href="#">Print</a></p>
 
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-full">
+          <h2 class="govuk-heading-s">
+            Key information
+          </h2>
+          <ul class="govuk-list">
+            <li>
+              Closing date: {{ job.closingDate }}
+            </li>
+            <li>
+              Location: Leeds, LS12
+            </li>
+            <li>
+              Hours: 35 per week
+            </li>
+            <li>
+              Salary: £11.93 to £15.90 per hour
+            </li>
+            <li>
+              Offence exclusions: None
+            </li>
+          </ul>
 
-                        <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
-                            <ul class="moj-sub-navigation__list">
-                                <li class="moj-sub-navigation__item">
-                                    <a class="moj-sub-navigation__link" aria-current="page" href="#">Key information</a>
-                                </li>
-                                <li class="moj-sub-navigation__item">
-                                    <a class="moj-sub-navigation__link" href="job-match-list-other">Essential criteria</a>
-                                </li>
-                                <li class="moj-sub-navigation__item">
-                                    <a class="moj-sub-navigation__link" href="job-match-list-archived">Job description</a>
-                                </li>
-                            </ul>
-                        </nav>
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-                    </div>
-                </div>
+          <h2 class="govuk-heading-s">
+            Essential criteria
+          </h2>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>Valid forklift operator certification or licence</li>
+            <li>Proven experience operating a forklift in a warehouse or similar setting</li>
+            <li>Strong knowledge of forklift safety procedures and best practices</li>
+            <li>Maths level 1</li>
+            <li>English level 1</li>
+            <li>Physical stamina to perform repetitive tasks and lift heavy objects</li>
+            <li>Excellent communication skills and ability to work well in a team environment</li>
+          </ul>
 
-            </form>
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+          <h2 class="govuk-heading-s">
+            Job description
+          </h2>
+          <p class="govuk-body">What's on offer:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>5 days over 7, 05:30 to 15:30</li>
+            <li>Paid weekly</li>
+            <li>Immediate starts available</li>
+            <li>Full training provided</li>
+          </ul>
+          <p class="govuk-body">Your duties will include:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-7">
+            <li>Manoeuvring forklifts safely in busy industrial environments</li>
+            <li>Safely stacking and unstacking large quantities of goods onto shelves or pallets</li>
+            <li>Moving goods from storage areas to loading areas for transport</li>
+            <li>Unloading deliveries and safely relocating the goods to their designated storage areas</li>
+            <li>Ensuring forklift driving areas are free from spills or obstructions</li>
+            <li>Regularly checking forklift equipment for faults or damages</li>
+            <li>Consolidating partial pallets for incoming goods</li>
+          </ul>
+
+          <div class="govuk-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+              Manage application
+            </button>
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+              Archive job
+            </button>
+          </div>
+
         </div>
-    </div>
+
+        <div class="govuk-grid-column-one-third">
+          <section class="app-summary-card govuk-!-margin-bottom-6">
+            <header class="app-summary-card__header">
+              <h2 class="app-summary-card__title">
+                {{ prisoner.firstName + " " + prisoner.lastName }} matching summary
+              </h2>
+            </header>
+
+            <div class="app-summary-card__body">
+
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Type of work:
+              </h3>
+              <p class="govuk-body">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</p>
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Matches prisoner interests?
+              </h3>
+              <p class="govuk-body">Yes</p>
+
+              <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Job location
+              </h3>
+              <p class="govuk-body">Leeds, LS12</p>
+              <div class="timeline">
+                 <ul>
+                   <li>
+                     <!-- <h3>1.5 miles<h3>
+                     <p>Public transport: 31 minutes</p>
+                     <p style="margin-bottom: 0px">Car: 27 minutes</p> -->
+                     <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">4.1 miles from release area: <br>Leeds, LS11 1AB</p>
+                   </li>
+                   <li>
+                   </li>
+                 </ul>
+               </div>
+               <!-- <p class="govuk-body">Release area: Leeds, LS11</p> -->
+
+
+
+            </div>
+          </section>
+        </div>
+
+     </div>
 {% endblock %}
 
 

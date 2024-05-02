@@ -1,17 +1,9 @@
 import JobService from '../../../services/jobService'
 
-const getJobDetails = async (
-  jobService: JobService,
-  username: string,
-  params: {
-    employerName: string
-    jobTitle?: string
-    city?: string
-  },
-) => {
+const getJobDetails = async (jobService: JobService, username: string, jobId: string) => {
   try {
     // Get complete job details
-    return await jobService.getCompleteJobDetails(username, params)
+    return await jobService.getJobDetails(username, jobId)
   } catch (err) {
     // Handle no data
     if (err?.status === 404) {

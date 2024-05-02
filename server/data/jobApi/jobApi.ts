@@ -79,23 +79,12 @@ export default class JobApiClient {
     return mockArchivedJobs[offenderNo] ? mockArchivedJobs[offenderNo] : mockArchivedJobs.default
   }
 
-  async getCompleteJobDetail(params: { employerName: string; jobTitle?: string; city?: string }) {
-    const { employerName, jobTitle, city } = params
-
-    const jobs = mockJobDetails
-    if (employerName) {
-      if (jobs.employerName !== employerName) return null
+  async getJobDetails(jobId: string) {
+    const job = mockJobs.find(j => j.id === Number(jobId))
+    return {
+      ...job,
+      ...mockJobDetails,
     }
-
-    if (jobTitle) {
-      if (jobs.jobTitle !== jobTitle) return null
-    }
-
-    if (city) {
-      if (jobs.city !== city) return null
-    }
-
-    return jobs
   }
 }
 
@@ -103,6 +92,7 @@ const mockArchivedJobs = {
   default: {
     content: [
       {
+        id: 1,
         employerName: "McDonald's",
         jobTitle: 'Crew Member',
         closingDate: new Date().toISOString(),
@@ -112,6 +102,7 @@ const mockArchivedJobs = {
         typeOfWork: 'HOSPITALITY',
       },
       {
+        id: 2,
         employerName: 'Starbucks',
         jobTitle: 'Barista',
         closingDate: new Date().toISOString(),
@@ -121,6 +112,7 @@ const mockArchivedJobs = {
         typeOfWork: 'HOSPITALITY',
       },
       {
+        id: 3,
         employerName: 'UPS',
         jobTitle: 'Delivery Driver',
         closingDate: new Date().toISOString(),
@@ -147,6 +139,7 @@ const mockFlaggedJobs = {
   default: {
     content: [
       {
+        id: 1,
         employerName: 'Amazon',
         jobTitle: 'Forklift operator',
         closingDate: new Date().toISOString(),

@@ -5,21 +5,26 @@ import { plainToClass } from 'class-transformer'
 
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import addressLookup from '../../addressLookup'
+import { getBackLocation } from '../../../utils/index'
+import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
 export default class JobDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    let { jobDetailsResult } = req.context
+    const { jobDetails, prisoner } = req.context
 
     try {
-      // Transform jobs to View Model
-      jobDetailsResult = plainToClass(JobDetailsViewModel, _.get(jobDetailsResult, '', ''))
-
       // Render data
       const data = {
         id,
-        backLocation: addressLookup.candidateMatching.workProfile(id),
-        jobDetailsResult,
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: addressLookup.candidateMatching.matchedJobs(id),
+          page: 'jobDetails',
+          uid: id,
+        }),
+        prisoner: plainToClass(PrisonerViewModel, prisoner),
+        job: plainToClass(JobDetailsViewModel, jobDetails),
       }
 
       res.render('pages/candidateMatching/jobDetails/index', { ...data })

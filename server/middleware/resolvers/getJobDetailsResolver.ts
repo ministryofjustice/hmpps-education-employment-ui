@@ -7,16 +7,12 @@ const getJobDetailsResolver =
   (jobService: JobService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { username } = res.locals.user
-    const { employerName = '', jobTitle = '', city = '' } = req.query
+    const { jobId } = req.params
 
     try {
-      const jobDetails = await getJobDetails(jobService, username, {
-        employerName: employerName.toString(),
-        jobTitle: jobTitle.toString(),
-        city: city.toString(),
-      })
+      const jobDetails = await getJobDetails(jobService, username, jobId)
 
-      req.context.jobDetailsResult = jobDetails
+      req.context.jobDetails = jobDetails
 
       next()
     } catch (err) {

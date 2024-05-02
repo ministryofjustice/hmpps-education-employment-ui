@@ -8,10 +8,10 @@ import JobDetailsController from './jobDetailsController'
 export default (router: Router, services: Services) => {
   const controller = new JobDetailsController()
   router.get(
-    '/cms/:id/jobs/details/:employerName',
+    '/cms/:id/job/:jobId/details',
     [getPrisonerByIdResolver(services.prisonerSearchService), getJobDetailsResolver(services.jobService)],
     controller.get,
   )
 
-  router.post('/cms/:id/jobs/details/:employerName', controller.post)
+  router.post('/cms/:id/job/:jobId/details', controller.post)
 }

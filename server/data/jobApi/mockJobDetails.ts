@@ -1,13 +1,6 @@
 const date = new Date()
 
 export default {
-  employerName: 'Amazon',
-  jobTitle: 'Forklift operator',
-  closingDate: date.toISOString(),
-  distance: 4.1,
-  city: 'Leeds',
-  postcode: 'LS23 3JF',
-  typeOfWork: 'OUTDOOR',
   workPatternName: '35 per week',
   salary: '£11.93 to £15.90 per hour',
   offenceExclusions: 'None',
