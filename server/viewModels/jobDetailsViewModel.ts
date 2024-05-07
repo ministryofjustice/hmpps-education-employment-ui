@@ -20,21 +20,21 @@ export default class JobViewModel {
 
   typeOfWork: string
 
+  workPattern: string
+
   workPatternName: string
 
-  salary: string
+  offenceExclusions: string[]
 
-  offenceExclusions: string
+  essentialCriteria: string[]
 
-  essentialCriteria: string
+  desirableCriteria: string[]
 
   jobDescription: string
 
-  workPattern: string
+  salary: string
 
   salaryPeriod: string
 
   additionalSalaryInformation: string
-
-  desirableJobCriteria: string
 }

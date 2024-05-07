@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
-import _ from 'lodash'
 import { plainToClass } from 'class-transformer'
 
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'

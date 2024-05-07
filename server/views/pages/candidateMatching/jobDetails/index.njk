@@ -34,16 +34,23 @@
               Closing date: {{ job.closingDate }}
             </li>
             <li>
-              Location: Leeds, LS12
+              Location: {{ job.city }}, {{ job.postcode }}
             </li>
             <li>
-              Hours: 35 per week
+              Hours: {{ job.workPattern }}, {{ job.workPatternName }}
             </li>
             <li>
-              Salary: £11.93 to £15.90 per hour
+              Salary: {{ job.salary }}, {{ job.salaryPeriod }}
             </li>
             <li>
-              Offence exclusions: None
+              Offence exclusions: 
+              {% if job.offenceExclusions.length %}
+                {% for offence in job.offenceExclusions %}
+                  <div>{{ offence }}</div>
+                {% endfor %}
+              {% else %}
+                None
+              {% endif %}
             </li>
           </ul>
 
@@ -52,40 +59,36 @@
           <h2 class="govuk-heading-s">
             Essential criteria
           </h2>
+
           <ul class="govuk-list govuk-list--bullet">
-            <li>Valid forklift operator certification or licence</li>
-            <li>Proven experience operating a forklift in a warehouse or similar setting</li>
-            <li>Strong knowledge of forklift safety procedures and best practices</li>
-            <li>Maths level 1</li>
-            <li>English level 1</li>
-            <li>Physical stamina to perform repetitive tasks and lift heavy objects</li>
-            <li>Excellent communication skills and ability to work well in a team environment</li>
+            {% for criteria in job.essentialCriteria %}
+              <li>{{ criteria }}</li>
+            {% endfor %}
           </ul>
+
+          {% if job.desirableCriteria.length %}
+            <h2 class="govuk-heading-s">
+              Desirable criteria
+            </h2>
+
+            <ul class="govuk-list govuk-list--bullet">
+              {% for criteria in job.desirableCriteria %}
+                <li>{{ criteria }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
 
           <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
           <h2 class="govuk-heading-s">
             Job description
           </h2>
-          <p class="govuk-body">What's on offer:</p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>5 days over 7, 05:30 to 15:30</li>
-            <li>Paid weekly</li>
-            <li>Immediate starts available</li>
-            <li>Full training provided</li>
-          </ul>
-          <p class="govuk-body">Your duties will include:</p>
-          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-7">
-            <li>Manoeuvring forklifts safely in busy industrial environments</li>
-            <li>Safely stacking and unstacking large quantities of goods onto shelves or pallets</li>
-            <li>Moving goods from storage areas to loading areas for transport</li>
-            <li>Unloading deliveries and safely relocating the goods to their designated storage areas</li>
-            <li>Ensuring forklift driving areas are free from spills or obstructions</li>
-            <li>Regularly checking forklift equipment for faults or damages</li>
-            <li>Consolidating partial pallets for incoming goods</li>
-          </ul>
+          <p class="govuk-body">
+            {{ job.jobDescription | striptags(true) | escape | nl2br }}
+          </p>
+          
 
-          <div class="govuk-button-group">
+          <div class="govuk-button-grou govuk-!-margin-top-8">
             <button type="submit" class="govuk-button" data-module="govuk-button">
               Manage application
             </button>
@@ -120,23 +123,18 @@
               <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
                 Job location
               </h3>
-              <p class="govuk-body">Leeds, LS12</p>
-              <div class="timeline">
-                 <ul>
-                   <li>
-                     <!-- <h3>1.5 miles<h3>
-                     <p>Public transport: 31 minutes</p>
-                     <p style="margin-bottom: 0px">Car: 27 minutes</p> -->
-                     <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">4.1 miles from release area: <br>Leeds, LS11 1AB</p>
-                   </li>
-                   <li>
-                   </li>
-                 </ul>
+              <p class="govuk-body">{{ job.city }}, {{ job.postcode }}</p>
+              {% if releaseArea %}
+                <div class="timeline">
+                  <ul>
+                    <li>
+                      <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">{{ job.distance }} miles from release area: <br>{{ releaseArea.city }}, {{ releaseArea.postcode }}</p>
+                    </li>
+                    <li>
+                    </li>
+                  </ul>
                </div>
-               <!-- <p class="govuk-body">Release area: Leeds, LS11</p> -->
-
-
-
+              {% endif %}
             </div>
           </section>
         </div>

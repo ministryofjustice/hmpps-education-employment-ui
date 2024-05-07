@@ -8,13 +8,13 @@ interface GetJobDetailsResponse {
   typeOfWork: string
   workPatternName: string
   salary: string
-  offenceExclusions: string
-  essentialCriteria: string
+  offenceExclusions: string[]
+  essentialCriteria: string[]
+  desirableCriteria: string[]
   jobDescription: string
   workPattern: string
   salaryPeriod: string
   additionalSalaryInformation: string
-  desirableJobCriteria: string
 }
 
 export default GetJobDetailsResponse

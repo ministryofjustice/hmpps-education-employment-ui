@@ -4,7 +4,7 @@ import RestClient from '../restClient'
 import mockJobs from './mockJobs'
 import mockJobDetails from './mockJobDetails'
 
-// const BASE_URL = '/jobs'
+// ToDo: This class is currently using onlt mock data and needs to be changed to call the job API once it is completed
 
 export default class JobApiClient {
   restClient: RestClient
