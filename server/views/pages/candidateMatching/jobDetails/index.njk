@@ -24,7 +24,6 @@
             {{ job.jobTitle }}
           </h1>
           <p class="govuk-body govuk-!-margin-bottom-2">Employer: {{ job.employerName }}</p>
-          <p class="govuk-body govuk-!-margin-bottom-5"><a class="govuk-link" href="#">Print</a></p>
 
           <h2 class="govuk-heading-s">
             Key information
@@ -37,16 +36,16 @@
               Location: {{ job.city }}, {{ job.postcode }}
             </li>
             <li>
-              Hours: {{ job.workPattern }}, {{ job.workPatternName }}
+              Hours: {{ job.workPatternName }}, {{ contentLookup.jobs.workPattern[job.workPattern] }}
             </li>
             <li>
-              Salary: {{ job.salary }}, {{ job.salaryPeriod }}
+              Salary: From £{{ job.salaryFrom | fixed }}{{ ' to £'+ (job.salaryTo | fixed) if job.salaryTo }} {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}
             </li>
             <li>
               Offence exclusions: 
               {% if job.offenceExclusions.length %}
                 {% for offence in job.offenceExclusions %}
-                  <div>{{ offence }}</div>
+                  <div>{{ contentLookup.jobs.excludingOffences[offence] }}</div>
                 {% endfor %}
               {% else %}
                 None
@@ -60,22 +59,18 @@
             Essential criteria
           </h2>
 
-          <ul class="govuk-list govuk-list--bullet">
-            {% for criteria in job.essentialCriteria %}
-              <li>{{ criteria }}</li>
-            {% endfor %}
-          </ul>
+           <p class="govuk-body">
+            {{ job.essentialCriteria | striptags(true) | escape | nl2br }}
+          </p>
 
           {% if job.desirableCriteria.length %}
             <h2 class="govuk-heading-s">
               Desirable criteria
             </h2>
 
-            <ul class="govuk-list govuk-list--bullet">
-              {% for criteria in job.desirableCriteria %}
-                <li>{{ criteria }}</li>
-              {% endfor %}
-            </ul>
+             <p class="govuk-body">
+              {{ job.desirableCriteria | striptags(true) | escape | nl2br }}
+            </p>
           {% endif %}
 
           <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -86,17 +81,6 @@
           <p class="govuk-body">
             {{ job.jobDescription | striptags(true) | escape | nl2br }}
           </p>
-          
-
-          <div class="govuk-button-grou govuk-!-margin-top-8">
-            <button type="submit" class="govuk-button" data-module="govuk-button">
-              Manage application
-            </button>
-            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-              Archive job
-            </button>
-          </div>
-
         </div>
 
         <div class="govuk-grid-column-one-third">
@@ -112,11 +96,11 @@
               <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
                 Type of work:
               </h3>
-              <p class="govuk-body">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</p>
+              <p class="govuk-body">{{ contentLookup.jobs.typeOfWork[job.typeOfWork] }}</p>
               <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
                 Matches prisoner interests?
               </h3>
-              <p class="govuk-body">Yes</p>
+              <p class="govuk-body">{{ 'Yes' if matchesPrisonerInterests else 'No'}}</p>
 
               <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
