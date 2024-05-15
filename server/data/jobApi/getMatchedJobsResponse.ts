@@ -8,7 +8,7 @@ interface GetMatchedJobsResponse {
     distance: number
     city: string
     postcode: string
-    typeOfWork: string
+    typeOfWork: TypeOfWorkValue
   }[]
 }
 

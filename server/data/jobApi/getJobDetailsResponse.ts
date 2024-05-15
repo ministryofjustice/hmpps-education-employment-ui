@@ -10,17 +10,17 @@ interface GetJobDetailsResponse {
   distance: number
   city: string
   postcode: string
-  typeOfWork: string
+  typeOfWork: TypeOfWorkValue
   workPatternName: string
-  salaryFrom: number
+  salaryFrom: string
   salaryTo: number
   additionalSalaryInformation: string
-  salaryPeriod: string
-  offenceExclusions: string[]
+  salaryPeriod: SalaryPeriod
+  offenceExclusions: ExcludingOffences[]
   essentialCriteria: string
   desirableCriteria: string
   jobDescription: string
-  workPattern: string
+  workPattern: ContractType
 }
 
 export default GetJobDetailsResponse

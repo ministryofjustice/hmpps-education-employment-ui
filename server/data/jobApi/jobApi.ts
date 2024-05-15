@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash'
+
 import config from '../../config'
 import RestClient from '../restClient'
 import mockJobs from './mockJobs'
@@ -64,7 +66,7 @@ export default class JobApiClient {
     return {
       content: contents[currentPage],
       ...pageMetaData,
-    }
+    } as any
   }
 
   async getFlaggedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
@@ -84,7 +86,7 @@ export default class JobApiClient {
     return {
       ...job,
       ...mockJobDetails,
-    }
+    } as any
   }
 }
 
