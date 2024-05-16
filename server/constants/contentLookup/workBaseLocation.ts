@@ -1,7 +1,5 @@
-enum WorkBaseLocation {
-  REMOTE = 'REMOTE',
-  HYBRID = 'HYBRID',
-  WORKPLACE = 'WORKPLACE',
+export default {
+  REMOTE: 'Home/Remote',
+  HYBRID: 'Hybrid',
+  WORKPLACE: 'Workplace',
 }
-
-export default WorkBaseLocation
