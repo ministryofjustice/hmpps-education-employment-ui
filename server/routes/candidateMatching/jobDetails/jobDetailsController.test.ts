@@ -22,7 +22,7 @@ describe('HomePageController', () => {
   }
 
   req.params.id = 'mock_ref'
-  const { id, mode } = req.params
+  const { id } = req.params
 
   const mockData = {
     id,
