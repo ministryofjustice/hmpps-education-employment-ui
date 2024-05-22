@@ -3,6 +3,7 @@ const future = new Date(new Date().setDate(date.getDate() + 30))
 
 export default [
   {
+    id: 1,
     employerName: 'Amazon',
     jobTitle: 'Forklift operator',
     closingDate: date.toISOString(),
@@ -12,6 +13,7 @@ export default [
     typeOfWork: 'OUTDOOR',
   },
   {
+    id: 2,
     employerName: 'Tesco',
     jobTitle: 'Warehouse handler',
     closingDate: date.toISOString(),
@@ -21,6 +23,7 @@ export default [
     typeOfWork: 'CLEANING_AND_MAINTENANCE',
   },
   {
+    id: 3,
     employerName: 'Exchange People',
     jobTitle: 'Workshop operative / handler',
     closingDate: future.toISOString(),
@@ -30,6 +33,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 4,
     employerName: 'Walmart',
     jobTitle: 'Cashier',
     closingDate: date.toISOString(),
@@ -39,6 +43,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 5,
     employerName: "McDonald's",
     jobTitle: 'Crew Member',
     closingDate: date.toISOString(),
@@ -48,6 +53,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 6,
     employerName: 'Starbucks',
     jobTitle: 'Barista',
     closingDate: date.toISOString(),
@@ -57,6 +63,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 7,
     employerName: 'UPS',
     jobTitle: 'Delivery Driver',
     closingDate: future.toISOString(),
@@ -66,6 +73,7 @@ export default [
     typeOfWork: 'DRIVING',
   },
   {
+    id: 8,
     employerName: 'Burger King',
     jobTitle: 'Kitchen Staff',
     closingDate: date.toISOString(),
@@ -75,6 +83,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 9,
     employerName: 'Lidl',
     jobTitle: 'Store Associate',
     closingDate: date.toISOString(),
@@ -84,6 +93,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 10,
     employerName: 'KFC',
     jobTitle: 'Shift Supervisor',
     closingDate: date.toISOString(),
@@ -93,6 +103,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 11,
     employerName: 'DHL',
     jobTitle: 'Warehouse Operative',
     closingDate: future.toISOString(),
@@ -102,6 +113,7 @@ export default [
     typeOfWork: 'WAREHOUSING',
   },
   {
+    id: 12,
     employerName: 'Pizza Hut',
     jobTitle: 'Delivery Driver',
     closingDate: date.toISOString(),
@@ -111,6 +123,7 @@ export default [
     typeOfWork: 'DRIVING',
   },
   {
+    id: 13,
     employerName: 'Primark',
     jobTitle: 'Retail Assistant',
     closingDate: date.toISOString(),
@@ -120,6 +133,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 14,
     employerName: 'FedEx',
     jobTitle: 'Parcel Sorter',
     closingDate: date.toISOString(),
@@ -129,6 +143,7 @@ export default [
     typeOfWork: 'WAREHOUSING',
   },
   {
+    id: 15,
     employerName: 'Costa Coffee',
     jobTitle: 'Shift Leader',
     closingDate: date.toISOString(),
@@ -138,6 +153,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 16,
     employerName: "Sainsbury's",
     jobTitle: 'Customer Assistant',
     closingDate: future.toISOString(),
@@ -147,6 +163,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 17,
     employerName: 'Homebase',
     jobTitle: 'Stock Replenishment',
     closingDate: date.toISOString(),
@@ -156,6 +173,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 18,
     employerName: 'Royal Mail',
     jobTitle: 'Postal Worker',
     closingDate: date.toISOString(),
@@ -165,6 +183,7 @@ export default [
     typeOfWork: 'WAREHOUSING',
   },
   {
+    id: 19,
     employerName: 'Ikea',
     jobTitle: 'Furniture Assembler',
     closingDate: date.toISOString(),
@@ -174,6 +193,7 @@ export default [
     typeOfWork: 'MANUFACTURING',
   },
   {
+    id: 20,
     employerName: 'Greggs',
     jobTitle: 'Bakery Assistant',
     closingDate: date.toISOString(),
@@ -183,6 +203,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 21,
     employerName: 'Argos',
     jobTitle: 'Stockroom Assistant',
     closingDate: future.toISOString(),
@@ -192,6 +213,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 22,
     employerName: "Papa John's",
     jobTitle: 'Pizza Chef',
     closingDate: date.toISOString(),
@@ -201,6 +223,7 @@ export default [
     typeOfWork: 'HOSPITALITY',
   },
   {
+    id: 23,
     employerName: 'Aldi',
     jobTitle: 'Store Assistant',
     closingDate: date.toISOString(),
@@ -210,6 +233,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 24,
     employerName: 'H&M',
     jobTitle: 'Sales Advisor',
     closingDate: date.toISOString(),
@@ -219,6 +243,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 25,
     employerName: 'Asda',
     jobTitle: 'Checkout Operator',
     closingDate: date.toISOString(),
@@ -228,6 +253,7 @@ export default [
     typeOfWork: 'RETAIL',
   },
   {
+    id: 26,
     employerName: 'Yodel',
     jobTitle: 'Courier',
     closingDate: future.toISOString(),
