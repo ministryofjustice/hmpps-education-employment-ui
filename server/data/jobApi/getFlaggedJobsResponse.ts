@@ -1,3 +1,5 @@
+import TypeOfWorkValue from '../../enums/typeOfWorkValue'
+
 interface GetFlaggedJobsResponse {
   content: {
     employerName: string
@@ -6,7 +8,7 @@ interface GetFlaggedJobsResponse {
     distance: number
     city: string
     postcode: string
-    typeOfWork: string
+    typeOfWork: TypeOfWorkValue
   }[]
 }
 
