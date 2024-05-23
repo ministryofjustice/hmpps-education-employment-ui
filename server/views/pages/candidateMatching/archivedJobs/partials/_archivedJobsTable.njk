@@ -37,7 +37,7 @@
 
         {% for job in archivedJobsResults.content %}
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="{{ job.jobTitle }}" href="job-description-forklift">{{ job.jobTitle }}</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span></td>
+                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span></td>
                 <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</td>
                 <td class="govuk-table__cell" data-sort-value="{{ job.distance }}">
                     {{ job.city }}, {{ job.postcode }}
