@@ -1,0 +1,58 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "moj/components/pagination/macro.njk" import mojPagination %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Manage " + prisoner.firstName + " " + prisoner.lastName + "'s application"%}
+
+{% block beforeContent %}
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to " + job.jobTitle } }) }}
+{% endblock %}
+
+{% block content %}
+  {{ errorSummary(errors) }}
+
+  <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="job-title">
+          {{ title }}
+        </h1>
+
+        <div class="govuk-form-group filter-box govuk-!-margin-top-4">
+          <div class="govuk-grid-row">
+              <div class="govuk-grid-column-full">
+                <h2 class="govuk-heading-m">
+                  <a class="govuk-link" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) }}">{{ job.jobTitle }}</a>
+                </h2>
+              </div>
+          </div>
+          <div class="govuk-grid-row">
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-body">Employer: {{ job.employerName }}</p>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-body">Location: {{ job.city }}, {{ job.postcode }}</p>
+              </div>
+              <div class="govuk-grid-column-one-third">
+                <p class="govuk-body">Closing date: {{ job.closingDate }}</p>
+              </div>
+          </div>
+
+          <p class="govuk-body govuk-!-margin-bottom-1">How to apply: </p>
+        </div>
+
+        {% include './partials/_applicationHistory.njk' %}
+        {% include './partials/_updateProgressForm.njk' %}
+        
+      </div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,36 @@
+<form class="form" method="post" novalidate="">
+  <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+{% if mode === 'update' %}
+    <div class="govuk-form-group">
+      <label class="govuk-heading-m" for="application-status">
+        Application progress
+      </label>
+      <select class="govuk-select" id="application-status" name="application-status">
+        <option value="Application made" selected="">Application submitted</option>
+        <option value="Application unsuccessful">Application unsuccessful</option>
+        <option value="Selected for interview">Selected for interview</option>
+        <option value="Interview booked">Interview booked</option>
+        <option value="Unsuccessful at interview">Unsuccessful at interview</option>
+        <option value="Job offer">Job offer</option>
+      </select>
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="more-detail">
+        Add additional information or feedback
+      </label>
+      <textarea class="govuk-textarea" id="more-detail" name="moreDetail" rows="3"></textarea>
+    </div>
+
+    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}">Cancel update</a></p>
+
+    <button class="govuk-button" type="submit">
+      Save and update
+    </button>
+
+  {% else %}
+    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id, 'update') }}">Update progress</a></p>
+  {% endif%}
+
+</form>

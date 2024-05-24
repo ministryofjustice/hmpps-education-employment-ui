@@ -4,6 +4,7 @@ import GetFlaggedJobsResponse from '../data/jobApi/getFlaggedJobsResponse'
 import GetArchivedJobsResponse from '../data/jobApi/geArchivedJobsResponse'
 import JobApiClient from '../data/jobApi/jobApi'
 import GetJobDetailsResponse from '../data/jobApi/getJobDetailsResponse'
+import GetApplicationProgressResponse from '../data/jobApi/getApplicationProgressResponse'
 
 export default class JobService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -57,5 +58,15 @@ export default class JobService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getJobDetails(jobId)
+  }
+
+  async getApplicationProgress(
+    username: string,
+    offenderId: string,
+    jobId: string,
+  ): Promise<GetApplicationProgressResponse[]> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getApplicationProgress(offenderId, jobId)
   }
 }

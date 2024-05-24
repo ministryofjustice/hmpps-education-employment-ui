@@ -5,6 +5,7 @@ import matchedJobsRoutes from './matchedJobs'
 import flaggedJobsRoutes from './flaggedJobs'
 import archivedJobsRoutes from './archivedJobs'
 import jobDetailsRoutes from './jobDetails'
+import manageApplicationRoutes from './manageApplication'
 
 export default function attachRoutes(router: Router, services: Services): void {
   prisonerListMatchJobsRoutes(router, services)
@@ -12,4 +13,5 @@ export default function attachRoutes(router: Router, services: Services): void {
   flaggedJobsRoutes(router, services)
   archivedJobsRoutes(router, services)
   jobDetailsRoutes(router, services)
+  manageApplicationRoutes(router, services)
 }

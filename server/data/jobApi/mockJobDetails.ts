@@ -1,5 +1,4 @@
 export default {
-  workPatternName: '35 per week',
   salaryFrom: 11.93,
   salaryTo: 15.9,
   salaryPeriod: 'PER_HOUR',
@@ -33,4 +32,5 @@ export default {
   Safely stacking and unstacking large quantities of goods onto shelves or pallets
   Moving goods from storage areas to loading areas for transport'
   `,
+  hours: 'FULL_TIME',
 }

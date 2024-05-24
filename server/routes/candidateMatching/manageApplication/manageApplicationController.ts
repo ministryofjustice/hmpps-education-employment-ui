@@ -6,11 +6,12 @@ import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import addressLookup from '../../addressLookup'
 import { getBackLocation } from '../../../utils/index'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import ApplicationStatusViewModel from '../../../viewModels/applicationProgressViewModel'
 
 export default class ManageApplicationController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, jobId, mode } = req.params
-    const { jobDetails, prisoner } = req.context
+    const { jobDetails, prisoner, applicationProgress } = req.context
 
     try {
       // Render data
@@ -25,6 +26,7 @@ export default class ManageApplicationController {
         }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         job: plainToClass(JobDetailsViewModel, jobDetails),
+        applicationProgress: plainToClass(ApplicationStatusViewModel, applicationProgress),
       }
 
       res.render('pages/candidateMatching/manageApplication/index', { ...data })
