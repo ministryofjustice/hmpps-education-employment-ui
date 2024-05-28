@@ -1,16 +1,16 @@
 import type { RequestHandler } from 'express'
 
-import JobService from '../../services/jobService'
 import getApplicationProgress from './utils/getApplicationProgress'
+import JobApplicationService from '../../services/jobApplicationService'
 
 const getApplicationProgressResolver =
-  (jobService: JobService): RequestHandler =>
+  (jobApplicationService: JobApplicationService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { username } = res.locals.user
     const { id, jobId } = req.params
 
     try {
-      const applicationProgress = await getApplicationProgress(jobService, username, id, jobId)
+      const applicationProgress = await getApplicationProgress(jobApplicationService, username, id, jobId)
 
       req.context.applicationProgress = applicationProgress
 

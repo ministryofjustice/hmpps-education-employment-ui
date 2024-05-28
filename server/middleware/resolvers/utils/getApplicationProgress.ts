@@ -1,9 +1,14 @@
-import JobService from '../../../services/jobService'
+import JobApplicationService from '../../../services/jobApplicationService'
 
-const getApplicationProgress = async (jobService: JobService, username: string, offenderNo: string, jobId: string) => {
+const getApplicationProgress = async (
+  jobApplicationService: JobApplicationService,
+  username: string,
+  offenderNo: string,
+  jobId: string,
+) => {
   try {
     // Get complete job details
-    return await jobService.getApplicationProgress(username, offenderNo, jobId)
+    return await jobApplicationService.getApplicationProgress(username, offenderNo, jobId)
   } catch (err) {
     // Handle no data
     if (err?.status === 404) {

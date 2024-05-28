@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import _ from 'lodash'
 
@@ -7,7 +6,6 @@ import config from '../../config'
 import RestClient from '../restClient'
 import mockJobs from './mockJobs'
 import mockJobDetails from './mockJobDetails'
-import ApplicationStatusValue from '../../enums/applicationStatusValue'
 
 // ToDo: This class is currently using onlt mock data and needs to be changed to call the job API once it is completed
 
@@ -94,24 +92,6 @@ export default class JobApiClient {
       ...job,
       ...mockJobDetails,
     } as any
-  }
-
-  async getApplicationProgress(offenderNo: string, jobId: string) {
-    return [
-      {
-        status: ApplicationStatusValue.APPLICATION_MADE,
-        createdByName: 'TE£ST_USER',
-        createdByDateTime: new Date().toISOString(),
-        notes: '',
-      },
-      {
-        status: ApplicationStatusValue.APPLICATION_UNSUCCESSFUL,
-        createdByName: 'TE£ST_USER',
-        createdByDateTime: new Date().toISOString(),
-        notes:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      },
-    ]
   }
 }
 

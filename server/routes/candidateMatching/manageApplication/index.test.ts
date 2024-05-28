@@ -20,7 +20,7 @@ describe('Right to work routes', () => {
     services = {
       prisonerProfileService: {},
       prisonerSearchService: {},
-      jobService: {},
+      jobApplicationService: {},
       userService: {},
     } as unknown as Services
     ;(Controller as jest.Mock).mockImplementation(() => ({
