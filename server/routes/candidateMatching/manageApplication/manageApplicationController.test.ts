@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../testutils/expressMocks'
@@ -5,8 +6,17 @@ import Controller from './manageApplicationController'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
+import ApplicationStatusViewModel from '../../../viewModels/applicationProgressViewModel'
+import validateFormSchema from '../../../utils/validateFormSchema'
+import { setSessionData } from '../../../utils/session'
 
-describe('HomePageController', () => {
+jest.mock('../../../utils/validateFormSchema', () => ({
+  ...jest.requireActual('../../../utils/validateFormSchema'),
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+describe('ManageApplicationController', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = { username: 'MOCK_USER' }
@@ -19,9 +29,11 @@ describe('HomePageController', () => {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
   }
-
+  req.context.applicationProgress = []
   req.params.id = 'mock_ref'
   req.params.jobId = '1'
+  req.params.mode = 'update'
+  res.locals.user = { token: 'mock_token' }
   const { id, jobId } = req.params
 
   const mockData = {
@@ -29,9 +41,15 @@ describe('HomePageController', () => {
     backLocation: addressLookup.candidateMatching.jobDetails(id, jobId),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     job: plainToClass(JobDetailsViewModel, req.context.jobDetails),
+    mode: 'update',
+    applicationProgress: plainToClass(ApplicationStatusViewModel, req.context.applicationProgress),
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    updateApplicationProgress: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -55,6 +73,60 @@ describe('HomePageController', () => {
         ...mockData,
       })
       expect(next).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('#post(req, res)', () => {
+    const errors = { details: 'mock_error' }
+    const validationMock = validateFormSchema as jest.Mock
+
+    beforeEach(() => {
+      res.render.mockReset()
+      res.redirect.mockReset()
+      next.mockReset()
+      validationMock.mockReset()
+      setSessionData(req, ['manageApplication', id, jobId], mockData)
+    })
+
+    it('Should create a new instance', () => {
+      expect(controller).toBeDefined()
+    })
+
+    it('On error - Calls next with error', async () => {
+      validationMock.mockImplementation(() => {
+        throw new Error('mock_error')
+      })
+
+      controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(1)
+      expect(res.render).toHaveBeenCalledTimes(0)
+    })
+
+    it('On validation error - Calls render with correct data', async () => {
+      validationMock.mockImplementation(() => errors)
+      req.body.additionalInformation = 'test_data'
+
+      controller.post(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/manageApplication/index', {
+        ...mockData,
+        additionalInformation: 'test_data',
+        errors,
+      })
+    })
+
+    it('On successful POST - redirects to manageApplication in update mode', async () => {
+      req.body.applicationStatus = 'APPLICATION_MADE'
+      req.body.additionalInformation = 'test_data'
+
+      controller.post(req, res, next)
+
+      expect(mockService.updateApplicationProgress).toHaveBeenCalledTimes(1)
+      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('mock_token', 'mock_ref', '1', {
+        additionalInformation: 'test_data',
+        applicationStatus: 'APPLICATION_MADE',
+      })
     })
   })
 })

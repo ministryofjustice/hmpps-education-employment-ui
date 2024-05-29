@@ -1,33 +1,75 @@
 <form class="form" method="post" novalidate="">
   <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-{% if mode === 'update' %}
-    <div class="govuk-form-group">
-      <label class="govuk-heading-m" for="application-status">
-        Application progress
-      </label>
-      <select class="govuk-select" id="application-status" name="application-status">
-        <option value="Application made" selected="">Application submitted</option>
-        <option value="Application unsuccessful">Application unsuccessful</option>
-        <option value="Selected for interview">Selected for interview</option>
-        <option value="Interview booked">Interview booked</option>
-        <option value="Unsuccessful at interview">Unsuccessful at interview</option>
-        <option value="Job offer">Job offer</option>
-      </select>
-    </div>
+  {% if mode === 'update' %}
+    {{ govukSelect({
+        id: "applicationStatus",
+        name: "applicationStatus",
+        label: {
+          text: 'Application progress'
+        },
+        items: [
+          {
+            value: "",
+            text: "Select application status"
+          },
+          {
+            value: "APPLICATION_MADE",
+            text: contentLookup.applicationStatus["APPLICATION_MADE"]
+          },
+          {
+            value: "APPLICATION_UNSUCCESSFUL",
+            text: contentLookup.applicationStatus["APPLICATION_UNSUCCESSFUL"]
+          },
+          {
+            value: "SELECTED_FOR_INTERVIEW",
+            text: contentLookup.applicationStatus["SELECTED_FOR_INTERVIEW"]
+            
+          },
+          {
+            value: "INTERVIEW_BOOKED",
+            text: contentLookup.applicationStatus["INTERVIEW_BOOKED"]
+          },
+          {
+            value: "UNSUCCESSFUL_AT_INTERVIEW",
+            text: contentLookup.applicationStatus["UNSUCCESSFUL_AT_INTERVIEW"]
+          },
+          {
+            value: "JOB_OFFER",
+            text: contentLookup.applicationStatus["JOB_OFFER"]
+          }
+        ],
+        errorMessage: errors.applicationStatus
+      }) 
+    }}
 
-    <div class="govuk-form-group">
-      <label class="govuk-label" for="more-detail">
-        Add additional information or feedback
-      </label>
-      <textarea class="govuk-textarea" id="more-detail" name="moreDetail" rows="3"></textarea>
-    </div>
+    {{ 
+      govukTextarea({
+        id: "additionalInformation",
+        name: "additionalInformation",
+        rows: "3",
+        value: additionalInformation,
+        type: "text",
+         value: additionalInformation,
+        label: {
+          text: "Add additional information or feedback"
+        },
+        errorMessage: errors.additionalInformation
+      }) 
+    }}
 
     <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}">Cancel update</a></p>
 
-    <button class="govuk-button" type="submit">
-      Save and update
-    </button>
+    {{  
+      govukButton({
+        text: "Save and update",
+        type: "submit",
+        attributes: {
+          "data-qa": "submit-button",
+          "data-ga-category": "submit-selected-data"
+        }
+      }) 
+    }}
 
   {% else %}
     <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id, 'update') }}">Update progress</a></p>

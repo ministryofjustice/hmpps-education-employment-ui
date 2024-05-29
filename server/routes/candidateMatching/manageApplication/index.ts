@@ -7,7 +7,7 @@ import ManageApplicationController from './manageApplicationController'
 import getApplicationProgressResolver from '../../../middleware/resolvers/getApplicationProgressResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new ManageApplicationController()
+  const controller = new ManageApplicationController(services.jobApplicationService)
   router.get(
     '/cms/:id/job/:jobId/application/:mode',
     [
@@ -16,5 +16,11 @@ export default (router: Router, services: Services) => {
       getApplicationProgressResolver(services.jobApplicationService),
     ],
     controller.get,
+  )
+
+  router.post(
+    '/cms/:id/job/:jobId/application/:mode',
+    [getPrisonerByIdResolver(services.prisonerSearchService)],
+    controller.post,
   )
 }

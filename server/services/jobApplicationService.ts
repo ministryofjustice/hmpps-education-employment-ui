@@ -3,6 +3,7 @@ import JobApplicationApiClient from '../data/jobApplicationApi/jobApplicationApi
 import GetOpenApplicationsResponse from '../data/jobApplicationApi/getOpenApplicationsResponse'
 import GetClosedApplicationsResponse from '../data/jobApplicationApi/getClosedApplicationsResponse'
 import GetApplicationProgressResponse from '../data/jobApplicationApi/getApplicationProgressResponse'
+import UpdateApplicationProgressData from '../data/jobApplicationApi/updateApplicationData'
 
 export default class JobApplicationService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -27,5 +28,16 @@ export default class JobApplicationService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getApplicationProgress(offenderId, jobId)
+  }
+
+  async updateApplicationProgress(
+    username: string,
+    id: string,
+    jobId: string,
+    updateApplicationProgressData: UpdateApplicationProgressData,
+  ) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApplicationApiClient(systemToken).updateApplicationProgress(id, jobId, updateApplicationProgressData)
   }
 }

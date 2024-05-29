@@ -1,13 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import _ from 'lodash'
 import config from '../../config'
 import ApplicationStatusValue from '../../enums/applicationStatusValue'
 import RestClient from '../restClient'
+import UpdateApplicationProgressData from './updateApplicationData'
 
 // const BASE_URL = '/applications'
 
+const mockApplicationProgress = {}
+
 export default class JobApplicationApiClient {
   restClient: RestClient
+
+  static mockApplicationProgress: any
 
   constructor(token: string) {
     this.restClient = new RestClient('Job Application API', config.apis.jobApi, token)
@@ -22,21 +29,23 @@ export default class JobApplicationApiClient {
   }
 
   async getApplicationProgress(offenderNo: string, jobId: string) {
-    return [
+    return _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
+  }
+
+  async updateApplicationProgress(
+    offenderNo: string,
+    jobId: string,
+    updateApplicationProgressData: UpdateApplicationProgressData,
+  ) {
+    const currentValue = _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
+    _.set(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [
+      ...currentValue,
       {
-        status: ApplicationStatusValue.APPLICATION_MADE,
-        createdByName: 'TE£ST_USER',
+        ...updateApplicationProgressData,
+        createdByName: 'TEST_USER',
         createdByDateTime: new Date().toISOString(),
-        notes: '',
       },
-      {
-        status: ApplicationStatusValue.APPLICATION_UNSUCCESSFUL,
-        createdByName: 'TE£ST_USER',
-        createdByDateTime: new Date().toISOString(),
-        notes:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      },
-    ]
+    ])
   }
 }
 
