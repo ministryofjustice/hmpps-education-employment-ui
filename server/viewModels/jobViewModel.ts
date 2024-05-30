@@ -1,8 +1,12 @@
 import 'reflect-metadata'
-import { Expose, Transform, Type } from 'class-transformer'
+import { Exclude, Expose, Transform, Type } from 'class-transformer'
 import { formatDateStringToddMMMyyyy } from '../utils/index'
 
+@Exclude()
 export default class JobViewModel {
+  @Expose()
+  id: number
+
   @Expose()
   employerName: string
 
@@ -25,4 +29,7 @@ export default class JobViewModel {
 
   @Expose()
   typeOfWork: string
+
+  @Expose()
+  expressionOfInterest: boolean
 }

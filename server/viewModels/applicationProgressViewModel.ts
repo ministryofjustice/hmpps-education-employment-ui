@@ -1,12 +1,16 @@
 import 'reflect-metadata'
-import { Expose, Transform, Type } from 'class-transformer'
+import { Exclude, Expose, Transform, Type } from 'class-transformer'
 import { formatDateStringToddMMMyyyy } from '../utils/index'
 import ApplicationStatusValue from '../enums/applicationStatusValue'
 
-@Expose()
+@Exclude()
 export default class ApplicationStatusViewModel {
+  jobId: string
+
+  @Expose()
   status: ApplicationStatusValue
 
+  @Expose()
   createdByName: string
 
   @Type(() => Date)
@@ -14,5 +18,6 @@ export default class ApplicationStatusViewModel {
   @Transform(formatDateStringToddMMMyyyy)
   createdByDateTime: string
 
+  @Expose()
   notes: string
 }

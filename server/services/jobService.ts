@@ -2,7 +2,7 @@ import HmppsAuthClient from '../data/hmppsAuthClient'
 import GetMatchedJobsResponse from '../data/jobApi/getMatchedJobsResponse'
 import GetFlaggedJobsResponse from '../data/jobApi/getFlaggedJobsResponse'
 import GetArchivedJobsResponse from '../data/jobApi/geArchivedJobsResponse'
-import JobApiClient from '../data/jobApi/jobApi'
+import JobApiClient from '../data/jobApi/jobApiClient'
 import GetJobDetailsResponse from '../data/jobApi/getJobDetailsResponse'
 
 export default class JobService {
