@@ -3,9 +3,11 @@
 
 import _ from 'lodash'
 import config from '../../config'
-import ApplicationStatusValue from '../../enums/applicationStatusValue'
 import RestClient from '../restClient'
 import UpdateApplicationProgressData from './updateApplicationData'
+import GetOpenApplicationsResponse from './getOpenApplicationsResponse'
+import GetClosedApplicationsResponse from './getClosedApplicationsResponse'
+import GetApplicationProgressResponse from './getApplicationProgressResponse'
 
 // const BASE_URL = '/applications'
 
@@ -20,15 +22,15 @@ export default class JobApplicationApiClient {
     this.restClient = new RestClient('Job Application API', config.apis.jobApi, token)
   }
 
-  async getOpenApplications(offenderNo: string) {
+  async getOpenApplications(offenderNo: string): Promise<GetOpenApplicationsResponse[]> {
     return mockOpenApplications[offenderNo] ? mockOpenApplications[offenderNo] : mockOpenApplications.default
   }
 
-  async getClosedApplications(offenderNo: string) {
+  async getClosedApplications(offenderNo: string): Promise<GetClosedApplicationsResponse[]> {
     return mockClosedApplications[offenderNo] ? mockClosedApplications[offenderNo] : mockClosedApplications.default
   }
 
-  async getApplicationProgress(offenderNo: string, jobId: string) {
+  async getApplicationProgress(offenderNo: string, jobId: string): Promise<GetApplicationProgressResponse[]> {
     return _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
   }
 
@@ -50,27 +52,25 @@ export default class JobApplicationApiClient {
 }
 
 const mockOpenApplications = {
-  default: {
-    content: [
-      {
-        applicationId: 1,
-        employerName: 'CBS Labour',
-        jobTitle: 'Vegetable packing operative',
-        applicationStatus: 'Application submitted',
-      },
-    ],
-  },
+  default: [
+    {
+      applicationId: 1,
+      jobId: 2,
+      employerName: 'CBS Labour',
+      jobTitle: 'Vegetable packing operative',
+      applicationStatus: 'Application submitted',
+    },
+  ],
 }
 
 const mockClosedApplications = {
-  default: {
-    content: [
-      {
-        applicationId: 1,
-        employerName: 'Z Labour',
-        jobTitle: 'Forklift operator',
-        applicationStatus: 'Unsuccessful application',
-      },
-    ],
-  },
+  default: [
+    {
+      applicationId: 1,
+      jobId: 3,
+      employerName: 'Z Labour',
+      jobTitle: 'Forklift operator',
+      applicationStatus: 'Unsuccessful application',
+    },
+  ],
 }
