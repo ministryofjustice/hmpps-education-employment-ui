@@ -1,8 +1,9 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
-import JobApiClient from '../data/jobApi/jobApi'
 import GetMatchedJobsResponse from '../data/jobApi/getMatchedJobsResponse'
 import GetFlaggedJobsResponse from '../data/jobApi/getFlaggedJobsResponse'
 import GetArchivedJobsResponse from '../data/jobApi/geArchivedJobsResponse'
+import JobApiClient from '../data/jobApi/jobApi'
+import GetJobDetailsResponse from '../data/jobApi/getJobDetailsResponse'
 
 export default class JobService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -50,5 +51,11 @@ export default class JobService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getArchivedJobs(params)
+  }
+
+  async getJobDetails(username: string, jobId: string): Promise<GetJobDetailsResponse> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getJobDetails(jobId)
   }
 }

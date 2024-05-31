@@ -4,10 +4,12 @@ import prisonerListMatchJobsRoutes from './prisonerListMatchJobs'
 import matchedJobsRoutes from './matchedJobs'
 import flaggedJobsRoutes from './flaggedJobs'
 import archivedJobsRoutes from './archivedJobs'
+import jobDetailsRoutes from './jobDetails'
 
 export default function attachRoutes(router: Router, services: Services): void {
   prisonerListMatchJobsRoutes(router, services)
   matchedJobsRoutes(router, services)
   flaggedJobsRoutes(router, services)
   archivedJobsRoutes(router, services)
+  jobDetailsRoutes(router, services)
 }
