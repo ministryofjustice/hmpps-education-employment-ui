@@ -1,10 +1,9 @@
 interface GetClosedApplicationsResponse {
-  content: {
-    applicationId: number
-    employerName: string
-    jobTitle: string
-    applicationStatus: string
-  }[]
+  id: number
+  jobId: number
+  employerName: string
+  jobTitle: string
+  applicationStatus: string
 }
 
 export default GetClosedApplicationsResponse

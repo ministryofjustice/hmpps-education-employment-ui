@@ -1,4 +1,4 @@
-enum ContractType {
+enum WorkPattern {
   'ANNUALISED_HOURS' = 'ANNUALISED_HOURS',
   'COMPRESSED_HOURS' = 'COMPRESSED_HOURS',
   'FLEXI_TIME' = 'FLEXI_TIME',
@@ -9,4 +9,4 @@ enum ContractType {
   'UNSOCIABLE_HOURS' = 'UNSOCIABLE_HOURS',
 }
 
-export default ContractType
+export default WorkPattern

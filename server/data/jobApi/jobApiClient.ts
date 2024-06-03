@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import _ from 'lodash'
 
 import config from '../../config'
@@ -82,6 +83,10 @@ export default class JobApiClient {
   }
 
   async getJobDetails(jobId: string) {
+    // const testJob = await this.restClient.get({
+    //   path: `/prison-leavers-job/2`,
+    // })
+
     const job = mockJobs.find(j => j.id === Number(jobId))
     return {
       ...job,
