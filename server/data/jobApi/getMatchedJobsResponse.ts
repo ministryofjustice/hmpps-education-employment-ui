@@ -2,6 +2,7 @@ import TypeOfWorkValue from '../../enums/typeOfWorkValue'
 
 interface GetMatchedJobsResponse {
   content: {
+    id: string
     employerName: string
     jobTitle: string
     closingDate: string
@@ -9,6 +10,7 @@ interface GetMatchedJobsResponse {
     city: string
     postcode: string
     typeOfWork: TypeOfWorkValue
+    expressionOfInterest: boolean
   }[]
 }
 
