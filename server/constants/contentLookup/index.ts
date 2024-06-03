@@ -14,6 +14,7 @@ import excludingOffences from './excludingOffences'
 import salaryPeriod from './salaryPeriod'
 import workBaseLocation from './workBaseLocation'
 import workPattern from './workPattern'
+import applicationStatus from './applicationStatus'
 
 export default {
   fields: {
@@ -37,4 +38,5 @@ export default {
     typeOfWork,
   },
   toDoStatus,
+  applicationStatus,
 }

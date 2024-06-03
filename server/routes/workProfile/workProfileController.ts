@@ -30,8 +30,8 @@ export default class WorkProfileController {
       com,
       matchedJobsResults,
       flaggedJobs,
-      openApplications,
-      closedApplications,
+      openApplications = [],
+      closedApplications = [],
     } = req.context
 
     try {
@@ -62,8 +62,8 @@ export default class WorkProfileController {
         unacceptableAbsenceCount,
         matchedJobs: plainToClass(JobViewModel, _.take(_.get(matchedJobsResults, 'content', []), 3)),
         flaggedJobs: plainToClass(JobViewModel, _.take(_.get(flaggedJobs, 'content', []), 3)),
-        openApplications: _.get(openApplications, 'content', []),
-        closedApplications: _.get(closedApplications, 'content', []),
+        openApplications,
+        closedApplications,
       }
 
       res.render('pages/workProfile/index', { ...data })

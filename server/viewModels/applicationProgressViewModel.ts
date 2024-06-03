@@ -1,35 +1,23 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
 import { formatDateStringToddMMMyyyy } from '../utils/index'
+import ApplicationStatusValue from '../enums/applicationStatusValue'
 
 @Exclude()
-export default class JobViewModel {
-  @Expose()
-  id: number
+export default class ApplicationStatusViewModel {
+  jobId: string
 
   @Expose()
-  employerName: string
+  status: ApplicationStatusValue
 
   @Expose()
-  jobTitle: string
+  createdByName: string
 
   @Type(() => Date)
   @Expose()
   @Transform(formatDateStringToddMMMyyyy)
-  closingDate: string
+  createdByDateTime: string
 
   @Expose()
-  distance: string
-
-  @Expose()
-  city: string
-
-  @Expose()
-  postcode: string
-
-  @Expose()
-  typeOfWork: string
-
-  @Expose()
-  expressionOfInterest: boolean
+  notes: string
 }
