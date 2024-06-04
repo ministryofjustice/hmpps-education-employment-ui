@@ -11,7 +11,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 export default class JobDetailsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { jobDetails, prisoner, profile } = req.context
+    const { jobDetails, prisoner, profile, prisonerAddress } = req.context
 
     try {
       // Render data
@@ -30,6 +30,7 @@ export default class JobDetailsController {
           'profileData.supportAccepted.workInterests.workTypesOfInterest',
           [],
         ).includes(jobDetails.typeOfWork),
+        releaseArea: prisonerAddress,
       }
 
       res.render('pages/candidateMatching/jobDetails/index', { ...data })

@@ -5,6 +5,7 @@ import getJobDetailsResolver from '../../../middleware/resolvers/getJobDetailsRe
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import JobDetailsController from './jobDetailsController'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
+import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new JobDetailsController()
@@ -13,6 +14,7 @@ export default (router: Router, services: Services) => {
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
+      getPrisonerAddressByIdResolver(services.deliusIntegrationService),
       getJobDetailsResolver(services.jobService),
     ],
     controller.get,

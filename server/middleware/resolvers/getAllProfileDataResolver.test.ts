@@ -14,6 +14,7 @@ import getMatchedJobs from './utils/getMatchedJobs'
 import getFlaggedJobs from './utils/getFlaggedJobs'
 import getOpenApplications from './utils/getOpenApplications'
 import getClosedApplications from './utils/getClosedApplications'
+import getPrisonerAddressById from './utils/getPrisonerAddressById'
 
 jest.mock('./utils/getComById', () => ({
   ...jest.requireActual('./utils/getComById'),
@@ -93,7 +94,13 @@ jest.mock('./utils/getClosedApplications', () => ({
   default: jest.fn(),
 }))
 
-describe('getComByIdResolver', () => {
+jest.mock('./utils/getPrisonerAddressById', () => ({
+  ...jest.requireActual('./utils/getPrisonerAddressById'),
+  __esModule: true,
+  default: jest.fn(),
+}))
+
+describe('getAllProfileDataResolver', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = { username: 'mock_username' }
@@ -119,6 +126,7 @@ describe('getComByIdResolver', () => {
   const getFlaggedJobsMock = getFlaggedJobs as jest.Mock
   const getOpenApplicationsMock = getOpenApplications as jest.Mock
   const getClosedApplicationsMock = getClosedApplications as jest.Mock
+  const getPrisonerAddressByIdMock = getPrisonerAddressById as jest.Mock
 
   const resolver = middleware(servicesMock as any)
 
@@ -135,6 +143,7 @@ describe('getComByIdResolver', () => {
   getFlaggedJobsMock.mockResolvedValue('flaggedJobs')
   getOpenApplicationsMock.mockResolvedValue('openApplications')
   getClosedApplicationsMock.mockResolvedValue('closedApplications')
+  getPrisonerAddressByIdMock.mockResolvedValue('prisonerAddress')
 
   afterEach(() => {
     req.context = {}
@@ -157,6 +166,7 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
+    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
 
     expect(req.context.matchedJobsResults).toEqual('matchedJobs')
     expect(req.context.flaggedJobs).toEqual('flaggedJobs')
@@ -175,6 +185,7 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
+    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
 
     expect(req.context.matchedJobsResults).not.toEqual('matchedJobs')
     expect(req.context.flaggedJobs).not.toEqual('flaggedJobs')
@@ -192,6 +203,8 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
+    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
+
     expect(req.context.currentOffenderActivities).toEqual('currentOffenderActivities')
     expect(req.context.employabilitySkills).toEqual('employabilitySkills')
     expect(req.context.learnerEducation).toEqual('learnerEducation')
@@ -209,6 +222,8 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
+    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
+
     expect(req.context.neurodivergence).toEqual('neurodivergence')
 
     expect(next).toHaveBeenCalledWith()
@@ -222,6 +237,8 @@ describe('getComByIdResolver', () => {
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
+    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
+
     expect(req.context.keyworker).toEqual('keyworker')
     expect(req.context.com).toEqual('com')
     expect(req.context.pom).toEqual('pom')
