@@ -21,6 +21,10 @@ describe('HomePageController', () => {
     lastName: 'mock_lastName',
   }
 
+  req.context.prisonerAddress = {
+    postcode: 'mock_postcode',
+  }
+
   req.params.id = 'mock_ref'
   const { id } = req.params
 
@@ -29,6 +33,9 @@ describe('HomePageController', () => {
     backLocation: addressLookup.candidateMatching.matchedJobs(id),
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     job: plainToClass(JobDetailsViewModel, req.context.jobDetails),
+    releaseArea: {
+      postcode: 'mock_postcode',
+    },
   }
 
   const controller = new Controller()

@@ -21,7 +21,7 @@ export default class MatchedJobsController {
     const { page, sort, order, typeOfWorkFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { prisoner, profile, matchedJobsResults } = req.context
+    const { prisoner, profile, matchedJobsResults, prisonerAddress } = req.context
 
     try {
       // Paginate where necessary
@@ -56,6 +56,9 @@ export default class MatchedJobsController {
       // Get type of work interested in
       const workTypesOfInterest = _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest', [])
 
+      // Get default release area postcode
+      const postcode = _.get(prisonerAddress, 'postcode', '')
+
       // Render data
       const data = {
         id,
@@ -72,7 +75,10 @@ export default class MatchedJobsController {
         typeOfWorkOtherOptions: Object.keys(typeOfWorkLookup).filter(
           p => !workTypesOfInterest.includes(p) && p !== 'OTHER',
         ),
-        locationFilter: decodeURIComponent(locationFilter as string),
+        locationFilter:
+          decodeURIComponent(locationFilter as string) === 'none'
+            ? ''
+            : decodeURIComponent(locationFilter as string) || postcode,
         typeOfWorkFilter: _.compact(decodeURIComponent(typeOfWorkFilter as string).split(',')),
         distanceFilter: decodeURIComponent(distanceFilter as string),
         filtered:
@@ -110,9 +116,9 @@ export default class MatchedJobsController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         distanceFilter && `distanceFilter=${encodeURIComponent(distanceFilter)}`,
-        locationFilter && `locationFilter=${encodeURIComponent(locationFilter)}`,
         typeOfWorkFilter &&
           `typeOfWorkFilter=${encodeURIComponent([...typeOfWorkFilter, ...typeOfWorkFilterOther].join(','))}`,
+        `locationFilter=${encodeURIComponent(locationFilter || 'none')}`,
       ].filter(val => !!val)
 
       res.redirect(
