@@ -82,12 +82,13 @@ export default class JobApiClient {
     return mockArchivedJobs[offenderNo] ? mockArchivedJobs[offenderNo] : mockArchivedJobs.default
   }
 
-  async getJobDetails(jobId: string) {
+  async getJobDetails(jobId: string, postCode?: string) {
     // const testJob = await this.restClient.get({
     //   path: `/prison-leavers-job/2`,
     // })
 
     const job = mockJobs.find(j => j.id === Number(jobId))
+    job.distance = postCode ? 5.4 : 0
     return {
       ...job,
       ...mockJobDetails,

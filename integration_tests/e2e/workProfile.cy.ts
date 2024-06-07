@@ -20,6 +20,22 @@ context('SignIn', () => {
     cy.signIn()
   })
 
+  it('Check content', () => {
+    cy.task('getPrisonerById', 'G6115VJ')
+    cy.task('getProfileById', 'G6115VJ')
+    cy.task('getCurrentOffenderActivities', 'G6115VJ')
+    cy.task('getKeyworker', 'G6115VJ')
+    cy.task('getUnacceptableAbsenceCount', 'G6115VJ')
+    cy.task('getPomForOffender', 'G6115VJ')
+    cy.task('getCommunityManager', 'G6115VJ')
+    cy.task('getPrisonerAddress', 'G6115VJ')
+
+    cy.visit('/wr/profile/G6115VJ/view/overview')
+    const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
+
+    workProfilePage.releaseArea().contains('L15 7LR')
+  })
+
   it('No right to work', () => {
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
