@@ -24,4 +24,6 @@ export default class WorkProfilePage extends Page {
   overviewDeclinedChangesRequiredLink = (): PageElement => cy.get('#overview-declined-changes-required-link')
 
   editActionLink = (toDoItem): PageElement => cy.get(`#overview-todo-${toDoItem}-link`)
+
+  releaseArea = (): PageElement => cy.get('#prisoner-release-area')
 }

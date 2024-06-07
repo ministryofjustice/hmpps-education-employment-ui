@@ -97,6 +97,6 @@ describe('PrisonService', () => {
     expect(result).toEqual({ data: 'mock_data' })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
-    expect(jobApiClientMock.getJobDetails).toHaveBeenCalledWith('offenderId')
+    expect(jobApiClientMock.getJobDetails).toHaveBeenCalledWith('offenderId', undefined)
   })
 })

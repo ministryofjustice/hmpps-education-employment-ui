@@ -15,6 +15,7 @@ import getOpenApplications from './utils/getOpenApplications'
 import getClosedApplications from './utils/getClosedApplications'
 import getComById from './utils/getComById'
 import getPomById from './utils/getPomById'
+import getPrisonerAddressById from './utils/getPrisonerAddressById'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -22,11 +23,16 @@ const getAllProfileDataResolver =
   async (req, res, next): Promise<void> => {
     const { id, tab, module } = req.params
     const { username } = res.locals.user
-    const { prisonerSearchService } = services
+    const { prisonerSearchService, deliusIntegrationService } = services
 
     try {
-      const prisoner = await prisonerSearchService.getPrisonerById(username, id)
+      const [prisoner, prisonerAddress] = await Promise.all([
+        prisonerSearchService.getPrisonerById(username, id),
+        getPrisonerAddressById(deliusIntegrationService, username, id),
+      ])
+
       req.context.prisoner = prisoner
+      req.context.prisonerAddress = prisonerAddress
 
       if (tab === 'details') {
         await getPersonalTabData(req, res, services)
@@ -65,7 +71,6 @@ const getContactTabData = async (req: any, res: any, services: Services): Promis
   const { username } = res.locals.user
   const { keyworkerService, deliusIntegrationService, allocationManagerService } = services
 
-  // TODO: put failing calls back in
   const [com, pom, keyworker] = await Promise.all([
     getComById(deliusIntegrationService, username, id),
     getPomById(allocationManagerService, username, id),

@@ -53,9 +53,9 @@ export default class JobService {
     return new JobApiClient(systemToken).getArchivedJobs(params)
   }
 
-  async getJobDetails(username: string, jobId: string): Promise<GetJobDetailsResponse> {
+  async getJobDetails(username: string, jobId: string, postCode?: string): Promise<GetJobDetailsResponse> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    return new JobApiClient(systemToken).getJobDetails(jobId)
+    return new JobApiClient(systemToken).getJobDetails(jobId, postCode)
   }
 }

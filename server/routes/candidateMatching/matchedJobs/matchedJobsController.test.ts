@@ -161,7 +161,7 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&locationFilter=name1&typeOfWorkFilter=COOKING`,
+        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&typeOfWorkFilter=COOKING&locationFilter=name1`,
       )
     })
   })

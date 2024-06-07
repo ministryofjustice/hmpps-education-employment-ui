@@ -32,6 +32,7 @@ export default class WorkProfileController {
       flaggedJobs,
       openApplications = [],
       closedApplications = [],
+      prisonerAddress = {},
     } = req.context
 
     try {
@@ -64,6 +65,7 @@ export default class WorkProfileController {
         flaggedJobs: plainToClass(JobViewModel, _.take(_.get(flaggedJobs, 'content', []), 3)),
         openApplications,
         closedApplications,
+        releaseArea: prisonerAddress,
       }
 
       res.render('pages/workProfile/index', { ...data })
