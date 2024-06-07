@@ -7,6 +7,7 @@ import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
+import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new MatchedJobsController(services.paginationService)
@@ -15,6 +16,7 @@ export default (router: Router, services: Services) => {
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
+      getPrisonerAddressByIdResolver(services.deliusIntegrationService),
       getMatchedJobsResolver(services.jobService),
     ],
     controller.get,

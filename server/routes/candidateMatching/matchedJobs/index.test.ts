@@ -5,6 +5,7 @@ import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
+import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 import { Services } from '../../../services'
 import routes from './index'
 
@@ -12,6 +13,7 @@ jest.mock('./matchedJobsController')
 jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getMatchedJobsResolver')
+jest.mock('../../../middleware/resolvers/getPrisonerAddressByIdResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
 jest.mock('../../../middleware/parseCheckBoxValue')
 
@@ -34,6 +36,7 @@ describe('Matched jobs routes', () => {
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getPrisonerAddressByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route prisoner list page', () => {
@@ -45,6 +48,7 @@ describe('Matched jobs routes', () => {
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerListMatchedJobsResolver
+        expect.any(Function), // getPrisonerAddressByIdResolver
       ],
       expect.any(Function), // controller.get
     )
