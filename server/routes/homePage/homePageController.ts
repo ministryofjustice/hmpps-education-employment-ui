@@ -30,7 +30,7 @@ export default class HomePageController {
             id: 'match-jobs-and-manage-applications',
             heading: 'Match jobs and manage applications',
             description: 'View jobs matched by work interests and release area. Manage the status of job applications.',
-            href: addressLookup.candidateMatching.prisonerMatchJobsList(),
+            href: addressLookup.candidateMatching.prisonerListMatchJobs(),
             enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
           },
           {

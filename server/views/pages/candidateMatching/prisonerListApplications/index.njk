@@ -47,10 +47,10 @@
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-2" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" aria-current="page" href="#">Match jobs</a>
+                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.prisonerListMatchJobs() }}">Match jobs</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.prisonerListApplications() }}">Manage applications</a>
+                            <a class="moj-sub-navigation__link" aria-current="page" href="#">Manage applications</a>
                         </li>
                         </ul>
                     </nav>
@@ -58,9 +58,9 @@
                     </div>
                 </div>
                 
-                {% include './partials/_prisonerListFilters.njk' %}
+                {% include './partials/_applicationsListFilters.njk' %}
                 {% include './partials/_resultsPanel.njk' %}
-                {% include './partials/_prisonerListTable.njk' %}
+                {% include './partials/_applicationsListTable.njk' %}
 
             </form>
         </div>
