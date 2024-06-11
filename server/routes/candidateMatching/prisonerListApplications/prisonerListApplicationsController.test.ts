@@ -16,7 +16,7 @@ describe('PrisonerListApplicationsController', () => {
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
-  req.context.prisonerListMatchedJobs = {
+  req.context.prisonerListApplications = {
     prisonerSearchResults: {
       prisonerSearchResults: [
         {
@@ -50,7 +50,7 @@ describe('PrisonerListApplicationsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.prisonerListMatchedJobs
+  const mockData = req.context.prisonerListApplications
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -81,12 +81,37 @@ describe('PrisonerListApplicationsController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/prisonerListApplications/index', {
+        prisonerSearchResults: {
+          filterStatus: 'ALL',
+          order: 'descending',
+          prisonerSearchResults: {
+            prisonerSearchResults: [
+              {
+                displayName: 'mock_displayName',
+                releaseDate: 'mock_releaseDate',
+                status: 'mock_status',
+              },
+              {
+                displayName: 'mock_displayName2',
+                releaseDate: 'mock_releaseDate',
+                status: 'mock_status',
+              },
+            ],
+            totalElements: 2,
+          },
+          searchTerm: '',
+          sort: 'releaseDate',
+          userActiveCaseLoad: {
+            activeCaseLoad: {
+              caseLoadId: 'MDI',
+            },
+          },
+        },
         filtered: '',
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
         prisonerNameFilter: '',
-        prisonerSearchResults: {},
         jobFilter: '',
         sort: 'releaseDate',
         applicationStatusFilter: '',
@@ -144,7 +169,7 @@ describe('PrisonerListApplicationsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/applications?sort=releaseDate&order=descending&prisonerNameFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
+        `/cms/applications?sort=releaseDate&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
       )
     })
   })

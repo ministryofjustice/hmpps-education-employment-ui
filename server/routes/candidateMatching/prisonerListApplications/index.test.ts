@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import Controller from './prisonerListApplicationsController'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
+import getPrisonerListApplicationsResolver from '../../../middleware/resolvers/getPrisonerListApplicationsResolver'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./prisonerListApplicationsController')
 jest.mock('../../../middleware/handleSortMiddleware')
+jest.mock('../../../middleware/resolvers/getPrisonerListApplicationsResolver')
 
 describe('Prisoner list applications routes', () => {
   let router: Router
@@ -22,6 +24,7 @@ describe('Prisoner list applications routes', () => {
       post: jest.fn(),
     }))
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getPrisonerListApplicationsResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route prisoner list page', () => {
@@ -29,7 +32,9 @@ describe('Prisoner list applications routes', () => {
 
     expect(router.get).toHaveBeenCalledWith(
       '/cms/applications',
-      [],
+      [
+        expect.any(Function), // getPrisonerListApplicationsResolver
+      ],
       expect.any(Function), // controller.get
     )
   })

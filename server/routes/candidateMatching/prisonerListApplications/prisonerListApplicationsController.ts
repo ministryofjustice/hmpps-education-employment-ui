@@ -14,11 +14,11 @@ export default class PrisonerListApplicationsController {
     const { page, sort, order, applicationStatusFilter = '', prisonerNameFilter = '', jobFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const prisonerSearchResults = {}
+    const prisonerSearchResults = req.context.prisonerListApplications
 
     try {
       // Paginate where necessary
-      const paginationData = {}
+      let paginationData = {}
       let notFoundMsg
 
       // Build uri
@@ -32,14 +32,18 @@ export default class PrisonerListApplicationsController {
       ].filter(val => !!val)
 
       // Build pagination or error messages
-      // if (prisonerSearchResults.totalElements) {
-      //   if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-      //     paginationData = this.paginationService.getPagination(
-      //       prisonerSearchResults,
-      //       new URL(`${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.prisonerListApplications()}?${uri.join('&')}`),
-      //     )
-      //   }
-      // }
+      if (prisonerSearchResults.totalElements) {
+        if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+          paginationData = this.paginationService.getPagination(
+            prisonerSearchResults,
+            new URL(
+              `${req.protocol}://${req.get(
+                'host',
+              )}${addressLookup.candidateMatching.prisonerListApplications()}?${uri.join('&')}`,
+            ),
+          )
+        }
+      }
 
       // Render data
       const data = {
@@ -85,7 +89,7 @@ export default class PrisonerListApplicationsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        jobFilter && `prisonerNameFilter=${encodeURIComponent(jobFilter)}`,
+        jobFilter && `jobFilter=${encodeURIComponent(jobFilter)}`,
         prisonerNameFilter && `prisonerNameFilter=${encodeURIComponent(prisonerNameFilter)}`,
         applicationStatusFilter && `applicationStatusFilter=${encodeURIComponent(applicationStatusFilter)}`,
       ].filter(val => !!val)

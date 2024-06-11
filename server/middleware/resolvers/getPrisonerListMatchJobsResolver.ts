@@ -12,24 +12,24 @@ const getPrisonerListMatchJobsResolver =
     const { userActiveCaseLoad } = res.locals
     const { username, token } = res.locals.user
 
-    // Prepare search & date parameters
-    const { weeksBeforeRelease } = config
-
-    // Build search filter
-    const searchFilter = {
-      status: showNeedsSupportFilter ? ['READY_TO_WORK', 'SUPPORT_NEEDED'] : ['READY_TO_WORK'],
-      typeOfWork: decodeURIComponent(typeOfWorkFilter.toString()),
-      searchTerm: decodeURIComponent(prisonerNameFilter.toString()),
-    }
-
-    // Build date filter
-    const dateFilter = {
-      earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
-      latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
-      prisonIds: [userActiveCaseLoad.caseLoadId],
-    }
-
     try {
+      // Prepare search & date parameters
+      const { weeksBeforeRelease } = config
+
+      // Build search filter
+      const searchFilter = {
+        status: showNeedsSupportFilter ? ['READY_TO_WORK', 'SUPPORT_NEEDED'] : ['READY_TO_WORK'],
+        typeOfWork: decodeURIComponent(typeOfWorkFilter.toString()),
+        searchTerm: decodeURIComponent(prisonerNameFilter.toString()),
+      }
+
+      // Build date filter
+      const dateFilter = {
+        earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
+        latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
+        prisonIds: [userActiveCaseLoad.caseLoadId],
+      }
+
       req.context.prisonerListMatchedJobs = await prisonerProfileService.getPrisonersToMatchJobs({
         userToken: token,
         username,
