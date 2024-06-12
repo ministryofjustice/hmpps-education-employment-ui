@@ -8,6 +8,7 @@ import UpdateApplicationProgressData from './updateApplicationData'
 import GetOpenApplicationsResponse from './getOpenApplicationsResponse'
 import GetClosedApplicationsResponse from './getClosedApplicationsResponse'
 import GetApplicationProgressResponse from './getApplicationProgressResponse'
+import ApplicationSearchResults from './applicationSearchResults'
 
 // const BASE_URL = '/applications'
 
@@ -48,6 +49,62 @@ export default class JobApplicationApiClient {
         createdByDateTime: new Date().toISOString(),
       },
     ])
+  }
+
+  async applicationSearch(params: {
+    prisonId: string
+    page?: number
+    sort?: string
+    order?: string
+    applicationStatusFilter?: string
+    prisonerNameFilter?: string
+    jobFilter?: string
+  }): Promise<ApplicationSearchResults> {
+    return {
+      content: [
+        {
+          jobId: 1,
+          prisonId: 'HBC1',
+          jobTitle: 'Vegetable packing operative',
+          prisonerNumber: 'G5823GP',
+          employerName: 'CBS packing',
+          firstName: 'ADAM',
+          lastName: 'ARHMED',
+          applicationStatus: 'APPLICATION_MADE',
+        },
+        {
+          jobId: 1,
+          prisonId: 'HBC1',
+          jobTitle: 'Forklift operator',
+          prisonerNumber: 'G3892UH',
+          employerName: 'Amazon',
+          firstName: 'CHARLES',
+          lastName: 'JERMAINE',
+          applicationStatus: 'SELECTED_FOR_INTERVIEW',
+        },
+        {
+          jobId: 1,
+          prisonId: 'HBC1',
+          jobTitle: 'Retail assistant',
+          prisonerNumber: 'G3892UH',
+          employerName: 'Iceland',
+          firstName: 'CHARLES',
+          lastName: 'JERMAINE',
+          applicationStatus: 'APPLICATION_MADE',
+        },
+        {
+          jobId: 1,
+          prisonId: 'HBC1',
+          jobTitle: 'Retail assistant',
+          prisonerNumber: 'G0143VW',
+          employerName: 'Iceland',
+          firstName: 'ROSS',
+          lastName: 'MCLAUGHLAN',
+          applicationStatus: 'APPLICATION_MADE',
+        },
+      ],
+      totalElements: 4,
+    }
   }
 }
 

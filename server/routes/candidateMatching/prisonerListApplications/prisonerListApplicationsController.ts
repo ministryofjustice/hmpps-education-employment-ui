@@ -48,7 +48,6 @@ export default class PrisonerListApplicationsController {
       // Render data
       const data = {
         prisonerSearchResults,
-        sort,
         order,
         paginationData,
         userActiveCaseLoad,

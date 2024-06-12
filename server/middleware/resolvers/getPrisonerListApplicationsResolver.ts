@@ -1,63 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { RequestHandler } from 'express'
 
+import { plainToClass } from 'class-transformer'
 import JobApplicationService from '../../services/jobApplicationService'
+import PrisonerApplicationViewModel from '../../viewModels/prisonerApplicationViewModel'
+import getPrisonerListApplications from './utils/getPrisonerListApplications'
 
-// Gets prisoner based on id parameter and puts it into request context
+// Gets prisoner applications based on the current prisonId of the current user
 const getPrisonerListApplicationsResolver =
   (jobApplicationService: JobApplicationService): RequestHandler =>
   async (req, res, next): Promise<void> => {
-    // const { page, sort, order, applicationStatusFilter, prisonerNameFilter = '', jobFilter = '' } = req.query
-    // const { userActiveCaseLoad } = res.locals
-    // const { username, token } = res.locals.user
+    const {
+      page,
+      sort = '',
+      order = '',
+      applicationStatusFilter = '',
+      prisonerNameFilter = '',
+      jobFilter = '',
+    } = req.query
+    const { userActiveCaseLoad } = res.locals
+    const { username } = res.locals.user
 
     try {
-      req.context.prisonerListApplications = {
-        content: [
-          {
-            jobId: 1,
-            jobTitle: 'Vegetable packing operative',
-            prisonerNumber: 'G5823GP',
-            employerName: 'CBS packing',
-            firstName: 'Adam',
-            lastName: 'Arhmed',
-            displayName: 'Adam Arhmed',
-            applicationStatus: 'APPLICATION_MADE',
-          },
-          {
-            jobId: 1,
-            jobTitle: 'Forklift operator',
-            prisonerNumber: 'G3892UH',
-            employerName: 'Amazon',
-            firstName: 'Charles',
-            lastName: 'Jermaine',
-            displayName: 'Charles Jermaine',
-            applicationStatus: 'SELECTED_FOR_INTERVIEW',
-          },
-          {
-            jobId: 1,
-            jobTitle: 'Retail assistant',
-            prisonerNumber: 'G3892UH',
-            employerName: 'Iceland',
-            firstName: 'Charles',
-            lastName: 'Jermaine',
-            displayName: 'Charles Jermaine',
-            applicationStatus: 'APPLICATION_MADE',
-          },
-          {
-            jobId: 1,
-            jobTitle: 'Retail assistant',
-            prisonerNumber: 'G0143VW',
-            employerName: 'Iceland',
-            firstName: 'Ross',
-            lastName: 'McLaughlan',
-            displayName: 'Ross McLaughlan',
-            applicationStatus: 'APPLICATION_MADE',
-          },
-        ],
-        totalElements: 4,
-      }
+      const applications = await getPrisonerListApplications(jobApplicationService, username, {
+        prisonId: userActiveCaseLoad,
+        page: Number(page) || 0,
+        sort: sort.toString(),
+        order: order.toString(),
+        applicationStatusFilter: decodeURIComponent(applicationStatusFilter.toString()),
+        prisonerNameFilter: decodeURIComponent(prisonerNameFilter.toString()),
+        jobFilter: decodeURIComponent(jobFilter.toString()),
+      })
 
+      req.context.prisonerListApplications = applications
+      req.context.prisonerListApplications.content = plainToClass(PrisonerApplicationViewModel, applications.content)
       next()
     } catch (err) {
       next(err)

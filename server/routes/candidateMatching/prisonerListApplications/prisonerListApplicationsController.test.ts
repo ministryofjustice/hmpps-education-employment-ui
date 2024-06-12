@@ -81,6 +81,13 @@ describe('PrisonerListApplicationsController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/prisonerListApplications/index', {
+        applicationStatusFilter: '',
+        filtered: '',
+        jobFilter: '',
+        notFoundMsg: undefined,
+        order: 'descending',
+        paginationData: {},
+        prisonerNameFilter: '',
         prisonerSearchResults: {
           filterStatus: 'ALL',
           order: 'descending',
@@ -107,15 +114,12 @@ describe('PrisonerListApplicationsController', () => {
             },
           },
         },
-        filtered: '',
-        notFoundMsg: undefined,
-        order: 'descending',
-        paginationData: {},
-        prisonerNameFilter: '',
-        jobFilter: '',
-        sort: 'releaseDate',
-        applicationStatusFilter: '',
-        userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
+        userActiveCaseLoad: {
+          activeCaseLoad: {
+            caseLoadId: 'MDI',
+            description: 'Moorland (HMP & YOI)',
+          },
+        },
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
