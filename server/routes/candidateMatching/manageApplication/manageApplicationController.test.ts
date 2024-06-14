@@ -33,7 +33,9 @@ describe('ManageApplicationController', () => {
   req.params.id = 'mock_ref'
   req.params.jobId = '1'
   req.params.mode = 'update'
-  res.locals.user = { token: 'mock_token' }
+  res.locals.userActiveCaseLoad = {
+    caseLoadId: 'MDI',
+  }
   const { id, jobId } = req.params
 
   const mockData = {
@@ -123,9 +125,14 @@ describe('ManageApplicationController', () => {
       controller.post(req, res, next)
 
       expect(mockService.updateApplicationProgress).toHaveBeenCalledTimes(1)
-      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('mock_token', 'mock_ref', '1', {
+      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('MOCK_USER', {
         additionalInformation: 'test_data',
         applicationStatus: 'APPLICATION_MADE',
+        firstName: 'mock_firstName',
+        jobId: 1,
+        lastName: 'mock_lastName',
+        offenderNo: 'mock_ref',
+        prisonId: 'MDI',
       })
     })
   })
