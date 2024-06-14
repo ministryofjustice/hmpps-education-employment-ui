@@ -32,7 +32,7 @@ describe('PrisonerListApplicationsController', () => {
       ],
       totalElements: 2,
     },
-    sort: 'releaseDate',
+    sort: 'lastName',
     order: 'descending',
     userActiveCaseLoad: {
       activeCaseLoad: {
@@ -43,7 +43,7 @@ describe('PrisonerListApplicationsController', () => {
     filterStatus: 'ALL',
   }
 
-  req.params.sort = 'releaseDate'
+  req.params.sort = 'lastName'
   req.params.order = 'descending'
   const { sort, order } = req.params
 
@@ -86,6 +86,7 @@ describe('PrisonerListApplicationsController', () => {
         jobFilter: '',
         notFoundMsg: undefined,
         order: 'descending',
+        sort: 'lastName',
         paginationData: {},
         prisonerNameFilter: '',
         prisonerSearchResults: {
@@ -107,7 +108,7 @@ describe('PrisonerListApplicationsController', () => {
             totalElements: 2,
           },
           searchTerm: '',
-          sort: 'releaseDate',
+          sort: 'lastName',
           userActiveCaseLoad: {
             activeCaseLoad: {
               caseLoadId: 'MDI',
@@ -173,7 +174,7 @@ describe('PrisonerListApplicationsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/applications?sort=releaseDate&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
+        `/cms/applications?sort=lastName&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
       )
     })
   })

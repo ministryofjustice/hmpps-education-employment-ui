@@ -8,5 +8,5 @@ export default (router: Router, services: Services) => {
   const controller = new PrisonerListApplicationsController(services.paginationService)
   router.get('/cms/applications', [getPrisonerListApplicationsResolver(services.jobApplicationService)], controller.get)
 
-  router.post('/cms/applications', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
+  router.post('/cms/applications', [handleSortMiddleware('sortAction', 'lastName')], controller.post)
 }

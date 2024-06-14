@@ -23,14 +23,14 @@ export default class HomePageController {
             heading: 'Get someone ready to work',
             description:
               'Record what support a prisoner needs to get work. View who has been assessed as ready to work.',
-            href: addressLookup.workReadiness.cohortList(),
+            href: `${addressLookup.workReadiness.cohortList()}?sort=releaseDate&order=ascending`,
             enabled: () => userHasRoles(['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']),
           },
           {
             id: 'match-jobs-and-manage-applications',
             heading: 'Match jobs and manage applications',
             description: 'View jobs matched by work interests and release area. Manage the status of job applications.',
-            href: addressLookup.candidateMatching.prisonerListMatchJobs(),
+            href: `${addressLookup.candidateMatching.prisonerListMatchJobs()}?sort=releaseDate&order=ascending`,
             enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
           },
           {

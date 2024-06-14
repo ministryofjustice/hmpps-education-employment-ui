@@ -9,6 +9,7 @@ import GetOpenApplicationsResponse from './getOpenApplicationsResponse'
 import GetClosedApplicationsResponse from './getClosedApplicationsResponse'
 import GetApplicationProgressResponse from './getApplicationProgressResponse'
 import ApplicationSearchResults from './applicationSearchResults'
+import mockApplications from './mockApplications'
 
 // const BASE_URL = '/applications'
 
@@ -60,51 +61,55 @@ export default class JobApplicationApiClient {
     prisonerNameFilter?: string
     jobFilter?: string
   }): Promise<ApplicationSearchResults> {
-    return {
-      content: [
-        {
-          jobId: 1,
-          prisonId: 'HBC1',
-          jobTitle: 'Vegetable packing operative',
-          prisonerNumber: 'G5823GP',
-          employerName: 'CBS packing',
-          firstName: 'ADAM',
-          lastName: 'ARHMED',
-          applicationStatus: 'APPLICATION_MADE',
-        },
-        {
-          jobId: 1,
-          prisonId: 'HBC1',
-          jobTitle: 'Forklift operator',
-          prisonerNumber: 'G3892UH',
-          employerName: 'Amazon',
-          firstName: 'CHARLES',
-          lastName: 'JERMAINE',
-          applicationStatus: 'SELECTED_FOR_INTERVIEW',
-        },
-        {
-          jobId: 1,
-          prisonId: 'HBC1',
-          jobTitle: 'Retail assistant',
-          prisonerNumber: 'G3892UH',
-          employerName: 'Iceland',
-          firstName: 'CHARLES',
-          lastName: 'JERMAINE',
-          applicationStatus: 'APPLICATION_MADE',
-        },
-        {
-          jobId: 1,
-          prisonId: 'HBC1',
-          jobTitle: 'Retail assistant',
-          prisonerNumber: 'G0143VW',
-          employerName: 'Iceland',
-          firstName: 'ROSS',
-          lastName: 'MCLAUGHLAN',
-          applicationStatus: 'APPLICATION_MADE',
-        },
-      ],
-      totalElements: 4,
+    const { applicationStatusFilter, page, prisonerNameFilter = '', jobFilter = '', sort, order = 'ascending' } = params
+
+    let applications = mockApplications
+    if (applicationStatusFilter) {
+      applications = applications.filter(p => applicationStatusFilter.split(',').includes(p.applicationStatus))
     }
+
+    if (prisonerNameFilter) {
+      applications = applications.filter(
+        p => `${p.firstName} ${p.lastName}`.indexOf(prisonerNameFilter.toUpperCase()) > -1,
+      )
+    }
+
+    if (jobFilter) {
+      applications = applications.filter(p => `${p.jobTitle} ${p.employerName}`.indexOf(jobFilter.toUpperCase()) > -1)
+    }
+
+    if (sort) {
+      applications = _.orderBy(applications, [sort], [order === 'ascending' ? 'asc' : 'desc'])
+    }
+
+    const chunkedJobs = _.chunk(applications, 10)
+    const currentPage: number = page ? page - 1 : 0
+    const contents = chunkedJobs
+
+    const pageMetaData = {
+      pageable: {
+        sort: { empty: true, sorted: false, unsorted: true },
+        offset: 10 * currentPage,
+        pageSize: 10,
+        pageNumber: currentPage,
+        paged: true,
+        unpaged: false,
+      },
+      totalElements: applications.length ? applications.length : 0,
+      last: currentPage === (contents.length ? contents.length - 1 : 0),
+      totalPages: contents ? contents.length : 0,
+      size: 10,
+      number: 0,
+      sort: { empty: true, sorted: false, unsorted: true },
+      first: currentPage === 0,
+      numberOfElements: contents.length ? contents[currentPage].length : 0,
+      empty: applications.length === 0,
+    }
+
+    return {
+      content: contents[currentPage],
+      ...pageMetaData,
+    } as any
   }
 }
 

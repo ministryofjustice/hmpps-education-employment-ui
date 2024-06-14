@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata'
 import { plainToClass } from 'class-transformer'
-import { trim } from 'lodash'
+import _, { trim } from 'lodash'
 
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import CreateProfileResponse from '../data/prisonerProfile/createProfileResponse'
@@ -11,7 +11,6 @@ import Note from '../data/prisonerProfile/interfaces/note'
 import UpdatePrisonerProfile from '../data/prisonerProfile/interfaces/updatePrisonerProfile'
 import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient'
 import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
-import getActionsRequired from '../data/prisonerSearch/utils'
 import { convertToTitleCase } from '../utils/index'
 import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
 import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
@@ -126,10 +125,9 @@ export default class PrisonerProfileService {
     // Find matching profiles
     let matchingProfiles: PrisonerSearchResult[] = offenders.content?.map((p: any) => {
       const offenderWithProfile = offenderProfiles?.find((op: any) => op.offenderId === p.prisonerNumber)
-      const actionsRequired = offenderWithProfile && getActionsRequired(offenderWithProfile)
       return {
         ...p,
-        ...actionsRequired,
+        workTypeInterests: _.get(offenderWithProfile, 'profileData.supportAccepted.workInterests.workTypesOfInterest'),
         displayName: convertToTitleCase(`${p.lastName}, ${p.firstName}`),
         updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
         status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,

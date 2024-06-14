@@ -1,3 +1,5 @@
+import ApplicationStatusValue from '../../enums/applicationStatusValue'
+
 interface ApplicationSearchResults {
   content: {
     prisonId: string
@@ -7,7 +9,7 @@ interface ApplicationSearchResults {
     prisonerNumber: string
     firstName: string
     lastName: string
-    applicationStatus: string
+    applicationStatus: ApplicationStatusValue
   }[]
   totalElements: number
 }

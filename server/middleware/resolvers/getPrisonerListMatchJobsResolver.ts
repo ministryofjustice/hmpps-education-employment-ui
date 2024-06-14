@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RequestHandler } from 'express'
 
+import _ from 'lodash'
 import config from '../../config'
 import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/index'
 import PrisonerProfileService from '../../services/prisonerProfileService'
+import getPrisonerAddressById from './utils/getPrisonerAddressById'
+import DeliusIntegrationService from '../../services/deliusIntegrationService'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getPrisonerListMatchJobsResolver =
-  (prisonerProfileService: PrisonerProfileService): RequestHandler =>
+  (
+    prisonerProfileService: PrisonerProfileService,
+    deliusIntegrationService: DeliusIntegrationService,
+  ): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { page, sort, order, showNeedsSupportFilter, prisonerNameFilter = '', typeOfWorkFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
@@ -39,6 +46,28 @@ const getPrisonerListMatchJobsResolver =
         order,
         page: page ? +page - 1 : 0,
       })
+
+      // Get postcodes in parallel for any results
+      if (req.context.prisonerListMatchedJobs.content && req.context.prisonerListMatchedJobs.content.length) {
+        // Set up promises
+        const promises = req.context.prisonerListMatchedJobs.content.map(
+          async (prisoner: { prisonerNumber: string }) => {
+            const address = await getPrisonerAddressById(deliusIntegrationService, username, prisoner.prisonerNumber)
+            return address
+          },
+        )
+
+        // Process requests
+        const results = await Promise.all(promises)
+
+        // Merge results
+        req.context.prisonerListMatchedJobs.content = req.context.prisonerListMatchedJobs.content.map(
+          (prisoner: any, index: number) => ({
+            ...prisoner,
+            postcode: _.get(results[index], 'postcode', ''),
+          }),
+        )
+      }
 
       next()
     } catch (err) {
