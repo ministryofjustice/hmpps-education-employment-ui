@@ -3,7 +3,14 @@ import { plainToClass } from 'class-transformer'
 
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import addressLookup from '../../addressLookup'
-import { getBackLocation, getSessionData, setSessionData, validateFormSchema } from '../../../utils/index'
+import {
+  decryptUrlParameter,
+  encryptUrlParameter,
+  getBackLocation,
+  getSessionData,
+  setSessionData,
+  validateFormSchema,
+} from '../../../utils/index'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import ApplicationStatusViewModel from '../../../viewModels/applicationProgressViewModel'
 import validationSchema from './validationSchema'
@@ -14,11 +21,18 @@ export default class ManageApplicationController {
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, jobId, mode } = req.params
+    const { from = '' } = req.query
     const { jobDetails, prisoner, applicationProgress = [] } = req.context
 
     try {
       if (applicationProgress.length === 0 && mode === 'view') {
-        res.redirect(addressLookup.candidateMatching.manageApplication(id, jobId, 'update'))
+        res.redirect(
+          from
+            ? `${addressLookup.candidateMatching.manageApplication(id, jobId, 'update')}?from=${encryptUrlParameter(
+                decryptUrlParameter(from.toString()),
+              )}`
+            : addressLookup.candidateMatching.manageApplication(id, jobId, 'update'),
+        )
         return
       }
 
@@ -49,6 +63,8 @@ export default class ManageApplicationController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, jobId } = req.params
     const { applicationStatus, additionalInformation } = req.body
+    const { userActiveCaseLoad } = res.locals
+    const { prisoner } = req.context
 
     try {
       // If validation errors render errors
@@ -64,7 +80,12 @@ export default class ManageApplicationController {
       }
 
       // Update application progress API
-      await this.jobApplicationService.updateApplicationProgress(res.locals.user.token, id, jobId, {
+      await this.jobApplicationService.updateApplicationProgress(res.locals.user.username, {
+        offenderNo: id,
+        prisonId: userActiveCaseLoad.caseLoadId,
+        jobId: Number(jobId),
+        firstName: prisoner.firstName,
+        lastName: prisoner.lastName,
         applicationStatus,
         additionalInformation,
       })

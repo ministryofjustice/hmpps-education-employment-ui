@@ -8,6 +8,8 @@ import UpdateApplicationProgressData from './updateApplicationData'
 import GetOpenApplicationsResponse from './getOpenApplicationsResponse'
 import GetClosedApplicationsResponse from './getClosedApplicationsResponse'
 import GetApplicationProgressResponse from './getApplicationProgressResponse'
+import ApplicationSearchResults from './applicationSearchResults'
+import mockApplications from './mockApplications'
 
 // const BASE_URL = '/applications'
 
@@ -34,20 +36,84 @@ export default class JobApplicationApiClient {
     return _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
   }
 
-  async updateApplicationProgress(
-    offenderNo: string,
-    jobId: string,
-    updateApplicationProgressData: UpdateApplicationProgressData,
-  ) {
-    const currentValue = _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
-    _.set(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [
-      ...currentValue,
-      {
-        ...updateApplicationProgressData,
-        createdByName: 'TEST_USER',
-        createdByDateTime: new Date().toISOString(),
+  async updateApplicationProgress(username: string, updateApplicationProgressData: UpdateApplicationProgressData) {
+    const currentValue = _.get(
+      mockApplicationProgress,
+      `job_${updateApplicationProgressData.jobId}.offender_${updateApplicationProgressData.offenderNo}`,
+      [],
+    )
+    _.set(
+      mockApplicationProgress,
+      `job_${updateApplicationProgressData.jobId}.offender_${updateApplicationProgressData.offenderNo}`,
+      [
+        ...currentValue,
+        {
+          ...updateApplicationProgressData,
+          createdByName: username,
+          createdByDateTime: new Date().toISOString(),
+        },
+      ],
+    )
+  }
+
+  async applicationSearch(params: {
+    prisonId: string
+    page?: number
+    sort?: string
+    order?: string
+    applicationStatusFilter?: string
+    prisonerNameFilter?: string
+    jobFilter?: string
+  }): Promise<ApplicationSearchResults> {
+    const { applicationStatusFilter, page, prisonerNameFilter = '', jobFilter = '', sort, order = 'ascending' } = params
+
+    let applications = mockApplications
+    if (applicationStatusFilter) {
+      applications = applications.filter(p => applicationStatusFilter.split(',').includes(p.applicationStatus))
+    }
+
+    if (prisonerNameFilter) {
+      applications = applications.filter(
+        p => `${p.firstName} ${p.lastName}`.indexOf(prisonerNameFilter.toUpperCase()) > -1,
+      )
+    }
+
+    if (jobFilter) {
+      applications = applications.filter(p => `${p.jobTitle} ${p.employerName}`.indexOf(jobFilter.toUpperCase()) > -1)
+    }
+
+    if (sort) {
+      applications = _.orderBy(applications, [sort], [order === 'ascending' ? 'asc' : 'desc'])
+    }
+
+    const chunkedJobs = _.chunk(applications, 10)
+    const currentPage: number = page ? page - 1 : 0
+    const contents = chunkedJobs
+
+    const pageMetaData = {
+      pageable: {
+        sort: { empty: true, sorted: false, unsorted: true },
+        offset: 10 * currentPage,
+        pageSize: 10,
+        pageNumber: currentPage,
+        paged: true,
+        unpaged: false,
       },
-    ])
+      totalElements: applications.length ? applications.length : 0,
+      last: currentPage === (contents.length ? contents.length - 1 : 0),
+      totalPages: contents ? contents.length : 0,
+      size: 10,
+      number: 0,
+      sort: { empty: true, sorted: false, unsorted: true },
+      first: currentPage === 0,
+      numberOfElements: contents.length ? contents[currentPage].length : 0,
+      empty: applications.length === 0,
+    }
+
+    return {
+      content: contents[currentPage],
+      ...pageMetaData,
+    } as any
   }
 }
 

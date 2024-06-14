@@ -13,7 +13,7 @@ export default (router: Router, services: Services) => {
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getJobDetailsResolver(services.jobService),
-      getApplicationProgressResolver(services.jobApplicationService),
+      getApplicationProgressResolver(services.jobApplicationService, services.userService),
     ],
     controller.get,
   )

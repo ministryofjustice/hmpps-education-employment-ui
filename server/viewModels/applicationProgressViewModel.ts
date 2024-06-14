@@ -8,10 +8,13 @@ export default class ApplicationStatusViewModel {
   jobId: string
 
   @Expose()
-  status: ApplicationStatusValue
+  applicationStatus: ApplicationStatusValue
 
   @Expose()
   createdByName: string
+
+  @Expose()
+  createdByNameDisplay: string
 
   @Type(() => Date)
   @Expose()
@@ -19,5 +22,5 @@ export default class ApplicationStatusViewModel {
   createdByDateTime: string
 
   @Expose()
-  notes: string
+  additionalInformation: string
 }
