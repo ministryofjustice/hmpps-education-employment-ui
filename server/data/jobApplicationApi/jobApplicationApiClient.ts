@@ -33,7 +33,6 @@ export default class JobApplicationApiClient {
   }
 
   async getApplicationProgress(offenderNo: string, jobId: string): Promise<GetApplicationProgressResponse[]> {
-    console.log(_.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, []))
     return _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
   }
 
