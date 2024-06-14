@@ -35,7 +35,7 @@
         {% for offender in offendersToBeReleased %}
             <tr class="govuk-table__row {{ rowClass.next() }}">
                 <td class="govuk-table__cell">
-                    <a href="{{ addressLookup.candidateMatching.workProfile(offender.prisonerNumber) }}"
+                    <a href="{{ addressLookup.candidateMatching.workProfile(offender.prisonerNumber) + '?from=' + encryptUrlParameter(originalUrl) }}"
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"
                        aria-label="Profile link for {{ offender.displayName }}"
@@ -57,7 +57,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                <td class="govuk-table__cell"></td>
+                <td class="govuk-table__cell">{{ offender.postcode }}</td>
             </tr>
         {% endfor %}
 

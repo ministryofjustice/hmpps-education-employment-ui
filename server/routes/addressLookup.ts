@@ -30,7 +30,8 @@ export default {
     },
   },
   candidateMatching: {
-    prisonerMatchJobsList: () => '/cms/prisoners',
+    prisonerListMatchJobs: () => '/cms/prisoners',
+    prisonerListApplications: () => '/cms/applications',
     archivedJobs: (id: string) => `/cms/${id}/jobs/archived`,
     flaggedJobs: (id: string) => `/cms/${id}/jobs/flagged`,
     matchedJobs: (id: string) => `/cms/${id}/jobs/matched`,

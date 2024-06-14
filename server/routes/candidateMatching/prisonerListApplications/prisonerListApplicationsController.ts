@@ -7,14 +7,14 @@ import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
 
-export default class PrisonerListMatchJobsController {
+export default class PrisonerListApplicationsController {
   constructor(private readonly paginationService: PaginationService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { page, sort, order, typeOfWorkFilter = '', prisonerNameFilter = '', showNeedsSupportFilter = '' } = req.query
+    const { page, sort, order, applicationStatusFilter = '', prisonerNameFilter = '', jobFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const prisonerSearchResults = req.context.prisonerListMatchedJobs
+    const prisonerSearchResults = req.context.prisonerListApplications
 
     try {
       // Paginate where necessary
@@ -25,9 +25,9 @@ export default class PrisonerListMatchJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
+        jobFilter && `prisonerNameFilter=${decodeURIComponent(jobFilter as string)}`,
         prisonerNameFilter && `prisonerNameFilter=${decodeURIComponent(prisonerNameFilter as string)}`,
-        typeOfWorkFilter && `typeOfWorkFilter=${decodeURIComponent(typeOfWorkFilter as string)}`,
-        showNeedsSupportFilter && showNeedsSupportFilter !== '' && `showNeedsSupportFilter=true`,
+        applicationStatusFilter && `applicationStatusFilter=${decodeURIComponent(applicationStatusFilter as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
@@ -39,7 +39,7 @@ export default class PrisonerListMatchJobsController {
             new URL(
               `${req.protocol}://${req.get(
                 'host',
-              )}${addressLookup.candidateMatching.prisonerListMatchJobs()}?${uri.join('&')}`,
+              )}${addressLookup.candidateMatching.prisonerListApplications()}?${uri.join('&')}`,
             ),
           )
         }
@@ -54,15 +54,15 @@ export default class PrisonerListMatchJobsController {
         userActiveCaseLoad,
         notFoundMsg,
         prisonerNameFilter: decodeURIComponent(prisonerNameFilter as string),
-        typeOfWorkFilter: decodeURIComponent(typeOfWorkFilter as string),
-        showNeedsSupportFilter: decodeURIComponent(showNeedsSupportFilter as string) === 'true',
+        applicationStatusFilter: decodeURIComponent(applicationStatusFilter as string),
+        jobFilter: decodeURIComponent(jobFilter as string),
         filtered:
           decodeURIComponent(prisonerNameFilter as string) ||
-          decodeURIComponent(typeOfWorkFilter as string) ||
-          decodeURIComponent(showNeedsSupportFilter as string),
+          decodeURIComponent(applicationStatusFilter as string) ||
+          decodeURIComponent(jobFilter as string),
       }
 
-      res.render('pages/candidateMatching/prisonerListMatchJobs/index', { ...data })
+      res.render('pages/candidateMatching/prisonerListApplications/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -70,7 +70,7 @@ export default class PrisonerListMatchJobsController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { sort, order } = req.query
-    const { typeOfWorkFilter, prisonerNameFilter, showNeedsSupportFilter } = req.body
+    const { applicationStatusFilter, prisonerNameFilter, jobFilter } = req.body
 
     try {
       // If validation errors render errors
@@ -78,7 +78,7 @@ export default class PrisonerListMatchJobsController {
       const errors = validateFormSchema(req, validationSchema())
 
       if (errors) {
-        res.render('pages/candidateMatching/prisonerListMatchJobs/index', {
+        res.render('pages/candidateMatching/prisonerListApplications/index', {
           ...data,
           errors,
           ...req.body,
@@ -89,15 +89,15 @@ export default class PrisonerListMatchJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        showNeedsSupportFilter && `showNeedsSupportFilter=true`,
+        jobFilter && `jobFilter=${encodeURIComponent(jobFilter)}`,
         prisonerNameFilter && `prisonerNameFilter=${encodeURIComponent(prisonerNameFilter)}`,
-        typeOfWorkFilter && `typeOfWorkFilter=${encodeURIComponent(typeOfWorkFilter)}`,
+        applicationStatusFilter && `applicationStatusFilter=${encodeURIComponent(applicationStatusFilter)}`,
       ].filter(val => !!val)
 
       res.redirect(
         uri.length
-          ? `${addressLookup.candidateMatching.prisonerListMatchJobs()}?${uri.join('&')}`
-          : addressLookup.candidateMatching.prisonerListMatchJobs(),
+          ? `${addressLookup.candidateMatching.prisonerListApplications()}?${uri.join('&')}`
+          : addressLookup.candidateMatching.prisonerListApplications(),
       )
     } catch (err) {
       next(err)

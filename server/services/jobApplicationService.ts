@@ -30,14 +30,26 @@ export default class JobApplicationService {
     return new JobApplicationApiClient(systemToken).getApplicationProgress(offenderId, jobId)
   }
 
-  async updateApplicationProgress(
+  async updateApplicationProgress(username: string, updateApplicationProgressData: UpdateApplicationProgressData) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApplicationApiClient(systemToken).updateApplicationProgress(username, updateApplicationProgressData)
+  }
+
+  async applicationSearch(
     username: string,
-    id: string,
-    jobId: string,
-    updateApplicationProgressData: UpdateApplicationProgressData,
+    params: {
+      prisonId: string
+      page?: number
+      sort?: string
+      order?: string
+      applicationStatusFilter?: string
+      prisonerNameFilter?: string
+      jobFilter?: string
+    },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    return new JobApplicationApiClient(systemToken).updateApplicationProgress(id, jobId, updateApplicationProgressData)
+    return new JobApplicationApiClient(systemToken).applicationSearch(params)
   }
 }
