@@ -57,7 +57,12 @@ describe('JobApplicationService', () => {
   })
 
   it('#updateApplicationProgress - should get token and call correct api method', async () => {
-    const result = await jobApplicationService.updateApplicationProgress('user', 'offenderId', 'jobId', {
+    const result = await jobApplicationService.updateApplicationProgress('user', {
+      offenderNo: 'offenderId',
+      prisonId: 'MDI',
+      firstName: 'JOE',
+      lastName: 'BlOGS',
+      jobId: 1,
       applicationStatus: ApplicationStatusValue.APPLICATION_MADE,
       additionalInformation: '',
     })
@@ -65,9 +70,14 @@ describe('JobApplicationService', () => {
     expect(result).toEqual({ data: 'mock_data' })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
-    expect(jobApplicationApiClient.updateApplicationProgress).toHaveBeenCalledWith('offenderId', 'jobId', {
-      applicationStatus: ApplicationStatusValue.APPLICATION_MADE,
+    expect(jobApplicationApiClient.updateApplicationProgress).toHaveBeenCalledWith('user', {
       additionalInformation: '',
+      applicationStatus: 'APPLICATION_MADE',
+      firstName: 'JOE',
+      jobId: 1,
+      lastName: 'BlOGS',
+      offenderNo: 'offenderId',
+      prisonId: 'MDI',
     })
   })
 })

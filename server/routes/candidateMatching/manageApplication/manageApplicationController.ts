@@ -63,6 +63,8 @@ export default class ManageApplicationController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, jobId } = req.params
     const { applicationStatus, additionalInformation } = req.body
+    const { userActiveCaseLoad } = res.locals
+    const { prisoner } = req.context
 
     try {
       // If validation errors render errors
@@ -78,7 +80,12 @@ export default class ManageApplicationController {
       }
 
       // Update application progress API
-      await this.jobApplicationService.updateApplicationProgress(res.locals.user.token, id, jobId, {
+      await this.jobApplicationService.updateApplicationProgress(res.locals.user.username, {
+        offenderNo: id,
+        prisonId: userActiveCaseLoad.caseLoadId,
+        jobId: Number(jobId),
+        firstName: prisoner.firstName,
+        lastName: prisoner.lastName,
         applicationStatus,
         additionalInformation,
       })

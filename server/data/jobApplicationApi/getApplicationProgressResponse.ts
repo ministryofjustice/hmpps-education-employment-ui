@@ -4,7 +4,7 @@ interface GetApplicationProgressResponse {
   status: ApplicationStatusValue
   createdByName: string
   createdByDateTime: string
-  notes: string
+  additionalInformation: string
 }
 
 export default GetApplicationProgressResponse

@@ -20,9 +20,12 @@ describe('getApplicationProgressResolver', () => {
   }
 
   const serviceMock = {}
+  const serviceMock2 = {
+    getUserByUsername: jest.fn(),
+  }
   const error = new Error('mock_error')
 
-  const resolver = middleware(serviceMock as any)
+  const resolver = middleware(serviceMock as any, serviceMock2 as any)
 
   const getApplicationProgressMock = getApplicationProgress as jest.Mock
 

@@ -33,23 +33,28 @@ export default class JobApplicationApiClient {
   }
 
   async getApplicationProgress(offenderNo: string, jobId: string): Promise<GetApplicationProgressResponse[]> {
+    console.log(_.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, []))
     return _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
   }
 
-  async updateApplicationProgress(
-    offenderNo: string,
-    jobId: string,
-    updateApplicationProgressData: UpdateApplicationProgressData,
-  ) {
-    const currentValue = _.get(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [])
-    _.set(mockApplicationProgress, `job_${jobId}.offender_${offenderNo}`, [
-      ...currentValue,
-      {
-        ...updateApplicationProgressData,
-        createdByName: 'TEST_USER',
-        createdByDateTime: new Date().toISOString(),
-      },
-    ])
+  async updateApplicationProgress(username: string, updateApplicationProgressData: UpdateApplicationProgressData) {
+    const currentValue = _.get(
+      mockApplicationProgress,
+      `job_${updateApplicationProgressData.jobId}.offender_${updateApplicationProgressData.offenderNo}`,
+      [],
+    )
+    _.set(
+      mockApplicationProgress,
+      `job_${updateApplicationProgressData.jobId}.offender_${updateApplicationProgressData.offenderNo}`,
+      [
+        ...currentValue,
+        {
+          ...updateApplicationProgressData,
+          createdByName: username,
+          createdByDateTime: new Date().toISOString(),
+        },
+      ],
+    )
   }
 
   async applicationSearch(params: {
