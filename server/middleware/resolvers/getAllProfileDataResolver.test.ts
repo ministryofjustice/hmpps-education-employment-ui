@@ -10,8 +10,8 @@ import getLearnerEducation from './utils/getLearnerEducation'
 import getNeurodivergence from './utils/getNeurodivergence'
 import getPomById from './utils/getPomById'
 import getUnacceptableAbsenceCount from './utils/getUnacceptableAbsenceCount'
-import getMatchedJobs from './utils/getMatchedJobs'
-import getFlaggedJobs from './utils/getFlaggedJobs'
+import getMatchedJobsClosingSoon from './utils/getMatchedJobsClosingSoon'
+import getJobsOfInterestClosingSoon from './utils/getJobsOfInterestClosingSoon'
 import getOpenApplications from './utils/getOpenApplications'
 import getClosedApplications from './utils/getClosedApplications'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
@@ -70,14 +70,14 @@ jest.mock('./utils/getUnacceptableAbsenceCount', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('./utils/getMatchedJobs', () => ({
-  ...jest.requireActual('./utils/getMatchedJobs'),
+jest.mock('./utils/getMatchedJobsClosingSoon', () => ({
+  ...jest.requireActual('./utils/getMatchedJobsClosingSoon'),
   __esModule: true,
   default: jest.fn(),
 }))
 
-jest.mock('./utils/getFlaggedJobs', () => ({
-  ...jest.requireActual('./utils/getFlaggedJobs'),
+jest.mock('./utils/getJobsOfInterestClosingSoon', () => ({
+  ...jest.requireActual('./utils/getJobsOfInterestClosingSoon'),
   __esModule: true,
   default: jest.fn(),
 }))
@@ -122,8 +122,8 @@ describe('getAllProfileDataResolver', () => {
   const getNeurodivergenceMock = getNeurodivergence as jest.Mock
   const getPomByIdMock = getPomById as jest.Mock
   const getUnacceptableAbsenceCountMock = getUnacceptableAbsenceCount as jest.Mock
-  const getMatchedJobsMock = getMatchedJobs as jest.Mock
-  const getFlaggedJobsMock = getFlaggedJobs as jest.Mock
+  const getMatchedJobsClosingSoonMock = getMatchedJobsClosingSoon as jest.Mock
+  const getJobsOfInterestClosingSoonMock = getJobsOfInterestClosingSoon as jest.Mock
   const getOpenApplicationsMock = getOpenApplications as jest.Mock
   const getClosedApplicationsMock = getClosedApplications as jest.Mock
   const getPrisonerAddressByIdMock = getPrisonerAddressById as jest.Mock
@@ -139,8 +139,8 @@ describe('getAllProfileDataResolver', () => {
   getNeurodivergenceMock.mockResolvedValue('neurodivergence')
   getPomByIdMock.mockResolvedValue('pom')
   getUnacceptableAbsenceCountMock.mockResolvedValue('unacceptableAbsenceCount')
-  getMatchedJobsMock.mockResolvedValue('matchedJobs')
-  getFlaggedJobsMock.mockResolvedValue('flaggedJobs')
+  getMatchedJobsClosingSoonMock.mockResolvedValue('matchedJobs')
+  getJobsOfInterestClosingSoonMock.mockResolvedValue('jobsOfInterest')
   getOpenApplicationsMock.mockResolvedValue('openApplications')
   getClosedApplicationsMock.mockResolvedValue('closedApplications')
   getPrisonerAddressByIdMock.mockResolvedValue('prisonerAddress')
@@ -169,7 +169,7 @@ describe('getAllProfileDataResolver', () => {
     expect(req.context.prisonerAddress).toEqual('prisonerAddress')
 
     expect(req.context.matchedJobsResults).toEqual('matchedJobs')
-    expect(req.context.flaggedJobs).toEqual('flaggedJobs')
+    expect(req.context.jobsOfInterest).toEqual('jobsOfInterest')
     expect(req.context.openApplications).toEqual('openApplications')
     expect(req.context.closedApplications).toEqual('closedApplications')
 
@@ -188,7 +188,7 @@ describe('getAllProfileDataResolver', () => {
     expect(req.context.prisonerAddress).toEqual('prisonerAddress')
 
     expect(req.context.matchedJobsResults).not.toEqual('matchedJobs')
-    expect(req.context.flaggedJobs).not.toEqual('flaggedJobs')
+    expect(req.context.jobsOfInterest).not.toEqual('jobsOfInterest')
     expect(req.context.openApplications).not.toEqual('openApplications')
     expect(req.context.closedApplications).not.toEqual('closedApplications')
 

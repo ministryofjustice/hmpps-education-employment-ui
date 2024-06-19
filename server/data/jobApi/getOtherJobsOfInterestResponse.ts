@@ -1,6 +1,6 @@
 import TypeOfWorkValue from '../../enums/typeOfWorkValue'
 
-interface GetArchivedJobsResponse {
+interface GetOtherJobsOfInterestResponse {
   employerName: string
   jobTitle: string
   closingDate: string
@@ -10,4 +10,4 @@ interface GetArchivedJobsResponse {
   typeOfWork: TypeOfWorkValue
 }
 
-export default GetArchivedJobsResponse
+export default GetOtherJobsOfInterestResponse

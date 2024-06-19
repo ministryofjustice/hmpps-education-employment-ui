@@ -11,7 +11,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set offendersToBeReleased = flaggedJobsResults.content %}
+{% set jobsOfInterest = jobsOfInterestResults.content %}
 {% set activeStatus = filterStatus %}
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName +"'s work profile" %}
 
@@ -38,7 +38,7 @@
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
                         </li>
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.flaggedJobs(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
                         </li>
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
@@ -54,13 +54,13 @@
                     Other jobs chosen by the prisoner
                 </h2>
 
-                {% if flaggedJobsResults.totalElements === 0 %}
+                {% if jobsOfInterestResults.totalElements === 0 %}
                     <p>{{ prisoner.firstName + " " + prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
                 {% else %}
                     <p class="govuk-body">Other jobs the prisoner noted an interest in on the jobs board.</p>
                 {% endif %}
                
-                {% include './partials/_flaggedJobsTable.njk' %}
+                {% include './partials/_jobsOfInterestTable.njk' %}
             </form>
         </div>
     </div>

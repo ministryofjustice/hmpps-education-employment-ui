@@ -1,6 +1,6 @@
 import JobService from '../../../services/jobService'
 
-const getFlaggedJobs = async (
+const getJobsOfInterest = async (
   jobService: JobService,
   username: string,
   params: {
@@ -11,8 +11,8 @@ const getFlaggedJobs = async (
   },
 ) => {
   try {
-    // Get Flagged jobs
-    return await jobService.getFlaggedJobs(username, params)
+    // Get interested jobs
+    return await jobService.getJobsOfInterest(username, params)
   } catch (err) {
     // Handle no data
     if (err?.status === 404) {
@@ -23,4 +23,4 @@ const getFlaggedJobs = async (
   }
 }
 
-export default getFlaggedJobs
+export default getJobsOfInterest

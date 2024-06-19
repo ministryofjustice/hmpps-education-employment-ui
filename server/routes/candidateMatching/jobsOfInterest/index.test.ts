@@ -1,17 +1,17 @@
 import { Router } from 'express'
-import Controller from './flaggedJobsController'
-import getFlaggedJobsResolver from '../../../middleware/resolvers/getFlaggedJobsResolver'
+import Controller from './jobsOfInterestController'
+import getJobsOfInterestResolver from '../../../middleware/resolvers/getJobsOfInterestResolver'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import { Services } from '../../../services'
 import routes from './index'
 
-jest.mock('./flaggedJobsController')
+jest.mock('./jobsOfInterestController')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
-jest.mock('../../../middleware/resolvers/getFlaggedJobsResolver')
+jest.mock('../../../middleware/resolvers/getJobsOfInterestResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
 
-describe('Flagged jobs routes', () => {
+describe('interested jobs routes', () => {
   let router: Router
   let services: Services
 
@@ -25,7 +25,7 @@ describe('Flagged jobs routes', () => {
       get: jest.fn(),
       post: jest.fn(),
     }))
-    ;(getFlaggedJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getJobsOfInterestResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -34,10 +34,10 @@ describe('Flagged jobs routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/jobs/flagged',
+      '/cms/:id/jobs/interested',
       [
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getPrisonerListFlaggedJobsResolver
+        expect.any(Function), // getPrisonerListjobsOfInterestResolver
       ],
       expect.any(Function), // controller.get
     )
@@ -47,7 +47,7 @@ describe('Flagged jobs routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/jobs/flagged',
+      '/cms/:id/jobs/interested',
       [
         expect.any(Function), // handleSortMiddleware
       ],

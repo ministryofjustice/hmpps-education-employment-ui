@@ -9,13 +9,13 @@ import getNeurodivergence from './utils/getNeurodivergence'
 import getLatestAssessment from './utils/getLatestAssessment'
 import getKeyworkerById from './utils/getKeyworkerById'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
-import getMatchedJobs from './utils/getMatchedJobs'
-import getFlaggedJobs from './utils/getFlaggedJobs'
+import getMatchedJobsClosingSoon from './utils/getMatchedJobsClosingSoon'
 import getOpenApplications from './utils/getOpenApplications'
 import getClosedApplications from './utils/getClosedApplications'
 import getComById from './utils/getComById'
 import getPomById from './utils/getPomById'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
+import getJobsOfInterestClosingSoon from './utils/getJobsOfInterestClosingSoon'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -113,15 +113,15 @@ const getCmsData = async (req: any, res: any, services: Services): Promise<void>
   const { username } = res.locals.user
   const { jobService, jobApplicationService } = services
 
-  const [matchedJobs, flaggedJobs, openApplications, closedApplications] = await Promise.all([
-    getMatchedJobs(jobService, username, { offenderNo: id }),
-    getFlaggedJobs(jobService, username, { offenderNo: id }),
+  const [matchedJobs, jobsOfInterest, openApplications, closedApplications] = await Promise.all([
+    getMatchedJobsClosingSoon(jobService, username, { offenderNo: id, count: 3 }),
+    getJobsOfInterestClosingSoon(jobService, username, id),
     getOpenApplications(jobApplicationService, username, id),
     getClosedApplications(jobApplicationService, username, id),
   ])
 
   req.context.matchedJobsResults = matchedJobs
-  req.context.flaggedJobs = flaggedJobs
+  req.context.jobsOfInterest = jobsOfInterest
   req.context.openApplications = openApplications
   req.context.closedApplications = closedApplications
 }

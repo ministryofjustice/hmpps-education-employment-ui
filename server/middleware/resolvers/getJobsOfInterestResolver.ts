@@ -1,9 +1,9 @@
 import type { RequestHandler } from 'express'
 
 import JobService from '../../services/jobService'
-import getFlaggedJobs from './utils/getFlaggedJobs'
+import getJobsOfInterest from './utils/getJobsOfInterest'
 
-const getFlaggedJobsResolver =
+const getJobsOfInterestResolver =
   (jobService: JobService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
@@ -11,14 +11,14 @@ const getFlaggedJobsResolver =
     const { page, sort = '', order = '' } = req.query
 
     try {
-      const flaggedJobs = await getFlaggedJobs(jobService, username, {
+      const jobsOfInterest = await getJobsOfInterest(jobService, username, {
         offenderNo: id,
         page: Number(page),
         sort: sort.toString(),
         order: order.toString(),
       })
 
-      req.context.flaggedJobsResults = flaggedJobs
+      req.context.jobsOfInterestResults = jobsOfInterest
 
       next()
     } catch (err) {
@@ -26,4 +26,4 @@ const getFlaggedJobsResolver =
     }
   }
 
-export default getFlaggedJobsResolver
+export default getJobsOfInterestResolver

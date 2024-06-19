@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './flaggedJobsController'
+import Controller from './jobsOfInterestController'
 import { getSessionData, setSessionData } from '../../../utils/session'
 
-describe('FlaggedJobsController', () => {
+describe('jobsOfInterestController', () => {
   const { res, req, next } = expressMocks()
 
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
-  req.context.flaggedJobsResults = {
+  req.context.jobsOfInterestResults = {
     content: [],
     totalElements: 0,
     sort: 'releaseDate',
@@ -31,7 +31,7 @@ describe('FlaggedJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.flaggedJobsResults
+  const mockData = req.context.jobsOfInterestResults
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -61,14 +61,14 @@ describe('FlaggedJobsController', () => {
       await controller.get(req, res, next)
       next.mockReset()
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/flaggedJobs/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/jobsOfInterest/index', {
         backLocation: '/cms/profile/mock_id/view/overview',
         prisoner: undefined,
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
         id: 'mock_id',
-        flaggedJobsResults: {
+        jobsOfInterestResults: {
           filterStatus: 'ALL',
           order: 'descending',
           content: [],
@@ -105,7 +105,7 @@ describe('FlaggedJobsController', () => {
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
-      expect(res.redirect).toHaveBeenCalledWith(`/cms/${id}/jobs/flagged?sort=releaseDate&order=descending`)
+      expect(res.redirect).toHaveBeenCalledWith(`/cms/${id}/jobs/interested?sort=releaseDate&order=descending`)
     })
   })
 })

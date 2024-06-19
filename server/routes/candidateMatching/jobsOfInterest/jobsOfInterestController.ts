@@ -9,7 +9,7 @@ import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 
-export default class FlaggedJobsController {
+export default class JobsOfInterestController {
   constructor(private readonly paginationService: PaginationService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -17,7 +17,7 @@ export default class FlaggedJobsController {
     const { page, sort, order } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { prisoner, flaggedJobsResults } = req.context
+    const { prisoner, jobsOfInterestResults } = req.context
 
     try {
       // Paginate where necessary
@@ -28,26 +28,28 @@ export default class FlaggedJobsController {
       const uri = [sort && `sort=${sort}`, order && `order=${order}`, page && `page=${page}`].filter(val => !!val)
 
       // Build pagination or error messages
-      if (flaggedJobsResults.totalElements) {
-        if (flaggedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (jobsOfInterestResults.totalElements) {
+        if (jobsOfInterestResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPagination(
-            flaggedJobsResults,
+            jobsOfInterestResults,
             new URL(
-              `${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.flaggedJobs(id)}?${uri.join('&')}`,
+              `${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.jobsOfInterest(id)}?${uri.join(
+                '&',
+              )}`,
             ),
           )
         }
       }
 
       // Transform jobs to View Model
-      flaggedJobsResults.content = plainToClass(JobViewModel, _.get(flaggedJobsResults, 'content', []))
+      jobsOfInterestResults.content = plainToClass(JobViewModel, _.get(jobsOfInterestResults, 'content', []))
 
       // Render data
       const data = {
         id,
         backLocation: addressLookup.candidateMatching.workProfile(id),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
-        flaggedJobsResults,
+        jobsOfInterestResults,
         sort,
         order,
         paginationData,
@@ -55,7 +57,7 @@ export default class FlaggedJobsController {
         notFoundMsg,
       }
 
-      res.render('pages/candidateMatching/flaggedJobs/index', { ...data })
+      res.render('pages/candidateMatching/jobsOfInterest/index', { ...data })
     } catch (err) {
       next(err)
     }
@@ -70,8 +72,8 @@ export default class FlaggedJobsController {
 
       res.redirect(
         uri.length
-          ? `${addressLookup.candidateMatching.flaggedJobs(id)}?${uri.join('&')}`
-          : addressLookup.candidateMatching.flaggedJobs(id),
+          ? `${addressLookup.candidateMatching.jobsOfInterest(id)}?${uri.join('&')}`
+          : addressLookup.candidateMatching.jobsOfInterest(id),
       )
     } catch (err) {
       next(err)

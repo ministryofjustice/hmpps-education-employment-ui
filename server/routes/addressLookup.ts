@@ -33,7 +33,7 @@ export default {
     prisonerListMatchJobs: () => '/cms/prisoners',
     prisonerListApplications: () => '/cms/applications',
     archivedJobs: (id: string) => `/cms/${id}/jobs/archived`,
-    flaggedJobs: (id: string) => `/cms/${id}/jobs/flagged`,
+    jobsOfInterest: (id: string) => `/cms/${id}/jobs/interested`,
     matchedJobs: (id: string) => `/cms/${id}/jobs/matched`,
     workProfile: (id: string, tab = 'overview') => `/cms/profile/${id}/view/${tab}`,
     jobDetails: (id: string, jobId: string) => `/cms/${id}/job/${jobId}/details`,

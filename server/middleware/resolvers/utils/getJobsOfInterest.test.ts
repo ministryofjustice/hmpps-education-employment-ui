@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import getFlaggedJobs from './getFlaggedJobs'
+import getJobsOfInterest from './getJobsOfInterest'
 
-describe('getFlaggedJobs', () => {
+describe('getJobsOfInterest', () => {
   const username = 'mock_username'
   const id = 'mock_ref'
 
@@ -10,35 +10,35 @@ describe('getFlaggedJobs', () => {
   }
 
   const serviceMock = {
-    getFlaggedJobs: jest.fn(),
+    getJobsOfInterest: jest.fn(),
   }
 
   const error = new Error('mock_error')
 
   it('On error - Throws error', async () => {
-    serviceMock.getFlaggedJobs.mockRejectedValue(error)
+    serviceMock.getJobsOfInterest.mockRejectedValue(error)
 
     try {
-      await getFlaggedJobs(serviceMock as any, username, { offenderNo: id })
+      await getJobsOfInterest(serviceMock as any, username, { offenderNo: id })
     } catch (err) {
       expect(err).toEqual(error)
     }
   })
 
   it('On error - 404 - Calls next without error', async () => {
-    serviceMock.getFlaggedJobs.mockRejectedValue({
+    serviceMock.getJobsOfInterest.mockRejectedValue({
       status: 404,
     })
 
-    const result = await getFlaggedJobs(serviceMock as any, username, { offenderNo: id })
+    const result = await getJobsOfInterest(serviceMock as any, username, { offenderNo: id })
 
     expect(result).toEqual(undefined)
   })
 
   it('On success - Returns correct data', async () => {
-    serviceMock.getFlaggedJobs.mockResolvedValue(mockData)
+    serviceMock.getJobsOfInterest.mockResolvedValue(mockData)
 
-    const result = await getFlaggedJobs(serviceMock as any, username, { offenderNo: id })
+    const result = await getJobsOfInterest(serviceMock as any, username, { offenderNo: id })
 
     expect(result).toEqual(mockData)
   })

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../testutils/expressMocks'
-import middleware from './getFlaggedJobsResolver'
+import middleware from './getJobsOfInterestResolver'
 
-describe('getFlaggedJobsResolver', () => {
+describe('getJobsOfInterestResolver', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = { username: 'mock_username' }
@@ -23,14 +23,14 @@ describe('getFlaggedJobsResolver', () => {
   }
 
   const serviceMock = {
-    getFlaggedJobs: jest.fn(),
+    getJobsOfInterest: jest.fn(),
   }
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)
 
   it('On error - Calls next with error', async () => {
-    serviceMock.getFlaggedJobs.mockRejectedValue(error)
+    serviceMock.getJobsOfInterest.mockRejectedValue(error)
 
     await resolver(req, res, next)
 
@@ -38,11 +38,11 @@ describe('getFlaggedJobsResolver', () => {
   })
 
   it('On success - Attaches data to context and call next', async () => {
-    serviceMock.getFlaggedJobs.mockResolvedValue(mockData)
+    serviceMock.getJobsOfInterest.mockResolvedValue(mockData)
 
     await resolver(req, res, next)
 
-    expect(req.context.flaggedJobsResults).toEqual(mockData)
+    expect(req.context.jobsOfInterestResults).toEqual(mockData)
     expect(next).toHaveBeenCalledWith()
   })
 })
