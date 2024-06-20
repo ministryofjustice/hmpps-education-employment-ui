@@ -68,7 +68,7 @@
           </tbody>
         </table>
 
-        <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}">View all matched jobs</a></p>
+        <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}" id="view-matched-jobs-link">View all matched jobs</a></p>
 
       </div>
 
@@ -87,8 +87,8 @@
             {% for item in openApplications %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
-                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
-                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
+                <td class="govuk-table__cell">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
+                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details" id="view_open_application_{{ loop.index }}">View details</a></td>
               </tr>
             {% endfor %}
           </tbody>
@@ -110,8 +110,8 @@
             {% for item in closedApplications %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
-                <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
-                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
+                <td class="govuk-table__cell">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
+                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details" id="view_closed_application_{{ loop.index }}">View details</a></td>
               </tr>
             {% endfor %}
           </tbody>

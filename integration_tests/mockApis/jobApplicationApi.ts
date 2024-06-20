@@ -43,7 +43,7 @@ const getClosedApplications = (prisonerId = 'G6115VJ') =>
           jobId: 2,
           employerName: 'CBS Labour',
           jobTitle: 'Vegetable packing operative',
-          applicationStatus: 'APPLICATION_SUBMITTED',
+          applicationStatus: 'APPLICATION_MADE',
         },
         {
           id: 2,
@@ -70,7 +70,7 @@ const getApplicationHistory = (prisonerId = 'G6115VJ', jobId = '1') =>
           createdByName: 'GDUTTON',
           createdDateTime: '2023-10-20T09:24:58.903672',
           additionalInformation: 'Some info',
-          applicationStatus: 'APPLICATION_SUBMITTED',
+          applicationStatus: 'APPLICATION_MADE',
         },
         {
           createdByName: 'GDUTTON',

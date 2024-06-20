@@ -26,4 +26,10 @@ export default class WorkProfilePage extends Page {
   editActionLink = (toDoItem): PageElement => cy.get(`#overview-todo-${toDoItem}-link`)
 
   releaseArea = (): PageElement => cy.get('#prisoner-release-area')
+
+  matchedJobsTab = (): PageElement => cy.get('#tab_matched-jobs')
+
+  openApplicationsTab = (): PageElement => cy.get('#tab_open-applications')
+
+  closedApplicationsTab = (): PageElement => cy.get('#tab_closed-applications')
 }
