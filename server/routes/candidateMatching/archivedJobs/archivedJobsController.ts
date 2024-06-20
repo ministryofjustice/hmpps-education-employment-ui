@@ -8,6 +8,7 @@ import config from '../../../config'
 import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import { getBackLocation, setSessionData } from '../../../utils/index'
 
 export default class ArchivedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -47,7 +48,12 @@ export default class ArchivedJobsController {
       // Render data
       const data = {
         id,
-        backLocation: addressLookup.candidateMatching.workProfile(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: addressLookup.candidateMatching.workProfile(id),
+          page: 'archivedJobs',
+          uid: id,
+        }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         archivedJobsResults,
         sort,
@@ -56,6 +62,9 @@ export default class ArchivedJobsController {
         userActiveCaseLoad,
         notFoundMsg,
       }
+
+      // Set page data in session
+      setSessionData(req, ['archivedJobs', id, 'data'], data)
 
       res.render('pages/candidateMatching/archivedJobs/index', { ...data })
     } catch (err) {

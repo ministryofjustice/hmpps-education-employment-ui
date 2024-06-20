@@ -88,7 +88,7 @@
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
                 <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
-                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
+                <td class="govuk-table__cell"><a href="{{ '../manage-progress-applied?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
               </tr>
             {% endfor %}
           </tbody>
@@ -111,7 +111,7 @@
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">{{ item.jobTitle }}<br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ item.employerName }}</span></td>
                 <td class="govuk-table__cell">{{ item.applicationStatus }}</td>
-                <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
+                <td class="govuk-table__cell"><a href="{{ '../manage-progress-applied?from=' + encryptUrlParameter(originalUrl) }}" aria-describedby="job1-details">View details</a></td>
               </tr>
             {% endfor %}
           </tbody>

@@ -12,6 +12,7 @@ import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import typeOfWorkLookup from '../../../constants/contentLookup/typeOfWork'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
+import { getBackLocation } from '../../../utils/index'
 
 export default class MatchedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -62,7 +63,12 @@ export default class MatchedJobsController {
       // Render data
       const data = {
         id,
-        backLocation: addressLookup.candidateMatching.workProfile(id),
+        backLocation: getBackLocation({
+          req,
+          defaultRoute: addressLookup.candidateMatching.workProfile(id),
+          page: 'matchedJobs',
+          uid: id,
+        }),
         prisoner: plainToClass(PrisonerViewModel, prisoner),
         profile,
         matchedJobsResults,
