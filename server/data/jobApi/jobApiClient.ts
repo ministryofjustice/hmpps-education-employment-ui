@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
 import RestClient from '../restClient'
 import PagedResponse from '../domain/types/pagedResponse'

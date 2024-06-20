@@ -70,7 +70,7 @@ describe('JobApplicationService', () => {
     expect(result).toEqual({ data: 'mock_data' })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
-    expect(jobApplicationApiClient.updateApplicationProgress).toHaveBeenCalledWith('user', {
+    expect(jobApplicationApiClient.updateApplicationProgress).toHaveBeenCalledWith({
       additionalInformation: '',
       applicationStatus: 'APPLICATION_MADE',
       firstName: 'JOE',
