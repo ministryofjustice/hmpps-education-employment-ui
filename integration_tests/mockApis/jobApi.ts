@@ -52,12 +52,6 @@ const getMatchedJobsClosingSoon = () =>
           jobTitle: 'Forklift operator',
           closingDate: '2022-05-01T17:00:00Z',
         },
-        {
-          id: 1,
-          employerName: 'Tesco',
-          jobTitle: 'Warehouse handler',
-          closingDate: '2022-05-02T17:00:00Z',
-        },
       ],
     },
   })
@@ -72,12 +66,6 @@ const getJobOfInterestClosingSoon = (prisonerId = 'G6115VJ') =>
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: [
-        {
-          id: 2,
-          employerName: 'Amazon',
-          jobTitle: 'Forklift operator',
-          closingDate: '2022-05-01T17:00:00Z',
-        },
         {
           id: 1,
           employerName: 'Tesco',

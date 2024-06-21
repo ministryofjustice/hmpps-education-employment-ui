@@ -56,11 +56,11 @@ const getClosedApplications = (prisonerId = 'G6115VJ') =>
     },
   })
 
-const getApplicationHistory = (prisonerId = 'G6115VJ', jobId = '1') =>
+const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '1' }) =>
   stubFor({
     request: {
       method: 'GET',
-      url: `/candidate-matching/applications/${prisonerId}/job/${jobId}`,
+      urlPathPattern: `/candidate-matching/applications/${params.prisonerId}/job/${params.jobId}`,
     },
     response: {
       status: 200,
