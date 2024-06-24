@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import ManageApplicationPage from '../pages/manageApplication'
-import MatchedJobsPage from '../pages/matchedJobs'
+import ManageApplicationPage from '../pages/candidateMatching/manageApplication'
+import MatchedJobsPage from '../pages/candidateMatching/matchedJobs'
 import WorkProfilePage from '../pages/workProfile'
 
 context('SignIn', () => {

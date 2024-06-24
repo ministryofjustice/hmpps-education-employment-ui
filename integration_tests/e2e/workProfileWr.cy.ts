@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import NewStatusPage from '../pages/newStatus'
+import NewStatusPage from '../pages/workReadiness/newStatus'
 import Page from '../pages/page'
-import SupportDeclinedReasonPage from '../pages/supportDeclinedReason'
-import WhatNeedsToChangePage from '../pages/whatNeedsToChange'
+import SupportDeclinedReasonPage from '../pages/workReadiness/supportDeclinedReason'
+import WhatNeedsToChangePage from '../pages/workReadiness/whatNeedsToChange'
 import WorkProfilePage from '../pages/workProfile'
 
 context('SignIn', () => {
