@@ -50,7 +50,7 @@ export default class ArchivedJobsController {
         id,
         backLocation: getBackLocation({
           req,
-          defaultRoute: addressLookup.candidateMatching.workProfile(id),
+          defaultRoute: addressLookup.workProfile(id, 'overview', 'cms'),
           page: 'archivedJobs',
           uid: id,
         }),

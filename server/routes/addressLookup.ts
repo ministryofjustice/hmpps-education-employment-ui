@@ -1,8 +1,8 @@
 export default {
   homePage: () => '/',
+  workProfile: (id: string, tab: string, module = 'wr') => `/${module}/profile/${id}/view/${tab}`,
   workReadiness: {
     cohortList: () => '/wr/cohort-list',
-    workProfile: (id: string, tab = 'overview') => `/wr/profile/${id}/view/${tab}`,
     createProfile: {
       checkAnswers: (id: string) => `/wr/profile/create/${id}/check-answers`,
       ineligableToWork: (id: string, mode = 'new') => `/wr/profile/create/${id}/ineligable-to-work/${mode}`,
@@ -35,7 +35,6 @@ export default {
     archivedJobs: (id: string) => `/cms/${id}/jobs/archived`,
     flaggedJobs: (id: string) => `/cms/${id}/jobs/flagged`,
     matchedJobs: (id: string) => `/cms/${id}/jobs/matched`,
-    workProfile: (id: string, tab = 'overview') => `/cms/profile/${id}/view/${tab}`,
     jobDetails: (id: string, jobId: string) => `/cms/${id}/job/${jobId}/details`,
     manageApplication: (id: string, jobId: string, mode = 'view') => `/cms/${id}/job/${jobId}/application/${mode}`,
   },

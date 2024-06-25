@@ -179,7 +179,7 @@ describe('TrainingAndQualificationsController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE))
     })
   })
 })

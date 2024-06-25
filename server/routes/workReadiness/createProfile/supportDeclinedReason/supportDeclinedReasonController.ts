@@ -98,7 +98,9 @@ export default class SupportDeclinedReasonController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workReadiness.workProfile(id))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, 'overview', module))
         return
       }
 

@@ -21,7 +21,7 @@ export default class RightToWorkController {
       // Setup back location
       const backLocation =
         mode === 'new'
-          ? addressLookup.workReadiness.workProfile(id)
+          ? addressLookup.workProfile(id, 'overview')
           : addressLookup.workReadiness.createProfile.checkAnswers(id)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 

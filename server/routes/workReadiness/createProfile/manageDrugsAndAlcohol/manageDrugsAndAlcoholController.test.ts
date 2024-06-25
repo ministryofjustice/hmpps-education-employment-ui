@@ -180,7 +180,7 @@ describe('ManageDrugsAndAlcoholController', () => {
 
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
     })
   })
 })

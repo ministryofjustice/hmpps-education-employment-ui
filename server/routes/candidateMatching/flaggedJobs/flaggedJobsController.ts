@@ -48,7 +48,7 @@ export default class FlaggedJobsController {
         id,
         backLocation: getBackLocation({
           req,
-          defaultRoute: addressLookup.candidateMatching.workProfile(id),
+          defaultRoute: addressLookup.workProfile(id, 'overview', 'cms'),
           page: 'flaggedJobs',
           uid: id,
         }),

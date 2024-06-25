@@ -23,7 +23,7 @@ export default class NewStatusController {
 
     try {
       if (!profile) {
-        res.redirect(addressLookup.workReadiness.workProfile(id))
+        res.redirect(addressLookup.workProfile(id, 'overview'))
         return
       }
 
@@ -31,7 +31,8 @@ export default class NewStatusController {
       const record = getSessionData(req, ['changeStatus', id], {})
 
       // Setup back location
-      const backLocation = addressLookup.workReadiness.workProfile(id)
+      const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+      const backLocation = addressLookup.workProfile(id, 'overview', module)
       const backLocationAriaText = `Back to ${pageTitleLookup(prisoner, backLocation)}`
 
       // Setup page data
@@ -76,7 +77,9 @@ export default class NewStatusController {
 
       // Matching status no change
       if (newStatus === profile.profileData.status) {
-        res.redirect(addressLookup.workReadiness.workProfile(id))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, 'overview', module))
         return
       }
 
@@ -97,8 +100,9 @@ export default class NewStatusController {
           ),
         )
 
-        // Redirect to work profile
-        res.redirect(addressLookup.workReadiness.workProfile(id))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, 'overview', module))
         return
       }
 

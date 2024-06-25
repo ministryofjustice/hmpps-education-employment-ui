@@ -10,7 +10,7 @@ import ProfileViewModel from '../../viewModels/profileViewModel'
 import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
-import { deleteSessionData } from '../../utils/session'
+import { deleteSessionData, setSessionData } from '../../utils/session'
 import JobViewModel from '../../viewModels/jobViewModel'
 
 export default class WorkProfileController {
@@ -67,6 +67,9 @@ export default class WorkProfileController {
         closedApplications,
         releaseArea: prisonerAddress,
       }
+
+      setSessionData(req, ['workProfile', id, 'currentModule'], module)
+      console.log('module set', module)
 
       res.render('pages/workProfile/index', { ...data })
     } catch (err) {

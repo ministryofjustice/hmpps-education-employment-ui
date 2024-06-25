@@ -90,7 +90,9 @@ export default class ManageDrugsAndAlcoholController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS, module))
         return
       }
 

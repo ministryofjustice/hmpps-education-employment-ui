@@ -102,7 +102,9 @@ export default class TypeOfWorkController {
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))
 
-        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.EXPERIENCE))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.EXPERIENCE, module))
         return
       }
 

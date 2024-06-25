@@ -42,7 +42,7 @@ describe('RightToWorkController', () => {
   const { id } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workReadiness.workProfile(id),
+    backLocation: addressLookup.workProfile(id, 'overview'),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }

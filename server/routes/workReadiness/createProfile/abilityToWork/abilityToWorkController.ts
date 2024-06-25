@@ -108,7 +108,9 @@ export default class AbilityToWorkController {
           return
         }
 
-        res.redirect(addressLookup.workReadiness.workProfile(id, workProfileTabs.DETAILS))
+        // Return to current profile
+        const module = getSessionData(req, ['workProfile', id, 'currentModule'], 'wr')
+        res.redirect(addressLookup.workProfile(id, workProfileTabs.DETAILS, module))
         return
       }
 

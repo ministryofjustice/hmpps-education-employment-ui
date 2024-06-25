@@ -72,7 +72,7 @@ describe('EditActionController', () => {
   const { id, action } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workReadiness.workProfile(id),
+    backLocation: addressLookup.workProfile(id, 'overview'),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
     toDoItem: 'CV_AND_COVERING_LETTER',
@@ -119,7 +119,7 @@ describe('EditActionController', () => {
       req.params.action = 'id'
       controller.get(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
@@ -196,7 +196,7 @@ describe('EditActionController', () => {
 
       await controller.post(req, res, next)
 
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

@@ -97,7 +97,7 @@ export default class CheckYourAnswersController {
       deleteSessionData(req, ['createProfile', id])
       deleteSessionData(req, ['changeStatus', id])
 
-      res.redirect(addressLookup.workReadiness.workProfile(id))
+      res.redirect(addressLookup.workProfile(id, 'overview'))
     } catch (err) {
       next(err)
     }

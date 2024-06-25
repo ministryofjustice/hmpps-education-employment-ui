@@ -54,7 +54,7 @@ describe('NewStatusController', () => {
   const { id } = req.params
 
   const mockData = {
-    backLocation: addressLookup.workReadiness.workProfile(id),
+    backLocation: addressLookup.workProfile(id, 'overview'),
     backLocationAriaText: 'Back to mock_page_title',
     prisoner: plainToClass(PrisonerViewModel, req.context.prisoner),
   }
@@ -152,7 +152,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = SUPPORT_DECLINED to newStatus = NO_RIGHT_TO_WORK - Updates status and redirect to workProfile', async () => {
@@ -162,7 +162,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = SUPPORT_NEEDED to newStatus = NO_RIGHT_TO_WORK - Updates status and redirect to workProfile', async () => {
@@ -172,7 +172,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = READY_TO_WORK to newStatus = NO_RIGHT_TO_WORK - Updates status and redirect to workProfile', async () => {
@@ -182,7 +182,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = NO_RIGHT_TO_WORK to newStatus = SUPPORT_DECLINED - Updates status and redirect to supportDeclinedReason', async () => {
@@ -254,7 +254,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = NO_RIGHT_TO_WORK to newStatus = READY_TO_WORK - Updates status and redirect to newStatusPause', async () => {
@@ -284,7 +284,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = NO_RIGHT_TO_WORK to newStatus = READY_TO_WORK with existing supportAccepted profile data - Updates status and redirect to workProfile', async () => {
@@ -295,7 +295,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
 
     it('On success - status = SUPPORT_DECLINED to newStatus = SUPPORT_NEEDED with existing supportAccepted profile - Updates status and redirect to workProfile', async () => {
@@ -306,7 +306,7 @@ describe('NewStatusController', () => {
       await controller.post(req, res, next)
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
-      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.workProfile(id))
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
     })
   })
 })
