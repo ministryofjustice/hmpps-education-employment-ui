@@ -1,0 +1,104 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "What might affect " + prisoner.firstName + " " + prisoner.lastName + "\'s ability to work?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * abilityToWork - Array existing values for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {{ govukCheckboxes({
+            name: "abilityToWork",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "EDUCATION_ENROLLMENT",
+                text: contentLookup.fields.abilityToWork["EDUCATION_ENROLLMENT"],
+                checked: abilityToWork.indexOf("EDUCATION_ENROLLMENT") > -1
+              },
+              {
+                value: "FAMILY_ISSUES",
+                text: contentLookup.fields.abilityToWork["FAMILY_ISSUES"],
+                checked: abilityToWork.indexOf("FAMILY_ISSUES") > -1
+              },
+              {
+                value: "CARING_RESPONSIBILITIES",
+                text: contentLookup.fields.abilityToWork["CARING_RESPONSIBILITIES"],
+                checked: abilityToWork.indexOf("CARING_RESPONSIBILITIES") > -1
+              },
+              {
+                value: "MENTAL_HEALTH_ISSUES",
+                text: contentLookup.fields.abilityToWork["MENTAL_HEALTH_ISSUES"],
+                checked: abilityToWork.indexOf("MENTAL_HEALTH_ISSUES") > -1
+              },
+              {
+                value: "PHYSICAL_HEALTH_ISSUES",
+                text: contentLookup.fields.abilityToWork["PHYSICAL_HEALTH_ISSUES"],
+                checked: abilityToWork.indexOf("PHYSICAL_HEALTH_ISSUES") > -1
+              },
+              {
+                value: "DEPENDENCY_ISSUES",
+                text: contentLookup.fields.abilityToWork["DEPENDENCY_ISSUES"],
+                checked: abilityToWork.indexOf("DEPENDENCY_ISSUES") > -1
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: "NONE",
+                text: "None of these",
+                checked: abilityToWork.indexOf("NONE") > -1,
+                behaviour: "exclusive"
+              }
+            ],
+             errorMessage: errors.abilityToWork
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: {
+            "data-qa": "submit-button",
+            "data-ga-category": "submit-selected-data"
+          }
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

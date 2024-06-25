@@ -15,8 +15,9 @@ export const isAuthorisedRole = (role: string): boolean =>
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
-    if (res.locals.user?.token) {
+    if (res.locals && res.locals.user && res.locals.user.token) {
       const { authorities: roles = [] } = jwtDecode(res.locals.user.token) as { authorities?: string[] }
+
       if (authorisedRoles.length && !roles.some(role => authorisedRoles.includes(role))) {
         logger.error('User is not authorised to access this')
         return res.redirect('/authError')

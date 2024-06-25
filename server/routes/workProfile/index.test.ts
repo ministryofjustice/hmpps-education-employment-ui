@@ -27,11 +27,11 @@ describe('Cohort list routes', () => {
     ;(getAllProfileDataResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
-  it('should register GET route for page', () => {
+  it('should register GET route for new status page', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/:module/profile/:id/view/:tab',
+      '/profile/:id/view/:tab',
       [
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getAllProfileDataResolver

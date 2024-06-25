@@ -11,7 +11,6 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
-    cy.task('getUserRoles')
     cy.task('getPrisonerById')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getUserActiveCaseLoad')
@@ -21,7 +20,7 @@ context('SignIn', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
-    cy.visit('/wr/profile/create/G6115VJ/right-to-work/new')
+    cy.visit('/profile/create/G6115VJ/right-to-work/new')
 
     const rightToWorkPage = new RightToWorkPage('Right to work in the UK')
     rightToWorkPage.radioFieldYes().click()
@@ -83,7 +82,7 @@ context('SignIn', () => {
   })
 
   it('Existing record - Select NO - navigates to check-answers page', () => {
-    cy.visit('/wr/profile/create/G6115VJ/work-experience/edit')
+    cy.visit('/profile/create/G6115VJ/work-experience/edit')
 
     const workExperience = new WorkExperiencePage(
       'Does Daniel Craig have any previous work or volunteering experience?',

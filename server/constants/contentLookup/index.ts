@@ -9,12 +9,6 @@ import whatNeedsToChange from './whatNeedsToChange'
 import yesNo from './yesNo'
 import newStatus from './newStatus'
 import toDoStatus from './toDoStatus'
-import contractType from './contractType'
-import excludingOffences from './excludingOffences'
-import salaryPeriod from './salaryPeriod'
-import workBaseLocation from './workBaseLocation'
-import workPattern from './workPattern'
-import applicationStatus from './applicationStatus'
 
 export default {
   fields: {
@@ -29,14 +23,5 @@ export default {
     yesNo,
     newStatus,
   },
-  jobs: {
-    contractType,
-    excludingOffences,
-    salaryPeriod,
-    workBaseLocation,
-    workPattern,
-    typeOfWork,
-  },
   toDoStatus,
-  applicationStatus,
 }

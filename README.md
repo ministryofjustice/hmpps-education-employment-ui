@@ -48,23 +48,10 @@ found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Type
 
 ## Roles
 
-### 1. User access
 You need to have the following roles assigned to your account (in addition to any other you may have):
 
 * ROLE_WORK_READINESS_EDIT
 * ROLE_WORK_READINESS_VIEW
-
-### 2. System client id
-* ROLE_MAINTAIN_WHEREABOUTS
-* ROLE_VIEW_POM_ALLOCATIONS
-* ROLE_VIEW_ACTIVITIES
-* ROLE_COMMUNITY
-* ROLE_PROBATION_API__PRISON_EDUCATION__CASE_DETAIL
-* ROLE_NOMIS_ACTIVITIES
-* ROLE_VIEW_PRISONER_DATA
-* ROLE_MAINTAIN_ACCESS_ROLES
-* ROLE_CURIOUS_API
-* ROLE_PRISONER_SEARCH
 
 ## Requirements
 

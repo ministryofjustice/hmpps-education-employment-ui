@@ -9,7 +9,7 @@ export default (router: Router, services: Services) => {
   const controller = new WorkProfileController()
 
   router.get(
-    '/:module/profile/:id/view/:tab',
+    '/profile/:id/view/:tab',
     [
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getAllProfileDataResolver(services),
