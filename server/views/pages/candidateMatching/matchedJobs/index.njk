@@ -13,7 +13,7 @@
 
 {% set offendersToBeReleased = matchedJobsResults.content %}
 {% set activeStatus = filterStatus %}
-{% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
+{% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName +"'s work profile" %}
 
 {% block beforeContent %}
     {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
