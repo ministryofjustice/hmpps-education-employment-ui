@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer'
-import { formatDateStringToddMMMyyyy } from '../utils/index'
+import { formatDateStringToddMMMyyyy } from '../utils/utils'
 import TodoItemViewModel from './todoItemViewModel'
 
 export default class ActionsRequiredViewModel {

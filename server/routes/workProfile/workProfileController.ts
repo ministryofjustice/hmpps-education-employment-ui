@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
-import { getAge } from '../../utils/index'
+import { getAge } from '../../utils/utils'
 import NeurodivergenceViewModel from '../../viewModels/neurodivergenceViewModel'
 import LearnerEducationViewModel from '../../viewModels/learnerEducationViewModel'
 import PrisonerViewModel from '../../viewModels/prisonerViewModel'
@@ -11,11 +11,10 @@ import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
 import { deleteSessionData } from '../../utils/session'
-import JobViewModel from '../../viewModels/jobViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { module, id, tab } = req.params
+    const { id, tab } = req.params
     const {
       prisoner,
       profile,
@@ -28,19 +27,12 @@ export default class WorkProfileController {
       unacceptableAbsenceCount,
       pom,
       com,
-      matchedJobsResults,
-      flaggedJobs,
-      openApplications = [],
-      closedApplications = [],
-      prisonerAddress = {},
     } = req.context
 
     try {
       deleteSessionData(req, ['editAction', id, 'cachedValues'])
 
       const data = {
-        module,
-        tab,
         id,
         prisoner: {
           ...plainToClass(PrisonerViewModel, prisoner),
@@ -61,11 +53,7 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        matchedJobs: plainToClass(JobViewModel, _.take(_.get(matchedJobsResults, 'content', []), 3)),
-        flaggedJobs: plainToClass(JobViewModel, _.take(_.get(flaggedJobs, 'content', []), 3)),
-        openApplications,
-        closedApplications,
-        releaseArea: prisonerAddress,
+        tab,
       }
 
       res.render('pages/workProfile/index', { ...data })

@@ -1,6 +1,6 @@
 import type { ClientContext, OauthApiClient } from '../oauthEnabledClient'
 // eslint-disable-next-line import/named
-import { mapToQueryString } from '../../utils/index'
+import { mapToQueryString } from '../../utils/utils'
 import {
   LearnerGoals,
   LearnerLatestAssessment,

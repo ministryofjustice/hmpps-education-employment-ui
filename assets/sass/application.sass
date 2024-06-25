@@ -3,8 +3,8 @@ $path: "/assets/images/"
 $moj-page-width: 1170px
 $govuk-page-width: $moj-page-width
 
-@import 'node_modules/govuk-frontend/dist/govuk/all'
-@import 'node_modules/@ministryofjustice/frontend/moj/all'
+@import 'govuk/all'
+@import 'moj/all'
 
 @import './components/_header-bar'
 @import './components/_external-header-bar'
@@ -13,23 +13,12 @@ $govuk-page-width: $moj-page-width
 @import './components/_task-list'
 @import './local'
 @import './components/_search'
-@import './components/_card'
-@import './components/_mini-profile-header'
-@import './components/_timeline'
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
 .filter-box
   background-color: govuk-colour("light-grey")
   padding: 30px 10px 30px 10px
-
-.filter-box-width-override-60 
-  width: 60%
-  float: left
-
-.filter-box-width-override-20 
-  width: 20%
-  float: left
 
 .govuk-button-link 
   background-color: transparent
@@ -40,34 +29,3 @@ $govuk-page-width: $moj-page-width
   cursor: pointer
   font-size: 1.1875rem
   line-height: 1.3157894737
-
-.govuk-tag 
-  font-size: 16px
-  font-size: 1rem
-  line-height: 1
-  font-weight: 700
-  padding-top: 5px
-  padding-right: 8px
-  padding-bottom: 4px
-  padding-left: 8px
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
-  outline: 2px solid transparent
-  outline-offset: -2px
-  display: inline-block
-
-.govuk-tag--red 
-  color: #942514
-  background: #f6d7d2
-
-.govuk-tag--green 
-  color: #005a30
-  background: #cce2d8
-
-.govuk-radios__label
-  align-self: center
-  max-width: 100%
-  margin-bottom: 0
-  padding: 7px 15px
-  cursor: pointer
-  touch-action: manipulation

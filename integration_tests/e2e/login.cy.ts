@@ -8,7 +8,6 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
-    cy.task('getUserRoles')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')

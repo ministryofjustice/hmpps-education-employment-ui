@@ -23,6 +23,12 @@ generic-service:
     httpGet:
       path: /ping
 
+  custommetrics:
+    enabled: true
+    scrapeInterval: 15s
+    metricsPath: /metrics
+    metricsPort: 3001
+
   # Environment variables to load into the deployment
   env:
     NODE_ENV: "production"
@@ -59,6 +65,7 @@ generic-service:
       - internal
       - prisons
       - private_prisons
+      - police
 
 generic-prometheus-alerts:
   targetApplication: hmpps-education-employment-ui

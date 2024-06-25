@@ -30,8 +30,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   const njkEnv = nunjucks.configure(
     [
       path.join(__dirname, '../../server/views'),
-      'node_modules/govuk-frontend/dist',
-      'node_modules/govuk-frontend/dist/components/',
+      'node_modules/govuk-frontend/',
+      'node_modules/govuk-frontend/components/',
       'node_modules/@ministryofjustice/frontend/',
       'node_modules/@ministryofjustice/frontend/moj/components/',
     ],
@@ -70,10 +70,6 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
         selected: entry && entry.value === selected,
       }))
   )
-
-  njkEnv.addFilter('fixed', (num: number, length: number) => {
-    return num.toFixed(length || 2)
-  })
 
   njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
   njkEnv.addGlobal('phaseName', config.phaseName)

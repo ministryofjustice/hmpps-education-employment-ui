@@ -18,7 +18,7 @@
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link govuk-link--no-visited-state"data-qa="ability-to-work-link"  href="{{ addressLookup.workReadiness.createProfile.abilityToWork(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+            <a class="govuk-link govuk-link--no-visited-state"data-qa="ability-to-work-link"  href="{{ addressLookup.createProfile.abilityToWork(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
               Change<span class="govuk-visually-hidden"> answer for May be affected by</span>
             </a>
           </dd>
@@ -33,7 +33,7 @@
               {{ contentLookup.fields.manageDrugsAndAlcohol["ABLE_TO_MANAGE"] if profile.profileData.supportAccepted.workImpacts.ableToManageDependencies else contentLookup.fields.manageDrugsAndAlcohol["NOT_ABLE_TO_MANAGE"] }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link govuk-link--no-visited-state" data-qa="ability-to-work-dependency-link" href="{{ addressLookup.workReadiness.createProfile.manageDrugsAndAlcohol(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
+              <a class="govuk-link govuk-link--no-visited-state" data-qa="ability-to-work-dependency-link" href="{{ addressLookup.createProfile.manageDrugsAndAlcohol(id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}">
                 Change<span class="govuk-visually-hidden"> answer for Drug or alcohol dependency</span>
               </a>
             </dd>
