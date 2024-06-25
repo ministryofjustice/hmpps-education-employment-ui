@@ -10,7 +10,6 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
-    cy.task('getUserRoles')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
@@ -18,22 +17,6 @@ context('SignIn', () => {
     cy.task('stubVerifyToken', true)
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.signIn()
-  })
-
-  it('Check content', () => {
-    cy.task('getPrisonerById', 'G6115VJ')
-    cy.task('getProfileById', 'G6115VJ')
-    cy.task('getCurrentOffenderActivities', 'G6115VJ')
-    cy.task('getKeyworker', 'G6115VJ')
-    cy.task('getUnacceptableAbsenceCount', 'G6115VJ')
-    cy.task('getPomForOffender', 'G6115VJ')
-    cy.task('getCommunityManager', 'G6115VJ')
-    cy.task('getPrisonerAddress', 'G6115VJ')
-
-    cy.visit('/wr/profile/G6115VJ/view/overview')
-    const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
-
-    workProfilePage.releaseArea().contains('L15 7LR')
   })
 
   it('No right to work', () => {
@@ -45,7 +28,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'G6115VJ')
     cy.task('getCommunityManager', 'G6115VJ')
 
-    cy.visit('/wr/profile/G6115VJ/view/overview')
+    cy.visit('/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
 
     workProfilePage.overviewStatus().contains('NO RIGHT TO WORK')
@@ -64,7 +47,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'H4115SD')
     cy.task('getCommunityManager', 'H4115SD')
 
-    cy.visit('/wr/profile/H4115SD/view/overview')
+    cy.visit('/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
   })
 
@@ -77,7 +60,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'G5005GD')
     cy.task('getCommunityManager', 'G5005GD')
 
-    cy.visit('/wr/profile/G5005GD/view/overview')
+    cy.visit('/profile/G5005GD/view/overview')
     const workProfilePage = new WorkProfilePage("John Smith's work profile")
 
     workProfilePage.overviewDeclinedReasonLink().click()
@@ -104,7 +87,7 @@ context('SignIn', () => {
     cy.task('getPomForOffender', 'A00001A')
     cy.task('getCommunityManager', 'A00001A')
 
-    cy.visit('/wr/profile/A00001A/view/overview')
+    cy.visit('/profile/A00001A/view/overview')
     const workProfilePage = new WorkProfilePage("Paris Jones's work profile")
 
     workProfilePage.overviewCompleteAssessmentLink().contains('Complete assessment now')

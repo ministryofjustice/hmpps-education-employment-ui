@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform } from 'class-transformer'
-import { formatDateStringToddMMMyyyy } from '../utils/index'
+import { formatDateStringToddMMMyyyy } from '../utils/utils'
 
 @Exclude()
 export default class LearnerEducationViewModel {

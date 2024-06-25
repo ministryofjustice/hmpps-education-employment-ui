@@ -10,8 +10,6 @@ import WhereaboutsService from './whereaboutsService'
 import AllocationManagerService from './allocationManagerService'
 import DeliusIntegrationService from './deliusIntegrationService'
 import ComponentService from './componentService'
-import JobApplicationService from './jobApplicationService'
-import JobService from './jobService'
 
 export const services = () => {
   const { hmppsAuthClient } = dataAccess()
@@ -28,8 +26,6 @@ export const services = () => {
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
   const deliusIntegrationService = new DeliusIntegrationService(hmppsAuthClient)
   const componentService = new ComponentService()
-  const jobApplicationService = new JobApplicationService(hmppsAuthClient)
-  const jobService = new JobService(hmppsAuthClient)
 
   return {
     userService,
@@ -44,8 +40,6 @@ export const services = () => {
     allocationManagerService,
     deliusIntegrationService,
     componentService,
-    jobApplicationService,
-    jobService,
   }
 }
 

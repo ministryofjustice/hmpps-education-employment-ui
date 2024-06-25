@@ -96,45 +96,4 @@ describe('CommunityService', () => {
       })
     })
   })
-
-  describe('getAddressForOffender', () => {
-    it('returns undefined if no address found', async () => {
-      const systemToken = 'token'
-      const username = 'user'
-      const id = '123'
-
-      hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
-      deliusIntegrationApiClient.getCommunityManager.mockResolvedValue(undefined)
-
-      const result = await deliusIntegrationService.getAddressForOffender(username, id)
-
-      expect(result).toBeUndefined()
-    })
-
-    it('returns address details if address found', async () => {
-      const systemToken = 'token'
-      const username = 'user'
-      const id = '123'
-      const address: any = {
-        buildingName: 'buildingName',
-        addressNumber: 'addressNumber',
-        streetName: 'streetName',
-        district: 'district',
-        town: 'town',
-        county: 'county',
-        postcode: 'postcode',
-        noFixedAbode: false,
-      }
-      hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
-      deliusIntegrationApiClient.getPrisonerAddress.mockResolvedValue({
-        ...address,
-      } as any)
-
-      const result = await deliusIntegrationService.getAddressForOffender(username, id)
-
-      expect(result).toEqual({
-        ...address,
-      })
-    })
-  })
 })

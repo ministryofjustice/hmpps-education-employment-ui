@@ -1,5 +1,5 @@
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
-import { formatDateStringToddMMMyyyyHHmmAsArray } from '../utils/index'
+import { formatDateStringToddMMMyyyyHHmmAsArray } from '../utils/utils'
 
 @Exclude()
 export default class NotesViewModel {

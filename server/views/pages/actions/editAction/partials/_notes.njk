@@ -1,0 +1,59 @@
+<h2 class="govuk-heading-m">Notes</h2>
+
+{% if notes.length %}
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header">Details</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        {% for item in notes %}
+         <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__cell govuk-!-width-one-quarter">
+              {% for datePart in item.createdDateTime %}
+                {{ datePart }}<br>
+              {% endfor %}
+              <span class="govuk-hint">{{ item.createdName }}</span>
+            </td>
+            <td class="govuk-table__cell govuk-!-width-three-quarters">{{ item.text }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+
+{% if noteAction === 'add' %}
+   {{ govukTextarea({
+    id: "noteText",
+    name: "noteText",
+    rows: "2",
+    value: noteText,
+    type: "text",
+    label: {
+      text: "Add a note",
+      attributes: { "aria-live": "polite" }
+    },
+    errorMessage: errors.noteText
+  }) }}
+
+  
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Add note",
+      type: "submit",
+      name: "saveNote",
+      attributes: {"data-qa": "add-note-button" },
+      classes: "govuk-button--secondary"
+    }) }}
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ addressLookup.actions.editAction(id, toDoItem) + '?noteAction=view' }}" data-qa="cancel-add-note-link">Cancel</a>
+    </p>
+  </div>
+{% else %}
+  <p class="govuk-body govuk-!-margin-bottom-8">
+    <button class="govuk-link govuk-button-link" name="addNote" role="button" data-qa="add-note-link">Add a note</button>
+  </p>
+{% endif %}

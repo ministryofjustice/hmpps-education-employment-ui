@@ -10,11 +10,6 @@ import getLearnerEducation from './utils/getLearnerEducation'
 import getNeurodivergence from './utils/getNeurodivergence'
 import getPomById from './utils/getPomById'
 import getUnacceptableAbsenceCount from './utils/getUnacceptableAbsenceCount'
-import getMatchedJobs from './utils/getMatchedJobs'
-import getFlaggedJobs from './utils/getFlaggedJobs'
-import getOpenApplications from './utils/getOpenApplications'
-import getClosedApplications from './utils/getClosedApplications'
-import getPrisonerAddressById from './utils/getPrisonerAddressById'
 
 jest.mock('./utils/getComById', () => ({
   ...jest.requireActual('./utils/getComById'),
@@ -70,37 +65,7 @@ jest.mock('./utils/getUnacceptableAbsenceCount', () => ({
   default: jest.fn(),
 }))
 
-jest.mock('./utils/getMatchedJobs', () => ({
-  ...jest.requireActual('./utils/getMatchedJobs'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-jest.mock('./utils/getFlaggedJobs', () => ({
-  ...jest.requireActual('./utils/getFlaggedJobs'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-jest.mock('./utils/getOpenApplications', () => ({
-  ...jest.requireActual('./utils/getOpenApplications'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-jest.mock('./utils/getClosedApplications', () => ({
-  ...jest.requireActual('./utils/getClosedApplications'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-jest.mock('./utils/getPrisonerAddressById', () => ({
-  ...jest.requireActual('./utils/getPrisonerAddressById'),
-  __esModule: true,
-  default: jest.fn(),
-}))
-
-describe('getAllProfileDataResolver', () => {
+describe('getComByIdResolver', () => {
   const { req, res, next } = expressMocks()
 
   res.locals.user = { username: 'mock_username' }
@@ -122,11 +87,6 @@ describe('getAllProfileDataResolver', () => {
   const getNeurodivergenceMock = getNeurodivergence as jest.Mock
   const getPomByIdMock = getPomById as jest.Mock
   const getUnacceptableAbsenceCountMock = getUnacceptableAbsenceCount as jest.Mock
-  const getMatchedJobsMock = getMatchedJobs as jest.Mock
-  const getFlaggedJobsMock = getFlaggedJobs as jest.Mock
-  const getOpenApplicationsMock = getOpenApplications as jest.Mock
-  const getClosedApplicationsMock = getClosedApplications as jest.Mock
-  const getPrisonerAddressByIdMock = getPrisonerAddressById as jest.Mock
 
   const resolver = middleware(servicesMock as any)
 
@@ -139,15 +99,6 @@ describe('getAllProfileDataResolver', () => {
   getNeurodivergenceMock.mockResolvedValue('neurodivergence')
   getPomByIdMock.mockResolvedValue('pom')
   getUnacceptableAbsenceCountMock.mockResolvedValue('unacceptableAbsenceCount')
-  getMatchedJobsMock.mockResolvedValue('matchedJobs')
-  getFlaggedJobsMock.mockResolvedValue('flaggedJobs')
-  getOpenApplicationsMock.mockResolvedValue('openApplications')
-  getClosedApplicationsMock.mockResolvedValue('closedApplications')
-  getPrisonerAddressByIdMock.mockResolvedValue('prisonerAddress')
-
-  afterEach(() => {
-    req.context = {}
-  })
 
   it('On error - Calls next with error', async () => {
     servicesMock.prisonerSearchService.getPrisonerById.mockRejectedValue(error)
@@ -157,91 +108,19 @@ describe('getAllProfileDataResolver', () => {
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On success - tab=overview and module=wr Attaches data to context and calls next', async () => {
+  it('On success - Attaches data to context and calls next', async () => {
     servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
-
-    req.params.module = 'cms'
-    req.params.tab = 'overview'
 
     await resolver(req, res, next)
 
     expect(req.context.prisoner).toEqual('prisoner')
-    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
-
-    expect(req.context.matchedJobsResults).toEqual('matchedJobs')
-    expect(req.context.flaggedJobs).toEqual('flaggedJobs')
-    expect(req.context.openApplications).toEqual('openApplications')
-    expect(req.context.closedApplications).toEqual('closedApplications')
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
-  it('On success - tab=overview and module=cms Attaches data to context and calls next', async () => {
-    servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
-
-    req.params.module = 'wr'
-    req.params.tab = 'overview'
-
-    await resolver(req, res, next)
-
-    expect(req.context.prisoner).toEqual('prisoner')
-    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
-
-    expect(req.context.matchedJobsResults).not.toEqual('matchedJobs')
-    expect(req.context.flaggedJobs).not.toEqual('flaggedJobs')
-    expect(req.context.openApplications).not.toEqual('openApplications')
-    expect(req.context.closedApplications).not.toEqual('closedApplications')
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
-  it('On success - tab=training Attaches data to context and calls next', async () => {
-    servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
-
-    req.params.tab = 'training'
-
-    await resolver(req, res, next)
-
-    expect(req.context.prisoner).toEqual('prisoner')
-    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
-
     expect(req.context.currentOffenderActivities).toEqual('currentOffenderActivities')
     expect(req.context.employabilitySkills).toEqual('employabilitySkills')
     expect(req.context.learnerEducation).toEqual('learnerEducation')
     expect(req.context.learnerLatestAssessment).toEqual('learnerLatestAssessment')
-    expect(req.context.unacceptableAbsenceCount).toEqual('unacceptableAbsenceCount')
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
-  it('On success - tab=details Attaches data to context and calls next', async () => {
-    servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
-
-    req.params.tab = 'details'
-
-    await resolver(req, res, next)
-
-    expect(req.context.prisoner).toEqual('prisoner')
-    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
-
     expect(req.context.neurodivergence).toEqual('neurodivergence')
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
-  it('On success - tab=contacts Attaches data to context and calls next', async () => {
-    servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
-
-    req.params.tab = 'contacts'
-
-    await resolver(req, res, next)
-
-    expect(req.context.prisoner).toEqual('prisoner')
-    expect(req.context.prisonerAddress).toEqual('prisonerAddress')
-
+    expect(req.context.unacceptableAbsenceCount).toEqual('unacceptableAbsenceCount')
     expect(req.context.keyworker).toEqual('keyworker')
-    expect(req.context.com).toEqual('com')
-    expect(req.context.pom).toEqual('pom')
 
     expect(next).toHaveBeenCalledWith()
   })

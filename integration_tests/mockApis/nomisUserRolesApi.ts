@@ -76,23 +76,7 @@ const getStaffDetails = (staffId = 485588) =>
     },
   })
 
-const getUserRoles = (userId = 'USER1') =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPathPattern: `/nomisUserRolesApi/users/${userId}/roles`,
-    },
-    response: {
-      status: 200,
-      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: {
-        dpsRoles: ['WORK_READINESS_EDIT', 'EDUCATION_WORK_PLAN_EDITOR'],
-      },
-    },
-  })
-
 export default {
   getUserActiveCaseLoad,
   getStaffDetails,
-  getUserRoles,
 }

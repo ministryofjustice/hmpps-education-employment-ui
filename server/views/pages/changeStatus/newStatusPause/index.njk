@@ -1,0 +1,56 @@
+{% extends "../../../partials/layout.njk" %}
+{% from "../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "You must now complete " + prisoner.firstName + " " + prisoner.lastName +"'s work assessment" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">{{ title }}</h1>
+
+        <p class="govuk-body">
+          {% if newStatus === 'READY_TO_WORK' %}
+            You've told us {{ prisoner.firstName }} {{ prisoner.lastName }} is ready to work.
+          {% else %}
+            You've told us {{ prisoner.firstName }} {{ prisoner.lastName }} now needs support.
+          {% endif %}
+        </p>
+
+        <p class="govuk-body">
+          To make sure they get the right support to get into work, {{ prisoner.firstName }} {{ prisoner.lastName }} needs to complete a work assessment.
+        </p>
+
+        <form class="form" method="post" novalidate="">
+          <div class="govuk-form-group">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          
+          <div class="govuk-button-group">
+            {{ govukButton({
+                text: "Complete assessment",
+                type: "submit",
+                attributes: {"data-qa": "submit-button"}
+              }) }}
+            <a class="govuk-link" href="{{ addressLookup.workProfile(id) }}">Return to profile</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
