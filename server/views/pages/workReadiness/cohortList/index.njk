@@ -15,20 +15,36 @@
 {% set title = 'Get someone ready to work' %}
 
 {% block beforeContent %}
-    {{ govukBreadcrumbs({
-        items: [
-            {
-                text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
-                href: dpsUrl
-            },
-            {
-                text: "Work after release",
-                href: '/'
-            }
-        ],
-        classes: 'govuk-!-display-none-print'
-    })
-    }}
+    {% if candidateMatchingEnabled %}
+        {{ govukBreadcrumbs({
+            items: [
+                {
+                    text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
+                    href: dpsUrl
+                },
+                {
+                    text: "Work after release",
+                    href: '/'
+                }
+            ],
+            classes: 'govuk-!-display-none-print'
+        })
+        }}
+    {% else %}
+        {{ govukBreadcrumbs({
+            items: [
+                {
+                    text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
+                    href: dpsUrl
+                },
+                {
+                    text: "Get someone ready to work"
+                }
+            ],
+            classes: 'govuk-!-display-none-print'
+        })
+        }}
+    {% endif %}
 {% endblock %}
 
 {% block content %}

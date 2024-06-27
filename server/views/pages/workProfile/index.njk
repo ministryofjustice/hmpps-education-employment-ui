@@ -16,6 +16,7 @@
 #}
 
 {% block beforeContent %}
+  {% if candidateMatchingEnabled %}
     {{ govukBreadcrumbs({
         items: [
             {
@@ -34,6 +35,22 @@
         classes: 'govuk-!-display-none-print'
     })
     }}
+  {% else %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
+                href: dpsUrl
+            },
+            {
+                text: "Get someone ready to work" if module === 'wr' else 'Match jobs and manage applications',
+                href: "/wr/cohort-list" if module === 'wr' else '/cms/prisoners'
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -44,9 +61,11 @@
     </div>
   </div>
   
-  <div class="govuk-grid-row">
-    {% include './partials/_profileHeader.njk' %}
-  </div>
+  {% if candidateMatchingEnabled %}
+    <div class="govuk-grid-row">
+      {% include './partials/_profileHeader.njk' %}
+    </div>
+  {% endif %}
 
   {% include './partials/_navigation.njk' %}
 

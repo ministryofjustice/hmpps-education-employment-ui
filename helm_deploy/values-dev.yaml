@@ -33,6 +33,7 @@ generic-service:
     GET_SOMEONE_READY_FOR_WORK_URL: "https://get-ready-for-work-dev.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
     WEEKS_BEFORE_RELEASE: 100
+    CANDIDATE_MATCHING_ENABLED: false
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev

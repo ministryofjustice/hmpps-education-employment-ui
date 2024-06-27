@@ -29,7 +29,7 @@ export default class WorkProfileController {
       pom,
       com,
       matchedJobsResults,
-      flaggedJobs,
+      jobsOfInterest,
       openApplications = [],
       closedApplications = [],
       prisonerAddress = {},
@@ -61,15 +61,14 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        matchedJobs: plainToClass(JobViewModel, _.take(_.get(matchedJobsResults, 'content', []), 3)),
-        flaggedJobs: plainToClass(JobViewModel, _.take(_.get(flaggedJobs, 'content', []), 3)),
+        matchedJobs: plainToClass(JobViewModel, matchedJobsResults || []),
+        jobsOfInterest: plainToClass(JobViewModel, jobsOfInterest || []),
         openApplications,
         closedApplications,
         releaseArea: prisonerAddress,
       }
 
       setSessionData(req, ['workProfile', id, 'currentModule'], module)
-      console.log('module set', module)
 
       res.render('pages/workProfile/index', { ...data })
     } catch (err) {

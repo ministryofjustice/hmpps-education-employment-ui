@@ -12,6 +12,8 @@ import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
 import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
 import deliusIntegrationApi from './integration_tests/mockApis/deliusIntegrationApi'
 import allocationManagerApi from './integration_tests/mockApis/allocationManagerApi'
+import jobApi from './integration_tests/mockApis/jobApi'
+import jobApplicationApi from './integration_tests/mockApis/jobApplicationApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
@@ -48,6 +50,8 @@ export default defineConfig({
         ...keyworkerApi,
         ...allocationManagerApi,
         ...deliusIntegrationApi,
+        ...jobApi,
+        ...jobApplicationApi,
       })
     },
     baseUrl: 'http://localhost:3007',

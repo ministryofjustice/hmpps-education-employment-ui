@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import prisonerListMatchJobs from './prisonerListMatchJobs'
 import matchedJobsRoutes from './matchedJobs'
-import flaggedJobsRoutes from './flaggedJobs'
+import jobsOfInterestRoutes from './jobsOfInterest'
 import archivedJobsRoutes from './archivedJobs'
 import jobDetailsRoutes from './jobDetails'
 import routes from '.'
@@ -10,7 +10,7 @@ import { Services } from '../../services'
 
 jest.mock('./prisonerListMatchJobs')
 jest.mock('./matchedJobs')
-jest.mock('./flaggedJobs')
+jest.mock('./jobsOfInterest')
 jest.mock('./archivedJobs')
 jest.mock('./jobDetails')
 jest.mock('express', () => ({
@@ -37,7 +37,7 @@ describe('Server routes', () => {
     routes(router as any, services as any)
     expect(prisonerListMatchJobs).toHaveBeenCalledWith(router, services)
     expect(matchedJobsRoutes).toHaveBeenCalledWith(router, services)
-    expect(flaggedJobsRoutes).toHaveBeenCalledWith(router, services)
+    expect(jobsOfInterestRoutes).toHaveBeenCalledWith(router, services)
     expect(archivedJobsRoutes).toHaveBeenCalledWith(router, services)
     expect(jobDetailsRoutes).toHaveBeenCalledWith(router, services)
   })

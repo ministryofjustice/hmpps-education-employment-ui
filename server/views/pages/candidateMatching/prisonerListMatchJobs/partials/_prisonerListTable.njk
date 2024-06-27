@@ -4,7 +4,7 @@
 
 <div id="offender-container">
     {% if prisonerSearchResults.content.length >= 1 %}
-        <table id="view-offender" class="govuk-table view-offender">
+        <table id="view-offender" id="match-jobs-table" class="govuk-table view-offender">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 {{ sortableTableHeader({
@@ -12,14 +12,16 @@
                     order: order,
                     formName: "prisoner-search-form",
                     fieldName: "lastName",
-                    headerText: "Prisoner"
+                    headerText: "Prisoner",
+                    id: "lastName-sort-link"
                 }) }}
                 {{ sortableTableHeader({
                     sort: sort,
                     order: order,
                     formName: "prisoner-search-form",
                     fieldName: "releaseDate",
-                    headerText: "Release type and date"
+                    headerText: "Release type and date",
+                    id: "releaseDate-sort-link"
                 }) }}
                 {% if showNeedsSupportFilter %}
                     <th scope="col" class="govuk-table__header sortable">Status</th>
@@ -39,25 +41,26 @@
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"
                        aria-label="Profile link for {{ offender.displayName }}"
-                       class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
+                       class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+                       id= "prisoner-profile-link-{{ loop.index }}">{{ offender.displayName }}</a>
                     </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                 </td>
-                <td class="govuk-table__cell">
+                <td class="govuk-table__cell" id="prisoner-release-date-{{ loop.index }}">
                     {{ offender.releaseDate or 'N/A' }}</br>
                     {{ offender.nonDtoReleaseDateType or '' }}
                 </td>
                 {% if showNeedsSupportFilter %}
-                    <td class="govuk-table__cell"> {{ statusTag(offender.status) }}</td>
+                    <td class="govuk-table__cell" id="prisoner-status-{{ loop.index }}"> {{ statusTag(offender.status) }}</td>
                 {% endif %}
                 <td class="govuk-table__cell">
-                    <ul class="govuk-list govuk-list--bullet">
+                    <ul class="govuk-list govuk-list--bullet" id="prisoner-type-of-work-{{ loop.index }}">
                         {% for item in offender.workTypeInterests %}
                             <li>
                                 <span class="govuk-!-font-weight-regular">{{ contentLookup.fields.typeOfWork[item] }}</span>
                             </li>
                         {% endfor %}
                     </ul>
-                <td class="govuk-table__cell">{{ offender.postcode }}</td>
+                <td class="govuk-table__cell" id="prisoner-release-area-{{ loop.index }}">{{ offender.postcode }}</td>
             </tr>
         {% endfor %}
 

@@ -1,9 +1,5 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
-import GetMatchedJobsResponse from '../data/jobApi/getMatchedJobsResponse'
-import GetFlaggedJobsResponse from '../data/jobApi/getFlaggedJobsResponse'
-import GetArchivedJobsResponse from '../data/jobApi/geArchivedJobsResponse'
 import JobApiClient from '../data/jobApi/jobApiClient'
-import GetJobDetailsResponse from '../data/jobApi/getJobDetailsResponse'
 
 export default class JobService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -19,13 +15,13 @@ export default class JobService {
       locationFilter?: string
       distanceFilter?: number
     },
-  ): Promise<GetMatchedJobsResponse> {
+  ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getMatchedJobs(params)
   }
 
-  async getFlaggedJobs(
+  async getJobsOfInterest(
     username: string,
     params: {
       offenderNo: string
@@ -33,10 +29,10 @@ export default class JobService {
       sort?: string
       order?: string
     },
-  ): Promise<GetFlaggedJobsResponse> {
+  ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    return new JobApiClient(systemToken).getFlaggedJobs(params)
+    return new JobApiClient(systemToken).getOtherJobsOfInterest(params)
   }
 
   async getArchivedJobs(
@@ -47,15 +43,33 @@ export default class JobService {
       sort?: string
       order?: string
     },
-  ): Promise<GetArchivedJobsResponse> {
+  ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getArchivedJobs(params)
   }
 
-  async getJobDetails(username: string, jobId: string, postCode?: string): Promise<GetJobDetailsResponse> {
+  async getJobDetails(username: string, jobId: string, postCode?: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getJobDetails(jobId, postCode)
+  }
+
+  async getMatchedJobsClosingSoon(
+    username: string,
+    params: {
+      offenderNo: string
+      count?: number
+    },
+  ) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getMatchedJobsClosingSoon(params)
+  }
+
+  async getJobsOfInterestClosingSoon(username: string, offenderNo: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getJobsOfInterestClosingSoon(offenderNo)
   }
 }
