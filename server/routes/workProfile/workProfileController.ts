@@ -12,6 +12,8 @@ import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillView
 import ActivityViewModel from '../../viewModels/activityViewModel'
 import { deleteSessionData } from '../../utils/session'
 import JobViewModel from '../../viewModels/jobViewModel'
+import config from '../../config'
+import addressLookup from '../addressLookup'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {

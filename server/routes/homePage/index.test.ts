@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import Controller from './homePageController'
 import getUserRolesResolver from '../../middleware/resolvers/getUserRolesResolver'
+import checkCmsEnabledHomepage from '../../middleware/checkCmsEnabledHomepage'
 import { Services } from '../../services'
 import routes from './index'
 
 jest.mock('./homePageController')
 jest.mock('../../middleware/resolvers/getUserRolesResolver')
+jest.mock('../../middleware/checkCmsEnabledHomepage')
 
 describe('Candidate matching routes', () => {
   let router: Router
@@ -20,6 +22,7 @@ describe('Candidate matching routes', () => {
       get: jest.fn(),
     }))
     ;(getUserRolesResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkCmsEnabledHomepage as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for home page', () => {
@@ -27,7 +30,10 @@ describe('Candidate matching routes', () => {
 
     expect(router.get).toHaveBeenCalledWith(
       '/',
-      expect.any(Function), // getUserRolesResolver
+      [
+        expect.any(Function), // checkCmsEnabledHomepage
+        expect.any(Function), // getUserRolesResolver
+      ],
       expect.any(Function), // controller.get
     )
   })
