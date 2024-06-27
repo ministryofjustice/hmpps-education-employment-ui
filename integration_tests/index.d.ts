@@ -5,5 +5,11 @@ declare namespace Cypress {
      * @example cy.signIn({ failOnStatusCode: boolean })
      */
     signIn(options?: { failOnStatusCode: boolean }): Chainable<AUTWindow>
+
+    /**
+     * Custom command to check if a feature is enabled.
+     * @example cy.checkFeatureToggle('candidateMatchingEnabled', (isEnabled) => { ... })
+     */
+    checkFeatureToggle(featureName: string, callback: (isEnabled: boolean) => void): Chainable<void>
   }
 }

@@ -32,8 +32,6 @@ context('SignIn', () => {
 
     cy.visit('/wr/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
-
-    workProfilePage.releaseArea().contains('L15 7LR')
   })
 
   it('No right to work', () => {

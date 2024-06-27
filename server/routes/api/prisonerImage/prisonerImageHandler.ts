@@ -9,16 +9,20 @@ export default class PrisonerImageHandler {
     const { id } = req.params
     const { username } = res.locals.user
 
-    // Get image from api
-    const image = await this.prisonService.getPrisonerImage(username, id)
+    try {
+      // Get image from api
+      const image = await this.prisonService.getPrisonerImage(username, id)
 
-    if (image) {
-      // Send image to client
-      res.set('Content-type', 'image/jpeg')
-      image.pipe(res)
-      return
+      if (image) {
+        // Send image to client
+        res.set('Content-type', 'image/jpeg')
+        image.pipe(res)
+        return
+      }
+
+      res.status(404).send('Not found')
+    } catch (error) {
+      next(error)
     }
-
-    res.status(404).send('Not found')
   }
 }
