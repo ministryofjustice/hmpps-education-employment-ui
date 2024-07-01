@@ -1,0 +1,42 @@
+{% from "../../../macros/cohortListStatus.njk" import statusTag %}
+
+<div class="dps-mini-profile-header" style="min-height: 120px;">
+  <img class="app-prisoner-photo" src="/api/prisoner-image/{{ id }}" alt="Prisoner image" id="prisoner-image">
+
+  <dl>
+    <dt>
+      <a href="{{ dpsUrl }}/prisoner/{{ id }}" class="govuk-link">
+      <strong>
+        <span id="prisoner-name">{{ prisoner.lastName }}, {{ prisoner.firstName }}</span><span class="govuk-visually-hidden"> DPS profile</span>
+      </strong>
+    </a>
+    </dt>
+    <dd class="govuk-body" id="prisoner-number">
+      {{ prisoner.prisonerNumber }}
+    </dd>
+
+    {{ statusTag(profile.profileData.status) if profile.profileData.status else statusTag("NOT_STARTED") }}
+    <a class="govuk-link govuk-link--no-visited-state" id="header-change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) if profile.profileData.status else addressLookup.workReadiness.createProfile.rightToWork(prisoner.prisonerNumber) }}">
+      Change<span class="govuk-visually-hidden"> status</span>
+    </a>
+  </dl>
+  <dl>
+    <dt>Location</dt>
+    <dd class="govuk-body" id="prisoner-location">
+      {{ prisoner.cellLocation }}
+    </dd>
+  </dl>
+  <dl>
+    <dt>Release date and type</dt>
+    <dd class="govuk-body">
+      <span id="prisoner-release-date">{{ prisoner.releaseDate }}</span><br>
+      <span id="prisoner-release-type">{{ prisoner.nonDtoReleaseDateType }}</span>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Release area</dt>
+    <dd class="govuk-body" id="prisoner-release-area">
+      {{ releaseArea.postcode }}
+    </dd>
+  </dl>
+</div>

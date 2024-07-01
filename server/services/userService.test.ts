@@ -2,9 +2,11 @@
 import UserService from './userService'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import ManageUsersApiClient, { User } from '../data/manageUsersApi/manageUsersApiClient'
+import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
 
 jest.mock('../data/hmppsAuthClient')
 jest.mock('../data/manageUsersApi/manageUsersApiClient')
+jest.mock('../data/nomisUserRolesApi/nomisUserRolesApiClient')
 
 const token = 'some token'
 
@@ -12,6 +14,7 @@ describe('User service', () => {
   let hmppsAuthClientMock: jest.Mocked<HmppsAuthClient>
   let manageUsersApiClientMock: jest.Mocked<ManageUsersApiClient>
   let userService: UserService
+  let nomisUserRolesApiClientMock: jest.Mocked<NomisUserRolesApiClient>
 
   describe('getUser', () => {
     beforeEach(() => {
@@ -52,6 +55,11 @@ describe('User service', () => {
       } as unknown as jest.Mocked<ManageUsersApiClient>
       ;(ManageUsersApiClient as any).mockImplementation(() => manageUsersApiClientMock)
 
+      nomisUserRolesApiClientMock = {
+        getDpsUserRoles: jest.fn().mockResolvedValue(['role-1', 'role-2']),
+      } as unknown as jest.Mocked<NomisUserRolesApiClient>
+      ;(NomisUserRolesApiClient as any).mockImplementation(() => nomisUserRolesApiClientMock)
+
       userService = new UserService(hmppsAuthClientMock)
     })
     it('Retrieves and formats user name', async () => {
@@ -65,6 +73,13 @@ describe('User service', () => {
       manageUsersApiClientMock.getUserByUsername.mockRejectedValue(new Error('some error'))
 
       await expect(userService.getUserByUsername(token, 'JOHNSMITH')).rejects.toEqual(new Error('some error'))
+    })
+
+    it('should retrieve all roles associated to user', async () => {
+      const result = await userService.getDpsUserRoles('username')
+
+      expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('username')
+      expect(result).toEqual(['role-1', 'role-2'])
     })
   })
 })

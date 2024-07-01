@@ -1,0 +1,139 @@
+{% extends "../../../../partials/layout.njk" %}
+{% from "../../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Why does " + prisoner.firstName + " " + prisoner.lastName + " not want support?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * supportDeclinedReason - Array existing values for field
+    * supportDeclinedDetails - Existing value
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "supportDeclinedDetails",
+              name: "supportDeclinedDetails",
+              rows: "2",
+              value: supportDeclinedDetails,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details why support is declined" },
+              errorMessage: errors.supportDeclinedDetails
+            }) }}
+          {% endset -%}
+
+          {{ govukCheckboxes({
+            name: "supportDeclinedReason",
+            fieldset: {
+              legend: {
+                  text: title,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+              text: "Select all that apply."
+            },
+            items: [
+              {
+                value: "ALREADY_HAS_WORK",
+                text: contentLookup.fields.supportDeclinedReason["ALREADY_HAS_WORK"],
+                checked: supportDeclinedReason.indexOf("ALREADY_HAS_WORK") > -1
+              },
+              {
+                value: "LIMIT_THEIR_ABILITY",
+                text: contentLookup.fields.supportDeclinedReason["LIMIT_THEIR_ABILITY"],
+                checked: supportDeclinedReason.indexOf("LIMIT_THEIR_ABILITY") > -1
+              },
+              {
+                value: "FULL_TIME_CARER",
+                text: contentLookup.fields.supportDeclinedReason["FULL_TIME_CARER"],
+                checked: supportDeclinedReason.indexOf("FULL_TIME_CARER") > -1
+              },
+              {
+                value: "HOUSING_NOT_IN_PLACE",
+                text: contentLookup.fields.supportDeclinedReason["HOUSING_NOT_IN_PLACE"],
+                checked: supportDeclinedReason.indexOf("HOUSING_NOT_IN_PLACE") > -1
+              },
+              {
+                value: "LACKS_CONFIDENCE_OR_MOTIVATION",
+                text: contentLookup.fields.supportDeclinedReason["LACKS_CONFIDENCE_OR_MOTIVATION"],
+                checked: supportDeclinedReason.indexOf("LACKS_CONFIDENCE_OR_MOTIVATION") > -1
+              },
+              {
+                value: "HEALTH",
+                text: contentLookup.fields.supportDeclinedReason["HEALTH"],
+                checked: supportDeclinedReason.indexOf("HEALTH") > -1
+              },
+              {
+                value: "NO_REASON",
+                text: contentLookup.fields.supportDeclinedReason["NO_REASON"],
+                checked: supportDeclinedReason.indexOf("NO_REASON") > -1
+              },
+              {
+                value: "RETIRED",
+                text: contentLookup.fields.supportDeclinedReason["RETIRED"],
+                checked: supportDeclinedReason.indexOf("RETIRED") > -1
+              },
+              {
+                value: "RETURNING_TO_JOB",
+                text: contentLookup.fields.supportDeclinedReason["RETURNING_TO_JOB"],
+                checked: supportDeclinedReason.indexOf("RETURNING_TO_JOB") > -1
+              },
+              {
+                value: "SELF_EMPLOYED",
+                text: contentLookup.fields.supportDeclinedReason["SELF_EMPLOYED"],
+                checked: supportDeclinedReason.indexOf("SELF_EMPLOYED") > -1
+              },
+              {
+                value: "OTHER",
+                text: contentLookup.fields.supportDeclinedReason["OTHER"],
+                attributes: { "aria-label": contentLookup.fields.supportDeclinedReason["OTHER"] + " (Opens a dialogue box)" },
+                checked: supportDeclinedReason.indexOf("OTHER") > -1,
+                conditional: {
+                  html: otherHtml
+                }
+              }
+            ],
+             errorMessage: errors.supportDeclinedReason
+          }) }}
+
+        </div>
+
+        {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: {"data-qa": "submit-button"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

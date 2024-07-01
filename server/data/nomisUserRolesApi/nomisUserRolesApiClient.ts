@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
+import UserDetails from '../manageUsersApi/userDetails'
 import RestClient from '../restClient'
-import { UserDetails } from '../../services/userService'
 import GetStaffDetailsResponse from './getStaffDetailsResponse'
 
 interface UserCaseLoad {
@@ -15,6 +15,18 @@ interface UserCaseLoad {
 
 interface Role {
   roleCode: string
+}
+
+interface DpsRole {
+  dpsRoles: [
+    {
+      code: string
+      name: string
+      sequence: number
+      type: string
+      adminRoleOnly: boolean
+    },
+  ]
 }
 
 export default class NomisUserRolesApiClient {
@@ -34,6 +46,12 @@ export default class NomisUserRolesApiClient {
     return this.restClient
       .get<Role[]>({ path: `/users/${username}/roles` })
       .then(roles => roles.map(role => `ROLE_${role.roleCode}`))
+  }
+
+  async getDpsUserRoles(username: string): Promise<string[]> {
+    return this.restClient
+      .get<DpsRole>({ path: `/users/${username}/roles` })
+      .then(roles => roles.dpsRoles.map(role => role.code))
   }
 
   async getUserActiveCaseLoad(): Promise<any> {

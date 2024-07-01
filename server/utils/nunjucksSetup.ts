@@ -71,6 +71,10 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
       }))
   )
 
+  njkEnv.addFilter('fixed', (num: number, length: number) => {
+    return num.toFixed(length || 2)
+  })
+
   njkEnv.addGlobal('dpsUrl', config.dpsHomeUrl)
   njkEnv.addGlobal('phaseName', config.phaseName)
   njkEnv.addGlobal('encryptUrlParameter', encryptUrlParameter)

@@ -1,0 +1,143 @@
+{% extends "../../../../partials/layout.njk" %}
+{% from "../../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "../../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = contentLookup.fields.alreadyInPlace[toDoItem] %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * toDoStatus - existing value for field
+    * identification - exist id types for ID only
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          <span class="govuk-caption-l">
+            {{ prisoner.firstName }} {{ prisoner.lastName }}
+          </span>
+          <h1 class="govuk-heading-l">{{ title }}</h1>
+        
+          <h2 class="govuk-heading-m">Progress</h2>
+
+          {% set otherHtml %}
+            {{ govukTextarea({
+              id: "other",
+              name: "other",
+              rows: "2",
+              value: other,
+              type: "text",
+              label: {
+                text: "Give details",
+                attributes: { "aria-live": "polite" }
+              },
+              attributes: { "aria-label" : "Give details of the other ID type" },
+              errorMessage: errors.other
+            }) }}
+          {% endset -%}
+
+
+          {{ govukRadios({
+            name: "toDoStatus",
+            fieldset: {
+              legend: {
+                text: title + ' Progress',
+                isPageHeading: false,
+                classes: "govuk-visually-hidden"
+              }
+            },
+            items: [
+              {
+                value: "NOT_STARTED",
+                text: contentLookup.toDoStatus["NOT_STARTED"] | capitalize,
+                checked: toDoStatus === "NOT_STARTED"
+              },
+              {
+                value: "IN_PROGRESS",
+                text: contentLookup.toDoStatus["IN_PROGRESS"] | capitalize,
+                checked: toDoStatus === "IN_PROGRESS"
+              },
+              {
+                value: "COMPLETED",
+                text: contentLookup.toDoStatus["COMPLETED"] | capitalize,
+                checked: toDoStatus === "COMPLETED"
+              }
+            ],
+            errorMessage: errors.toDoStatus
+          }) }}
+
+          {% if toDoItem === 'ID' %}
+            <h2 class="govuk-heading-m">Types of ID in place</h2>
+            {{ govukCheckboxes({
+              name: "identification",
+              fieldset: {
+                legend: {
+                    text: 'Types of ID in place',
+                    isPageHeading: false,
+                    classes: "govuk-visually-hidden"
+                  }
+              },
+              items: [
+                {
+                  value: "BIRTH_CERTIFICATE",
+                  checked: identification.indexOf("BIRTH_CERTIFICATE") > -1,
+                  text: contentLookup.fields.identification["BIRTH_CERTIFICATE"]
+                },
+                { 
+                  value: "PASSPORT",
+                  checked: identification.indexOf("PASSPORT") > -1,
+                  text: contentLookup.fields.identification["PASSPORT"]
+                },
+                { 
+                  value: "DRIVING_LICENCE",
+                  checked: identification.indexOf("DRIVING_LICENCE") > -1,
+                  text: contentLookup.fields.identification["DRIVING_LICENCE"]
+                },
+                { 
+                  value: "OTHER",
+                  checked: identification.indexOf("OTHER") > -1,
+                  text: contentLookup.fields.identification["OTHER"],
+                  conditional: {
+                    html: otherHtml
+                  }
+                }
+              ],
+              errorMessage: errors.identification
+            }) }}
+          {% endif %}
+
+        </div>
+
+        {% include './partials/_notes.njk' %}
+
+        {{ govukButton({
+            text: "Save Progress",
+            type: "submit",
+            attributes: {"data-qa": "submit-button", "data-ga-category": "submit-selected-data"}
+          }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

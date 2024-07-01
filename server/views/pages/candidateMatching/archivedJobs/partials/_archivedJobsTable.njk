@@ -1,0 +1,65 @@
+{% from "../../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
+{% from "../../../../macros/cohortListStatus.njk" import statusTag %}
+{% from "../../../../macros/pagination/macro.njk" import pagination %}
+
+<div id="offender-container">
+    {% if archivedJobsResults.content.length >= 1 %}
+        <table id="view-offender" class="govuk-table view-offender">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "jobTitle",
+                    headerText: "Job role"
+                }) }}
+                <th scope="col" class="govuk-table__header">Type of work</th>
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "distance",
+                    headerText: "Job location"
+                }) }}
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "closingDate",
+                    headerText: "Closing date"
+                }) }}
+            </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+        {% set rowClass = cycler("odd", "even") %}
+
+        {% for job in archivedJobsResults.content %}
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span></td>
+                <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.distance }}">
+                    {{ job.city }}, {{ job.postcode }}
+                    <div class="timeline">
+                        <ul>
+                            <li>
+                            <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">{{ job.distance }} miles</p>
+                            </li>
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if paginationData.results.count >= 1 and archivedJobsResults.content.length >= 1 %}
+        {{ pagination( paginationData ) }}
+    {% endif %}
+</div>

@@ -15,7 +15,7 @@
           {% if item.status !== 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                <a href="{{ addressLookup.actions.editAction(id, item.todoItem) }}" id="overview-todo-{{ item.todoItem }}-link" aria-label="Update {{ contentLookup.fields.alreadyInPlace[item.todoItem] }} task">
+                <a href="{{ addressLookup.workReadiness.actions.editAction(id, item.todoItem) }}" id="overview-todo-{{ item.todoItem }}-link" aria-label="Update {{ contentLookup.fields.alreadyInPlace[item.todoItem] }} task">
                   <span class="govuk-visually-hidden">Update </span>{{ contentLookup.fields.alreadyInPlace[item.todoItem] }}<span class="govuk-visually-hidden"> task</span>
                 </a>
               </span>
@@ -34,7 +34,7 @@
           {% if item.status === 'COMPLETED' %}
             <li class="app-task-list__item" style="border-top: 0px">
               <span class="app-task-list__task-name">
-                <a href="{{ addressLookup.actions.editAction(id, item.todoItem) }}" id="overview-todo-{{ item.todoItem }}-link">
+                <a href="{{ addressLookup.workReadiness.actions.editAction(id, item.todoItem) }}" id="overview-todo-{{ item.todoItem }}-link">
                   <span class="govuk-visually-hidden">View </span>{{ contentLookup.fields.alreadyInPlace[item.todoItem] }}<span class="govuk-visually-hidden"> task</span>
                 </a>
               </span>

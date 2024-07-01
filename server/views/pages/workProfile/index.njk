@@ -16,6 +16,7 @@
 #}
 
 {% block beforeContent %}
+  {% if candidateMatchingEnabled %}
     {{ govukBreadcrumbs({
         items: [
             {
@@ -23,30 +24,48 @@
                 href: dpsUrl
             },
             {
-                text: "Get someone ready to work",
-                href: "/"
+                text: "Work after release",
+                href: '/'
+            },
+            {
+                text: "Get someone ready to work" if module === 'wr' else 'Match jobs and manage applications',
+                href: "/wr/cohort-list" if module === 'wr' else '/cms/prisoners'
             }
         ],
         classes: 'govuk-!-display-none-print'
     })
     }}
+  {% else %}
+    {{ govukBreadcrumbs({
+        items: [
+            {
+                text: "Digital prison services" if isPrisonUser else "HMPPS Digital Services",
+                href: dpsUrl
+            },
+            {
+                text: "Get someone ready to work" if module === 'wr' else 'Match jobs and manage applications',
+                href: "/wr/cohort-list" if module === 'wr' else '/cms/prisoners'
+            }
+        ],
+        classes: 'govuk-!-display-none-print'
+    })
+    }}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-quarter">
-      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Prison number: <span class="govuk-body" data-qa="prison-number">{{ prisoner.prisonerNumber }}</span></p>
-    </div>
-    <div class="govuk-grid-column-three-quarters">
-      <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-5">Release date: <span class="govuk-body" data-qa="release-date">{{ prisoner.nonDtoReleaseDateType }}: {{ prisoner.releaseDate }}</span></p>
-    </div>
-  </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{ title }}</h1>
     </div>
   </div>
+  
+  {% if candidateMatchingEnabled %}
+    <div class="govuk-grid-row">
+      {% include './partials/_profileHeader.njk' %}
+    </div>
+  {% endif %}
 
   {% include './partials/_navigation.njk' %}
 

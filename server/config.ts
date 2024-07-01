@@ -2,6 +2,10 @@ import 'dotenv/config'
 
 const production = process.env.NODE_ENV === 'production'
 
+const toBoolean = (value: unknown): boolean => {
+  return value === 'true'
+}
+
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
     return process.env[name]
@@ -160,6 +164,14 @@ export default {
       },
       agent: new AgentConfig(),
     },
+    jobApi: {
+      url: get('JOB_API_URL', 'http://localhost:8083', requiredInProduction),
+      timeout: {
+        response: Number(get('JOB_API_URL', 10000)),
+        deadline: Number(get('JOB_API_URL', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
     frontendComponents: {
       url: get('COMPONENT_API_URL', 'http://localhost:8083', requiredInProduction),
       timeout: {
@@ -176,4 +188,7 @@ export default {
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
   urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
+  featureToggles: {
+    candidateMatchingEnabled: toBoolean(get('CANDIDATE_MATCHING_ENABLED', false)),
+  },
 }

@@ -7,7 +7,7 @@
   <div class="govuk-notification-banner__content">
     <p class="govuk-notification-banner__heading">
       {{ prisoner.firstName }} {{ prisoner.lastName }} has not completed a work assessment.
-      <a class="govuk-notification-banner__link" id="overview-assessment-link" href="{{ addressLookup.createProfile.rightToWork(prisoner.prisonerNumber) }}"><br>Complete assessment now</a>.
+      <a class="govuk-notification-banner__link" id="overview-assessment-link" href="{{ addressLookup.workReadiness.createProfile.rightToWork(prisoner.prisonerNumber) }}"><br>Complete assessment now</a>.
     </p>
   </div>
 </div>

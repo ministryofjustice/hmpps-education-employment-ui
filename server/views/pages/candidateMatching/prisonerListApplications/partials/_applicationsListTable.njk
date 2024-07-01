@@ -1,0 +1,63 @@
+{% from "../../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
+{% from "../../../../macros/cohortListStatus.njk" import statusTag %}
+{% from "../../../../macros/pagination/macro.njk" import pagination %}
+
+<div id="offender-container">
+    {% if prisonerSearchResults.content.length >= 1 %}
+        <table id="view-offender" class="govuk-table view-offender">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "lastName",
+                    headerText: "Prisoner",
+                    id: "lastName-sort-link"
+                }) }}
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "jobTitle",
+                    headerText: "Job",
+                    id: "jobTitle-sort-link"
+                }) }}
+                <th scope="col" class="govuk-table__header">Application status</th>
+                <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
+            </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+        {% set rowClass = cycler("odd", "even") %}
+
+        {% for item in prisonerApplications %}
+            <tr class="govuk-table__row {{ rowClass.next() }}">
+                <td class="govuk-table__cell">
+                    <a href="{{ addressLookup.workProfile(item.prisonerNumber, 'overview', 'cms') }}"
+                       rel="noopener noreferrer"
+                       data-qa="quick-look-link"
+                       aria-label="Profile link for {{ item.displayName }}"
+                       class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
+                       id= "prisoner-profile-link-{{ loop.index }}">{{ item.firstName }} {{ item.lastName }}</a>
+                    </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ item.prisonerNumber }}</span>
+                </td>
+                <td class="govuk-table__cell" id= "job-details-{{ loop.index }}">
+                    {{ item.jobTitle }}</br>
+                    <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span> 
+                </td>
+                <td class="govuk-table__cell" id="job-application-status-{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
+                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.candidateMatching.manageApplication(item.prisonerNumber , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link-{{ loop.index }}">Update progress</a></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
+        {{ pagination( paginationData ) }}
+    {% else %}
+        {% include './_notFoundMessages.njk' %}
+    {% endif %}
+</div>

@@ -1,0 +1,70 @@
+{% extends "../../../../partials/layout.njk" %}
+{% from "../../../../partials/navBar.njk" import navBar with context %}
+{% from "../../../../partials/breadCrumb.njk" import breadCrumb %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "../../../../macros/error-summary/macro.njk" import errorSummary %}
+
+{% set title = "Is " + prisoner.firstName + " " + prisoner.lastName + " currently able to manage their drug or alcohol dependency?" %}
+
+{#
+  Data supplied to this template:
+    * backLocation - url of the back link
+    * prisoner - object with firsName and lastName
+    * manageDrugsAndAlcohol - existing value for field
+    * errors? - validation errors
+#}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ errorSummary(errors) }}
+
+      <form class="form" method="post" novalidate="">
+        <div class="govuk-form-group">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        
+          {{ govukRadios({
+            name: "manageDrugsAndAlcohol",
+            fieldset: {
+              legend: {
+                text: title,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: [
+              {
+                value: "ABLE_TO_MANAGE",
+                text: contentLookup.fields.manageDrugsAndAlcohol["ABLE_TO_MANAGE"],
+                checked: manageDrugsAndAlcohol === "ABLE_TO_MANAGE"
+              },
+              {
+                value: "NOT_ABLE_TO_MANAGE",
+                text: contentLookup.fields.manageDrugsAndAlcohol["NOT_ABLE_TO_MANAGE"],
+                checked: manageDrugsAndAlcohol === "NOT_ABLE_TO_MANAGE"
+              }
+            ],
+            errorMessage: errors.manageDrugsAndAlcohol
+          }) }}
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: {
+            "data-qa": "submit-button",
+            "data-ga-category": "submit-selected-data"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
