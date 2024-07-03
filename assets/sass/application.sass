@@ -13,12 +13,23 @@ $govuk-page-width: $moj-page-width
 @import './components/_task-list'
 @import './local'
 @import './components/_search'
+@import './components/_card'
+@import './components/_mini-profile-header'
+@import './components/_timeline'
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
 .filter-box
   background-color: govuk-colour("light-grey")
   padding: 30px 10px 30px 10px
+
+.filter-box-width-override-60 
+  width: 60%
+  float: left
+
+.filter-box-width-override-20 
+  width: 20%
+  float: left
 
 .govuk-button-link 
   background-color: transparent

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import IndexPage from '../pages/index'
 import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
@@ -8,6 +9,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('getUserRoles')
     cy.task('getUserActiveCaseLoad')
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
@@ -25,47 +27,124 @@ context('SignIn', () => {
 
   it('User name visible in header', () => {
     cy.signIn()
-    const indexPage = new IndexPage()
-    indexPage.headerUserName().should('contain.text', 'J. Smith')
+
+    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
+      cy.wrap(isEnabled).as('candidateMatchingEnabled')
+    })
+
+    cy.get('@candidateMatchingEnabled').then(isEnabled => {
+      if (isEnabled) {
+        const indexPage = new IndexPage('Work after release')
+        cy.get('[data-qa=header-user-name]').should('contain.text', 'J. Smith')
+      } else {
+        const indexPage = new IndexPage('Get someone ready to work')
+        cy.get('[data-qa=header-user-name]').should('contain.text', 'J. Smith')
+      }
+    })
   })
 
   it('User can log out', () => {
     cy.signIn()
-    const indexPage = new IndexPage()
-    indexPage.signOut().click()
-    Page.verifyOnPage(AuthSignInPage)
+
+    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
+      cy.wrap(isEnabled).as('candidateMatchingEnabled')
+    })
+
+    cy.get('@candidateMatchingEnabled').then(isEnabled => {
+      if (isEnabled) {
+        const indexPage = new IndexPage('Work after release')
+        indexPage.signOut().click()
+        Page.verifyOnPage(AuthSignInPage)
+      } else {
+        const indexPage = new IndexPage('Get someone ready to work')
+        indexPage.signOut().click()
+        Page.verifyOnPage(AuthSignInPage)
+      }
+    })
   })
 
   it('User can manage their details', () => {
     cy.signIn()
-    const indexPage = new IndexPage()
 
-    indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
-    indexPage.manageDetails().click()
-    Page.verifyOnPage(AuthManageDetailsPage)
+    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
+      cy.wrap(isEnabled).as('candidateMatchingEnabled')
+    })
+
+    cy.get('@candidateMatchingEnabled').then(isEnabled => {
+      if (isEnabled) {
+        const indexPage = new IndexPage('Work after release')
+
+        indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
+        indexPage.manageDetails().click()
+        Page.verifyOnPage(AuthManageDetailsPage)
+      } else {
+        const indexPage = new IndexPage('Get someone ready to work')
+
+        indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
+        indexPage.manageDetails().click()
+        Page.verifyOnPage(AuthManageDetailsPage)
+      }
+    })
   })
 
   it('Token verification failure takes user to sign in page', () => {
     cy.signIn()
-    Page.verifyOnPage(IndexPage)
-    cy.task('stubVerifyToken', false)
 
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
+    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
+      cy.wrap(isEnabled).as('candidateMatchingEnabled')
+    })
+
+    cy.get('@candidateMatchingEnabled').then(isEnabled => {
+      if (isEnabled) {
+        // Add more test steps for enabled feature
+        const indexPage = new IndexPage('Work after release')
+        cy.task('stubVerifyToken', false)
+
+        // can't do a visit here as cypress requires only one domain
+        cy.request('/').its('body').should('contain', 'Sign in')
+      } else {
+        const indexPage = new IndexPage('Get someone ready to work')
+        cy.task('stubVerifyToken', false)
+
+        // can't do a visit here as cypress requires only one domain
+        cy.request('/').its('body').should('contain', 'Sign in')
+      }
+    })
   })
 
   it('Token verification failure clears user session', () => {
     cy.signIn()
-    const indexPage = new IndexPage()
-    cy.task('stubVerifyToken', false)
 
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
+    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
+      cy.wrap(isEnabled).as('candidateMatchingEnabled')
+    })
 
-    cy.task('stubVerifyToken', true)
-    cy.task('stubAuthUser', 'bobby brown')
-    cy.signIn()
+    cy.get('@candidateMatchingEnabled').then(isEnabled => {
+      if (isEnabled) {
+        const indexPage = new IndexPage('Work after release')
+        cy.task('stubVerifyToken', false)
 
-    indexPage.headerUserName().contains('B. Brown')
+        // can't do a visit here as cypress requires only one domain
+        cy.request('/').its('body').should('contain', 'Sign in')
+
+        cy.task('stubVerifyToken', true)
+        cy.task('stubAuthUser', 'bobby brown')
+        cy.signIn()
+
+        indexPage.headerUserName().contains('B. Brown')
+      } else {
+        const indexPage = new IndexPage('Get someone ready to work')
+        cy.task('stubVerifyToken', false)
+
+        // can't do a visit here as cypress requires only one domain
+        cy.request('/').its('body').should('contain', 'Sign in')
+
+        cy.task('stubVerifyToken', true)
+        cy.task('stubAuthUser', 'bobby brown')
+        cy.signIn()
+
+        indexPage.headerUserName().contains('B. Brown')
+      }
+    })
   })
 })

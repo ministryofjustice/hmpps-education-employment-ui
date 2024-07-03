@@ -1,0 +1,22 @@
+{% if prisonerSearchResults.totalElements === 0 %}
+  {% if applicationStatusFilter and jobFilter and prisonerNameFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for "{{ prisonerNameFilter }}" and "{{ jobFilter }}" in  {{ contentLookup.applicationStatus[applicationStatusFilter] }}</span>
+    <p>Check your spelling and search again, or select another application status.</p>
+  {% elif applicationStatusFilter and jobFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for "{{ jobFilter }}" in {{ contentLookup.applicationStatus[applicationStatusFilter] }}</span>
+    <p>Check your spelling and search again, or clear the search and browse for the prisoner.</p>
+  {% elif applicationStatusFilter and prisonerNameFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for "{{ prisonerNameFilter }}" in {{ contentLookup.applicationStatus[applicationStatusFilter] }}</span>
+    <p>Check your spelling and search again, or clear the search and browse for the prisoner.</p>
+  {% elif prisonerNameFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for "{{ prisonerNameFilter }}" in prisoner's name</span>
+    <p>Check your spelling and search again, or clear the search and browse for the prisoner.</p>
+  {% elif jobFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for "{{ jobFilter }}" in job title or employer</span>
+    <p>Check your spelling and search again, or clear the search and browse for the prisoner..</p>
+  {% elif applicationStatusFilter %}
+    <span class="govuk-heading-m" id="no-results-message">0 results for {{ contentLookup.applicationStatus[applicationStatusFilter] }}</span>
+  {% else %}
+    <span class="govuk-heading-m" id="no-results-message">0 results found</h3>
+  {% endif %}
+{% endif %}

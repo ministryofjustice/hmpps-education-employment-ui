@@ -28,6 +28,7 @@ generic-service:
     MANAGE_USERS_API: "https://manage-users-api.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: PROD
     WEEKS_BEFORE_RELEASE: 12
+    CANDIDATE_MATCHING_ENABLED: false
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev

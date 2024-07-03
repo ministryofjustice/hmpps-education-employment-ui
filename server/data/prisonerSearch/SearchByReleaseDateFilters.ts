@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer'
-import { transformUTCDate } from '../../utils/utils'
+import { transformUTCDate } from '../../utils/index'
 
 export default class SearchByReleaseDateFilters {
   @Expose()

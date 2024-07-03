@@ -1,0 +1,8 @@
+enum ContractType {
+  FIXED_TERM_CONTRACT = 'FIXED_TERM_CONTRACT',
+  PERMANENT = 'PERMANENT',
+  SELF_EMPLOYMENT = 'SELF_EMPLOYMENT',
+  TEMPORARY = 'TEMPORARY',
+}
+
+export default ContractType
