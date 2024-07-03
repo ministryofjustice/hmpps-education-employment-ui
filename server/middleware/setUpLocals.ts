@@ -12,6 +12,7 @@ export default function setUpLocals(): Router {
     res.locals.contentLookup = contentLookup
     res.locals.originalUrl = req.originalUrl
     res.locals.manageDetailsLink = `${config.apis.hmppsAuth.externalUrl}/account-details`
+    res.locals.candidateMatchingEnabled = config.featureToggles.candidateMatchingEnabled
 
     next()
   })

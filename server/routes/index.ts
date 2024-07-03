@@ -1,22 +1,31 @@
 import { Router } from 'express'
 import type { Services } from '../services'
-import workProfileRoutes from './workProfile'
-import cohortListRoutes from './cohortList'
-import createProfileRoutes from './createProfile'
-import changeStatusRoutes from './changeStatus'
-import actionsRoutes from './actions'
+import workReadinessRoutes from './workReadiness'
 import accessibilityStatementRoutes from './accessibilityStatement'
+import candidateMatchingRoutes from './candidateMatching'
+import homePageRoutes from './homePage'
+import apiRoutes from './api'
+import workProfileRoutes from './workProfile'
+import config from '../config'
 
 export default function routes(services: Services): Router {
   const router = Router({ mergeParams: true })
 
   // Append page routes
-  cohortListRoutes(router, services)
-  workProfileRoutes(router, services)
-  createProfileRoutes(router, services)
-  changeStatusRoutes(router, services)
-  actionsRoutes(router, services)
+  homePageRoutes(router, services)
   accessibilityStatementRoutes(router)
+  workProfileRoutes(router, services)
+
+  // Work readiness routes
+  workReadinessRoutes(router, services)
+
+  // Candidate matching routes, only attach if cms is enabled
+  if (config.featureToggles.candidateMatchingEnabled) {
+    candidateMatchingRoutes(router, services)
+  }
+
+  // API routes
+  apiRoutes(router, services)
 
   router.use((req, res) => res.status(404).render('notFoundPage.njk'))
 
