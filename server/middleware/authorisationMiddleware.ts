@@ -10,8 +10,8 @@ export enum AuthRole {
 
 export const isAuthorisedRole = (role: string): boolean =>
   Object.keys(AuthRole)
-    .map(key => AuthRole[key])
-    .includes(role)
+    .map(key => AuthRole[key as keyof typeof AuthRole])
+    .includes(role as AuthRole)
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
