@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import arrayToQueryString from './arrayToQueryString'
 
-const mapToQueryString = (params: Record<never, never>): string =>
+const mapToQueryString = (params: Record<string, any>): string =>
   Object.keys(params)
     .filter(key => params[key])
     .map(key => {

@@ -5,6 +5,13 @@ interface FormValidationErrors {
   [key: string]: { text: string; href: string }
 }
 
+interface ErrorDetails {
+  [key: string]: {
+    text: string
+    href: string
+  }
+}
+
 export default function validateFormSchema(req: Request, schema: ObjectSchema): FormValidationErrors | undefined {
   const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
@@ -20,5 +27,5 @@ export default function validateFormSchema(req: Request, schema: ObjectSchema): 
       href: `#${key}`,
     }
     return previous
-  }, {})
+  }, {} as ErrorDetails)
 }
