@@ -11,22 +11,25 @@ const getJobDetails = (jobId = '1') =>
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         id: Number(jobId),
-        employerName: 'Tesco',
+        employerId: '01907e1e-bb85-7bb7-9018-33a2070a367d',
         jobTitle: 'Warehouse handler',
         closingDate: '2025-05-16T11:15:04.915205',
+        startDate: '2025-05-31T23:00:00.000Z',
         distance: 2.3,
-        city: 'Leeds',
         postcode: 'LS23 5DH',
         typeOfWork: 'CLEANING_AND_MAINTENANCE',
         salaryFrom: 11.93,
         salaryTo: 15.9,
         salaryPeriod: 'PER_HOUR',
         offenceExclusions: ['SEXOFNS'],
+        isRollingOpportunity: false,
+        isOnlyForPrisonLeavers: true,
         essentialCriteria:
           'Valid forklift operator certification or licence\nProven experience operating a forklift in a warehouse or similar setting\n\nStrong knowledge of forklift safety procedures and best practices\nMaths level 1\nEnglish level 1\nPhysical stamina to perform repetitive tasks and lift heavy objects\nExcellent communication skills and ability to work well in a team environment',
         jobDescription:
           "What's on offer:\n\n5 days over 7, 05:30 to 15:30\nPaid weekly\nImmediate starts available\nFull training provided\nYour duties will include:\n\nManoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport\nUnloading deliveries and safely relocating the goods to their designated storage areas\nEnsuring forklift driving areas are free from spills or obstructions\nRegularly checking forklift equipment for faults or damages\nConsolidating partial pallets for incoming goods",
-        workPattern: 'ANNUALISED_HOURS',
+        workPattern: 'FLEXI_TIME',
+        contractType: 'PERMANENT',
         additionalSalaryInformation: 'Immediate starts available\nFull training provided',
         desirableCriteria:
           'Manoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport',

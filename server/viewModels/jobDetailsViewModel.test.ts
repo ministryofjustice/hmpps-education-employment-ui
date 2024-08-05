@@ -19,7 +19,7 @@ describe('JobViewModel', () => {
     salaryFrom: 11.93,
     salaryTo: 15.9,
     salaryPeriod: Hours.FULL_TIME,
-    offenceExclusions: [ExcludingOffences.DRGOFNS],
+    offenceExclusions: [ExcludingOffences.ARSON],
     essentialCriteria:
       'Valid forklift operator certification or licence\nProven experience operating a forklift in a warehouse or similar setting\n\nStrong knowledge of forklift safety procedures and best practices\nMaths level 1\nEnglish level 1\nPhysical stamina to perform repetitive tasks and lift heavy objects\nExcellent communication skills and ability to work well in a team environment',
     jobDescription:
@@ -28,7 +28,7 @@ describe('JobViewModel', () => {
     additionalSalaryInformation: 'Immediate starts available\nFull training provided',
     desirableCriteria:
       'Manoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport',
-    hours: Hours.FULL_TIME,
+    hoursPerWeek: Hours.FULL_TIME,
     howToApply: 'Email: apply@testcompany.com, send CV and covering letter',
   }
 
@@ -40,7 +40,6 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.employerName).toBe(jobDetailsViewModelJson.employerName)
     expect(jobDetailsViewModel.closingDate).toBe('01 May 2022')
     expect(jobDetailsViewModel.distance).toBe(jobDetailsViewModelJson.distance)
-    expect(jobDetailsViewModel.city).toBe(jobDetailsViewModelJson.city)
     expect(jobDetailsViewModel.postcode).toBe(jobDetailsViewModelJson.postcode)
     expect(jobDetailsViewModel.typeOfWork).toBe(jobDetailsViewModelJson.typeOfWork)
     expect(jobDetailsViewModel.salaryFrom).toBe(jobDetailsViewModelJson.salaryFrom)
@@ -52,7 +51,7 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.workPattern).toBe(jobDetailsViewModelJson.workPattern)
     expect(jobDetailsViewModel.additionalSalaryInformation).toBe(jobDetailsViewModelJson.additionalSalaryInformation)
     expect(jobDetailsViewModel.desirableCriteria).toBe(jobDetailsViewModelJson.desirableCriteria)
-    expect(jobDetailsViewModel.hours).toBe(jobDetailsViewModelJson.hours)
+    expect(jobDetailsViewModel.hoursPerWeek).toBe(jobDetailsViewModelJson.hoursPerWeek)
     expect(jobDetailsViewModel.howToApply).toBe(jobDetailsViewModelJson.howToApply)
   })
 })

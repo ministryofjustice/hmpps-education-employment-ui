@@ -33,13 +33,16 @@
           Closing date: <span data-test="closing-date">{{ job.closingDate }}</span>
         </li>
         <li>
-          Location: <span data-test="job-city">{{ job.city }}</span>, <span data-test="job-postcode">{{ job.postcode }}</span>
+          Start date: <span data-test="closing-date">{{ job.startDate }}</span>
         </li>
         <li>
-          Hours: <span data-test="work-pattern-name">{{ job.workPatternName }}</span>, <span data-test="work-pattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
+          Location: <span data-test="job-postcode">{{ job.postcode }}</span>
         </li>
         <li>
-          Salary: From <span data-test="salary">£{{ job.salaryFrom | fixed }}{{ ' to £'+ (job.salaryTo | fixed) if job.salaryTo }} {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
+          Hours: <span data-test="hours">{{ contentLookup.jobs.hours[job.hoursPerWeek] }}</span>, <span data-test="contract-type">{{ contentLookup.jobs.contractType[job.contractType] }}, <span data-test="work-pattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
+        </li>
+        <li>
+          Salary: From <span data-test="salary">£{{ job.salaryFrom | fixed }}{{ (' to £'+ (job.salaryTo | fixed)) if job.salaryTo }} {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
         </li>
         <li data-test="offence-exclusions">
           Offence exclusions: 
@@ -98,7 +101,7 @@
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Type of work:
           </h3>
-          <p class="govuk-body" data-test="type-of-work">{{ contentLookup.jobs.typeOfWork[job.typeOfWork] }}</p>
+          <p class="govuk-body" data-test="type-of-work">{{ contentLookup.jobs.typeOfWork[job.sector] }}</p>
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Matches prisoner interests?
           </h3>
@@ -109,7 +112,7 @@
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Job location
           </h3>
-          <p class="govuk-body">{{ job.city }}, {{ job.postcode }}</p>
+          <p class="govuk-body">{{ job.postcode }}</p>
           {% if releaseArea %}
             <div class="timeline">
               <ul>
