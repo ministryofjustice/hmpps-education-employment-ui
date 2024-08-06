@@ -72,4 +72,10 @@ export default class JobService {
 
     return new JobApiClient(systemToken).getJobsOfInterestClosingSoon(offenderNo)
   }
+
+  async getEmployer(username: string, id: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getEmployer(id)
+  }
 }

@@ -14,7 +14,7 @@ describe('HomePageController', () => {
 
   req.context.profile = {}
   req.context.jobDetails = {
-    typeOfWork: 'OUTDOOR',
+    sector: 'OUTDOOR',
   }
   req.context.prisoner = {
     firstName: 'mock_firstName',

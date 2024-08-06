@@ -22,6 +22,7 @@ describe('PrisonService', () => {
       getMatchedJobs: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       getOtherJobsOfInterest: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       getArchivedJobs: jest.fn().mockResolvedValue({ data: 'mock_data' }),
+      getEmployer: jest.fn().mockResolvedValue({ data: 'mock_data' }),
     } as unknown as jest.Mocked<JobApiClient>
     ;(JobApiClient as any).mockImplementation(() => jobApiClientMock)
 
@@ -98,5 +99,14 @@ describe('PrisonService', () => {
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
     expect(jobApiClientMock.getJobDetails).toHaveBeenCalledWith('offenderId', undefined)
+  })
+
+  it('#getEmployer - should get token and call correct api method', async () => {
+    const result = await jobService.getEmployer('user', 'employerid')
+
+    expect(result).toEqual({ data: 'mock_data' })
+
+    expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
+    expect(jobApiClientMock.getEmployer).toHaveBeenCalledWith('employerid')
   })
 })

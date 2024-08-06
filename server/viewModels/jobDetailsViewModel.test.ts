@@ -14,15 +14,15 @@ describe('JobViewModel', () => {
     closingDate: '2022-05-01T17:00:00Z',
     distance: 4.1,
     city: 'Leeds',
-    postcode: 'LS23 3JF',
-    typeOfWork: TypeOfWorkValue.OUTDOOR,
+    postCode: 'LS23 3JF',
+    sector: TypeOfWorkValue.OUTDOOR,
     salaryFrom: 11.93,
     salaryTo: 15.9,
     salaryPeriod: Hours.FULL_TIME,
     offenceExclusions: [ExcludingOffences.ARSON],
     essentialCriteria:
       'Valid forklift operator certification or licence\nProven experience operating a forklift in a warehouse or similar setting\n\nStrong knowledge of forklift safety procedures and best practices\nMaths level 1\nEnglish level 1\nPhysical stamina to perform repetitive tasks and lift heavy objects\nExcellent communication skills and ability to work well in a team environment',
-    jobDescription:
+    description:
       "What's on offer:\n\n5 days over 7, 05:30 to 15:30\nPaid weekly\nImmediate starts available\nFull training provided\nYour duties will include:\n\nManoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport\nUnloading deliveries and safely relocating the goods to their designated storage areas\nEnsuring forklift driving areas are free from spills or obstructions\nRegularly checking forklift equipment for faults or damages\nConsolidating partial pallets for incoming goods",
     workPattern: WorkPattern.FLEXIBLE_SHIFTS,
     additionalSalaryInformation: 'Immediate starts available\nFull training provided',
@@ -40,13 +40,13 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.employerName).toBe(jobDetailsViewModelJson.employerName)
     expect(jobDetailsViewModel.closingDate).toBe('01 May 2022')
     expect(jobDetailsViewModel.distance).toBe(jobDetailsViewModelJson.distance)
-    expect(jobDetailsViewModel.postcode).toBe(jobDetailsViewModelJson.postcode)
-    expect(jobDetailsViewModel.typeOfWork).toBe(jobDetailsViewModelJson.typeOfWork)
+    expect(jobDetailsViewModel.postCode).toBe(jobDetailsViewModelJson.postCode)
+    expect(jobDetailsViewModel.sector).toBe(jobDetailsViewModelJson.sector)
     expect(jobDetailsViewModel.salaryFrom).toBe(jobDetailsViewModelJson.salaryFrom)
     expect(jobDetailsViewModel.salaryTo).toBe(jobDetailsViewModelJson.salaryTo)
     expect(jobDetailsViewModel.offenceExclusions[0]).toBe(jobDetailsViewModelJson.offenceExclusions[0])
     expect(jobDetailsViewModel.essentialCriteria).toBe(jobDetailsViewModelJson.essentialCriteria)
-    expect(jobDetailsViewModel.jobDescription).toBe(jobDetailsViewModelJson.jobDescription)
+    expect(jobDetailsViewModel.description).toBe(jobDetailsViewModelJson.description)
     expect(jobDetailsViewModel.essentialCriteria).toBe(jobDetailsViewModelJson.essentialCriteria)
     expect(jobDetailsViewModel.workPattern).toBe(jobDetailsViewModelJson.workPattern)
     expect(jobDetailsViewModel.additionalSalaryInformation).toBe(jobDetailsViewModelJson.additionalSalaryInformation)

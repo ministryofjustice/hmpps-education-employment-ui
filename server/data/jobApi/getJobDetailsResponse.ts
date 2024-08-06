@@ -9,6 +9,7 @@ import WorkPattern from '../../enums/workPattern'
 interface GetJobDetailsResponse {
   id: number
   employerId: string
+  employerName?: string
   jobTitle: string
   sector: TypeOfWorkValue
   numberOfVacancies: number

@@ -27,10 +27,13 @@ export default class JobViewModel {
   distance: string
 
   @Expose()
-  postcode: string
+  postCode: string
 
   @Expose()
-  typeOfWork: string
+  description: string
+
+  @Expose()
+  sector: string
 
   @Expose()
   workPattern: string
@@ -46,9 +49,6 @@ export default class JobViewModel {
 
   @Expose()
   desirableCriteria: string
-
-  @Expose()
-  jobDescription: string
 
   @Expose()
   salaryFrom: number

@@ -7,8 +7,9 @@ import GetOtherJobsOfInterestResponse from './getOtherJobsOfInterestResponse'
 import GetJobDetailsResponse from './getJobDetailsResponse'
 import GetMatchedJobsClosingSoonResponse from './getMatchedJobsClosingSoonResponse'
 import GetJobsOfInterestClosingSoonResponse from './getJobOfInterestClosingSoonResponse'
+import GetEmployerResponse from './getEmployerResponse'
 
-const BASE_URL = '/candidate-matching'
+const BASE_URL = ''
 
 export default class JobApiClient {
   restClient: RestClient
@@ -73,9 +74,17 @@ export default class JobApiClient {
     return results
   }
 
+  async getEmployer(id: string) {
+    const result = await this.restClient.get<GetEmployerResponse>({
+      path: `/employers/${id}`,
+    })
+
+    return result
+  }
+
   async getJobDetails(jobId: string, postCode?: string) {
     const result = await this.restClient.get<GetJobDetailsResponse>({
-      path: postCode ? `${BASE_URL}/job/${jobId}?postcode=${postCode}` : `${BASE_URL}/job/${jobId}`,
+      path: postCode ? `${BASE_URL}/jobs/${jobId}?postcode=${postCode}` : `${BASE_URL}/jobs/${jobId}`,
     })
 
     return result
