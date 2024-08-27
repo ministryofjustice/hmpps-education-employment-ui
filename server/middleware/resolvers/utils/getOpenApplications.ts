@@ -1,3 +1,4 @@
+import GetOpenApplicationsResponse from '../../../data/jobApplicationApi/getOpenApplicationsResponse'
 import JobApplicationService from '../../../services/jobApplicationService'
 
 const getOpenApplications = async (jobApplicationService: JobApplicationService, username: string, id: string) => {
@@ -6,8 +7,16 @@ const getOpenApplications = async (jobApplicationService: JobApplicationService,
     return await jobApplicationService.getOpenApplications(username, id)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404) {
-      return undefined
+    if (err?.status === 404 || err?.status === 500) {
+      return {
+        content: [] as GetOpenApplicationsResponse[],
+        page: {
+          size: 0,
+          number: 0,
+          totalElements: 0,
+          totalPages: 0,
+        },
+      }
     }
 
     throw err

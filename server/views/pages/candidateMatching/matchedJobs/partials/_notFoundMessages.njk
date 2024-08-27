@@ -1,4 +1,4 @@
-{% if matchedJobsResults.totalElements === 0 %}
+{% if matchedJobsResults.page.totalElements === 0 %}
   {% if typeOfWorkFilter.length %}
     <span class="govuk-heading-m">0 results in 
       {% for typeOfWork in typeOfWorkFilter %}

@@ -8,23 +8,19 @@ import UpdateApplicationProgressData from '../data/jobApplicationApi/updateAppli
 export default class JobApplicationService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async getOpenApplications(username: string, id: string): Promise<GetOpenApplicationsResponse[]> {
+  async getOpenApplications(username: string, id: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getOpenApplications(id)
   }
 
-  async getClosedApplications(username: string, id: string): Promise<GetClosedApplicationsResponse[]> {
+  async getClosedApplications(username: string, id: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getClosedApplications(id)
   }
 
-  async getApplicationProgress(
-    username: string,
-    offenderId: string,
-    jobId: string,
-  ): Promise<GetApplicationProgressResponse[]> {
+  async getApplicationProgress(username: string, offenderId: string, jobId: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getApplicationProgress(offenderId, jobId)

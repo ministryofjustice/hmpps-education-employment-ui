@@ -25,14 +25,14 @@ describe('getJobsOfInterest', () => {
     }
   })
 
-  it('On error - 404 - Calls next without error', async () => {
+  it('On error - 404 - Returns default empty data', async () => {
     serviceMock.getJobsOfInterest.mockRejectedValue({
       status: 404,
     })
 
     const result = await getJobsOfInterest(serviceMock as any, username, { offenderNo: id })
 
-    expect(result).toEqual(undefined)
+    expect(result).toEqual({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } })
   })
 
   it('On success - Returns correct data', async () => {

@@ -34,7 +34,7 @@ export default class PrisonerListMatchJobsController {
       // Build pagination or error messages
       if (prisonerSearchResults.totalElements) {
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          paginationData = this.paginationService.getPagination(
+          paginationData = this.paginationService.getPaginationNew(
             prisonerSearchResults,
             new URL(
               `${req.protocol}://${req.get(

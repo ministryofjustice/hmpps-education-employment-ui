@@ -31,7 +31,7 @@ export default class JobsOfInterestController {
       // Build pagination or error messages
       if (jobsOfInterestResults.totalElements) {
         if (jobsOfInterestResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          paginationData = this.paginationService.getPagination(
+          paginationData = this.paginationService.getPaginationNew(
             jobsOfInterestResults,
             new URL(
               `${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.jobsOfInterest(id)}?${uri.join(

@@ -42,7 +42,7 @@ export default class MatchedJobsController {
       // Build pagination or error messages
       if (matchedJobsResults.totalElements) {
         if (matchedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          paginationData = this.paginationService.getPagination(
+          paginationData = this.paginationService.getPaginationNew(
             matchedJobsResults,
             new URL(
               `${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.matchedJobs(id)}?${uri.join('&')}`,

@@ -1,3 +1,4 @@
+import GetMatchedJobsClosingSoonResponse from '../../../data/jobApi/getMatchedJobsClosingSoonResponse'
 import JobService from '../../../services/jobService'
 
 const getMatchedJobsClosingSoon = async (
@@ -10,8 +11,16 @@ const getMatchedJobsClosingSoon = async (
     return await jobService.getMatchedJobsClosingSoon(username, params)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404) {
-      return undefined
+    if (err?.status === 404 || err?.status === 500) {
+      return {
+        content: [] as GetMatchedJobsClosingSoonResponse[],
+        page: {
+          size: 0,
+          number: 0,
+          totalElements: 0,
+          totalPages: 0,
+        },
+      }
     }
 
     throw err

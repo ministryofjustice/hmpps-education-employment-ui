@@ -54,7 +54,7 @@
                     Archived jobs
                 </h2>
 
-                {% if archivedJobsResults.totalElements === 0 %}
+                {% if archivedJobsResults.page.totalElements === 0 %}
                     <p>There are no archived jobs for {{ prisoner.firstName + " " + prisoner.lastName }}.</p>
                 {% else %}
                     <h3 class="govuk-heading-s">{{ archivedJobsResults.totalElements }} {{ 'results' if  archivedJobsResults.totalElements > 1 else 'result' }}</h3>

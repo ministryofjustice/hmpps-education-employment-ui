@@ -1,6 +1,5 @@
 import config from '../../config'
 import RestClient from '../restClient'
-import PagedResponse from '../domain/types/pagedResponse'
 import GetMatchedJobsResponse from './getMatchedJobsResponse'
 import GetArchivedJobsResponse from './geArchivedJobsResponse'
 import GetOtherJobsOfInterestResponse from './getOtherJobsOfInterestResponse'
@@ -8,6 +7,7 @@ import GetJobDetailsResponse from './getJobDetailsResponse'
 import GetMatchedJobsClosingSoonResponse from './getMatchedJobsClosingSoonResponse'
 import GetJobsOfInterestClosingSoonResponse from './getJobOfInterestClosingSoonResponse'
 import GetEmployerResponse from './getEmployerResponse'
+import PagedResponseNew from '../domain/types/pagedResponseNew'
 
 const BASE_URL = ''
 
@@ -29,7 +29,7 @@ export default class JobApiClient {
   }) {
     const { offenderNo, page, sort, order, typeOfWorkFilter, locationFilter, distanceFilter } = params
 
-    const results = await this.restClient.post<PagedResponse<GetMatchedJobsResponse>>({
+    const results = await this.restClient.post<PagedResponseNew<GetMatchedJobsResponse>>({
       path: `${BASE_URL}/jobs/search`,
       data: {
         offenderNo,
@@ -47,7 +47,7 @@ export default class JobApiClient {
   async getOtherJobsOfInterest(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo, page, sort, order } = params
 
-    const results = await this.restClient.post<PagedResponse<GetOtherJobsOfInterestResponse>>({
+    const results = await this.restClient.post<PagedResponseNew<GetOtherJobsOfInterestResponse>>({
       path: `${BASE_URL}/jobs/interested`,
       data: {
         offenderNo,
@@ -62,7 +62,7 @@ export default class JobApiClient {
   async getArchivedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo, page, sort, order } = params
 
-    const results = await this.restClient.post<PagedResponse<GetArchivedJobsResponse>>({
+    const results = await this.restClient.post<PagedResponseNew<GetArchivedJobsResponse>>({
       path: `${BASE_URL}/jobs/archived`,
       data: {
         offenderNo,
@@ -93,7 +93,7 @@ export default class JobApiClient {
   async getMatchedJobsClosingSoon(params: { offenderNo: string; count?: number }) {
     const { offenderNo, count = 3 } = params
 
-    const results = await this.restClient.post<GetMatchedJobsClosingSoonResponse[]>({
+    const results = await this.restClient.post<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
       path: `${BASE_URL}/matched-jobs/closing-soon`,
       data: {
         offenderNo,
@@ -104,7 +104,7 @@ export default class JobApiClient {
   }
 
   async getJobsOfInterestClosingSoon(offenderNo: string) {
-    const result = await this.restClient.get<GetJobsOfInterestClosingSoonResponse>({
+    const result = await this.restClient.get<PagedResponseNew<GetJobsOfInterestClosingSoonResponse>>({
       path: `${BASE_URL}/jobs-of-interest/${offenderNo}/closing-soon`,
     })
 
