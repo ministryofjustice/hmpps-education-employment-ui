@@ -9,7 +9,7 @@ const getMatchedJobs = async (
     page?: number
     sort?: string
     order?: string
-    typeOfWorkFilter?: string
+    jobSectorFilter?: string
     locationFilter?: string
     distanceFilter?: number
   },

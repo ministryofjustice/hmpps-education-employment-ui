@@ -1,8 +1,5 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import JobApplicationApiClient from '../data/jobApplicationApi/jobApplicationApiClient'
-import GetOpenApplicationsResponse from '../data/jobApplicationApi/getOpenApplicationsResponse'
-import GetClosedApplicationsResponse from '../data/jobApplicationApi/getClosedApplicationsResponse'
-import GetApplicationProgressResponse from '../data/jobApplicationApi/getApplicationProgressResponse'
 import UpdateApplicationProgressData from '../data/jobApplicationApi/updateApplicationData'
 
 export default class JobApplicationService {

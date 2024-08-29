@@ -10,8 +10,8 @@
               {% for typeOfWork in typeOfWorkOptions %}
                 <div class="govuk-grid-column-one-half">
                   <div class="govuk-checkboxes__item govuk-checkboxes--small">
-                    <input class="govuk-checkboxes__input" id="typeOfWorkFilter-{{ loop.index }}" name="typeOfWorkFilter" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if typeOfWorkFilter.includes(typeOfWork) }}>
-                    <label class="govuk-label govuk-checkboxes__label" for="typeOfWorkFilter-{{ loop.index }}">
+                    <input class="govuk-checkboxes__input" id="jobSectorFilter-{{ loop.index }}" name="jobSectorFilter" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if jobSectorFilter.includes(typeOfWork) }}>
+                    <label class="govuk-label govuk-checkboxes__label" for="jobSectorFilter-{{ loop.index }}">
                       {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
                     </label>
                   </div>
@@ -38,8 +38,8 @@
                       {% for typeOfWork in typeOfWorkOtherOptions %}
                         <div class="govuk-grid-column-one-half">
                           <div class="govuk-checkboxes__item govuk-checkboxes--small">
-                            <input class="govuk-checkboxes__input" id="typeOfWorkFilterOther-{{ loop.index }}" name="typeOfWorkFilterOther" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if typeOfWorkFilter.includes(typeOfWork) }}>
-                            <label class="govuk-label govuk-checkboxes__label" for="typeOfWorkFilterOther-{{ loop.index }}">
+                            <input class="govuk-checkboxes__input" id="jobSectorFilterOther-{{ loop.index }}" name="jobSectorFilterOther" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if jobSectorFilter.includes(typeOfWork) }}>
+                            <label class="govuk-label govuk-checkboxes__label" for="jobSectorFilterOther-{{ loop.index }}">
                               {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
                             </label>
                           </div>

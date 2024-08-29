@@ -23,24 +23,27 @@ export default class JobApiClient {
     page?: number
     sort?: string
     order?: string
-    typeOfWorkFilter?: string
+    jobSectorFilter?: string
     locationFilter?: string
     distanceFilter?: number
   }) {
-    const { offenderNo, page, sort, order, typeOfWorkFilter, locationFilter, distanceFilter } = params
+    const { offenderNo, page = 1, sort, order, jobSectorFilter, locationFilter, distanceFilter } = params
 
-    const results = await this.restClient.post<PagedResponseNew<GetMatchedJobsResponse>>({
-      path: `${BASE_URL}/jobs/search`,
-      data: {
-        offenderNo,
-        page,
-        sort,
-        order,
-        typeOfWorkFilter,
-        locationFilter,
-        distanceFilter,
-      },
+    const uri = [
+      `page=${page - 1}`,
+      `size=${config.paginationPageSize}`,
+      sort && `sortBy=${sort}`,
+      order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
+      jobSectorFilter && `sector=${encodeURIComponent(jobSectorFilter)}`,
+      offenderNo && `offenderNo=${encodeURIComponent(offenderNo)}`,
+      locationFilter && `location=${encodeURIComponent(locationFilter)}`,
+      distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
+      path: `/jobs?${uri.join('&')}`,
     })
+
     return results
   }
 

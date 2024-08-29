@@ -18,7 +18,9 @@ describe('MatchedJobsController', () => {
 
   req.context.matchedJobsResults = {
     content: [],
-    totalElements: 0,
+    page: {
+      totalElements: 0,
+    },
     sort: 'releaseDate',
     order: 'descending',
     userActiveCaseLoad: {
@@ -82,14 +84,16 @@ describe('MatchedJobsController', () => {
           filterStatus: 'ALL',
           order: 'descending',
           content: [],
-          totalElements: 0,
+          page: {
+            totalElements: 0,
+          },
           searchTerm: '',
           sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
         },
         distanceFilter: '10',
         sort: 'releaseDate',
-        typeOfWorkFilter: [],
+        jobSectorFilter: [],
         typeOfWorkOptions: [],
         typeOfWorkOtherOptions: [
           'OUTDOOR',
@@ -154,14 +158,14 @@ describe('MatchedJobsController', () => {
 
     it('On successful POST - call renders with the correct data', async () => {
       req.body.locationFilter = 'name1'
-      req.body.typeOfWorkFilter = ['COOKING']
+      req.body.jobSectorFilter = ['COOKING']
       req.body.distanceFilter = 'true'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&typeOfWorkFilter=COOKING&locationFilter=name1`,
+        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
       )
     })
   })

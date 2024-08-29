@@ -35,7 +35,7 @@ describe('PrisonService', () => {
       page: 1,
       sort: 'distance',
       order: 'acsending',
-      typeOfWorkFilter: 'CATERING',
+      jobSectorFilter: 'CATERING',
       locationFilter: 'NE24 6FR',
       distanceFilter: 10,
     })
@@ -48,7 +48,7 @@ describe('PrisonService', () => {
       page: 1,
       sort: 'distance',
       order: 'acsending',
-      typeOfWorkFilter: 'CATERING',
+      jobSectorFilter: 'CATERING',
       locationFilter: 'NE24 6FR',
       distanceFilter: 10,
     })

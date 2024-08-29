@@ -19,7 +19,7 @@ export default class MatchedJobsController {
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { page, sort, order, typeOfWorkFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
+    const { page, sort, order, jobSectorFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
     const { prisoner, profile, matchedJobsResults, prisonerAddress } = req.context
@@ -34,14 +34,14 @@ export default class MatchedJobsController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         locationFilter && `locationFilter=${decodeURIComponent(locationFilter as string)}`,
-        typeOfWorkFilter && `typeOfWorkFilter=${decodeURIComponent(typeOfWorkFilter as string)}`,
+        jobSectorFilter && `jobSectorFilter=${decodeURIComponent(jobSectorFilter as string)}`,
         distanceFilter && `distanceFilter=${decodeURIComponent(distanceFilter as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
       // Build pagination or error messages
-      if (matchedJobsResults.totalElements) {
-        if (matchedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (matchedJobsResults.page.totalElements) {
+        if (matchedJobsResults.page.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPaginationNew(
             matchedJobsResults,
             new URL(
@@ -85,11 +85,11 @@ export default class MatchedJobsController {
           decodeURIComponent(locationFilter as string) === 'none'
             ? ''
             : decodeURIComponent(locationFilter as string) || postcode,
-        typeOfWorkFilter: _.compact(decodeURIComponent(typeOfWorkFilter as string).split(',')),
+        jobSectorFilter: _.compact(decodeURIComponent(jobSectorFilter as string).split(',')),
         distanceFilter: decodeURIComponent(distanceFilter as string),
         filtered:
           decodeURIComponent(locationFilter as string) ||
-          decodeURIComponent(typeOfWorkFilter as string) ||
+          decodeURIComponent(jobSectorFilter as string) ||
           decodeURIComponent(distanceFilter as string) !== '10',
       }
 
@@ -102,7 +102,7 @@ export default class MatchedJobsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { sort, order } = req.query
-    const { typeOfWorkFilter = [], typeOfWorkFilterOther = [], locationFilter, distanceFilter } = req.body
+    const { jobSectorFilter = [], jobSectorFilterOther = [], locationFilter, distanceFilter } = req.body
 
     try {
       // If validation errors render errors
@@ -122,8 +122,8 @@ export default class MatchedJobsController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         distanceFilter && `distanceFilter=${encodeURIComponent(distanceFilter)}`,
-        typeOfWorkFilter &&
-          `typeOfWorkFilter=${encodeURIComponent([...typeOfWorkFilter, ...typeOfWorkFilterOther].join(','))}`,
+        (jobSectorFilter.length || jobSectorFilterOther.length) &&
+          `jobSectorFilter=${encodeURIComponent([...jobSectorFilter, ...jobSectorFilterOther].join(','))}`,
         `locationFilter=${encodeURIComponent(locationFilter || 'none')}`,
       ].filter(val => !!val)
 

@@ -26,8 +26,8 @@ export default (router: Router, services: Services) => {
     '/cms/:id/jobs/matched',
     [
       handleSortMiddleware('sortAction', 'releaseDate'),
-      parseCheckBoxValue('typeOfWorkFilter'),
-      parseCheckBoxValue('typeOfWorkFilterOther'),
+      parseCheckBoxValue('jobSectorFilter'),
+      parseCheckBoxValue('jobSectorFilterOther'),
     ],
     controller.post,
   )

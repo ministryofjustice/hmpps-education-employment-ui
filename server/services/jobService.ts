@@ -11,7 +11,7 @@ export default class JobService {
       page?: number
       sort?: string
       order?: string
-      typeOfWorkFilter?: string
+      jobSectorFilter?: string
       locationFilter?: string
       distanceFilter?: number
     },
