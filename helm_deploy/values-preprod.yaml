@@ -27,8 +27,7 @@ generic-service:
     WHEREABOUTS_API_URL: "https://whereabouts-api-preprod.service.justice.gov.uk"
     ALLOCATION_MANAGER_ENDPOINT_URL: "https://allocation-manager-preprod.apps.live.cloud-platform.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components-preprod.hmpps.service.justice.gov.uk"
-    JOB_API_URL: "https://jobs-board-api-preprod.hmpps.service.justice.gov.uk"
-    JOB_APPLICATION_API_URL: "https://support-preprod.hmpps.service.justice.gov.uk/feedback-and-support"
+    JOB_API_URL: "https://jobs-board-preprod-dev.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API: "https://manage-users-api-preprod.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: PREPROD
     WEEKS_BEFORE_RELEASE: 12

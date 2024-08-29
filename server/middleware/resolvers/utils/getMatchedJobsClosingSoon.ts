@@ -1,10 +1,11 @@
 import GetMatchedJobsClosingSoonResponse from '../../../data/jobApi/getMatchedJobsClosingSoonResponse'
+import TypeOfWorkValue from '../../../enums/typeOfWorkValue'
 import JobService from '../../../services/jobService'
 
 const getMatchedJobsClosingSoon = async (
   jobService: JobService,
   username: string,
-  params: { offenderNo: string; count?: number },
+  params: { offenderNo: string; count?: number; jobSectorFilter: TypeOfWorkValue[] },
 ) => {
   try {
     // Get interested jobs

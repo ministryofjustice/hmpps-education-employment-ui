@@ -8,6 +8,7 @@ import GetMatchedJobsClosingSoonResponse from './getMatchedJobsClosingSoonRespon
 import GetJobsOfInterestClosingSoonResponse from './getJobOfInterestClosingSoonResponse'
 import GetEmployerResponse from './getEmployerResponse'
 import PagedResponseNew from '../domain/types/pagedResponseNew'
+import TypeOfWorkValue from '../../enums/typeOfWorkValue'
 
 const BASE_URL = ''
 
@@ -93,16 +94,20 @@ export default class JobApiClient {
     return result
   }
 
-  async getMatchedJobsClosingSoon(params: { offenderNo: string; count?: number }) {
-    const { offenderNo, count = 3 } = params
+  async getMatchedJobsClosingSoon(params: { offenderNo: string; count?: number; jobSectorFilter: TypeOfWorkValue[] }) {
+    const { offenderNo, count = 3, jobSectorFilter = [] } = params
 
-    const results = await this.restClient.post<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
-      path: `${BASE_URL}/matched-jobs/closing-soon`,
-      data: {
-        offenderNo,
-        count,
-      },
+    const uri = [
+      `page=0`,
+      `size=3`,
+      jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter[0].toString())}`,
+      `offenderNo=${encodeURIComponent(offenderNo)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
+      path: `/jobs?${uri.join('&')}`,
     })
+
     return results
   }
 

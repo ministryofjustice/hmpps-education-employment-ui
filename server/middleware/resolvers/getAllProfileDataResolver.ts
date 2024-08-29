@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { RequestHandler } from 'express'
+import _ from 'lodash'
 import { Services } from '../../services'
 
 import getCurrentOffenderActivities from './utils/getCurrentOffenderActivities'
@@ -112,9 +113,14 @@ const getCmsData = async (req: any, res: any, services: Services): Promise<void>
   const { id } = req.params
   const { username } = res.locals.user
   const { jobService, jobApplicationService } = services
+  const { profile = {} } = req.context
 
   const [matchedJobs, jobsOfInterest, openApplications, closedApplications] = await Promise.all([
-    getMatchedJobsClosingSoon(jobService, username, { offenderNo: id, count: 3 }),
+    getMatchedJobsClosingSoon(jobService, username, {
+      offenderNo: id,
+      count: 3,
+      jobSectorFilter: _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest'),
+    }),
     getJobsOfInterestClosingSoon(jobService, username, id),
     getOpenApplications(jobApplicationService, username, id),
     getClosedApplications(jobApplicationService, username, id),

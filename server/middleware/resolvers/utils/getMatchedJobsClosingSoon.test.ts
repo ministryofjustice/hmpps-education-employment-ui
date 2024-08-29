@@ -19,7 +19,7 @@ describe('getMatchedJobsClosingSoon', () => {
     serviceMock.getMatchedJobsClosingSoon.mockRejectedValue(error)
 
     try {
-      await getMatchedJobsClosingSoon(serviceMock as any, username, { offenderNo: id })
+      await getMatchedJobsClosingSoon(serviceMock as any, username, { offenderNo: id, jobSectorFilter: [] })
     } catch (err) {
       expect(err).toEqual(error)
     }
@@ -30,7 +30,10 @@ describe('getMatchedJobsClosingSoon', () => {
       status: 404,
     })
 
-    const result = await getMatchedJobsClosingSoon(serviceMock as any, username, { offenderNo: id })
+    const result = await getMatchedJobsClosingSoon(serviceMock as any, username, {
+      offenderNo: id,
+      jobSectorFilter: [],
+    })
 
     expect(result).toEqual({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } })
   })
@@ -38,7 +41,10 @@ describe('getMatchedJobsClosingSoon', () => {
   it('On success - Returns correct data', async () => {
     serviceMock.getMatchedJobsClosingSoon.mockResolvedValue(mockData)
 
-    const result = await getMatchedJobsClosingSoon(serviceMock as any, username, { offenderNo: id })
+    const result = await getMatchedJobsClosingSoon(serviceMock as any, username, {
+      offenderNo: id,
+      jobSectorFilter: [],
+    })
 
     expect(result).toEqual(mockData)
   })

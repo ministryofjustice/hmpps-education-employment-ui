@@ -1,5 +1,6 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import JobApiClient from '../data/jobApi/jobApiClient'
+import TypeOfWorkValue from '../enums/typeOfWorkValue'
 
 export default class JobService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -60,6 +61,7 @@ export default class JobService {
     params: {
       offenderNo: string
       count?: number
+      jobSectorFilter: TypeOfWorkValue[]
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
