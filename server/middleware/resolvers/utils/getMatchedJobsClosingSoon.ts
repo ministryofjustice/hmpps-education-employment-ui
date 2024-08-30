@@ -5,7 +5,7 @@ import JobService from '../../../services/jobService'
 const getMatchedJobsClosingSoon = async (
   jobService: JobService,
   username: string,
-  params: { offenderNo: string; count?: number; jobSectorFilter: TypeOfWorkValue[] },
+  params: { offenderNo: string; jobSectorFilter: TypeOfWorkValue[] },
 ) => {
   try {
     // Get interested jobs

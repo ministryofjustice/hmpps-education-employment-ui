@@ -118,7 +118,6 @@ const getCmsData = async (req: any, res: any, services: Services): Promise<void>
   const [matchedJobs, jobsOfInterest, openApplications, closedApplications] = await Promise.all([
     getMatchedJobsClosingSoon(jobService, username, {
       offenderNo: id,
-      count: 3,
       jobSectorFilter: _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest'),
     }),
     getJobsOfInterestClosingSoon(jobService, username, id),

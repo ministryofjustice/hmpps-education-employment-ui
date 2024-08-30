@@ -60,7 +60,6 @@ export default class JobService {
     username: string,
     params: {
       offenderNo: string
-      count?: number
       jobSectorFilter: TypeOfWorkValue[]
     },
   ) {

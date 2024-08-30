@@ -94,8 +94,8 @@ export default class JobApiClient {
     return result
   }
 
-  async getMatchedJobsClosingSoon(params: { offenderNo: string; count?: number; jobSectorFilter: TypeOfWorkValue[] }) {
-    const { offenderNo, count = 3, jobSectorFilter = [] } = params
+  async getMatchedJobsClosingSoon(params: { offenderNo: string; jobSectorFilter: TypeOfWorkValue[] }) {
+    const { offenderNo, jobSectorFilter = [] } = params
 
     const uri = [
       `page=0`,
