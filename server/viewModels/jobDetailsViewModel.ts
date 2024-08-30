@@ -18,35 +18,37 @@ export default class JobViewModel {
   @Expose()
   closingDate: string
 
+  @Type(() => Date)
+  @Transform(formatDateStringToddMMMyyyy)
+  @Expose()
+  startDate: string
+
   @Expose()
   distance: string
 
   @Expose()
-  city: string
+  postCode: string
 
   @Expose()
-  postcode: string
+  description: string
 
   @Expose()
-  typeOfWork: string
+  sector: string
 
   @Expose()
   workPattern: string
 
   @Expose()
-  workPatternName: string
+  contractType: string
 
   @Expose()
   offenceExclusions: string[]
 
   @Expose()
-  essentialCriteria: string[]
+  essentialCriteria: string
 
   @Expose()
-  desirableCriteria: string[]
-
-  @Expose()
-  jobDescription: string
+  desirableCriteria: string
 
   @Expose()
   salaryFrom: number
@@ -61,7 +63,7 @@ export default class JobViewModel {
   additionalSalaryInformation: string
 
   @Expose()
-  hours: string
+  hoursPerWeek: string
 
   @Expose()
   howToApply: string

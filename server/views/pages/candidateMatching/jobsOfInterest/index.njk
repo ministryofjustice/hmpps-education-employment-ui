@@ -54,7 +54,7 @@
                     Other jobs chosen by the prisoner
                 </h2>
 
-                {% if jobsOfInterestResults.totalElements === 0 %}
+                {% if jobsOfInterestResults.page.totalElements === 0 %}
                     <p>{{ prisoner.firstName + " " + prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
                 {% else %}
                     <p class="govuk-body">Other jobs the prisoner noted an interest in on the jobs board.</p>

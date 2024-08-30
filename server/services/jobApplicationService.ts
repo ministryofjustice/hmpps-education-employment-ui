@@ -1,30 +1,23 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import JobApplicationApiClient from '../data/jobApplicationApi/jobApplicationApiClient'
-import GetOpenApplicationsResponse from '../data/jobApplicationApi/getOpenApplicationsResponse'
-import GetClosedApplicationsResponse from '../data/jobApplicationApi/getClosedApplicationsResponse'
-import GetApplicationProgressResponse from '../data/jobApplicationApi/getApplicationProgressResponse'
 import UpdateApplicationProgressData from '../data/jobApplicationApi/updateApplicationData'
 
 export default class JobApplicationService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async getOpenApplications(username: string, id: string): Promise<GetOpenApplicationsResponse[]> {
+  async getOpenApplications(username: string, id: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getOpenApplications(id)
   }
 
-  async getClosedApplications(username: string, id: string): Promise<GetClosedApplicationsResponse[]> {
+  async getClosedApplications(username: string, id: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getClosedApplications(id)
   }
 
-  async getApplicationProgress(
-    username: string,
-    offenderId: string,
-    jobId: string,
-  ): Promise<GetApplicationProgressResponse[]> {
+  async getApplicationProgress(username: string, offenderId: string, jobId: string) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).getApplicationProgress(offenderId, jobId)

@@ -28,7 +28,7 @@ export default class JobViewModel {
   postcode: string
 
   @Expose()
-  typeOfWork: string
+  sector: string
 
   @Expose()
   expressionOfInterest: boolean

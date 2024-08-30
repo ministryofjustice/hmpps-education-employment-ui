@@ -1,4 +1,4 @@
-{% if prisonerSearchResults.totalElements === 0 %}
+{% if prisonerSearchResults.page.totalElements === 0 %}
   {% if applicationStatusFilter and jobFilter and prisonerNameFilter %}
     <span class="govuk-heading-m" id="no-results-message">0 results for "{{ prisonerNameFilter }}" and "{{ jobFilter }}" in  {{ contentLookup.applicationStatus[applicationStatusFilter] }}</span>
     <p>Check your spelling and search again, or select another application status.</p>

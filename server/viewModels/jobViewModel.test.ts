@@ -13,7 +13,7 @@ describe('JobViewModel', () => {
       distance: 4.1,
       city: 'Leeds',
       postcode: 'LS23 3JF',
-      typeOfWork: TypeOfWorkValue.OUTDOOR,
+      sector: TypeOfWorkValue.OUTDOOR,
     },
     {
       id: 2,
@@ -23,7 +23,7 @@ describe('JobViewModel', () => {
       distance: 2.3,
       city: 'Leeds',
       postcode: 'LS23 5DH',
-      typeOfWork: TypeOfWorkValue.CLEANING_AND_MAINTENANCE,
+      sector: TypeOfWorkValue.CLEANING_AND_MAINTENANCE,
     },
   ]
 
@@ -38,7 +38,7 @@ describe('JobViewModel', () => {
     expect(applicationProgressViewModel[0].distance).toBe(jobViewModelJson[0].distance)
     expect(applicationProgressViewModel[0].city).toBe(jobViewModelJson[0].city)
     expect(applicationProgressViewModel[0].postcode).toBe(jobViewModelJson[0].postcode)
-    expect(applicationProgressViewModel[0].typeOfWork).toBe(jobViewModelJson[0].typeOfWork)
+    expect(applicationProgressViewModel[0].sector).toBe(jobViewModelJson[0].sector)
 
     expect(applicationProgressViewModel[1].id).toBe(jobViewModelJson[1].id)
     expect(applicationProgressViewModel[1].employerName).toBe(jobViewModelJson[1].employerName)
@@ -46,6 +46,6 @@ describe('JobViewModel', () => {
     expect(applicationProgressViewModel[1].distance).toBe(jobViewModelJson[1].distance)
     expect(applicationProgressViewModel[1].city).toBe(jobViewModelJson[1].city)
     expect(applicationProgressViewModel[1].postcode).toBe(jobViewModelJson[1].postcode)
-    expect(applicationProgressViewModel[1].typeOfWork).toBe(jobViewModelJson[1].typeOfWork)
+    expect(applicationProgressViewModel[1].sector).toBe(jobViewModelJson[1].sector)
   })
 })

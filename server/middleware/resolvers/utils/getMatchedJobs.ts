@@ -1,3 +1,4 @@
+import GetMatchedJobsResponse from '../../../data/jobApi/getMatchedJobsResponse'
 import JobService from '../../../services/jobService'
 
 const getMatchedJobs = async (
@@ -8,7 +9,7 @@ const getMatchedJobs = async (
     page?: number
     sort?: string
     order?: string
-    typeOfWorkFilter?: string
+    jobSectorFilter?: string
     locationFilter?: string
     distanceFilter?: number
   },
@@ -18,8 +19,16 @@ const getMatchedJobs = async (
     return await jobService.getMatchedJobs(username, params)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404) {
-      return undefined
+    if (err?.status === 404 || err?.status === 500) {
+      return {
+        content: [] as GetMatchedJobsResponse[],
+        page: {
+          size: 0,
+          number: 0,
+          totalElements: 0,
+          totalPages: 0,
+        },
+      }
     }
 
     throw err
