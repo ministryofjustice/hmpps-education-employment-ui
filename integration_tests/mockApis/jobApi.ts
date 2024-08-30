@@ -74,14 +74,16 @@ const getMatchedJobsClosingSoon = () =>
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: [
-        {
-          id: 2,
-          employerName: 'Amazon',
-          jobTitle: 'Forklift operator',
-          closingDate: '2022-05-01T17:00:00Z',
-        },
-      ],
+      jsonBody: {
+        content: [
+          {
+            id: 2,
+            employerName: 'Amazon',
+            jobTitle: 'Forklift operator',
+            closingDate: '2022-05-01T17:00:00Z',
+          },
+        ],
+      },
     },
   })
 
@@ -94,14 +96,16 @@ const getJobOfInterestClosingSoon = (prisonerId = 'G6115VJ') =>
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: [
-        {
-          id: 1,
-          employerName: 'Tesco',
-          jobTitle: 'Warehouse handler',
-          closingDate: '2022-05-02T17:00:00Z',
-        },
-      ],
+      jsonBody: {
+        content: [
+          {
+            id: 1,
+            employerName: 'Tesco',
+            jobTitle: 'Warehouse handler',
+            closingDate: '2022-05-02T17:00:00Z',
+          },
+        ],
+      },
     },
   })
 
@@ -227,23 +231,12 @@ const getArchivedJobs = () =>
             expressionOfInterest: false,
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
@@ -360,23 +353,12 @@ const getOtherJobsOfInterest = () =>
             typeOfWork: 'RETAIL',
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
@@ -516,23 +498,12 @@ const jobSearch = () =>
             expressionOfInterest: false,
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
