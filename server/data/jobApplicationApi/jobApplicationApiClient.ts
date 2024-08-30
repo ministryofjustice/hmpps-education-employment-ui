@@ -1,11 +1,11 @@
 import config from '../../config'
 import RestClient from '../restClient'
 import UpdateApplicationProgressData from './updateApplicationData'
-import PagedResponse from '../domain/types/pagedResponse'
 import GetOpenApplicationsResponse from './getOpenApplicationsResponse'
 import GetClosedApplicationsResponse from './getClosedApplicationsResponse'
 import GetApplicationProgressResponse from './getApplicationProgressResponse'
 import ApplicationSearchResults from './applicationSearchResults'
+import PagedResponseNew from '../domain/types/pagedResponseNew'
 
 const BASE_URL = '/candidate-matching'
 
@@ -17,7 +17,7 @@ export default class JobApplicationApiClient {
   }
 
   async getOpenApplications(offenderNo: string) {
-    const results = await this.restClient.get<GetOpenApplicationsResponse[]>({
+    const results = await this.restClient.get<PagedResponseNew<GetOpenApplicationsResponse>>({
       path: `${BASE_URL}/applications/${offenderNo}/open`,
     })
 
@@ -25,7 +25,7 @@ export default class JobApplicationApiClient {
   }
 
   async getClosedApplications(offenderNo: string) {
-    const results = await this.restClient.get<GetClosedApplicationsResponse[]>({
+    const results = await this.restClient.get<PagedResponseNew<GetClosedApplicationsResponse>>({
       path: `${BASE_URL}/applications/${offenderNo}/closed`,
     })
 
@@ -33,7 +33,7 @@ export default class JobApplicationApiClient {
   }
 
   async getApplicationProgress(offenderNo: string, jobId: string) {
-    const results = await this.restClient.get<GetApplicationProgressResponse[]>({
+    const results = await this.restClient.get<PagedResponseNew<GetApplicationProgressResponse>>({
       path: `${BASE_URL}/applications/${offenderNo}/job/${jobId}`,
     })
 
@@ -62,7 +62,7 @@ export default class JobApplicationApiClient {
   }) {
     const { prisonId, page = 0, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
 
-    const results = await this.restClient.post<PagedResponse<ApplicationSearchResults>>({
+    const results = await this.restClient.post<PagedResponseNew<ApplicationSearchResults>>({
       path: `${BASE_URL}/applications/search`,
       data: {
         prisonId,

@@ -29,7 +29,7 @@ export default class JobDetailsController {
           profile,
           'profileData.supportAccepted.workInterests.workTypesOfInterest',
           [],
-        ).includes(jobDetails.typeOfWork),
+        ).includes(jobDetails.sector),
         releaseArea: prisonerAddress,
       }
 

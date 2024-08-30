@@ -42,6 +42,7 @@ context('SignIn', () => {
     cy.task('getUnacceptableAbsenceCount', 'G6115VJ')
     cy.task('getPomForOffender', 'G6115VJ')
     cy.task('getCommunityManager', 'G6115VJ')
+    cy.task('getPrisonerAddress', 'G6115VJ')
 
     cy.visit('/wr/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
@@ -61,6 +62,7 @@ context('SignIn', () => {
     cy.task('getUnacceptableAbsenceCount', 'H4115SD')
     cy.task('getPomForOffender', 'H4115SD')
     cy.task('getCommunityManager', 'H4115SD')
+    cy.task('getPrisonerAddress', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
@@ -74,6 +76,7 @@ context('SignIn', () => {
     cy.task('getUnacceptableAbsenceCount', 'G5005GD')
     cy.task('getPomForOffender', 'G5005GD')
     cy.task('getCommunityManager', 'G5005GD')
+    cy.task('getPrisonerAddress', 'G5005GD')
 
     cy.visit('/wr/profile/G5005GD/view/overview')
     const workProfilePage = new WorkProfilePage("John Smith's work profile")
@@ -101,6 +104,7 @@ context('SignIn', () => {
     cy.task('getUnacceptableAbsenceCount', 'A00001A')
     cy.task('getPomForOffender', 'A00001A')
     cy.task('getCommunityManager', 'A00001A')
+    cy.task('getPrisonerAddress', 'A00001A')
 
     cy.visit('/wr/profile/A00001A/view/overview')
     const workProfilePage = new WorkProfilePage("Paris Jones's work profile")

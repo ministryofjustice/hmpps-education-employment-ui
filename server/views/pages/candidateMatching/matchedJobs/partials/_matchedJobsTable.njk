@@ -38,18 +38,20 @@
         {% for job in matchedJobsResults.content %}
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a><br> <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span></td>
-                <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.typeOfWork] }}</td>
+                <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.sector] }}</td>
                 <td class="govuk-table__cell" data-sort-value="{{ job.distance }}">
-                    {{ job.city }}, {{ job.postcode }}
-                    <div class="timeline">
-                        <ul>
-                            <li>
-                                <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">{{ job.distance }} miles</p>
-                            </li>
-                            <li>
-                            </li>
-                        </ul>
-                    </div>
+                    {{ job.postcode }}
+                    {% if  job.postcode and job.distance %}
+                        <div class="timeline">
+                            <ul>
+                                <li>
+                                    <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1">{{ job.distance }} miles</p>
+                                </li>
+                                <li>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
                 </td>
                 <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate }}</td>
             </tr>

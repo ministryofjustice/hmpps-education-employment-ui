@@ -1,37 +1,67 @@
 import { stubFor } from './wiremock'
 
-const getJobDetails = (jobId = '1') =>
+// Get job
+const getJob = () =>
   stubFor({
     request: {
       method: 'GET',
-      url: `/candidate-matching/job/${jobId}`,
+      urlPathTemplate: `/jobs/{id}`,
     },
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        id: Number(jobId),
-        employerName: 'Tesco',
-        jobTitle: 'Warehouse handler',
-        closingDate: '2025-05-16T11:15:04.915205',
-        distance: 2.3,
-        city: 'Leeds',
-        postcode: 'LS23 5DH',
-        typeOfWork: 'CLEANING_AND_MAINTENANCE',
-        salaryFrom: 11.93,
-        salaryTo: 15.9,
-        salaryPeriod: 'PER_HOUR',
-        offenceExclusions: ['SEXOFNS'],
+        employerId: '01907e1e-bb85-7bb7-9018-33a2070a367d',
+        employerName: '',
+        jobTitle: 'Warehouse operator',
+        sector: 'WAREHOUSING',
+        industrySector: 'ADMIN_SUPPORT',
+        numberOfVacancies: 1,
+        sourcePrimary: 'NFN',
+        sourceSecondary: 'PEL',
+        charityName: 'Heart foundation',
+        postCode: 'NE236DR',
+        salaryFrom: 25000,
+        salaryTo: 30000,
+        salaryPeriod: 'PER_YEAR',
+        additionalSalaryInformation: '10% Performance bonus',
+        isPayingAtLeastNationalMinimumWage: true,
+        workPattern: 'FLEXI_TIME',
+        contractType: 'PERMANENT',
+        hoursPerWeek: 'FULL_TIME_40_PLUS',
+        baseLocation: 'WORKPLACE',
         essentialCriteria:
           'Valid forklift operator certification or licence\nProven experience operating a forklift in a warehouse or similar setting\n\nStrong knowledge of forklift safety procedures and best practices\nMaths level 1\nEnglish level 1\nPhysical stamina to perform repetitive tasks and lift heavy objects\nExcellent communication skills and ability to work well in a team environment',
-        jobDescription:
-          "What's on offer:\n\n5 days over 7, 05:30 to 15:30\nPaid weekly\nImmediate starts available\nFull training provided\nYour duties will include:\n\nManoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport\nUnloading deliveries and safely relocating the goods to their designated storage areas\nEnsuring forklift driving areas are free from spills or obstructions\nRegularly checking forklift equipment for faults or damages\nConsolidating partial pallets for incoming goods",
-        workPattern: 'ANNUALISED_HOURS',
-        additionalSalaryInformation: 'Immediate starts available\nFull training provided',
         desirableCriteria:
+          "What's on offer:\n\n5 days over 7, 05:30 to 15:30\nPaid weekly\nImmediate starts available\nFull training provided\nYour duties will include:\n\nManoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport\nUnloading deliveries and safely relocating the goods to their designated storage areas\nEnsuring forklift driving areas are free from spills or obstructions\nRegularly checking forklift equipment for faults or damages\nConsolidating partial pallets for incoming goods",
+        description:
           'Manoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport',
-        hours: 'FULL_TIME',
-        howToApply: 'Email: apply@testcompany.com, send CV and covering letter',
+        offenceExclusions: ['ARSON', 'TERRORISM'],
+        howToApply: 'Some apply details',
+        closingDate: '2025-02-01T00:00:00.000Z',
+        startDate: '2025-05-31T23:00:00.000Z',
+        isRollingOpportunity: false,
+        isOnlyForPrisonLeavers: true,
+        supportingDocumentationRequired: ['CV', 'OTHER'],
+        supportingDocumentationDetails: 'Covering letter',
+      },
+    },
+  })
+
+const getEmployer = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPathTemplate: `/employers/{id}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        name: 'ASDA',
+        sector: 'ARTS_ENTERTAINMENT',
+        status: 'GOLD',
+        description: 'Some employer information and bio',
       },
     },
   })
@@ -45,14 +75,16 @@ const getMatchedJobsClosingSoon = () =>
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: [
-        {
-          id: 2,
-          employerName: 'Amazon',
-          jobTitle: 'Forklift operator',
-          closingDate: '2022-05-01T17:00:00Z',
-        },
-      ],
+      jsonBody: {
+        content: [
+          {
+            id: 2,
+            employerName: 'Amazon',
+            jobTitle: 'Forklift operator',
+            closingDate: '2022-05-01T17:00:00Z',
+          },
+        ],
+      },
     },
   })
 
@@ -65,14 +97,16 @@ const getJobOfInterestClosingSoon = (prisonerId = 'G6115VJ') =>
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-      jsonBody: [
-        {
-          id: 1,
-          employerName: 'Tesco',
-          jobTitle: 'Warehouse handler',
-          closingDate: '2022-05-02T17:00:00Z',
-        },
-      ],
+      jsonBody: {
+        content: [
+          {
+            id: 1,
+            employerName: 'Tesco',
+            jobTitle: 'Warehouse handler',
+            closingDate: '2022-05-02T17:00:00Z',
+          },
+        ],
+      },
     },
   })
 
@@ -198,23 +232,12 @@ const getArchivedJobs = () =>
             expressionOfInterest: false,
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
@@ -331,23 +354,12 @@ const getOtherJobsOfInterest = () =>
             typeOfWork: 'RETAIL',
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
@@ -487,29 +499,19 @@ const jobSearch = () =>
             expressionOfInterest: false,
           },
         ],
-        pageable: {
-          sort: { empty: true, sorted: false, unsorted: true },
-          offset: 0,
-          pageSize: 10,
-          pageNumber: 0,
-          paged: true,
-          unpaged: false,
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 20,
+          totalPages: 2,
         },
-        totalElements: 24,
-        last: false,
-        totalPages: 3,
-        size: 10,
-        number: 0,
-        sort: { empty: true, sorted: false, unsorted: true },
-        first: true,
-        numberOfElements: 10,
-        empty: false,
       },
     },
   })
 
 export default {
-  getJobDetails,
+  getJob,
+  getEmployer,
   getMatchedJobsClosingSoon,
   getJobOfInterestClosingSoon,
   getArchivedJobs,

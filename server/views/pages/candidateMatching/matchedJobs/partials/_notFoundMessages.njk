@@ -1,8 +1,8 @@
-{% if matchedJobsResults.totalElements === 0 %}
-  {% if typeOfWorkFilter.length %}
+{% if matchedJobsResults.page.totalElements === 0 %}
+  {% if jobSectorFilter.length %}
     <span class="govuk-heading-m">0 results in 
-      {% for typeOfWork in typeOfWorkFilter %}
-        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== typeOfWorkFilter.length }} </span>
+      {% for typeOfWork in jobSectorFilter %}
+        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== jobSectorFilter.length }} </span>
       {% endfor %}
     </span>
     <p>Increase the search radius, change the area or show more types of work.</p>

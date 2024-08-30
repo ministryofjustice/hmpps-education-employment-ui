@@ -31,7 +31,7 @@ export default class ArchivedJobsController {
       // Build pagination or error messages
       if (archivedJobsResults.totalElements) {
         if (archivedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
-          paginationData = this.paginationService.getPagination(
+          paginationData = this.paginationService.getPaginationNew(
             archivedJobsResults,
             new URL(
               `${req.protocol}://${req.get('host')}${addressLookup.candidateMatching.archivedJobs(id)}?${uri.join(

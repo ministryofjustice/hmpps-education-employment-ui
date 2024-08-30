@@ -61,10 +61,10 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        matchedJobs: plainToClass(JobViewModel, matchedJobsResults || []),
-        jobsOfInterest: plainToClass(JobViewModel, jobsOfInterest || []),
-        openApplications,
-        closedApplications,
+        matchedJobs: plainToClass(JobViewModel, _.get(matchedJobsResults, 'content', [])),
+        jobsOfInterest: plainToClass(JobViewModel, _.get(jobsOfInterest, 'content', [])),
+        openApplications: openApplications.content,
+        closedApplications: closedApplications.content,
         releaseArea: prisonerAddress,
       }
 

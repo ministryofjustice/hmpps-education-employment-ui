@@ -1,14 +1,16 @@
 import config from '../../config'
 import RestClient from '../restClient'
-import PagedResponse from '../domain/types/pagedResponse'
 import GetMatchedJobsResponse from './getMatchedJobsResponse'
 import GetArchivedJobsResponse from './geArchivedJobsResponse'
 import GetOtherJobsOfInterestResponse from './getOtherJobsOfInterestResponse'
 import GetJobDetailsResponse from './getJobDetailsResponse'
 import GetMatchedJobsClosingSoonResponse from './getMatchedJobsClosingSoonResponse'
 import GetJobsOfInterestClosingSoonResponse from './getJobOfInterestClosingSoonResponse'
+import GetEmployerResponse from './getEmployerResponse'
+import PagedResponseNew from '../domain/types/pagedResponseNew'
+import TypeOfWorkValue from '../../enums/typeOfWorkValue'
 
-const BASE_URL = '/candidate-matching'
+const BASE_URL = ''
 
 export default class JobApiClient {
   restClient: RestClient
@@ -22,31 +24,34 @@ export default class JobApiClient {
     page?: number
     sort?: string
     order?: string
-    typeOfWorkFilter?: string
+    jobSectorFilter?: string
     locationFilter?: string
     distanceFilter?: number
   }) {
-    const { offenderNo, page, sort, order, typeOfWorkFilter, locationFilter, distanceFilter } = params
+    const { offenderNo, page = 1, sort, order, jobSectorFilter, locationFilter, distanceFilter } = params
 
-    const results = await this.restClient.post<PagedResponse<GetMatchedJobsResponse>>({
-      path: `${BASE_URL}/jobs/search`,
-      data: {
-        offenderNo,
-        page,
-        sort,
-        order,
-        typeOfWorkFilter,
-        locationFilter,
-        distanceFilter,
-      },
+    const uri = [
+      `page=${page - 1}`,
+      `size=${config.paginationPageSize}`,
+      sort && `sortBy=${sort}`,
+      order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
+      jobSectorFilter && `sector=${encodeURIComponent(jobSectorFilter)}`,
+      offenderNo && `offenderNo=${encodeURIComponent(offenderNo)}`,
+      locationFilter && `location=${encodeURIComponent(locationFilter)}`,
+      distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
+      path: `/jobs?${uri.join('&')}`,
     })
+
     return results
   }
 
   async getOtherJobsOfInterest(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo, page, sort, order } = params
 
-    const results = await this.restClient.post<PagedResponse<GetOtherJobsOfInterestResponse>>({
+    const results = await this.restClient.post<PagedResponseNew<GetOtherJobsOfInterestResponse>>({
       path: `${BASE_URL}/jobs/interested`,
       data: {
         offenderNo,
@@ -61,7 +66,7 @@ export default class JobApiClient {
   async getArchivedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
     const { offenderNo, page, sort, order } = params
 
-    const results = await this.restClient.post<PagedResponse<GetArchivedJobsResponse>>({
+    const results = await this.restClient.post<PagedResponseNew<GetArchivedJobsResponse>>({
       path: `${BASE_URL}/jobs/archived`,
       data: {
         offenderNo,
@@ -73,29 +78,41 @@ export default class JobApiClient {
     return results
   }
 
-  async getJobDetails(jobId: string, postCode?: string) {
-    const result = await this.restClient.get<GetJobDetailsResponse>({
-      path: postCode ? `${BASE_URL}/job/${jobId}?postcode=${postCode}` : `${BASE_URL}/job/${jobId}`,
+  async getEmployer(id: string) {
+    const result = await this.restClient.get<GetEmployerResponse>({
+      path: `/employers/${id}`,
     })
 
     return result
   }
 
-  async getMatchedJobsClosingSoon(params: { offenderNo: string; count?: number }) {
-    const { offenderNo, count = 3 } = params
-
-    const results = await this.restClient.post<GetMatchedJobsClosingSoonResponse[]>({
-      path: `${BASE_URL}/matched-jobs/closing-soon`,
-      data: {
-        offenderNo,
-        count,
-      },
+  async getJobDetails(jobId: string, postCode?: string) {
+    const result = await this.restClient.get<GetJobDetailsResponse>({
+      path: postCode ? `${BASE_URL}/jobs/${jobId}?postcode=${postCode}` : `${BASE_URL}/jobs/${jobId}`,
     })
+
+    return result
+  }
+
+  async getMatchedJobsClosingSoon(params: { offenderNo: string; jobSectorFilter: TypeOfWorkValue[] }) {
+    const { offenderNo, jobSectorFilter = [] } = params
+
+    const uri = [
+      `page=0`,
+      `size=3`,
+      jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter[0].toString())}`,
+      `offenderNo=${encodeURIComponent(offenderNo)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
+      path: `/jobs?${uri.join('&')}`,
+    })
+
     return results
   }
 
   async getJobsOfInterestClosingSoon(offenderNo: string) {
-    const result = await this.restClient.get<GetJobsOfInterestClosingSoonResponse>({
+    const result = await this.restClient.get<PagedResponseNew<GetJobsOfInterestClosingSoonResponse>>({
       path: `${BASE_URL}/jobs-of-interest/${offenderNo}/closing-soon`,
     })
 

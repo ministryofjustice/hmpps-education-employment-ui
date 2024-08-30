@@ -25,14 +25,14 @@ describe('getOpenApplications', () => {
     }
   })
 
-  it('On error - 404 - Calls next without error', async () => {
+  it('On error - 404 - Returns default empty data', async () => {
     serviceMock.getOpenApplications.mockRejectedValue({
       status: 404,
     })
 
     const result = await getOpenApplications(serviceMock as any, username, id)
 
-    expect(result).toEqual(undefined)
+    expect(result).toEqual({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } })
   })
 
   it('On success - Returns correct data', async () => {

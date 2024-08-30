@@ -15,6 +15,7 @@ import salaryPeriod from './salaryPeriod'
 import workBaseLocation from './workBaseLocation'
 import workPattern from './workPattern'
 import applicationStatus from './applicationStatus'
+import hours from './hours'
 
 export default {
   fields: {
@@ -36,6 +37,7 @@ export default {
     workBaseLocation,
     workPattern,
     typeOfWork,
+    hours,
   },
   toDoStatus,
   applicationStatus,

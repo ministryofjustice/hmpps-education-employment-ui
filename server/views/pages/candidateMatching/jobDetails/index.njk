@@ -20,28 +20,31 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="job-title">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-2" id="jobTitle">
         {{ job.jobTitle }}
       </h1>
-      <p class="govuk-body govuk-!-margin-bottom-2">Employer: <span data-test="employer-name">{{ job.employerName }}</span></p>
+      <p class="govuk-body govuk-!-margin-bottom-2">Employer: <span id="employerName">{{ job.employerName }}</span></p>
 
       <h2 class="govuk-heading-s">
         Key information
       </h2>
       <ul class="govuk-list">
         <li>
-          Closing date: <span data-test="closing-date">{{ job.closingDate }}</span>
+          Closing date: <span id="closingDate">{{ job.closingDate }}</span>
         </li>
         <li>
-          Location: <span data-test="job-city">{{ job.city }}</span>, <span data-test="job-postcode">{{ job.postcode }}</span>
+          Start date: <span id="startDate">{{ job.startDate }}</span>
         </li>
         <li>
-          Hours: <span data-test="work-pattern-name">{{ job.workPatternName }}</span>, <span data-test="work-pattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
+          Location: <span id="postCode">{{ job.postCode }}</span>
         </li>
         <li>
-          Salary: From <span data-test="salary">£{{ job.salaryFrom | fixed }}{{ ' to £'+ (job.salaryTo | fixed) if job.salaryTo }} {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
+          Hours: <span id="hoursPerWeek">{{ contentLookup.jobs.hours[job.hoursPerWeek] }}</span>, <span id="contractType">{{ contentLookup.jobs.contractType[job.contractType] }}, <span id="workPattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
         </li>
-        <li data-test="offence-exclusions">
+        <li>
+          Salary: From <span id="salaryFrom">£{{ job.salaryFrom | fixed }}</span><span id="salaryTo">{{ (' to £'+ (job.salaryTo | fixed)) if job.salaryTo }}</span><span id="salaryPeriod"> {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
+        </li>
+        <li id="offenceExclusions">
           Offence exclusions: 
           {% if job.offenceExclusions.length %}
             {% for offence in job.offenceExclusions %}
@@ -59,7 +62,7 @@
         Essential criteria
       </h2>
 
-        <p class="govuk-body" data-test="essential-criteria">
+        <p class="govuk-body" id="essentialCriteria">
         {{ job.essentialCriteria | striptags(true) | escape | nl2br }}
       </p>
 
@@ -68,7 +71,7 @@
           Desirable criteria
         </h2>
 
-          <p class="govuk-body" data-test="desirable-criteria">
+          <p class="govuk-body" id="desirableCriteria">
           {{ job.desirableCriteria | striptags(true) | escape | nl2br }}
         </p>
       {% endif %}
@@ -78,8 +81,8 @@
       <h2 class="govuk-heading-s">
         Job description
       </h2>
-      <p class="govuk-body" data-test="job-description">
-        {{ job.jobDescription | striptags(true) | escape | nl2br }}
+      <p class="govuk-body" id="description">
+        {{ job.description | striptags(true) | escape | nl2br }}
       </p>
 
       <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}">Manage application</a></p>
@@ -98,23 +101,23 @@
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Type of work:
           </h3>
-          <p class="govuk-body" data-test="type-of-work">{{ contentLookup.jobs.typeOfWork[job.typeOfWork] }}</p>
+          <p class="govuk-body" id="sector">{{ contentLookup.jobs.typeOfWork[job.sector] }}</p>
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Matches prisoner interests?
           </h3>
-          <p class="govuk-body" data-test="matches-prisoner-interests">{{ 'Yes' if matchesPrisonerInterests else 'No'}}</p>
+          <p class="govuk-body" id="matches-prisoner-interests">{{ 'Yes' if matchesPrisonerInterests else 'No'}}</p>
 
           <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Job location
           </h3>
-          <p class="govuk-body">{{ job.city }}, {{ job.postcode }}</p>
+          <p class="govuk-body">{{ job.postCode }}</p>
           {% if releaseArea %}
             <div class="timeline">
               <ul>
                 <li>
-                  <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1" data-test="distance">{{ job.distance }} miles from release area: <br>{{ releaseArea.town }}, {{ releaseArea.postcode }}</p>
+                  <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1" id="distance">{{ job.distance }} miles from release area: <br>{{ releaseArea.town }}, {{ releaseArea.postcode }}</p>
                 </li>
                 <li>
                 </li>
