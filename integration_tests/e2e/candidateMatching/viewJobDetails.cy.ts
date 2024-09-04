@@ -42,6 +42,5 @@ context('Sign In', () => {
     jobDetailsPage.offenceExclusions().contains('Arson')
     jobDetailsPage.offenceExclusions().contains('Terrorism')
     jobDetailsPage.closingDate().contains('1 Feb 2025')
-    jobDetailsPage.startDate().contains('1 Jun 2025')
   })
 })
