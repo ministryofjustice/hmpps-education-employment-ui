@@ -55,31 +55,31 @@
             </table>
           {% endif %}
 
-{% if expressionsOfInterestEnabled %}
-          {% if jobsOfInterest.length %}
-            <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
-            <p class="govuk-hint">Other jobs the prisoner noted an interest in on the jobs board.</p>
+          {% if expressionsOfInterestEnabled %}
+            {% if jobsOfInterest.length %}
+              <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
+              <p class="govuk-hint">Other jobs the prisoner noted an interest in on the jobs board.</p>
 
-            <table class="govuk-table govuk-!-margin-bottom-5">
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th scope="col" class="govuk-table__header">Job</th>
-                  <th scope="col" class="govuk-table__header">Closing date</th>
-                </tr>
-              </thead>
-              <tbody class="govuk-table__body">
-                {% for item in jobsOfInterest %}
+              <table class="govuk-table govuk-!-margin-bottom-5">
+                <thead class="govuk-table__head">
                   <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
-                    <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                    <th scope="col" class="govuk-table__header">Job</th>
+                    <th scope="col" class="govuk-table__header">Closing date</th>
                   </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            <p class="govuk-!-margin-top-8">{{ prisoner.firstName }} {{ prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
+                </thead>
+                <tbody class="govuk-table__body">
+                  {% for item in jobsOfInterest %}
+                    <tr class="govuk-table__row">
+                      <td class="govuk-table__cell"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
+                      <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p class="govuk-!-margin-top-8">{{ prisoner.firstName }} {{ prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
+            {% endif %}
           {% endif %}
-             {% endif %}
 
           <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}" id="view-matched-jobs-link">View all matched jobs</a></p>
         {% else %}
