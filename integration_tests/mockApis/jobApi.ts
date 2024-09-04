@@ -1,11 +1,11 @@
 import { stubFor } from './wiremock'
 
 // Get job
-const getJob = () =>
+const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathTemplate: `/jobs/{id}`,
+      urlPathPattern: `/jobs/${id}`,
     },
     response: {
       status: 200,
@@ -48,11 +48,11 @@ const getJob = () =>
     },
   })
 
-const getEmployer = () =>
+const getEmployer = (id = '01907e1e-bb85-7bb7-9018-33a2070a367d') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathTemplate: `/employers/{id}`,
+      urlPathPattern: `/employers/${id}`,
     },
     response: {
       status: 200,
