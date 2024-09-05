@@ -49,9 +49,11 @@
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" id="tab-match-jobs" aria-current="page" href="#">Match jobs</a>
                         </li>
-                        <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" id="tab-manage-applications" href="{{ addressLookup.candidateMatching.prisonerListApplications() + '?sort=lastName&order=ascending' }}">Manage applications</a>
-                        </li>
+                        {% if jobApplicationsEnabled %}
+                            <li class="moj-sub-navigation__item">
+                                <a class="moj-sub-navigation__link" id="tab-manage-applications" href="{{ addressLookup.candidateMatching.prisonerListApplications() + '?sort=lastName&order=ascending' }}">Manage applications</a>
+                            </li>
+                        {% endif %}
                         </ul>
                     </nav>
 

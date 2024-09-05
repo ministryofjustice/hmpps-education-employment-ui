@@ -190,5 +190,10 @@ export default {
   urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
   featureToggles: {
     candidateMatchingEnabled: toBoolean(get('CANDIDATE_MATCHING_ENABLED', false)),
+    archiveJobsEnabled: toBoolean(get('ARCHIVED_JOBS_ENABLED', false)),
+    expressionsOfInterestEnabled: toBoolean(get('EXPRESSIONS_OF_INTEREST_ENABLED', false)),
+    toggleArchiveJobsEnabled: toBoolean(get('TOGGLE_ARCHIVED_JOBS_ENABLED', false)),
+    toggleExpressionsOfInterestEnabled: toBoolean(get('TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED', false)),
+    jobApplicationsEnabled: toBoolean(get('JOB_APPLICATIONS_ENABLED', false)),
   },
 }
