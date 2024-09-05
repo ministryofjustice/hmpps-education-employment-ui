@@ -37,9 +37,11 @@
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
                         </li>
-                        <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
-                        </li>
+                        {% if expressionsOfInterestEnabled %}
+                            <li class="moj-sub-navigation__item">
+                                <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                            </li>
+                        {% endif%}
                         <li class="moj-sub-navigation__item">
                             <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
                         </li>

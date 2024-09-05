@@ -16,16 +16,18 @@
             Matched jobs
           </a>
         </li>
-        <li class="govuk-tabs__list-item" role="presentation">
-          <a class="govuk-tabs__tab" href="#open-applications" id="tab_open-applications" role="tab" aria-controls="open-applications" aria-selected="false" tabindex="-1">
-            Open applications
-          </a>
-        </li>
-        <li class="govuk-tabs__list-item" role="presentation">
-          <a class="govuk-tabs__tab" href="#closed-applications" id="tab_closed-applications" role="tab" aria-controls="closed-applications" aria-selected="false" tabindex="-1">
-            Closed applications
-          </a>
-        </li>
+        {% if jobApplicationsEnabled %}
+          <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#open-applications" id="tab_open-applications" role="tab" aria-controls="open-applications" aria-selected="false" tabindex="-1">
+              Open applications
+            </a>
+          </li>
+          <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#closed-applications" id="tab_closed-applications" role="tab" aria-controls="closed-applications" aria-selected="false" tabindex="-1">
+              Closed applications
+            </a>
+          </li>
+        {% endif %}
       </ul>
 
       
@@ -53,92 +55,94 @@
             </table>
           {% endif %}
 
-          {% if jobsOfInterest.length %}
-            <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
-            <p class="govuk-hint">Other jobs the prisoner noted an interest in on the jobs board.</p>
+          {% if expressionsOfInterestEnabled %}
+            {% if jobsOfInterest.length %}
+              <h2 class="govuk-heading-s govuk-!-margin-top-4 govuk-!-margin-bottom-1">Other jobs chosen by the prisoner</h2>
+              <p class="govuk-hint">Other jobs the prisoner noted an interest in on the jobs board.</p>
 
-            <table class="govuk-table govuk-!-margin-bottom-5">
+              <table class="govuk-table govuk-!-margin-bottom-5">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Job</th>
+                    <th scope="col" class="govuk-table__header">Closing date</th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  {% for item in jobsOfInterest %}
+                    <tr class="govuk-table__row">
+                      <td class="govuk-table__cell"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
+                      <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p class="govuk-!-margin-top-8">{{ prisoner.firstName }} {{ prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
+            {% endif %}
+          {% endif %}
+
+          <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}" id="view-matched-jobs-link">View all matched jobs</a></p>
+        {% else %}
+          <p>There are no matched jobs for {{ prisoner.firstName }} {{ prisoner.lastName }}</p>
+        {% endif %}
+      </div>
+
+      <!-- TAB 2 -->
+      {% if jobApplicationsEnabled %}
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="open-applications" role="tabpanel" aria-labelledby="tab_open-applications">
+          {% if openApplications.length %}
+            <h2 class="govuk-heading-s">Open applications</h2>
+            <table class="govuk-table">
               <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                   <th scope="col" class="govuk-table__header">Job</th>
-                  <th scope="col" class="govuk-table__header">Closing date</th>
+                  <th scope="col" class="govuk-table__header">Application status</th>
+                  <th scope="col" class="govuk-table__header"></th>
                 </tr>
               </thead>
               <tbody class="govuk-table__body">
-                {% for item in jobsOfInterest %}
+                {% for item in openApplications %}
                   <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
-                    <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                    <td class="govuk-table__cell"><span id="open_application_job_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="open_application_employer_{{ loop.index }}"> {{ item.employerName }}</span></td>
+                    <td class="govuk-table__cell" id="open_application_status_{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
+                    <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="view_open_application_{{ loop.index }}_link" >View details <span class="govuk-visually-hidden">of application for {{ item.jobTitle }}</span></a></td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
           {% else %}
-            <p class="govuk-!-margin-top-8">{{ prisoner.firstName }} {{ prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
+            <p>{{ prisoner.firstName }} {{ prisoner.lastName }} has no open applications.</p>
           {% endif %}
-          <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}" id="view-matched-jobs-link">View all matched jobs</a></p>
-        {% else %}
-          <p>There are no matched jobs for {{ prisoner.firstName }} {{ prisoner.lastName }}</p>
-        {% endif %}
+        </div>
 
-       
 
-      </div>
-
-      <!-- TAB 2 -->
-      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="open-applications" role="tabpanel" aria-labelledby="tab_open-applications">
-        {% if openApplications.length %}
-          <h2 class="govuk-heading-s">Open applications</h2>
-          <table class="govuk-table">
-            <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Job</th>
-                <th scope="col" class="govuk-table__header">Application status</th>
-                <th scope="col" class="govuk-table__header"></th>
-              </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-              {% for item in openApplications %}
+        <!-- TAB 3 -->
+        <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="closed-applications" role="tabpanel" aria-labelledby="tab_closed-applications">
+          {% if closedApplications.length %}
+            <h2 class="govuk-heading-s">Closed applications</h2>
+            <table class="govuk-table">
+              <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                  <td class="govuk-table__cell"><span id="open_application_job_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="open_application_employer_{{ loop.index }}"> {{ item.employerName }}</span></td>
-                  <td class="govuk-table__cell" id="open_application_status_{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
-                  <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="view_open_application_{{ loop.index }}_link" >View details <span class="govuk-visually-hidden">of application for {{ item.jobTitle }}</span></a></td>
+                  <th scope="col" class="govuk-table__header">Job</th>
+                  <th scope="col" class="govuk-table__header">Application status</th>
+                  <th scope="col" class="govuk-table__header"></th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <p>{{ prisoner.firstName }} {{ prisoner.lastName }} has no open applications.</p>
-        {% endif %}
-      </div>
-
-
-      <!-- TAB 3 -->
-      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="closed-applications" role="tabpanel" aria-labelledby="tab_closed-applications">
-        {% if closedApplications.length %}
-          <h2 class="govuk-heading-s">Closed applications</h2>
-          <table class="govuk-table">
-            <thead class="govuk-table__head">
-              <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Job</th>
-                <th scope="col" class="govuk-table__header">Application status</th>
-                <th scope="col" class="govuk-table__header"></th>
-              </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-              {% for item in closedApplications %}
-                <tr class="govuk-table__row">
-                  <td class="govuk-table__cell"><span id="closed_application_job_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="closed_application_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
-                  <td class="govuk-table__cell" id="closed_application_status_{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
-                  <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="view_closed_application_{{ loop.index }}_link">View details <span class="govuk-visually-hidden">of application for {{ item.jobTitle }}</span></a></td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <p>{{ prisoner.firstName }} {{ prisoner.lastName }} has no closed applications.</p>
-        {% endif %}
-      </div>
+              </thead>
+              <tbody class="govuk-table__body">
+                {% for item in closedApplications %}
+                  <tr class="govuk-table__row">
+                    <td class="govuk-table__cell"><span id="closed_application_job_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="closed_application_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
+                    <td class="govuk-table__cell" id="closed_application_status_{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
+                    <td class="govuk-table__cell"><a href="{{ addressLookup.candidateMatching.manageApplication(id , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="view_closed_application_{{ loop.index }}_link">View details <span class="govuk-visually-hidden">of application for {{ item.jobTitle }}</span></a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>{{ prisoner.firstName }} {{ prisoner.lastName }} has no closed applications.</p>
+          {% endif %}
+        </div>
+      {% endif %}
 
     </div>
   </div>

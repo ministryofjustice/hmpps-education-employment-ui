@@ -32,6 +32,11 @@ generic-service:
     SYSTEM_PHASE: PREPROD
     WEEKS_BEFORE_RELEASE: 12
     CANDIDATE_MATCHING_ENABLED: false
+    ARCHIVED_JOBS_ENABLED: false
+    EXPRESSIONS_OF_INTEREST_ENABLED: false
+    TOGGLE_ARCHIVED_JOBS_ENABLED: false
+    TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED: false
+    JOB_APPLICATIONS_ENABLED: false
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
