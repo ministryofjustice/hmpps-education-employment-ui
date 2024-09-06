@@ -72,7 +72,6 @@ const getTasks = (roleCodes: any) => {
 }
 
 const getSubTasks = (roleCodes: any) => {
-  console.log(roleCodes)
   const userHasRoles = (roles: string[]) => hasAnyRole(roles, roleCodes)
 
   return [

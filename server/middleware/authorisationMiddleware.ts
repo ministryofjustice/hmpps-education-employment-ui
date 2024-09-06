@@ -5,8 +5,20 @@ import logger from '../../logger'
 import asyncMiddleware from './asyncMiddleware'
 
 export enum AuthRole {
-  ROLE_VIEW_PRISONER_DATA = 'ROLE_VIEW_PRISONER_DATA',
+  ROLE_EDUCATION_WORK_PLAN_EDITOR = 'ROLE_EDUCATION_WORK_PLAN_EDITOR',
+  ROLE_EDUCATION_WORK_PLAN_VIEWER = 'ROLE_EDUCATION_WORK_PLAN_VIEWER',
+  ROLE_WORK_READINESS_VIEWER = 'ROLE_WORK_READINESS_VIEWER',
+  ROLE_WORK_READINESS_EDITOR = 'ROLE_WORK_READINESS_EDITOR',
+  ROLE_JOBS_BOARD_VIEWER = 'ROLE_JOBS_BOARD_VIEWER',
+  ROLE_JOBS_BOARD_EDITOR = 'ROLE_JOBS_BOARD_EDITOR',
+
+  // Legacy roles
+  ROLE_WORK_READINESS_VIEW = 'ROLE_WORK_READINESS_VIEW',
+  ROLE_WORK_READINESS_EDIT = 'ROLE_WORK_READINESS_EDIT',
 }
+
+export const getAuthorisedRoles = (): string[] =>
+  Object.keys(AuthRole).map(key => AuthRole[key as keyof typeof AuthRole])
 
 export const isAuthorisedRole = (role: string): boolean =>
   Object.keys(AuthRole)
