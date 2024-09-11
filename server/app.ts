@@ -6,7 +6,7 @@ import createError from 'http-errors'
 
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-import authorisationMiddleware from './middleware/authorisationMiddleware'
+import authorisationMiddleware, { getAuthorisedRoles } from './middleware/authorisationMiddleware'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
 import setUpCsrf from './middleware/setUpCsrf'
@@ -38,7 +38,6 @@ export default function createApp(services: Services): express.Application {
   setUpEnvironmentName(app)
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
-  app.use(authorisationMiddleware())
   app.use(setUpLocals())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
@@ -47,6 +46,9 @@ export default function createApp(services: Services): express.Application {
   // Get front end components for DPS header
   app.get('*', getFrontendComponents(services))
   app.post('*', getFrontendComponents(services))
+
+  // Check for authorised roles
+  app.use(authorisationMiddleware(getAuthorisedRoles()))
 
   app.use(routes(services))
 

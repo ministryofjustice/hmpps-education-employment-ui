@@ -9,7 +9,14 @@ const createToken = () => {
     user_name: 'USER1',
     scope: ['read'],
     auth_source: 'nomis',
-    authorities: [],
+    authorities: [
+      'ROLE_EDUCATION_WORK_PLAN_EDITOR',
+      'ROLE_EDUCATION_WORK_PLAN_VIEWER',
+      'ROLE_WORK_READINESS_VIEWER',
+      'ROLE_WORK_READINESS_EDITOR',
+      'ROLE_JOBS_BOARD_VIEWER',
+      'ROLE_JOBS_BOARD_EDITOR',
+    ],
     jti: '83b50a10-cca6-41db-985f-e87efb303ddb',
     client_id: 'clientid',
   }
