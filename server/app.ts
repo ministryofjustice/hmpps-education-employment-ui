@@ -43,7 +43,10 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(expressContext())
+
+  // Get front end components for DPS header
   app.get('*', getFrontendComponents(services))
+  app.post('*', getFrontendComponents(services))
 
   app.use(routes(services))
 
