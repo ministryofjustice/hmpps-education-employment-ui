@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode'
 import type { RequestHandler } from 'express'
 
 import logger from '../../logger'
-import asyncMiddleware from './asyncMiddleware'
 
 export enum AuthRole {
   ROLE_EDUCATION_WORK_PLAN_EDITOR = 'ROLE_EDUCATION_WORK_PLAN_EDITOR',

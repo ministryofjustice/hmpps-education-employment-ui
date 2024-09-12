@@ -25,6 +25,7 @@ describe('checkCmsEnabledProfile Middleware', () => {
 
     res = {
       redirect: jest.fn(),
+      render: jest.fn(),
     }
 
     next = jest.fn()
@@ -38,12 +39,24 @@ describe('checkCmsEnabledProfile Middleware', () => {
   })
 
   it('should call next if module is not "mjma"', async () => {
-    req.params.module = 'other'
+    req.params.module = 'wr'
 
     await checkCmsEnabledProfile(req as Request, res as Response, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.redirect).not.toHaveBeenCalled()
+  })
+
+  it('should call return not found page if not mjma and cms', async () => {
+    req.params.module = 'other'
+
+    res.status = () => res as any
+
+    await checkCmsEnabledProfile(req as Request, res as Response, next)
+
+    expect(next).not.toHaveBeenCalled()
+    expect(res.redirect).not.toHaveBeenCalled()
+    expect(res.render).toHaveBeenCalledWith('notFoundPage.njk')
   })
 
   it('should call next if candidateMatchingEnabled is true', async () => {
