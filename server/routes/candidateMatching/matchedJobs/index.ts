@@ -12,7 +12,7 @@ import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPri
 export default (router: Router, services: Services) => {
   const controller = new MatchedJobsController(services.paginationService)
   router.get(
-    '/cms/:id/jobs/matched',
+    '/mjma/:id/jobs/matched',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
@@ -23,7 +23,7 @@ export default (router: Router, services: Services) => {
   )
 
   router.post(
-    '/cms/:id/jobs/matched',
+    '/mjma/:id/jobs/matched',
     [
       handleSortMiddleware('sortAction', 'releaseDate'),
       parseCheckBoxValue('jobSectorFilter'),

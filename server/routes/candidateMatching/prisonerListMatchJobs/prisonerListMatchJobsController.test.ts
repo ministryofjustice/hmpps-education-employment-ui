@@ -157,7 +157,7 @@ describe('PrisonerListMatchJobsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/prisoners?sort=releaseDate&order=descending&showNeedsSupportFilter=true&prisonerNameFilter=name1&typeOfWorkFilter=COOKING`,
+        `/mjma/prisoners?sort=releaseDate&order=descending&showNeedsSupportFilter=true&prisonerNameFilter=name1&typeOfWorkFilter=COOKING`,
       )
     })
   })

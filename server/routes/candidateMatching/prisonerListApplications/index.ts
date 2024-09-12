@@ -6,7 +6,11 @@ import getPrisonerListApplicationsResolver from '../../../middleware/resolvers/g
 
 export default (router: Router, services: Services) => {
   const controller = new PrisonerListApplicationsController(services.paginationService)
-  router.get('/cms/applications', [getPrisonerListApplicationsResolver(services.jobApplicationService)], controller.get)
+  router.get(
+    '/mjma/applications',
+    [getPrisonerListApplicationsResolver(services.jobApplicationService)],
+    controller.get,
+  )
 
-  router.post('/cms/applications', [handleSortMiddleware('sortAction', 'lastName')], controller.post)
+  router.post('/mjma/applications', [handleSortMiddleware('sortAction', 'lastName')], controller.post)
 }

@@ -71,7 +71,7 @@ describe('MatchedJobsController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
-        backLocation: '/cms/profile/mock_id/view/overview',
+        backLocation: '/mjma/profile/mock_id/view/overview',
         profile: undefined,
         prisoner: undefined,
         notFoundMsg: undefined,
@@ -165,7 +165,7 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
       )
     })
   })

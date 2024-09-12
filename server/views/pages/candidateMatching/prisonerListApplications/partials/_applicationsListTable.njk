@@ -34,7 +34,7 @@
         {% for item in prisonerApplications %}
             <tr class="govuk-table__row {{ rowClass.next() }}">
                 <td class="govuk-table__cell">
-                    <a href="{{ addressLookup.workProfile(item.prisonerNumber, 'overview', 'cms') }}"
+                    <a href="{{ addressLookup.workProfile(item.prisonerNumber, 'overview', 'mjma') }}"
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"
                        aria-label="Profile link for {{ item.displayName }}"

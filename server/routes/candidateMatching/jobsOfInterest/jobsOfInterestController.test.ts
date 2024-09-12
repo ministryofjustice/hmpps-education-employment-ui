@@ -62,7 +62,7 @@ describe('jobsOfInterestController', () => {
       next.mockReset()
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/jobsOfInterest/index', {
-        backLocation: '/cms/profile/mock_id/view/overview',
+        backLocation: '/mjma/profile/mock_id/view/overview',
         prisoner: undefined,
         notFoundMsg: undefined,
         order: 'descending',
@@ -105,7 +105,7 @@ describe('jobsOfInterestController', () => {
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
-      expect(res.redirect).toHaveBeenCalledWith(`/cms/${id}/jobs/interested?sort=releaseDate&order=descending`)
+      expect(res.redirect).toHaveBeenCalledWith(`/mjma/${id}/jobs/interested?sort=releaseDate&order=descending`)
     })
   })
 })

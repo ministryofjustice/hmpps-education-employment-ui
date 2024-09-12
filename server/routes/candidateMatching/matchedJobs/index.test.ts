@@ -43,7 +43,7 @@ describe('Matched jobs routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/jobs/matched',
+      '/mjma/:id/jobs/matched',
       [
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
@@ -58,7 +58,7 @@ describe('Matched jobs routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/jobs/matched',
+      '/mjma/:id/jobs/matched',
       [
         expect.any(Function), // handleSortMiddleware
         expect.any(Function), // parseCheckBoxValue
