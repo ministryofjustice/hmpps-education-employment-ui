@@ -7,7 +7,7 @@ import addressLookup from '../routes/addressLookup'
 const checkCmsEnabledProfile = async (req: Request, res: Response, next: NextFunction) => {
   const { module, id, tab } = req.params
 
-  if (module === 'cms' && !config.featureToggles.candidateMatchingEnabled) {
+  if (module === 'mjma' && !config.featureToggles.candidateMatchingEnabled) {
     res.redirect(addressLookup.workProfile(id, tab))
     return
   }

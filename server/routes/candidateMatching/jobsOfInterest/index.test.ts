@@ -34,7 +34,7 @@ describe('interested jobs routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/jobs/interested',
+      '/mjma/:id/jobs/interested',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerListjobsOfInterestResolver
@@ -47,7 +47,7 @@ describe('interested jobs routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/jobs/interested',
+      '/mjma/:id/jobs/interested',
       [
         expect.any(Function), // handleSortMiddleware
       ],

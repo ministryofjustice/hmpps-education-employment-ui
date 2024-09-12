@@ -17,7 +17,7 @@ describe('checkCmsEnabledProfile Middleware', () => {
   beforeEach(() => {
     req = {
       params: {
-        module: 'cms',
+        module: 'mjma',
         id: '123',
         tab: 'info',
       },
@@ -30,14 +30,14 @@ describe('checkCmsEnabledProfile Middleware', () => {
     next = jest.fn()
   })
 
-  it('should redirect if module is "cms" and candidateMatchingEnabled is false', async () => {
+  it('should redirect if module is "mjma" and candidateMatchingEnabled is false', async () => {
     await checkCmsEnabledProfile(req as Request, res as Response, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/wr/profile/123/view/info')
     expect(next).not.toHaveBeenCalled()
   })
 
-  it('should call next if module is not "cms"', async () => {
+  it('should call next if module is not "mjma"', async () => {
     req.params.module = 'other'
 
     await checkCmsEnabledProfile(req as Request, res as Response, next)

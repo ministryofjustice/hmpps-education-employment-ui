@@ -160,7 +160,7 @@ describe('getAllProfileDataResolver', () => {
   it('On success - tab=overview and module=wr Attaches data to context and calls next', async () => {
     servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
 
-    req.params.module = 'cms'
+    req.params.module = 'mjma'
     req.params.tab = 'overview'
 
     await resolver(req, res, next)
@@ -176,7 +176,7 @@ describe('getAllProfileDataResolver', () => {
     expect(next).toHaveBeenCalledWith()
   })
 
-  it('On success - tab=overview and module=cms Attaches data to context and calls next', async () => {
+  it('On success - tab=overview and module=mjma Attaches data to context and calls next', async () => {
     servicesMock.prisonerSearchService.getPrisonerById.mockResolvedValue('prisoner')
 
     req.params.module = 'wr'

@@ -25,8 +25,8 @@ export const isAuthorisedRole = (role: string): boolean =>
     .map(key => AuthRole[key as keyof typeof AuthRole])
     .includes(role as AuthRole)
 
-export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
-  return asyncMiddleware((req, res, next) => {
+const authorisationMiddleware = (authorisedRoles: string[] = []): RequestHandler => {
+  return (req, res, next) => {
     if (res.locals.user?.token) {
       const { authorities: roles = [] } = jwtDecode(res.locals.user.token) as { authorities?: string[] }
       if (authorisedRoles.length && !roles.some(role => authorisedRoles.includes(role))) {
@@ -39,5 +39,7 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
 
     req.session.returnTo = req.originalUrl
     return res.redirect('/sign-in')
-  })
+  }
 }
+
+export default authorisationMiddleware

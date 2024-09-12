@@ -31,7 +31,7 @@ describe('Prisoner list routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/prisoners',
+      '/mjma/prisoners',
       [
         expect.any(Function), // getPrisonerListMatchedJobsResolver
       ],
@@ -43,7 +43,7 @@ describe('Prisoner list routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/prisoners',
+      '/mjma/prisoners',
       [
         expect.any(Function), // handleSortMiddleware
       ],

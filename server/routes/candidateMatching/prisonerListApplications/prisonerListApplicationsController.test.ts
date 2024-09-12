@@ -174,7 +174,7 @@ describe('PrisonerListApplicationsController', () => {
 
       expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/cms/applications?sort=lastName&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
+        `/mjma/applications?sort=lastName&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
       )
     })
   })

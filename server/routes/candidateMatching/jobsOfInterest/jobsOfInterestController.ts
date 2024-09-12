@@ -50,7 +50,7 @@ export default class JobsOfInterestController {
         id,
         backLocation: getBackLocation({
           req,
-          defaultRoute: addressLookup.workProfile(id, 'overview', 'cms'),
+          defaultRoute: addressLookup.workProfile(id, 'overview', 'mjma'),
           page: 'flaggedJobs',
           uid: id,
         }),

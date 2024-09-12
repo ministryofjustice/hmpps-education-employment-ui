@@ -9,10 +9,10 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 export default (router: Router, services: Services) => {
   const controller = new JobsOfInterestController(services.paginationService)
   router.get(
-    '/cms/:id/jobs/interested',
+    '/mjma/:id/jobs/interested',
     [getPrisonerByIdResolver(services.prisonerSearchService), getJobsOfInterestResolver(services.jobService)],
     controller.get,
   )
 
-  router.post('/cms/:id/jobs/interested', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
+  router.post('/mjma/:id/jobs/interested', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
 }

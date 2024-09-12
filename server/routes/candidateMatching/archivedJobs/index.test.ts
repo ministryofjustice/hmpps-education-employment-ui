@@ -34,7 +34,7 @@ describe('Archived jobs routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/jobs/archived',
+      '/mjma/:id/jobs/archived',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerListArchivedJobsResolver
@@ -47,7 +47,7 @@ describe('Archived jobs routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/jobs/archived',
+      '/mjma/:id/jobs/archived',
       [
         expect.any(Function), // handleSortMiddleware
       ],

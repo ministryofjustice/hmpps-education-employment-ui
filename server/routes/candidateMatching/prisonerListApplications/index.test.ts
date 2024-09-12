@@ -31,7 +31,7 @@ describe('Prisoner list applications routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/applications',
+      '/mjma/applications',
       [
         expect.any(Function), // getPrisonerListApplicationsResolver
       ],
@@ -43,7 +43,7 @@ describe('Prisoner list applications routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/applications',
+      '/mjma/applications',
       [
         expect.any(Function), // handleSortMiddleware
       ],
