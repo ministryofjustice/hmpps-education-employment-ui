@@ -10,7 +10,7 @@ import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPri
 export default (router: Router, services: Services) => {
   const controller = new JobDetailsController()
   router.get(
-    '/cms/:id/job/:jobId/details',
+    '/mjma/:id/job/:jobId/details',
     [
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),

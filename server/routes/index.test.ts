@@ -16,6 +16,7 @@ jest.mock('express', () => ({
     post: jest.fn(),
     put: jest.fn(),
     delete: jest.fn(),
+    all: jest.fn(),
   })),
 }))
 

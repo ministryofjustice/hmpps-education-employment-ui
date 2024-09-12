@@ -22,7 +22,7 @@ context('Sign In', () => {
 
   it('View job details - check loaded content', () => {
     cy.signIn()
-    cy.visit('/cms/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
 

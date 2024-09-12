@@ -36,7 +36,7 @@ describe('Right to work routes', () => {
     routes(router, services)
 
     expect(router.get).toHaveBeenCalledWith(
-      '/cms/:id/job/:jobId/application/:mode',
+      '/mjma/:id/job/:jobId/application/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getJobDetailsResolver
@@ -50,7 +50,7 @@ describe('Right to work routes', () => {
     routes(router, services)
 
     expect(router.post).toHaveBeenCalledWith(
-      '/cms/:id/job/:jobId/application/:mode',
+      '/mjma/:id/job/:jobId/application/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
       ],

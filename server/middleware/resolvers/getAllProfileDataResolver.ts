@@ -47,7 +47,7 @@ const getAllProfileDataResolver =
         await getTrainingTabData(req, res, services)
       }
 
-      if (tab === 'overview' && module === 'cms') {
+      if (tab === 'overview' && module === 'mjma') {
         await getCmsData(req, res, services)
       }
 
