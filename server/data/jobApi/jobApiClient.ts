@@ -10,8 +10,6 @@ import GetEmployerResponse from './getEmployerResponse'
 import PagedResponseNew from '../domain/types/pagedResponseNew'
 import TypeOfWorkValue from '../../enums/typeOfWorkValue'
 
-const BASE_URL = ''
-
 export default class JobApiClient {
   restClient: RestClient
 
@@ -35,14 +33,14 @@ export default class JobApiClient {
       `size=${config.paginationPageSize}`,
       sort && `sortBy=${sort}`,
       order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
-      jobSectorFilter && `sector=${encodeURIComponent(jobSectorFilter)}`,
+      jobSectorFilter && `sectors=${encodeURIComponent(jobSectorFilter)}`,
       offenderNo && `offenderNo=${encodeURIComponent(offenderNo)}`,
       locationFilter && `location=${encodeURIComponent(locationFilter)}`,
       distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
-      path: `/jobs?${uri.join('&')}`,
+      path: `/jobs/matching-candidate?${uri.join('&')}`,
     })
 
     return results
@@ -52,7 +50,7 @@ export default class JobApiClient {
     const { offenderNo, page, sort, order } = params
 
     const results = await this.restClient.post<PagedResponseNew<GetOtherJobsOfInterestResponse>>({
-      path: `${BASE_URL}/jobs/interested`,
+      path: `/jobs/interested`,
       data: {
         offenderNo,
         page,
@@ -67,7 +65,7 @@ export default class JobApiClient {
     const { offenderNo, page, sort, order } = params
 
     const results = await this.restClient.post<PagedResponseNew<GetArchivedJobsResponse>>({
-      path: `${BASE_URL}/jobs/archived`,
+      path: `/jobs/archived`,
       data: {
         offenderNo,
         page,
@@ -88,7 +86,7 @@ export default class JobApiClient {
 
   async getJobDetails(jobId: string, postCode?: string) {
     const result = await this.restClient.get<GetJobDetailsResponse>({
-      path: postCode ? `${BASE_URL}/jobs/${jobId}?postcode=${postCode}` : `${BASE_URL}/jobs/${jobId}`,
+      path: postCode ? `/jobs/${jobId}?postcode=${postCode}` : `/jobs/${jobId}`,
     })
 
     return result
@@ -113,7 +111,39 @@ export default class JobApiClient {
 
   async getJobsOfInterestClosingSoon(offenderNo: string) {
     const result = await this.restClient.get<PagedResponseNew<GetJobsOfInterestClosingSoonResponse>>({
-      path: `${BASE_URL}/jobs-of-interest/${offenderNo}/closing-soon`,
+      path: `/jobs-of-interest/${offenderNo}/closing-soon`,
+    })
+
+    return result
+  }
+
+  async createExpressionOfInterest(jobId: string, offenderNo: string) {
+    const result = await this.restClient.put({
+      path: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+    })
+
+    return result
+  }
+
+  async deleteExpressionOfInterest(jobId: string, offenderNo: string) {
+    const result = await this.restClient.delete({
+      path: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+    })
+
+    return result
+  }
+
+  async createArchiveRecord(jobId: string, offenderNo: string) {
+    const result = await this.restClient.put({
+      path: `/jobs/${jobId}/archived/${offenderNo}`,
+    })
+
+    return result
+  }
+
+  async deleteArchiveRecord(jobId: string, offenderNo: string) {
+    const result = await this.restClient.delete({
+      path: `/jobs/${jobId}/archived/${offenderNo}`,
     })
 
     return result

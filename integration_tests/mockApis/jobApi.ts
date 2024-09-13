@@ -364,11 +364,11 @@ const getOtherJobsOfInterest = () =>
     },
   })
 
-const archiveJob = () =>
+const createArchiveRecord = (jobId: string, offenderNo: string) =>
   stubFor({
     request: {
-      method: 'POST',
-      url: '/candidate-matching/jobs/archive',
+      method: 'PUT',
+      url: `/jobs/${jobId}/archived/${offenderNo}`,
     },
     response: {
       status: 200,
@@ -377,11 +377,50 @@ const archiveJob = () =>
     },
   })
 
-const jobSearch = () =>
+const deleteArchiveRecord = (jobId: string, offenderNo: string) =>
   stubFor({
     request: {
-      method: 'POST',
-      url: '/candidate-matching/jobs/search',
+      method: 'DELETE',
+      url: `/jobs/${jobId}/archived/${offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const createExpressionOfInterest = (jobId: string, offenderNo: string) =>
+  stubFor({
+    request: {
+      method: 'PUT',
+      url: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const deleteExpressionOfInterest = (jobId: string, offenderNo: string) =>
+  stubFor({
+    request: {
+      method: 'DELETE',
+      url: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const getMatchedJobs = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      url: '/jobs/matching-candidate',
     },
     response: {
       status: 200,
@@ -516,6 +555,9 @@ export default {
   getJobOfInterestClosingSoon,
   getArchivedJobs,
   getOtherJobsOfInterest,
-  archiveJob,
-  jobSearch,
+  createArchiveRecord,
+  deleteArchiveRecord,
+  createExpressionOfInterest,
+  deleteExpressionOfInterest,
+  getMatchedJobs,
 }
