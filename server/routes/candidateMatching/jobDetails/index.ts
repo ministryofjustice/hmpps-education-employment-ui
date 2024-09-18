@@ -8,7 +8,7 @@ import getProfileByIdResolver from '../../../middleware/resolvers/getProfileById
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 
 export default (router: Router, services: Services) => {
-  const controller = new JobDetailsController()
+  const controller = new JobDetailsController(services.jobService)
   router.get(
     '/mjma/:id/job/:jobId/details',
     [
@@ -19,4 +19,6 @@ export default (router: Router, services: Services) => {
     ],
     controller.get,
   )
+
+  router.post('/mjma/:id/job/:jobId/details', controller.post)
 }

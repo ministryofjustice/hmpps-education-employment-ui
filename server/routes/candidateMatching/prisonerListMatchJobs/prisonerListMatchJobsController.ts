@@ -74,7 +74,7 @@ export default class PrisonerListMatchJobsController {
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['ciagList', 'data'])
+      const data = getSessionData(req, ['prisonerListMatchJobs', 'data'])
       const errors = validateFormSchema(req, validationSchema())
 
       if (errors) {

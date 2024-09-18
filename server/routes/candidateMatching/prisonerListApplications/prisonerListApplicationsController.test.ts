@@ -135,7 +135,7 @@ describe('PrisonerListApplicationsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['ciagList', 'data'], mockData)
+      setSessionData(req, ['prisonerListApplications', 'data'], mockData)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -172,7 +172,7 @@ describe('PrisonerListApplicationsController', () => {
 
       controller.post(req, res, next)
 
-      expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
+      expect(getSessionData(req, ['prisonerListApplications', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
         `/mjma/applications?sort=lastName&order=descending&jobFilter=Carpenter&prisonerNameFilter=name1&applicationStatusFilter=TEST_STATUS`,
       )

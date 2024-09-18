@@ -89,7 +89,7 @@ describe('ArchivedJobsController', () => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
-      setSessionData(req, ['ciagList', 'data'], mockData)
+      setSessionData(req, ['archivedJobs', 'data'], mockData)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -104,7 +104,7 @@ describe('ArchivedJobsController', () => {
 
       controller.post(req, res, next)
 
-      expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
+      expect(getSessionData(req, ['archivedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(`/mjma/${id}/jobs/archived?sort=releaseDate&order=descending`)
     })
   })

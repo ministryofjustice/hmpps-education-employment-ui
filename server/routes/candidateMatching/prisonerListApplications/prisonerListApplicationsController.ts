@@ -2,7 +2,7 @@
 import { RequestHandler } from 'express'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
-import { getSessionData } from '../../../utils/session'
+import { getSessionData, setSessionData } from '../../../utils/session'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
@@ -62,6 +62,8 @@ export default class PrisonerListApplicationsController {
           decodeURIComponent(jobFilter as string),
       }
 
+      setSessionData(req, ['prisonerListApplications', 'data'], data)
+
       res.render('pages/candidateMatching/prisonerListApplications/index', { ...data })
     } catch (err) {
       next(err)
@@ -74,7 +76,7 @@ export default class PrisonerListApplicationsController {
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['ciagList', 'data'])
+      const data = getSessionData(req, ['prisonerListApplications', 'data'])
       const errors = validateFormSchema(req, validationSchema())
 
       if (errors) {

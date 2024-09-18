@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 import _ from 'lodash'
 
@@ -38,7 +39,14 @@ describe('HomePageController', () => {
     },
   }
 
-  const controller = new Controller()
+  const mockService: any = {
+    createArchiveRecord: jest.fn(),
+    deleteArchiveRecord: jest.fn(),
+    createExpressionOfInterest: jest.fn(),
+    deleteExpressionOfInterest: jest.fn(),
+  }
+
+  const controller = new Controller(mockService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {

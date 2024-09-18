@@ -89,7 +89,6 @@ describe('jobsOfInterestController', () => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
-      setSessionData(req, ['ciagList', 'data'], mockData)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -103,8 +102,6 @@ describe('jobsOfInterestController', () => {
       req.body.distanceFilter = 'true'
 
       controller.post(req, res, next)
-
-      expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(`/mjma/${id}/jobs/interested?sort=releaseDate&order=descending`)
     })
   })

@@ -1,0 +1,66 @@
+<p class="govuk-body govuk-!-margin-bottom-8">
+  <form class="form" method="post" novalidate="">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}">Manage application</a>
+
+
+    {% if archiveJobsEnabled %}
+      {% if job.archived %}
+        {% if toggleArchiveJobsEnabled %}
+          {{  
+            govukButton({
+              text: "Unarchive job",
+              type: "archive",
+              name: 'deleteArchiveRecord',
+              attributes: {
+                "data-qa": "delete-archive-record-button"
+              },
+              classes: "govuk-button--secondary"
+            }) 
+          }}
+        {% endif %} 
+      {% else %}
+        {{  
+          govukButton({
+            text: "Archive job",
+            type: "archive",
+            name: 'createArchiveRecord',
+            attributes: {
+              "data-qa": "create-archive-record-button"
+            },
+            classes: "govuk-button--secondary"
+          }) 
+        }}
+      {% endif %} 
+    {% endif %} 
+
+
+    {% if expressionsOfInterestEnabled and toggleArchiveJobsEnabled %}
+      {% if job.expressionOfInterest %}
+        {{  
+          govukButton({
+            text: "Prisoner not interested in job",
+            type: "archive",
+            name: 'deleteExpressionOfInterest',
+            attributes: {
+              "data-qa": "delete-expression-of-interest"
+            },
+            classes: "govuk-button--secondary"
+          }) 
+        }}
+      {% else %}
+        {{  
+          govukButton({
+            text: "Prisoner interested in job",
+            type: "archive",
+            name: 'createExpressionOfInterest',
+            attributes: {
+              "data-qa": "create-expression-of-interest"
+            },
+            classes: "govuk-button--secondary"
+          }) 
+        }}
+      {% endif %} 
+    {% endif %} 
+  </form>
+</p>
