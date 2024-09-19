@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './jobsOfInterestController'
-import { getSessionData, setSessionData } from '../../../utils/session'
 
 describe('jobsOfInterestController', () => {
   const { res, req, next } = expressMocks()
@@ -30,8 +29,6 @@ describe('jobsOfInterestController', () => {
 
   req.query = { sort, order }
   req.get = jest.fn()
-
-  const mockData = req.context.jobsOfInterestResults
 
   const mockPaginationService: any = {
     paginationData: {},

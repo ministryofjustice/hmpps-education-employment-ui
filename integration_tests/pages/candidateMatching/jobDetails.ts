@@ -38,4 +38,6 @@ export default class JobDetailsPage extends Page {
   closingDate = (): PageElement => cy.get('#closingDate')
 
   startDate = (): PageElement => cy.get('#startDate')
+
+  createArchiveRecordButton = (): PageElement => cy.get('[data-qa=create-archive-record-button]')
 }

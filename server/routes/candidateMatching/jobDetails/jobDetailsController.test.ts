@@ -87,4 +87,59 @@ describe('HomePageController', () => {
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
+
+  describe('#post(req, res)', () => {
+    beforeEach(() => {
+      res.redirect.mockReset()
+      next.mockReset()
+      req.body = {}
+      mockService.createArchiveRecord.mockReset()
+    })
+
+    it('On error - Calls next with error', async () => {
+      const error = new Error('mock_error')
+      mockService.createArchiveRecord.mockImplementation(() => {
+        throw error
+      })
+
+      req.body.createArchiveRecord = ''
+
+      controller.post(req, res, next)
+
+      expect(next).toHaveBeenCalledTimes(1)
+      expect(next).toHaveBeenCalledWith(error)
+    })
+
+    it('On success - createArchiveRecord - Calls createArchiveRecord and redirects', async () => {
+      req.body.createArchiveRecord = ''
+
+      controller.post(req, res, next)
+
+      expect(mockService.createArchiveRecord).toHaveBeenCalledTimes(1)
+    })
+
+    it('On success - deleteArchiveRecord - Calls deleteArchiveRecord and redirects', async () => {
+      req.body.deleteArchiveRecord = ''
+
+      controller.post(req, res, next)
+
+      expect(mockService.deleteArchiveRecord).toHaveBeenCalledTimes(1)
+    })
+
+    it('On success - createExpressionOfInterest - Calls createExpressionOfInterest and redirects', async () => {
+      req.body.createExpressionOfInterest = ''
+
+      controller.post(req, res, next)
+
+      expect(mockService.createExpressionOfInterest).toHaveBeenCalledTimes(1)
+    })
+
+    it('On success - deleteExpressionOfInterest - Calls deleteExpressionOfInterest and redirects', async () => {
+      req.body.deleteExpressionOfInterest = ''
+
+      controller.post(req, res, next)
+
+      expect(mockService.deleteExpressionOfInterest).toHaveBeenCalledTimes(1)
+    })
+  })
 })

@@ -44,6 +44,8 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
         isOnlyForPrisonLeavers: true,
         supportingDocumentationRequired: ['CV', 'OTHER'],
         supportingDocumentationDetails: 'Covering letter',
+        archived: false,
+        expressionOfInterest: false,
       },
     },
   })
@@ -364,11 +366,11 @@ const getOtherJobsOfInterest = () =>
     },
   })
 
-const createArchiveRecord = (jobId: string, offenderNo: string) =>
+const createArchiveRecord = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
       method: 'PUT',
-      url: `/jobs/${jobId}/archived/${offenderNo}`,
+      url: `/jobs/${params.jobId}/archived/${params.offenderNo}`,
     },
     response: {
       status: 200,
@@ -377,11 +379,11 @@ const createArchiveRecord = (jobId: string, offenderNo: string) =>
     },
   })
 
-const deleteArchiveRecord = (jobId: string, offenderNo: string) =>
+const deleteArchiveRecord = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
       method: 'DELETE',
-      url: `/jobs/${jobId}/archived/${offenderNo}`,
+      url: `/jobs/${params.jobId}/archived/${params.offenderNo}`,
     },
     response: {
       status: 200,
@@ -390,11 +392,11 @@ const deleteArchiveRecord = (jobId: string, offenderNo: string) =>
     },
   })
 
-const createExpressionOfInterest = (jobId: string, offenderNo: string) =>
+const createExpressionOfInterest = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
       method: 'PUT',
-      url: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+      url: `/jobs/${params.jobId}/expressions-of-interest/${params.offenderNo}`,
     },
     response: {
       status: 200,
@@ -403,11 +405,11 @@ const createExpressionOfInterest = (jobId: string, offenderNo: string) =>
     },
   })
 
-const deleteExpressionOfInterest = (jobId: string, offenderNo: string) =>
+const deleteExpressionOfInterest = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
       method: 'DELETE',
-      url: `/jobs/${jobId}/expressions-of-interest/${offenderNo}`,
+      url: `/jobs/${params.jobId}/expressions-of-interest/${params.offenderNo}`,
     },
     response: {
       status: 200,
