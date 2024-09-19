@@ -79,4 +79,28 @@ export default class JobService {
 
     return new JobApiClient(systemToken).getEmployer(id)
   }
+
+  async createExpressionOfInterest(username: string, jobId: string, offenderNo: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).createExpressionOfInterest(jobId, offenderNo)
+  }
+
+  async deleteExpressionOfInterest(username: string, jobId: string, offenderNo: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).deleteExpressionOfInterest(jobId, offenderNo)
+  }
+
+  async createArchiveRecord(username: string, jobId: string, offenderNo: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).createArchiveRecord(jobId, offenderNo)
+  }
+
+  async deleteArchiveRecord(username: string, jobId: string, offenderNo: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).deleteArchiveRecord(jobId, offenderNo)
+  }
 }

@@ -85,7 +85,7 @@
         {{ job.description | striptags(true) | escape | nl2br }}
       </p>
 
-      <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}">Manage application</a></p>
+      {% include './partials/_jobDetailsFormControls.njk' %}
     </div>
 
     <div class="govuk-grid-column-one-third">

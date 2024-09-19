@@ -18,6 +18,7 @@ context('Sign In', () => {
     cy.task('getJob', '0190a227-be75-7009-8ad6-c6b068b6754e')
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
+    cy.task('createArchiveRecord', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VJ' })
   })
 
   it('View job details - check loaded content', () => {
@@ -42,5 +43,16 @@ context('Sign In', () => {
     jobDetailsPage.offenceExclusions().contains('Arson')
     jobDetailsPage.offenceExclusions().contains('Terrorism')
     jobDetailsPage.closingDate().contains('1 Feb 2025')
+  })
+
+  it('View job details - check loaded content', () => {
+    cy.signIn()
+    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+
+    const jobDetailsPage = new JobDetailsPage('Warehouse operator')
+    jobDetailsPage.createArchiveRecordButton().click()
+
+    jobDetailsPage.employerName().contains('ASDA')
+    jobDetailsPage.jobTitle().contains('Warehouse operator')
   })
 })

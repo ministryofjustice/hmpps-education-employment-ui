@@ -5,7 +5,7 @@ import { plainToClass } from 'class-transformer'
 
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
-import { getSessionData } from '../../../utils/session'
+import { getSessionData, setSessionData } from '../../../utils/session'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import JobViewModel from '../../../viewModels/jobViewModel'
@@ -93,6 +93,8 @@ export default class MatchedJobsController {
           decodeURIComponent(distanceFilter as string) !== '10',
       }
 
+      setSessionData(req, ['matchedJobs', 'data'], data)
+
       res.render('pages/candidateMatching/matchedJobs/index', { ...data })
     } catch (err) {
       next(err)
@@ -106,7 +108,7 @@ export default class MatchedJobsController {
 
     try {
       // If validation errors render errors
-      const data = getSessionData(req, ['ciagList', 'data'])
+      const data = getSessionData(req, ['matchedJobs', 'data'])
       const errors = validateFormSchema(req, validationSchema())
 
       if (errors) {

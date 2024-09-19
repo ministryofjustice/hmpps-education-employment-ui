@@ -44,6 +44,8 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
         isOnlyForPrisonLeavers: true,
         supportingDocumentationRequired: ['CV', 'OTHER'],
         supportingDocumentationDetails: 'Covering letter',
+        archived: false,
+        expressionOfInterest: false,
       },
     },
   })
@@ -364,11 +366,11 @@ const getOtherJobsOfInterest = () =>
     },
   })
 
-const archiveJob = () =>
+const createArchiveRecord = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
-      method: 'POST',
-      url: '/candidate-matching/jobs/archive',
+      method: 'PUT',
+      url: `/jobs/${params.jobId}/archived/${params.offenderNo}`,
     },
     response: {
       status: 200,
@@ -377,11 +379,50 @@ const archiveJob = () =>
     },
   })
 
-const jobSearch = () =>
+const deleteArchiveRecord = (params: { jobId: string; offenderNo: string }) =>
   stubFor({
     request: {
-      method: 'POST',
-      url: '/candidate-matching/jobs/search',
+      method: 'DELETE',
+      url: `/jobs/${params.jobId}/archived/${params.offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const createExpressionOfInterest = (params: { jobId: string; offenderNo: string }) =>
+  stubFor({
+    request: {
+      method: 'PUT',
+      url: `/jobs/${params.jobId}/expressions-of-interest/${params.offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const deleteExpressionOfInterest = (params: { jobId: string; offenderNo: string }) =>
+  stubFor({
+    request: {
+      method: 'DELETE',
+      url: `/jobs/${params.jobId}/expressions-of-interest/${params.offenderNo}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+const getMatchedJobs = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      url: '/jobs/matching-candidate',
     },
     response: {
       status: 200,
@@ -516,6 +557,9 @@ export default {
   getJobOfInterestClosingSoon,
   getArchivedJobs,
   getOtherJobsOfInterest,
-  archiveJob,
-  jobSearch,
+  createArchiveRecord,
+  deleteArchiveRecord,
+  createExpressionOfInterest,
+  deleteExpressionOfInterest,
+  getMatchedJobs,
 }

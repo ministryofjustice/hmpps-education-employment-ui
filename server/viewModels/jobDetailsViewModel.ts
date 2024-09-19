@@ -67,4 +67,10 @@ export default class JobViewModel {
 
   @Expose()
   howToApply: string
+
+  @Expose()
+  archived: boolean
+
+  @Expose()
+  expressionOfInterest: boolean
 }
