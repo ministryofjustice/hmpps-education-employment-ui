@@ -33,6 +33,8 @@ interface GetJobDetailsResponse {
   startDate?: string
   isRollingOpportunity: boolean
   isOnlyForPrisonLeavers: boolean
+  archived: boolean
+  expressionOfInterest: boolean
 }
 
 export default GetJobDetailsResponse

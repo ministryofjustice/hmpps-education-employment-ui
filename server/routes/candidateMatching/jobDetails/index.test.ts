@@ -49,4 +49,13 @@ describe('Right to work routes', () => {
       expect.any(Function), // controller.get
     )
   })
+
+  it('should register POST route for page', () => {
+    routes(router, services)
+
+    expect(router.post).toHaveBeenCalledWith(
+      '/mjma/:id/job/:jobId/details',
+      expect.any(Function), // controller.post
+    )
+  })
 })

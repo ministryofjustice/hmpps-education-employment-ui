@@ -30,6 +30,8 @@ describe('JobViewModel', () => {
       'Manoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport',
     hoursPerWeek: Hours.FULL_TIME,
     howToApply: 'Email: apply@testcompany.com, send CV and covering letter',
+    archived: true,
+    expressionOfInterest: true,
   }
 
   it('transforms JSON to ApplicationProgressViewModel', () => {
@@ -53,5 +55,7 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.desirableCriteria).toBe(jobDetailsViewModelJson.desirableCriteria)
     expect(jobDetailsViewModel.hoursPerWeek).toBe(jobDetailsViewModelJson.hoursPerWeek)
     expect(jobDetailsViewModel.howToApply).toBe(jobDetailsViewModelJson.howToApply)
+    expect(jobDetailsViewModel.archived).toBe(jobDetailsViewModelJson.archived)
+    expect(jobDetailsViewModel.expressionOfInterest).toBe(jobDetailsViewModelJson.expressionOfInterest)
   })
 })

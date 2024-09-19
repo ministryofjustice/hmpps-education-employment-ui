@@ -126,7 +126,7 @@ describe('MatchedJobsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['ciagList', 'data'], mockData)
+      setSessionData(req, ['matchedJobs', 'data'], mockData)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -163,7 +163,7 @@ describe('MatchedJobsController', () => {
 
       controller.post(req, res, next)
 
-      expect(getSessionData(req, ['ciagList', 'data'])).toBeTruthy()
+      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
         `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
       )
