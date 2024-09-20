@@ -97,12 +97,12 @@ describe('PrisonService', () => {
   })
 
   it('#getJobDetails - should get token and call correct api method', async () => {
-    const result = await jobService.getJobDetails('user', 'offenderId')
+    const result = await jobService.getJobDetails('user', 'offenderId', 'offender_no')
 
     expect(result).toEqual({ data: 'mock_data' })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
-    expect(jobApiClientMock.getJobDetails).toHaveBeenCalledWith('offenderId', undefined)
+    expect(jobApiClientMock.getJobDetails).toHaveBeenCalledWith('offenderId', 'offender_no', undefined)
   })
 
   it('#getEmployer - should get token and call correct api method', async () => {

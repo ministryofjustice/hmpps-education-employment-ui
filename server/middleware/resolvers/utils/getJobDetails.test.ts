@@ -4,6 +4,7 @@ import getJobDetails from './getJobDetails'
 describe('getJobDetails', () => {
   const username = 'mock_username'
   const jobId = 'mock_job_id'
+  const id = 'mock_id'
 
   const mockData = {
     text: 'Mock data',
@@ -19,7 +20,7 @@ describe('getJobDetails', () => {
     serviceMock.getJobDetails.mockRejectedValue(error)
 
     try {
-      await getJobDetails(serviceMock as any, username, jobId)
+      await getJobDetails(serviceMock as any, username, jobId, id)
     } catch (err) {
       expect(err).toEqual(error)
     }
@@ -30,7 +31,7 @@ describe('getJobDetails', () => {
       status: 404,
     })
 
-    const result = await getJobDetails(serviceMock as any, username, jobId)
+    const result = await getJobDetails(serviceMock as any, username, jobId, id)
 
     expect(result).toEqual(undefined)
   })
@@ -38,7 +39,7 @@ describe('getJobDetails', () => {
   it('On success - Returns correct data', async () => {
     serviceMock.getJobDetails.mockResolvedValue(mockData)
 
-    const result = await getJobDetails(serviceMock as any, username, jobId)
+    const result = await getJobDetails(serviceMock as any, username, jobId, id)
 
     expect(result).toEqual(mockData)
   })

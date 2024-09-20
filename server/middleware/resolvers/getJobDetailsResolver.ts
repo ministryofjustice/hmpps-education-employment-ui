@@ -17,7 +17,7 @@ const getJobDetailsResolver =
       const postcode = _.get(getSessionData(req, ['prisonerAddress', id], {}), 'postcode')
 
       // Get job details
-      const jobDetails = await getJobDetails(jobService, username, jobId, postcode)
+      const jobDetails = await getJobDetails(jobService, username, jobId, id, postcode)
 
       // Get employer name
       if (jobDetails.employerId) {

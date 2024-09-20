@@ -9,7 +9,7 @@ export default class JobDetailsPage extends Page {
 
   sector = (): PageElement => cy.get('#sector')
 
-  postCode = (): PageElement => cy.get('#postCode')
+  postcode = (): PageElement => cy.get('#postcode')
 
   salaryFrom = (): PageElement => cy.get('#salaryFrom')
 

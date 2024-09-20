@@ -14,7 +14,7 @@ describe('JobViewModel', () => {
     closingDate: '2022-05-01T17:00:00Z',
     distance: 4.1,
     city: 'Leeds',
-    postCode: 'LS23 3JF',
+    postcode: 'LS23 3JF',
     sector: TypeOfWorkValue.OUTDOOR,
     salaryFrom: 11.93,
     salaryTo: 15.9,
@@ -42,7 +42,7 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.employerName).toBe(jobDetailsViewModelJson.employerName)
     expect(jobDetailsViewModel.closingDate).toBe('01 May 2022')
     expect(jobDetailsViewModel.distance).toBe(jobDetailsViewModelJson.distance)
-    expect(jobDetailsViewModel.postCode).toBe(jobDetailsViewModelJson.postCode)
+    expect(jobDetailsViewModel.postcode).toBe(jobDetailsViewModelJson.postcode)
     expect(jobDetailsViewModel.sector).toBe(jobDetailsViewModelJson.sector)
     expect(jobDetailsViewModel.salaryFrom).toBe(jobDetailsViewModelJson.salaryFrom)
     expect(jobDetailsViewModel.salaryTo).toBe(jobDetailsViewModelJson.salaryTo)
