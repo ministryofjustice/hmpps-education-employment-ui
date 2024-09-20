@@ -27,7 +27,7 @@ export default class JobViewModel {
   distance: string
 
   @Expose()
-  postCode: string
+  postcode: string
 
   @Expose()
   description: string
