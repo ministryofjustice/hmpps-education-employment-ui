@@ -14,7 +14,7 @@ interface GetJobDetailsResponse {
   sector: TypeOfWorkValue
   numberOfVacancies: number
   charityName?: string
-  postCode: string
+  postcode: string
   salaryFrom: number
   salaryTo?: number
   salaryPeriod: SalaryPeriod
