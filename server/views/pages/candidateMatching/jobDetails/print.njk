@@ -1,0 +1,112 @@
+{% extends "../../../partials/printLayout.njk" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-2" id="jobTitle">
+        {{ job.jobTitle }}
+      </h1>
+      <p class="govuk-body govuk-!-margin-bottom-2">Employer: <span id="employerName">{{ job.employerName }}</span></p>
+
+      <h2 class="govuk-heading-s">
+        Key information
+      </h2>
+      <ul class="govuk-list">
+        <li>
+          Closing date: <span id="closingDate">{{ job.closingDate }}</span>
+        </li>
+        <li>
+          Start date: <span id="startDate">{{ job.startDate }}</span>
+        </li>
+        <li>
+          Location: <span id="postcode">{{ job.postcode }}</span>
+        </li>
+        <li>
+          Hours: <span id="hoursPerWeek">{{ contentLookup.jobs.hours[job.hoursPerWeek] }}</span>, <span id="contractType">{{ contentLookup.jobs.contractType[job.contractType] }}, <span id="workPattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
+        </li>
+        <li>
+          Salary: From <span id="salaryFrom">£{{ job.salaryFrom | fixed }}</span><span id="salaryTo">{{ (' to £'+ (job.salaryTo | fixed)) if job.salaryTo }}</span><span id="salaryPeriod"> {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
+        </li>
+        <li id="offenceExclusions">
+          Offence exclusions: 
+          {% if job.offenceExclusions.length %}
+            {% for offence in job.offenceExclusions %}
+              <div>{{ contentLookup.jobs.excludingOffences[offence] }}</div>
+            {% endfor %}
+          {% else %}
+            None
+          {% endif %}
+        </li>
+      </ul>
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <h2 class="govuk-heading-s">
+        Essential criteria
+      </h2>
+
+        <p class="govuk-body" id="essentialCriteria">
+        {{ job.essentialCriteria | striptags(true) | escape | nl2br }}
+      </p>
+
+      {% if job.desirableCriteria.length %}
+        <h2 class="govuk-heading-s">
+          Desirable criteria
+        </h2>
+
+          <p class="govuk-body" id="desirableCriteria">
+          {{ job.desirableCriteria | striptags(true) | escape | nl2br }}
+        </p>
+      {% endif %}
+
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+      <h2 class="govuk-heading-s">
+        Job description
+      </h2>
+      <p class="govuk-body" id="description">
+        {{ job.description | striptags(true) | escape | nl2br }}
+      </p>
+    </div>
+
+    <div class="govuk-grid-column-one-third">
+      <section class="app-summary-card govuk-!-margin-bottom-6">
+        <header class="app-summary-card__header">
+          <h2 class="app-summary-card__title">
+            {{ prisoner.firstName + " " + prisoner.lastName }} matching summary
+          </h2>
+        </header>
+
+        <div class="app-summary-card__body">
+
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+            Type of work:
+          </h3>
+          <p class="govuk-body" id="sector">{{ contentLookup.jobs.typeOfWork[job.sector] }}</p>
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+            Matches prisoner interests?
+          </h3>
+          <p class="govuk-body" id="matches-prisoner-interests">{{ 'Yes' if matchesPrisonerInterests else 'No'}}</p>
+
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+            Job location
+          </h3>
+          <p class="govuk-body">{{ job.postcode }}</p>
+          {% if releaseArea %}
+            <div class="timeline">
+              <ul>
+                <li>
+                  <p class="govuk-!-padding-top-4 govuk-!-padding-bottom-1" id="distance">{{ job.distance }} miles from release area: <br>{{ releaseArea.town }}, {{ releaseArea.postcode }}</p>
+                </li>
+                <li>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+  </div>
+{% endblock %}
