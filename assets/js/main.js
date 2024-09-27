@@ -3,4 +3,11 @@ function cohortListFilterChange() {
     document.location.href = '/wr/cohort-list?status=' + e.target.value
   })
 }
+function enablePrintLink() {
+  $('#printLink').on('click', function (e) {
+    window.print()
+  })
+}
+
 cohortListFilterChange()
+enablePrintLink()

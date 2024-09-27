@@ -38,7 +38,9 @@ export default class JobDetailsController {
 
       setSessionData(req, ['jobDetails', id, 'data'], data)
 
-      res.render('pages/candidateMatching/jobDetails/index', { ...data })
+      res.render('pages/candidateMatching/jobDetails/index', {
+        ...data,
+      })
     } catch (err) {
       next(err)
     }
