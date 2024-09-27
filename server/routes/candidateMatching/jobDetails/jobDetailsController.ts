@@ -14,7 +14,6 @@ export default class JobDetailsController {
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { print } = req.query
     const { jobDetails, prisoner, profile, prisonerAddress } = req.context
 
     try {
@@ -39,7 +38,7 @@ export default class JobDetailsController {
 
       setSessionData(req, ['jobDetails', id, 'data'], data)
 
-      res.render(print ? 'pages/candidateMatching/jobDetails/print' : 'pages/candidateMatching/jobDetails/index', {
+      res.render('pages/candidateMatching/jobDetails/index', {
         ...data,
       })
     } catch (err) {

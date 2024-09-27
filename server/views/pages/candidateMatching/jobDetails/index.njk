@@ -12,7 +12,7 @@
 {% set title = jobTitle %}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s job list"} }) }}
+  {{ govukBackLink({ text: "Back", href: backLocation, classes: "no-print",  attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s job list"} }) }}
 {% endblock %}
 
 {% block content %}
@@ -24,6 +24,8 @@
         {{ job.jobTitle }}
       </h1>
       <p class="govuk-body govuk-!-margin-bottom-2">Employer: <span id="employerName">{{ job.employerName }}</span></p>
+
+      <p class="no-print govuk-!-margin-bottom-5"><a href="#" id="printLink" class="govuk-link govuk-link--no-visited-state">Print</a></p>
 
       <h2 class="govuk-heading-s">
         Key information
