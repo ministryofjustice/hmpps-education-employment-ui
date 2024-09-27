@@ -38,7 +38,7 @@
           Start date: <span id="startDate">{{ job.startDate }}</span>
         </li>
         <li>
-          Location: <span id="postCode">{{ job.postCode }}</span>
+          Location: <span id="postcode">{{ job.postcode }}</span>
         </li>
         <li>
           Hours: <span id="hoursPerWeek">{{ contentLookup.jobs.hours[job.hoursPerWeek] }}</span>, <span id="contractType">{{ contentLookup.jobs.contractType[job.contractType] }}, <span id="workPattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
@@ -114,7 +114,7 @@
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Job location
           </h3>
-          <p class="govuk-body">{{ job.postCode }}</p>
+          <p class="govuk-body">{{ job.postcode }}</p>
           {% if releaseArea %}
             <div class="timeline">
               <ul>

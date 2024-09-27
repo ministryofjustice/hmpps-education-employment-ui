@@ -30,7 +30,7 @@ context('Sign In', () => {
     jobDetailsPage.employerName().contains('ASDA')
     jobDetailsPage.jobTitle().contains('Warehouse operator')
     jobDetailsPage.sector().contains('Warehousing and storage')
-    jobDetailsPage.postCode().contains('NE236DR')
+    jobDetailsPage.postcode().contains('NE236DR')
     jobDetailsPage.salaryFrom().contains('£25000.00')
     jobDetailsPage.salaryTo().contains('£30000.00')
     jobDetailsPage.salaryPeriod().contains('Per year')

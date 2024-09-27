@@ -84,9 +84,10 @@ export default class JobApiClient {
     return result
   }
 
-  async getJobDetails(jobId: string, postCode?: string) {
+  async getJobDetails(jobId: string, offenderNo: string, postcode?: string) {
+    const baseUrl = `/jobs/${jobId}/matching-candidate?prisonNumber=${offenderNo}`
     const result = await this.restClient.get<GetJobDetailsResponse>({
-      path: postCode ? `/jobs/${jobId}?postcode=${postCode}` : `/jobs/${jobId}`,
+      path: postcode ? `${baseUrl}&postcode=${postcode}` : baseUrl,
     })
 
     return result

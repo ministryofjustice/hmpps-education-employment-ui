@@ -5,7 +5,7 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathPattern: `/jobs/${id}`,
+      urlPathPattern: `/jobs/${id}/matching-candidate`,
     },
     response: {
       status: 200,
@@ -20,7 +20,7 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
         sourcePrimary: 'NFN',
         sourceSecondary: 'PEL',
         charityName: 'Heart foundation',
-        postCode: 'NE236DR',
+        postcode: 'NE236DR',
         salaryFrom: 25000,
         salaryTo: 30000,
         salaryPeriod: 'PER_YEAR',
