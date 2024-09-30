@@ -16,16 +16,24 @@
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
+    {{ govukBackLink({ text: "Back", href: backLocation, classes: "no-print",attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
 {% endblock %}
 
 {% block content %}
     {{ errorSummary(errors) }}
 
-    <div class="govuk-grid-row govuk-!-display-none-print">
+    <div class="govuk-grid-row">
         {# This whole section has a grey background colour #}
         <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}</h1>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-7" xmlns="http://www.w3.org/1999/html">{{ title }}
+                {{ govukButton({
+                    text: "Print",
+                    id:"printLink",
+                    classes: "govuk-button--secondary no-print",
+                    attributes: { style: "float: right;" }
+                }) }}
+            </h1>
+
             <form method="post" novalidate="novalidate" name="prisoner-search-form" id="prisoner-search-form" class="prisoner-search__form" data-qa="prisoner-search-form">
                 <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
                 
@@ -35,16 +43,19 @@
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
+                            <a class="moj-sub-navigation__link no-print" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
+                            <b class="no-screen">Matched jobs</b>
                         </li>
                         {% if expressionsOfInterestEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                                <a class="moj-sub-navigation__link no-print" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                                <span class="no-screen">Other jobs chosen by prisoner</span>
                             </li>
                         {% endif%}
                         {% if archiveJobsEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
+                                <a class="moj-sub-navigation__link no-print" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
+                                <span class="no-screen">Archived jobs</span>
                             </li>
                         {% endif%}
                         </ul>

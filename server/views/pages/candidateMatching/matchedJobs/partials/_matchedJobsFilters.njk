@@ -29,7 +29,7 @@
             <div class="govuk-details__text" style="border-left: none; padding-left: 0px">
 
               <div class="govuk-grid-row">
-                <div class="filter-box">
+                <div>
                   <div class="govuk-form-group">
                     <h3 class="govuk-heading-s govuk-!-margin-bottom-2" style="padding-left: 15px">
                       Type of work interested in
@@ -64,7 +64,7 @@
             <div id="radius-hint" class="govuk-body govuk-!-margin-bottom-2">
               From release area
             </div>
-            <select class="govuk-select" id="distanceFilter" name="distanceFilter">
+            <select class="govuk-select" id="distanceFilter" name="distanceFilter" style="min-width: 120px;">
               <option value="1" {{ "selected" if distanceFilter === "1" }}>1 mile</option>
               <option value="5" {{ "selected" if distanceFilter === "5" }}>5 miles</option>
               <option value="10" {{ "selected" if distanceFilter === "10" }}>10 miles</option>
@@ -89,7 +89,7 @@
 
       </div>
 
-      <div class="govuk-grid-row">
+      <div class="govuk-grid-row no-print">
         <div class="govuk-grid-column-full">
           <button class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
             Apply filters
