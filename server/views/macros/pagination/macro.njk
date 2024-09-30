@@ -1,7 +1,7 @@
 {% macro pagination(params) %}
     <nav class="moj-pagination {{- ' ' + params.classes if params.classes }}" aria-label="Pagination navigation">
 
-        <ul class="moj-pagination__list">
+        <ul class="moj-pagination__list govuk-!-display-none-print">
             {%- if params.previous %}
                 <li class="moj-pagination__item  moj-pagination__item--prev">
                     <a class="moj-pagination__link" href="{{ params.previous.href }}">{{ params.previous.text }}<span

@@ -38,8 +38,8 @@
         {% for job in matchedJobsResults.content %}
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                    <a class="govuk-link govuk-link--no-visited-state no-print" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
-                    <span class="no-screen">{{ job.jobTitle }}</span>
+                    <a class="govuk-link govuk-link--no-visited-state govuk-!-display-none-print" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
+                    <span class="display-none-screen">{{ job.jobTitle }}</span>
                     <br> 
                     <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span>
                 </td>
@@ -68,9 +68,7 @@
 
     
     {% if paginationData.results.count >= 1 and matchedJobsResults.content.length >= 1 %}
-        <div class="no-print">
-            {{ pagination( paginationData ) }}
-        </div>
+        {{ pagination( paginationData ) }}
     {% else %}
         {% include './_notFoundMessages.njk' %}
     {% endif %}

@@ -16,7 +16,7 @@
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, classes: "no-print",attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
+    {{ govukBackLink({ text: "Back", href: backLocation, classes: "govuk-!-display-none-print",attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
 {% endblock %}
 
 {% block content %}
@@ -29,7 +29,7 @@
                 {{ govukButton({
                     text: "Print",
                     id:"printLink",
-                    classes: "govuk-button--secondary no-print",
+                    classes: "govuk-button--secondary govuk-!-display-none-print",
                     attributes: { style: "float: right;" }
                 }) }}
             </h1>
@@ -43,19 +43,19 @@
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link no-print" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
-                            <b class="no-screen">Matched jobs</b>
+                            <a class="moj-sub-navigation__link govuk-!-display-none-print" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
+                            <b class="display-none-screen">Matched jobs</b>
                         </li>
                         {% if expressionsOfInterestEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link no-print" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
-                                <span class="no-screen">Other jobs chosen by prisoner</span>
+                                <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
+                                <span class="display-none-screen">Other jobs chosen by prisoner</span>
                             </li>
                         {% endif%}
                         {% if archiveJobsEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link no-print" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
-                                <span class="no-screen">Archived jobs</span>
+                                <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
+                                <span class="display-none-screen">Archived jobs</span>
                             </li>
                         {% endif%}
                         </ul>
