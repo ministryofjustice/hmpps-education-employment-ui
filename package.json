@@ -95,7 +95,7 @@
     ]
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^2.2.1",
+    "@ministryofjustice/frontend": "^2.2.4",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/qs": "^6.9.15",
     "agentkeepalive": "^4.5.0",
