@@ -7,14 +7,14 @@ import WorkBaseLocation from '../../enums/workBaseLocation'
 import WorkPattern from '../../enums/workPattern'
 
 interface GetJobDetailsResponse {
-  id: number
+  id: string
   employerId: string
-  employerName?: string
+  employerName: string
   jobTitle: string
   sector: TypeOfWorkValue
   numberOfVacancies: number
   charityName?: string
-  postcode: string
+  postCode: string
   salaryFrom: number
   salaryTo?: number
   salaryPeriod: SalaryPeriod
@@ -28,13 +28,12 @@ interface GetJobDetailsResponse {
   desirableCriteria?: string
   description: string
   offenceExclusions: ExcludingOffences[]
+  offenceExclusionsDetails?: string
   howToApply: string
   closingDate: string
   startDate?: string
   isRollingOpportunity: boolean
   isOnlyForPrisonLeavers: boolean
-  archived: boolean
-  expressionOfInterest: boolean
 }
 
 export default GetJobDetailsResponse

@@ -47,8 +47,8 @@
               <tbody class="govuk-table__body">
                 {% for item in matchedJobs %}
                   <tr class="govuk-table__row">
-                    <td class="govuk-table__cell"><span id="jobs_matched_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_matched_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
-                    <td class="govuk-table__cell" id="jobs_matched_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                    <td class="govuk-table__cell" width="60%"><span id="jobs_matched_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_matched_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
+                    <td class="govuk-table__cell" id="jobs_matched_closing_date_{{ loop.index }}">{{ item.closingDate if item.closingDate !== 'N/A' else 'No closing date' }}</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -70,8 +70,8 @@
                 <tbody class="govuk-table__body">
                   {% for item in jobsOfInterest %}
                     <tr class="govuk-table__row">
-                      <td class="govuk-table__cell"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
-                      <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate }}</td>
+                      <td class="govuk-table__cell" width="60%"><span id="jobs_of_interest_title_{{ loop.index }}">{{ item.jobTitle }}</span><br> <span class="govuk-hint govuk-!-margin-bottom-0" id="jobs_of_interest_employer_{{ loop.index }}">{{ item.employerName }}</span></td>
+                      <td class="govuk-table__cell" id="jobs_of_interest_closing_date_{{ loop.index }}">{{ item.closingDate if item.closingDate !== 'N/A' else 'No closing date' }}</td>
                     </tr>
                   {% endfor %}
                 </tbody>

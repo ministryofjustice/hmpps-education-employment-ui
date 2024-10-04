@@ -34,7 +34,7 @@ export default class JobApiClient {
       sort && `sortBy=${sort}`,
       order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
       jobSectorFilter && `sectors=${encodeURIComponent(jobSectorFilter)}`,
-      offenderNo && `offenderNo=${encodeURIComponent(offenderNo)}`,
+      offenderNo && `prisonNumber=${encodeURIComponent(offenderNo)}`,
       locationFilter && `location=${encodeURIComponent(locationFilter)}`,
       distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
     ].filter(val => !!val)
@@ -100,11 +100,11 @@ export default class JobApiClient {
       `page=0`,
       `size=3`,
       jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter[0].toString())}`,
-      `offenderNo=${encodeURIComponent(offenderNo)}`,
+      `prisonNumber=${encodeURIComponent(offenderNo)}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
-      path: `/jobs?${uri.join('&')}`,
+      path: `/jobs/matching-candidate?${uri.join('&')}`,
     })
 
     return results

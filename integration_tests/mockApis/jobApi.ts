@@ -36,7 +36,8 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
           "What's on offer:\n\n5 days over 7, 05:30 to 15:30\nPaid weekly\nImmediate starts available\nFull training provided\nYour duties will include:\n\nManoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport\nUnloading deliveries and safely relocating the goods to their designated storage areas\nEnsuring forklift driving areas are free from spills or obstructions\nRegularly checking forklift equipment for faults or damages\nConsolidating partial pallets for incoming goods",
         description:
           'Manoeuvring forklifts safely in busy industrial environments\nSafely stacking and unstacking large quantities of goods onto shelves or pallets\nMoving goods from storage areas to loading areas for transport',
-        offenceExclusions: ['ARSON', 'TERRORISM'],
+        offenceExclusions: ['ARSON', 'TERRORISM', 'OTHER'],
+        offenceExclusionsDetails: 'Some other exclusions',
         howToApply: 'Some apply details',
         closingDate: '2025-02-01T00:00:00.000Z',
         startDate: '2025-05-31T23:00:00.000Z',
@@ -45,7 +46,7 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
         supportingDocumentationRequired: ['CV', 'OTHER'],
         supportingDocumentationDetails: 'Covering letter',
         archived: false,
-        expressionOfInterest: false,
+        hasExpressedInterest: false,
       },
     },
   })
@@ -132,7 +133,7 @@ const getArchivedJobs = () =>
             city: 'Leeds',
             postcode: 'LS23 3JF',
             typeOfWork: 'OUTDOOR',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 2,
@@ -143,7 +144,7 @@ const getArchivedJobs = () =>
             city: 'Leeds',
             postcode: 'LS23 5DH',
             typeOfWork: 'CLEANING_AND_MAINTENANCE',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 4,
@@ -154,7 +155,7 @@ const getArchivedJobs = () =>
             city: 'Manchester',
             postcode: 'M12 6LP',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 5,
@@ -165,7 +166,7 @@ const getArchivedJobs = () =>
             city: 'Birmingham',
             postcode: 'B4 6UD',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 6,
@@ -176,7 +177,7 @@ const getArchivedJobs = () =>
             city: 'London',
             postcode: 'SW1A 1AA',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: true,
+            hasExpressedInterest: true,
           },
           {
             id: 8,
@@ -187,7 +188,7 @@ const getArchivedJobs = () =>
             city: 'Glasgow',
             postcode: 'G1 1AA',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 9,
@@ -198,7 +199,7 @@ const getArchivedJobs = () =>
             city: 'Edinburgh',
             postcode: 'EH1 2AB',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 10,
@@ -209,7 +210,7 @@ const getArchivedJobs = () =>
             city: 'Cardiff',
             postcode: 'CF10 1AB',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 12,
@@ -220,7 +221,7 @@ const getArchivedJobs = () =>
             city: 'Bristol',
             postcode: 'BS1 1AB',
             typeOfWork: 'DRIVING',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 13,
@@ -231,7 +232,7 @@ const getArchivedJobs = () =>
             city: 'Manchester',
             postcode: 'M1 1AA',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
         ],
         page: {
@@ -438,7 +439,7 @@ const getMatchedJobs = () =>
             city: 'Leeds',
             postcode: 'LS23 3JF',
             typeOfWork: 'OUTDOOR',
-            expressionOfInterest: false,
+            hasExpressedInterest: true,
           },
           {
             id: 2,
@@ -449,7 +450,7 @@ const getMatchedJobs = () =>
             city: 'Leeds',
             postcode: 'LS23 5DH',
             typeOfWork: 'CLEANING_AND_MAINTENANCE',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 4,
@@ -460,7 +461,7 @@ const getMatchedJobs = () =>
             city: 'Manchester',
             postcode: 'M12 6LP',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 5,
@@ -471,7 +472,7 @@ const getMatchedJobs = () =>
             city: 'Birmingham',
             postcode: 'B4 6UD',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 6,
@@ -482,7 +483,7 @@ const getMatchedJobs = () =>
             city: 'London',
             postcode: 'SW1A 1AA',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: true,
+            hasExpressedInterest: true,
           },
           {
             id: 8,
@@ -493,7 +494,7 @@ const getMatchedJobs = () =>
             city: 'Glasgow',
             postcode: 'G1 1AA',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 9,
@@ -504,7 +505,7 @@ const getMatchedJobs = () =>
             city: 'Edinburgh',
             postcode: 'EH1 2AB',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 10,
@@ -515,7 +516,7 @@ const getMatchedJobs = () =>
             city: 'Cardiff',
             postcode: 'CF10 1AB',
             typeOfWork: 'HOSPITALITY',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 12,
@@ -526,7 +527,7 @@ const getMatchedJobs = () =>
             city: 'Bristol',
             postcode: 'BS1 1AB',
             typeOfWork: 'DRIVING',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
           {
             id: 13,
@@ -537,7 +538,7 @@ const getMatchedJobs = () =>
             city: 'Manchester',
             postcode: 'M1 1AA',
             typeOfWork: 'RETAIL',
-            expressionOfInterest: false,
+            hasExpressedInterest: false,
           },
         ],
         page: {

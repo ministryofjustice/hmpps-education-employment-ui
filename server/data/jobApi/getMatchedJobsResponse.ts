@@ -9,7 +9,7 @@ interface GetMatchedJobsResponse {
   city: string
   postcode: string
   sector: TypeOfWorkValue
-  expressionOfInterest: boolean
+  hasExpressedInterest: boolean
 }
 
 export default GetMatchedJobsResponse
