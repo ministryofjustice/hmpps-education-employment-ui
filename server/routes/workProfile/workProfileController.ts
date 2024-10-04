@@ -11,7 +11,7 @@ import AssessmentViewModel from '../../viewModels/assessmentViewModel'
 import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillViewModel'
 import ActivityViewModel from '../../viewModels/activityViewModel'
 import { deleteSessionData, setSessionData } from '../../utils/session'
-import JobViewModel from '../../viewModels/jobViewModel'
+import JobClosingSoonViewModel from '../../viewModels/jobClosingSoonViewModel'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -61,8 +61,8 @@ export default class WorkProfileController {
           com,
         },
         unacceptableAbsenceCount,
-        matchedJobs: plainToClass(JobViewModel, _.get(matchedJobsResults, 'content', [])),
-        jobsOfInterest: plainToClass(JobViewModel, _.get(jobsOfInterest, 'content', [])),
+        matchedJobs: plainToClass(JobClosingSoonViewModel, _.get(matchedJobsResults, 'content', [])),
+        jobsOfInterest: plainToClass(JobClosingSoonViewModel, _.get(jobsOfInterest, 'content', [])),
         openApplications: openApplications.content,
         closedApplications: closedApplications.content,
         releaseArea: prisonerAddress,

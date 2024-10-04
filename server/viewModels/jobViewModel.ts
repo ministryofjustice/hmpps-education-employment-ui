@@ -31,5 +31,5 @@ export default class JobViewModel {
   sector: string
 
   @Expose()
-  expressionOfInterest: boolean
+  hasExpressedInterest: boolean
 }
