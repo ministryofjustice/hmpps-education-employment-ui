@@ -20,6 +20,7 @@ describe('JobViewModel', () => {
     salaryTo: 15.9,
     salaryPeriod: Hours.FULL_TIME,
     offenceExclusions: [ExcludingOffences.ARSON],
+    offenceExclusionsDetails: 'Some detials',
     essentialCriteria:
       'Valid forklift operator certification or licence\nProven experience operating a forklift in a warehouse or similar setting\n\nStrong knowledge of forklift safety procedures and best practices\nMaths level 1\nEnglish level 1\nPhysical stamina to perform repetitive tasks and lift heavy objects\nExcellent communication skills and ability to work well in a team environment',
     description:
@@ -31,6 +32,9 @@ describe('JobViewModel', () => {
     hoursPerWeek: Hours.FULL_TIME,
     howToApply: 'Email: apply@testcompany.com, send CV and covering letter',
     archived: true,
+    isOnlyForPrisonLeavers: true,
+    numberOfVacancies: 1,
+    charityName: 'A charity',
     expressionOfInterest: true,
   }
 
@@ -57,5 +61,9 @@ describe('JobViewModel', () => {
     expect(jobDetailsViewModel.howToApply).toBe(jobDetailsViewModelJson.howToApply)
     expect(jobDetailsViewModel.archived).toBe(jobDetailsViewModelJson.archived)
     expect(jobDetailsViewModel.expressionOfInterest).toBe(jobDetailsViewModelJson.expressionOfInterest)
+    expect(jobDetailsViewModel.offenceExclusionsDetails).toBe(jobDetailsViewModelJson.offenceExclusionsDetails)
+    expect(jobDetailsViewModel.isOnlyForPrisonLeavers).toBe(jobDetailsViewModelJson.isOnlyForPrisonLeavers)
+    expect(jobDetailsViewModel.numberOfVacancies).toBe(jobDetailsViewModelJson.numberOfVacancies)
+    expect(jobDetailsViewModel.charityName).toBe(jobDetailsViewModelJson.charityName)
   })
 })

@@ -39,9 +39,11 @@
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
                     <a class="govuk-link govuk-link--no-visited-state govuk-!-display-none-print" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
-                    <span class="display-none-screen">{{ job.jobTitle }}</span>
-                    <br> 
-                    <span class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</span>
+                    <div class="display-none-screen">{{ job.jobTitle }}</div>
+                    <div class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</div>
+                    {% if job.hasExpressedInterest %}
+                        <strong class="govuk-tag govuk-tag--grey govuk-!-margin-top-3" style="text-transform: none; font-weight: 400; font-size: 19px; letter-spacing: 0px">Prisoner choice</strong>
+                    {% endif %}
                 </td>
                 <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.sector] }}</td>
                 <td class="govuk-table__cell" data-sort-value="{{ job.distance }}">
@@ -58,7 +60,7 @@
                         </div>
                     {% endif %}
                 </td>
-                <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate }}</td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate if job.closingDate !== 'N/A' else 'No closing date' }}</td>
             </tr>
         {% endfor %}
 

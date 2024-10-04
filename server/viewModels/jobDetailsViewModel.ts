@@ -45,6 +45,9 @@ export default class JobViewModel {
   offenceExclusions: string[]
 
   @Expose()
+  offenceExclusionsDetails: string
+
+  @Expose()
   essentialCriteria: string
 
   @Expose()
@@ -67,6 +70,15 @@ export default class JobViewModel {
 
   @Expose()
   howToApply: string
+
+  @Expose()
+  isOnlyForPrisonLeavers: boolean
+
+  @Expose()
+  numberOfVacancies: number
+
+  @Expose()
+  charityName: string
 
   @Expose()
   archived: boolean

@@ -39,5 +39,11 @@ export default class JobDetailsPage extends Page {
 
   startDate = (): PageElement => cy.get('#startDate')
 
+  charityName = (): PageElement => cy.get('#charityName')
+
+  numberOfVacancies = (): PageElement => cy.get('#numberOfVacancies')
+
+  isOnlyForPrisonLeavers = (): PageElement => cy.get('#isOnlyForPrisonLeavers')
+
   createArchiveRecordButton = (): PageElement => cy.get('[data-qa=create-archive-record-button]')
 }
