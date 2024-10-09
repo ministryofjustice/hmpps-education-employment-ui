@@ -65,8 +65,10 @@ const getTasks = (roleCodes: any) => {
       id: 'reporting_data',
       heading: 'Reporting data',
       description: 'Create reports showing progress against work after release metrics.',
-      href: '/reporting',
-      enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
+      href: config.reportingUrl,
+      enabled: () =>
+        userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']) &&
+        config.featureToggles.reportingLinkEnabled,
     },
   ]
 }
