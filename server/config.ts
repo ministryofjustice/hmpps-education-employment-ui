@@ -184,6 +184,7 @@ export default {
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
   jobUploadUrl: get('JOB_UPLOAD_URL', 'http://localhost:3001/', requiredInProduction),
+  reportingUrl: get('REPORTING_URL', 'http://localhost:3001/', requiredInProduction),
   weeksBeforeRelease: Number(get('WEEKS_BEFORE_RELEASE', 12)),
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalyticsId: get('GOOGLE_ANALYTICS_ID', '', requiredInProduction),
@@ -196,5 +197,6 @@ export default {
     toggleArchiveJobsEnabled: toBoolean(get('TOGGLE_ARCHIVED_JOBS_ENABLED', false)),
     toggleExpressionsOfInterestEnabled: toBoolean(get('TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED', false)),
     jobApplicationsEnabled: toBoolean(get('JOB_APPLICATIONS_ENABLED', false)),
+    reportingLinkEnabled: toBoolean(get('REPORTING_LINK_ENABLED', false)),
   },
 }
