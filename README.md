@@ -51,8 +51,15 @@ found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Type
 ### 1. User access
 You need to have the following roles assigned to your account (in addition to any other you may have):
 
-* ROLE_WORK_READINESS_EDIT
-* ROLE_WORK_READINESS_VIEW
+* ROLE_EDUCATION_WORK_PLAN_EDITOR
+* ROLE_EDUCATION_WORK_PLAN_VIEWER
+* ROLE_WORK_READINESS_VIEWER
+* ROLE_WORK_READINESS_EDITOR
+
+Secondary roles
+
+* ROLE_JOBS_BOARD_VIEWER - Enables link for jobs board access
+* ROLE_JOBS_BOARD_EDITOR - Enables link for jobs board access
 
 ### 2. System client id
 * ROLE_MAINTAIN_WHEREABOUTS
@@ -117,7 +124,26 @@ Create a `.env` file and complete the following values:
 | ALLOCATION_MANAGER_ENDPOINT_URL | https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk |
 | SYSTEM_PHASE                    | DEV                                                                                |
 | WEEKS_BEFORE_RELEASE            | 12                                                                                 |
+| COMPONENT_API_URL               | https://frontend-components-dev.hmpps.service.justice.gov.uk                       |
+| JOB_API_URL                     | https://jobs-board-api-dev.hmpps.service.justice.gov.uk                            |
+| JOB_UPLOAD_URL                  | https://jobs-board-dev.hmpps.service.justice.gov.uk                                |
+| REPORTING_URL                   | https://jobs-board-reporting-dev.hmpps.service.justice.gov.uk                      |
+| MANAGE_USERS_API                | https://manage-users-api-dev.hmpps.service.justice.gov.uk                          |
+| GET_SOMEONE_READY_FOR_WORK_URL  | https://get-ready-for-work-dev.hmpps.service.justice.gov.uk                        |
 
+There are several feature toggles that can be used to toggle functionality on and off
+
+|:--------------------------------------------------------------------------------------------------------------------------:|
+| Feature toggles                                                                                                            |
+|:--------------------------------------------------------------------------------------------------------------------------:|
+| CANDIDATE_MATCHING_ENABLED - Enables all Work after release and candidate matching functionality, changes homepage to menu |
+| ARCHIVED_JOBS_ENABLED - Enables all archive jobs views and functions                                                       |
+| EXPRESSIONS_OF_INTEREST_ENABLED - Enables all expressions of interest views                                                |
+| TOGGLE_ARCHIVED_JOBS_ENABLED - Enables the toggling of archive status for development and testing                          |
+| TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED - Enables toggling of expression of interest for development and testing            |
+| JOB_APPLICATIONS_ENABLED - Toggles all job applications functions and views                                                |
+| REPORTING_LINK_ENABLED - Enables reporting link on Work after release homepage                                             |
+|:--------------------------------------------------------------------------------------------------------------------------:|
 
 Run the application in development mode, in separate shell sessions:
 
