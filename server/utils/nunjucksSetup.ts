@@ -13,7 +13,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   app.locals.dpsHomeUrl = config.dpsHomeUrl
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Get someone ready to work'
-  app.locals.googleAnalyticsId = config.googleAnalyticsId
+  app.locals.googleAnalyticsId = config.googleAnalytics.googleAnalyticsId
 
   // Cachebusting version string
   if (production) {
@@ -79,4 +79,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addGlobal('phaseName', config.phaseName)
   njkEnv.addGlobal('encryptUrlParameter', encryptUrlParameter)
   njkEnv.addGlobal('decryptUrlParameter', decryptUrlParameter)
+  njkEnv.addGlobal('googleTagManagerContainerId', config.googleAnalytics.containerId)
 }

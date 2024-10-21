@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "sourceMap": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "noEmit": false,
     "allowJs": true,
