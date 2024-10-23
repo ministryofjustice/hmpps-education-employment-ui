@@ -1,9 +1,9 @@
 import ApplicationStatusValue from '../../enums/applicationStatusValue'
 
 interface UpdateApplicationProgressData {
-  jobId: number
+  jobId: string
   prisonId: string
-  offenderNo: string
+  prisonNumber: string
   firstName: string
   lastName: string
   applicationStatus: ApplicationStatusValue
