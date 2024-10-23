@@ -38,14 +38,14 @@
                 <p class="govuk-body">Employer: {{ job.employerName }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-body">Location: {{ job.city }}, {{ job.postcode }}</p>
+                <p class="govuk-body">Location: {{ job.postcode }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-body">Closing date: {{ job.closingDate }}</p>
               </div>
           </div>
 
-          <p class="govuk-body govuk-!-margin-bottom-1">How to apply: </p>
+          <p class="govuk-body govuk-!-margin-bottom-1">How to apply: {{ job.howToApply }}</p>
         </div>
 
         {% include './partials/_applicationHistory.njk' %}
