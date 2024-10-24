@@ -31,7 +31,7 @@ const getApplicationProgressResolver =
         // Merge results
         req.context.applicationProgress = req.context.applicationProgress.map((progress: any, index: number) => ({
           ...progress,
-          createdByNameDisplay: results[index],
+          modifiedByNameDisplay: results[index],
         }))
       }
 
