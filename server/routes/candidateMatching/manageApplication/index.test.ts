@@ -53,6 +53,7 @@ describe('Right to work routes', () => {
       '/mjma/:id/job/:jobId/application/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getApplicationProgressResolver
       ],
       expect.any(Function), // controller.get
     )

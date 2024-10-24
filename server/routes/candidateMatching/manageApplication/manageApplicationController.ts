@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import { v7 as uuidv7 } from 'uuid'
 
+import _ from 'lodash'
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import addressLookup from '../../addressLookup'
 import {
@@ -64,7 +66,7 @@ export default class ManageApplicationController {
     const { id, jobId } = req.params
     const { applicationStatus, additionalInformation } = req.body
     const { userActiveCaseLoad } = res.locals
-    const { prisoner } = req.context
+    const { prisoner, applicationProgress = [] } = req.context
 
     try {
       // If validation errors render errors
@@ -79,11 +81,16 @@ export default class ManageApplicationController {
         return
       }
 
+      // Check for existing application ID
+      const applicationId = applicationProgress.length
+        ? (_.last(applicationProgress) as ApplicationStatusViewModel).id
+        : uuidv7()
+
       // Update application progress API
-      await this.jobApplicationService.updateApplicationProgress(res.locals.user.username, {
-        offenderNo: id,
+      await this.jobApplicationService.updateApplicationProgress(res.locals.user.username, applicationId, {
+        jobId,
+        prisonNumber: id,
         prisonId: userActiveCaseLoad.caseLoadId,
-        jobId: Number(jobId),
         firstName: prisoner.firstName,
         lastName: prisoner.lastName,
         applicationStatus,

@@ -122,16 +122,18 @@ describe('ManageApplicationController', () => {
       req.body.applicationStatus = 'APPLICATION_MADE'
       req.body.additionalInformation = 'test_data'
 
+      req.context.applicationProgress = [{ id: 'mock_id' }]
+
       controller.post(req, res, next)
 
       expect(mockService.updateApplicationProgress).toHaveBeenCalledTimes(1)
-      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('MOCK_USER', {
+      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('MOCK_USER', 'mock_id', {
         additionalInformation: 'test_data',
         applicationStatus: 'APPLICATION_MADE',
         firstName: 'mock_firstName',
-        jobId: 1,
+        jobId: '1',
         lastName: 'mock_lastName',
-        offenderNo: 'mock_ref',
+        prisonNumber: 'mock_ref',
         prisonId: 'MDI',
       })
     })

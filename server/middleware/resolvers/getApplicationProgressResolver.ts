@@ -20,9 +20,9 @@ const getApplicationProgressResolver =
       // Get display names in parallel
       if (req.context.applicationProgress && req.context.applicationProgress.length) {
         // Set up promises
-        const promises = req.context.applicationProgress.map(async (progress: { createdByName: string }) => {
-          const address = await getUserFullName(req, res, userService, progress.createdByName)
-          return address
+        const promises = req.context.applicationProgress.map(async (progress: { modifiedBy: string }) => {
+          const displayName = await getUserFullName(req, res, userService, progress.modifiedBy)
+          return displayName
         })
 
         // Process requests
@@ -31,7 +31,7 @@ const getApplicationProgressResolver =
         // Merge results
         req.context.applicationProgress = req.context.applicationProgress.map((progress: any, index: number) => ({
           ...progress,
-          createdByNameDisplay: results[index],
+          modifiedByNameDisplay: results[index],
         }))
       }
 

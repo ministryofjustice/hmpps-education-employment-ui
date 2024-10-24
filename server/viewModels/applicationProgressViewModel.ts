@@ -5,21 +5,24 @@ import ApplicationStatusValue from '../enums/applicationStatusValue'
 
 @Exclude()
 export default class ApplicationStatusViewModel {
+  @Expose()
+  id: string
+
   jobId: string
 
   @Expose()
   applicationStatus: ApplicationStatusValue
 
   @Expose()
-  createdByName: string
+  modifiedBy: string
 
   @Expose()
-  createdByNameDisplay: string
+  modifiedByNameDisplay: string
 
   @Type(() => Date)
   @Expose()
   @Transform(formatDateStringToddMMMyyyy)
-  createdByDateTime: string
+  modifiedAt: string
 
   @Expose()
   additionalInformation: string
