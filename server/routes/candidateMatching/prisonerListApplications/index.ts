@@ -12,5 +12,5 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
 
-  router.post('/mjma/applications', [handleSortMiddleware('sortAction', 'lastName')], controller.post)
+  router.post('/mjma/applications', [handleSortMiddleware('sortAction', 'prisonerName')], controller.post)
 }

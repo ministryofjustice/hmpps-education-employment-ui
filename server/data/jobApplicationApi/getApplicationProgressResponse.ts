@@ -1,9 +1,12 @@
 import ApplicationStatusValue from '../../enums/applicationStatusValue'
 
 interface GetApplicationProgressResponse {
+  id: string
   status: ApplicationStatusValue
-  createdByName: string
-  createdByDateTime: string
+  createdBy: string
+  createdAt: string
+  updatedBy: string
+  updatedAt: string
   additionalInformation: string
 }
 
