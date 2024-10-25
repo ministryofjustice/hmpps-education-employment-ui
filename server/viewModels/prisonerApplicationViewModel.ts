@@ -19,7 +19,7 @@ export default class PrisonerApplicationViewModel {
   employerName: string
 
   @Expose()
-  prisonerNumber: string
+  prisonNumber: string
 
   @Expose()
   @Transform(({ value }) => convertToTitleCase(value))

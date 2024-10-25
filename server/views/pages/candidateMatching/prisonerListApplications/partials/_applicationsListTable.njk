@@ -11,7 +11,7 @@
                     sort: sort,
                     order: order,
                     formName: "prisoner-search-form",
-                    fieldName: "lastName",
+                    fieldName: "prisonerName",
                     headerText: "Prisoner",
                     id: "lastName-sort-link"
                 }) }}
@@ -19,7 +19,7 @@
                     sort: sort,
                     order: order,
                     formName: "prisoner-search-form",
-                    fieldName: "jobTitle",
+                    fieldName: "jobAndEmployer",
                     headerText: "Job",
                     id: "jobTitle-sort-link"
                 }) }}
@@ -34,20 +34,20 @@
         {% for item in prisonerApplications %}
             <tr class="govuk-table__row {{ rowClass.next() }}">
                 <td class="govuk-table__cell">
-                    <a href="{{ addressLookup.workProfile(item.prisonerNumber, 'overview', 'mjma') }}"
+                    <a href="{{ addressLookup.workProfile(item.prisonNumber, 'overview', 'mjma') }}"
                        rel="noopener noreferrer"
                        data-qa="quick-look-link"
                        aria-label="Profile link for {{ item.displayName }}"
                        class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold"
                        id= "prisoner-profile-link-{{ loop.index }}">{{ item.firstName }} {{ item.lastName }}</a>
-                    </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ item.prisonerNumber }}</span>
+                    </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ item.prisonNumber }}</span>
                 </td>
                 <td class="govuk-table__cell" id= "job-details-{{ loop.index }}">
                     {{ item.jobTitle }}</br>
                     <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span> 
                 </td>
                 <td class="govuk-table__cell" id="job-application-status-{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
-                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.candidateMatching.manageApplication(item.prisonerNumber , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link-{{ loop.index }}">Update progress</a></td>
+                <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.candidateMatching.manageApplication(item.prisonNumber , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link-{{ loop.index }}">Update progress</a></td>
             </tr>
         {% endfor %}
 
