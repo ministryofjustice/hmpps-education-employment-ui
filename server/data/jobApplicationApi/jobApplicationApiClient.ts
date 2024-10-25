@@ -58,20 +58,23 @@ export default class JobApplicationApiClient {
     prisonerNameFilter?: string
     jobFilter?: string
   }) {
-    const { prisonId, page = 0, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
+    const { prisonId, page = 1, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
 
-    const results = await this.restClient.post<PagedResponseNew<ApplicationSearchResults>>({
-      path: `/applications/search`,
-      data: {
-        prisonId,
-        page,
-        sort,
-        order,
-        applicationStatusFilter,
-        prisonerNameFilter,
-        jobFilter,
-      },
+    const uri = [
+      `page=${page - 1}`,
+      `size=${config.paginationPageSize}`,
+      sort && `sortBy=${sort}`,
+      order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
+      prisonId && `prisonId=${encodeURIComponent(prisonId)}`,
+      jobFilter && `jobTitleOrEmployerName=${encodeURIComponent(jobFilter)}`,
+      applicationStatusFilter && `applicationStatus=${encodeURIComponent(applicationStatusFilter)}`,
+      prisonerNameFilter && `prisonerName=${encodeURIComponent(prisonerNameFilter)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<ApplicationSearchResults>>({
+      path: `/applications?${uri.join('&')}`,
     })
+
     return results
   }
 }

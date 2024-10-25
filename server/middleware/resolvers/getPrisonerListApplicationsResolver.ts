@@ -11,7 +11,7 @@ const getPrisonerListApplicationsResolver =
   (jobApplicationService: JobApplicationService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const {
-      page,
+      page = '1',
       sort = '',
       order = '',
       applicationStatusFilter = '',
@@ -23,13 +23,13 @@ const getPrisonerListApplicationsResolver =
 
     try {
       const applications = await getPrisonerListApplications(jobApplicationService, username, {
-        prisonId: userActiveCaseLoad,
-        page: Number(page) || 0,
+        prisonId: userActiveCaseLoad.caseLoadId,
+        page: Number(page),
         sort: sort.toString(),
         order: order.toString(),
-        applicationStatusFilter: decodeURIComponent(applicationStatusFilter.toString()),
-        prisonerNameFilter: decodeURIComponent(prisonerNameFilter.toString()),
-        jobFilter: decodeURIComponent(jobFilter.toString()),
+        applicationStatusFilter: applicationStatusFilter.toString(),
+        prisonerNameFilter: prisonerNameFilter.toString(),
+        jobFilter: jobFilter.toString(),
       })
 
       req.context.prisonerListApplications = applications

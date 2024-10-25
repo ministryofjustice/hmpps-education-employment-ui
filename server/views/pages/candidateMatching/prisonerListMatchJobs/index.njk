@@ -51,7 +51,7 @@
                         </li>
                         {% if jobApplicationsEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link" id="tab-manage-applications" href="{{ addressLookup.candidateMatching.prisonerListApplications() + '?sort=lastName&order=ascending' }}">Manage applications</a>
+                                <a class="moj-sub-navigation__link" id="tab-manage-applications" href="{{ addressLookup.candidateMatching.prisonerListApplications() + '?sort=prisonerName&order=ascending' }}">Manage applications</a>
                             </li>
                         {% endif %}
                         </ul>
