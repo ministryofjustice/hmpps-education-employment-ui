@@ -201,5 +201,6 @@ export default {
     toggleExpressionsOfInterestEnabled: toBoolean(get('TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED', false)),
     jobApplicationsEnabled: toBoolean(get('JOB_APPLICATIONS_ENABLED', false)),
     reportingLinkEnabled: toBoolean(get('REPORTING_LINK_ENABLED', false)),
+    randomPostcodesInDevEnabled: toBoolean(get('RANDOM_POSTCODES_IN_DEV', false)),
   },
 }
