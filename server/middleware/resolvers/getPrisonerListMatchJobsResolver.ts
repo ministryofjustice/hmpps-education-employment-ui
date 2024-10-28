@@ -3,7 +3,7 @@ import type { RequestHandler } from 'express'
 
 import _ from 'lodash'
 import config from '../../config'
-import { formatDateToyyyyMMdd, offenderEarliestReleaseDate } from '../../utils/index'
+import { formatDateToyyyyMMdd, getSessionData, offenderEarliestReleaseDate, setSessionData } from '../../utils/index'
 import PrisonerProfileService from '../../services/prisonerProfileService'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
@@ -52,7 +52,16 @@ const getPrisonerListMatchJobsResolver =
         // Set up promises
         const promises = req.context.prisonerListMatchedJobs.content.map(
           async (prisoner: { prisonerNumber: string }) => {
-            const address = await getPrisonerAddressById(deliusIntegrationService, username, prisoner.prisonerNumber)
+            let address
+
+            // Check session for cached address
+            if (getSessionData(req, ['prisonerAddress', prisoner.prisonerNumber])) {
+              address = getSessionData(req, ['prisonerAddress', prisoner.prisonerNumber])
+            } else {
+              address = await getPrisonerAddressById(deliusIntegrationService, username, prisoner.prisonerNumber)
+              setSessionData(req, ['prisonerAddress', prisoner.prisonerNumber], address)
+            }
+
             return address
           },
         )

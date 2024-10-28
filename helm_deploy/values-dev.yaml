@@ -41,6 +41,7 @@ generic-service:
     TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED: true
     JOB_APPLICATIONS_ENABLED: true
     REPORTING_LINK_ENABLED: false
+    RANDOM_POSTCODES_IN_DEV: true
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev

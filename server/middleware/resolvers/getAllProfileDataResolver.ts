@@ -17,6 +17,7 @@ import getComById from './utils/getComById'
 import getPomById from './utils/getPomById'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import getJobsOfInterestClosingSoon from './utils/getJobsOfInterestClosingSoon'
+import { getSessionData, setSessionData } from '../../utils/session'
 
 // Gets profile data based on id parameter and puts it into request context
 const getAllProfileDataResolver =
@@ -27,13 +28,15 @@ const getAllProfileDataResolver =
     const { prisonerSearchService, deliusIntegrationService } = services
 
     try {
-      const [prisoner, prisonerAddress] = await Promise.all([
-        prisonerSearchService.getPrisonerById(username, id),
-        getPrisonerAddressById(deliusIntegrationService, username, id),
-      ])
+      req.context.prisoner = await prisonerSearchService.getPrisonerById(username, id)
 
-      req.context.prisoner = prisoner
-      req.context.prisonerAddress = prisonerAddress
+      // Check session for cached address
+      if (getSessionData(req, ['prisonerAddress', id])) {
+        req.context.prisonerAddress = getSessionData(req, ['prisonerAddress', id])
+      } else {
+        req.context.prisonerAddress = await getPrisonerAddressById(deliusIntegrationService, username, id)
+        setSessionData(req, ['prisonerAddress', id], req.context.prisonerAddress)
+      }
 
       if (tab === 'details') {
         await getPersonalTabData(req, res, services)
