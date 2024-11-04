@@ -153,6 +153,9 @@ describe('MatchedJobsController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
         ...mockData,
         errors,
+        filterStatus: 'ALL',
+        jobSectorFilter: [],
+        jobSectorFilterOther: [],
       })
     })
 
