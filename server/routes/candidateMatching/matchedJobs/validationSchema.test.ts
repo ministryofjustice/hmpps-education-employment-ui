@@ -3,40 +3,22 @@ import validationSchema from './validationSchema'
 
 describe('validationSchema', () => {
   const { req } = expressMocks()
-
-  const longStr = 'x'.repeat(201)
   const schema = validationSchema()
 
-  it('On validation success - should allow a locationFilter with 200 characters', () => {
-    req.body.locationFilter = 'x'.repeat(200)
+  it('On validation success - should allow a locationFilter with a valid postcode', () => {
+    req.body.locationFilter = 'NE236DR'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeFalsy()
   })
 
-  it('On validation error - should disallow a locationFilter longer than 200 characters', () => {
-    req.body.locationFilter = longStr
-
-    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
-
-    expect(error).toBeTruthy()
-    expect(error.details[0].message).toBe('Release area must be 200 characters or less')
-  })
-  it('On validation success - should allow a locationFilter with 200 characters', () => {
-    req.body.locationFilter = 'xx'
-
-    const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
-
-    expect(error).toBeFalsy()
-  })
-
-  it('On validation error - should disallow a locationFilter shorter than 2 characters', () => {
+  it('On validation error - should disallow a locationFilter to not be an invalid postcode', () => {
     req.body.locationFilter = 'x'
 
     const { error } = schema.validate(req.body, { abortEarly: false, allowUnknown: true })
 
     expect(error).toBeTruthy()
-    expect(error.details[0].message).toBe('Release area must be 2 characters or more')
+    expect(error.details[0].message).toBe('Release area postcode must be a valid postcode')
   })
 })

@@ -97,14 +97,13 @@ export default class JobApiClient {
     const { offenderNo, jobSectorFilter = [] } = params
 
     const uri = [
-      `page=0`,
       `size=3`,
-      jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter[0].toString())}`,
+      jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter.join(','))}`,
       `prisonNumber=${encodeURIComponent(offenderNo)}`,
     ].filter(val => !!val)
 
-    const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsClosingSoonResponse>>({
-      path: `/jobs/matching-candidate?${uri.join('&')}`,
+    const results = await this.restClient.get<GetMatchedJobsClosingSoonResponse>({
+      path: `/jobs/matching-candidate/closing-soon?${uri.join('&')}`,
     })
 
     return results
