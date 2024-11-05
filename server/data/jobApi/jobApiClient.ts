@@ -36,7 +36,7 @@ export default class JobApiClient {
       jobSectorFilter && `sectors=${encodeURIComponent(jobSectorFilter)}`,
       offenderNo && `prisonNumber=${encodeURIComponent(offenderNo)}`,
       locationFilter && `releaseArea=${encodeURIComponent(locationFilter)}`,
-      distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
+      distanceFilter && `searchRadius=${encodeURIComponent(distanceFilter)}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
@@ -110,8 +110,10 @@ export default class JobApiClient {
   }
 
   async getJobsOfInterestClosingSoon(offenderNo: string) {
-    const result = await this.restClient.get<PagedResponseNew<GetJobsOfInterestClosingSoonResponse>>({
-      path: `/jobs-of-interest/${offenderNo}/closing-soon`,
+    const uri = [`size=3`, `prisonNumber=${encodeURIComponent(offenderNo)}`].filter(val => !!val)
+
+    const result = await this.restClient.get<GetJobsOfInterestClosingSoonResponse>({
+      path: `/jobs/expressed-interest/closing-soon?${uri.join('&')}`,
     })
 
     return result

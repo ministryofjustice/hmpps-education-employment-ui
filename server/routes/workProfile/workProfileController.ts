@@ -62,7 +62,7 @@ export default class WorkProfileController {
         },
         unacceptableAbsenceCount,
         matchedJobs: plainToClass(JobClosingSoonViewModel, matchedJobsResults),
-        jobsOfInterest: plainToClass(JobClosingSoonViewModel, _.get(jobsOfInterest, 'content', [])),
+        jobsOfInterest: plainToClass(JobClosingSoonViewModel, jobsOfInterest),
         openApplications: openApplications.content,
         closedApplications: closedApplications.content,
         releaseArea: prisonerAddress,
