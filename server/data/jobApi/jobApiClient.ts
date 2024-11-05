@@ -35,7 +35,7 @@ export default class JobApiClient {
       order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
       jobSectorFilter && `sectors=${encodeURIComponent(jobSectorFilter)}`,
       offenderNo && `prisonNumber=${encodeURIComponent(offenderNo)}`,
-      locationFilter && `location=${encodeURIComponent(locationFilter)}`,
+      locationFilter && `releaseArea=${encodeURIComponent(locationFilter)}`,
       distanceFilter && `distance=${encodeURIComponent(distanceFilter)}`,
     ].filter(val => !!val)
 
@@ -87,7 +87,7 @@ export default class JobApiClient {
   async getJobDetails(jobId: string, offenderNo: string, postcode?: string) {
     const baseUrl = `/jobs/${jobId}/matching-candidate?prisonNumber=${offenderNo}`
     const result = await this.restClient.get<GetJobDetailsResponse>({
-      path: postcode ? `${baseUrl}&postcode=${postcode}` : baseUrl,
+      path: postcode ? `${baseUrl}&releaseArea=${postcode}` : baseUrl,
     })
 
     return result
