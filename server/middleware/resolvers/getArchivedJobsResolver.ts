@@ -8,7 +8,7 @@ const getArchivedJobsResolver =
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
-    const { page, sort = '', order = '' } = req.query
+    const { page = '1', sort = '', order = '' } = req.query
 
     try {
       const archivedJobs = await getArchivedJobs(jobService, username, {
