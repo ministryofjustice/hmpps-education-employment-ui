@@ -9,6 +9,7 @@ const getJobsOfInterest = async (
     page?: number
     sort?: string
     order?: string
+    locationFilter?: string
   },
 ) => {
   try {

@@ -10,7 +10,10 @@ export default (router: Router, services: Services) => {
   const controller = new JobsOfInterestController(services.paginationService)
   router.get(
     '/mjma/:id/jobs/interested',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getJobsOfInterestResolver(services.jobService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getJobsOfInterestResolver(services.jobService, services.deliusIntegrationService),
+    ],
     controller.get,
   )
 
