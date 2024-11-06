@@ -115,7 +115,10 @@ export default class MatchedJobsController {
         res.render('pages/candidateMatching/matchedJobs/index', {
           ...data,
           errors,
-          ...req.body,
+          jobSectorFilter,
+          jobSectorFilterOther,
+          locationFilter,
+          distanceFilter,
         })
         return
       }

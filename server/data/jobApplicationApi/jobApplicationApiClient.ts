@@ -7,8 +7,6 @@ import GetApplicationProgressResponse from './getApplicationProgressResponse'
 import ApplicationSearchResults from './applicationSearchResults'
 import PagedResponseNew from '../domain/types/pagedResponseNew'
 
-const BASE_URL = '/candidate-matching'
-
 export default class JobApplicationApiClient {
   restClient: RestClient
 
@@ -16,33 +14,33 @@ export default class JobApplicationApiClient {
     this.restClient = new RestClient('Job Application API', config.apis.jobApi, token)
   }
 
-  async getOpenApplications(offenderNo: string) {
+  async getOpenApplications(prisonNumber: string) {
     const results = await this.restClient.get<PagedResponseNew<GetOpenApplicationsResponse>>({
-      path: `${BASE_URL}/applications/${offenderNo}/open`,
+      path: `/applications/open?prisonNumber=${prisonNumber}&size=9999`,
     })
 
     return results
   }
 
-  async getClosedApplications(offenderNo: string) {
+  async getClosedApplications(prisonNumber: string) {
     const results = await this.restClient.get<PagedResponseNew<GetClosedApplicationsResponse>>({
-      path: `${BASE_URL}/applications/${offenderNo}/closed`,
+      path: `/applications/closed?prisonNumber=${prisonNumber}&size=9999`,
     })
 
     return results
   }
 
-  async getApplicationProgress(offenderNo: string, jobId: string) {
+  async getApplicationProgress(prisonNumber: string, jobId: string) {
     const results = await this.restClient.get<PagedResponseNew<GetApplicationProgressResponse>>({
-      path: `${BASE_URL}/applications/${offenderNo}/job/${jobId}`,
+      path: `/applications/histories?jobId=${jobId}&prisonNumber=${prisonNumber}`,
     })
 
     return results
   }
 
-  async updateApplicationProgress(updateApplicationProgressData: UpdateApplicationProgressData) {
-    const result = await this.restClient.post({
-      path: `${BASE_URL}/application`,
+  async updateApplicationProgress(applicationId: string, updateApplicationProgressData: UpdateApplicationProgressData) {
+    const result = await this.restClient.put({
+      path: `/applications/${applicationId}`,
       data: {
         ...updateApplicationProgressData,
       },
@@ -60,20 +58,23 @@ export default class JobApplicationApiClient {
     prisonerNameFilter?: string
     jobFilter?: string
   }) {
-    const { prisonId, page = 0, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
+    const { prisonId, page = 1, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
 
-    const results = await this.restClient.post<PagedResponseNew<ApplicationSearchResults>>({
-      path: `${BASE_URL}/applications/search`,
-      data: {
-        prisonId,
-        page,
-        sort,
-        order,
-        applicationStatusFilter,
-        prisonerNameFilter,
-        jobFilter,
-      },
+    const uri = [
+      `page=${page - 1}`,
+      `size=${config.paginationPageSize}`,
+      sort && `sortBy=${sort}`,
+      order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
+      prisonId && `prisonId=${encodeURIComponent(prisonId)}`,
+      jobFilter && `jobTitleOrEmployerName=${encodeURIComponent(jobFilter)}`,
+      applicationStatusFilter && `applicationStatus=${encodeURIComponent(applicationStatusFilter)}`,
+      prisonerNameFilter && `prisonerName=${encodeURIComponent(prisonerNameFilter)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<ApplicationSearchResults>>({
+      path: `/applications?${uri.join('&')}`,
     })
+
     return results
   }
 }

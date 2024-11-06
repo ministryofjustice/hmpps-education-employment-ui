@@ -1,6 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import getPrisonerAddressById from './getPrisonerAddressById'
 
+jest.mock('../../../config', () => ({
+  ...jest.requireActual('../../../config'),
+  __esModule: true,
+  default: {
+    phase: 'DEV',
+    featureToggles: {
+      randomPostcodesInDevEnabled: false,
+    },
+  },
+}))
+
 describe('getPrisonerAddressById', () => {
   const username = 'mock_username'
   const id = 'mock_ref'

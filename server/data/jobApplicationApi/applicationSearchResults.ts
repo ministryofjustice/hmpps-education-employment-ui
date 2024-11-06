@@ -2,10 +2,10 @@ import ApplicationStatusValue from '../../enums/applicationStatusValue'
 
 interface ApplicationSearchResults {
   prisonId: string
-  jobId: number
+  jobId: string
   jobTitle: string
   employerName: string
-  prisonerNumber: string
+  prisonNumber: string
   firstName: string
   lastName: string
   applicationStatus: ApplicationStatusValue

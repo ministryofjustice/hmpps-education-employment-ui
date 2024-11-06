@@ -5,7 +5,7 @@ describe('PrisonerApplicationViewModel', () => {
   const prisonerJson = {
     prisonId: 'MDI',
     jobId: 1,
-    prisonerNumber: 'A1234BC',
+    prisonNumber: 'A1234BC',
     bookingId: '123456',
     firstName: 'JOHN',
     lastName: 'DOE',
@@ -21,7 +21,7 @@ describe('PrisonerApplicationViewModel', () => {
     expect(prisonerViewModel.prisonId).toBe(undefined)
 
     // Included values
-    expect(prisonerViewModel.prisonerNumber).toBe(prisonerJson.prisonerNumber)
+    expect(prisonerViewModel.prisonNumber).toBe(prisonerJson.prisonNumber)
     expect(prisonerViewModel.firstName).toBe('John')
     expect(prisonerViewModel.lastName).toBe('Doe')
     expect(prisonerViewModel.applicationStatus).toBe('TEST_STATUS')
