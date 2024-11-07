@@ -34,7 +34,7 @@ context('SignIn', () => {
 
     cy.get('@candidateMatchingEnabled').then(isEnabled => {
       if (isEnabled) {
-        const indexPage = new IndexPage('Work after release')
+        const indexPage = new IndexPage('Work after leaving prison')
         cy.get('[data-qa=header-user-name]').should('contain.text', 'J. Smith')
       } else {
         const indexPage = new IndexPage('Get someone ready to work')
@@ -52,7 +52,7 @@ context('SignIn', () => {
 
     cy.get('@candidateMatchingEnabled').then(isEnabled => {
       if (isEnabled) {
-        const indexPage = new IndexPage('Work after release')
+        const indexPage = new IndexPage('Work after leaving prison')
         indexPage.signOut().click()
         Page.verifyOnPage(AuthSignInPage)
       } else {
@@ -72,7 +72,7 @@ context('SignIn', () => {
 
     cy.get('@candidateMatchingEnabled').then(isEnabled => {
       if (isEnabled) {
-        const indexPage = new IndexPage('Work after release')
+        const indexPage = new IndexPage('Work after leaving prison')
 
         indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
         indexPage.manageDetails().click()
@@ -97,7 +97,7 @@ context('SignIn', () => {
     cy.get('@candidateMatchingEnabled').then(isEnabled => {
       if (isEnabled) {
         // Add more test steps for enabled feature
-        const indexPage = new IndexPage('Work after release')
+        const indexPage = new IndexPage('Work after leaving prison')
         cy.task('stubVerifyToken', false)
 
         // can't do a visit here as cypress requires only one domain
@@ -121,7 +121,7 @@ context('SignIn', () => {
 
     cy.get('@candidateMatchingEnabled').then(isEnabled => {
       if (isEnabled) {
-        const indexPage = new IndexPage('Work after release')
+        const indexPage = new IndexPage('Work after leaving prison')
         cy.task('stubVerifyToken', false)
 
         // can't do a visit here as cypress requires only one domain
