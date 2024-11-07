@@ -30,7 +30,7 @@ const getMatchedJobsResolver =
         order: order.toString(),
         jobSectorFilter: jobSectorFilter.toString(),
         locationFilter: locationFilter.toString() === 'none' ? '' : locationFilter.toString() || postcode,
-        distanceFilter: Number(distanceFilter),
+        distanceFilter: Number(distanceFilter) ? Number(distanceFilter) : 9999,
       })
 
       req.context.matchedJobsResults = matchedJobs
