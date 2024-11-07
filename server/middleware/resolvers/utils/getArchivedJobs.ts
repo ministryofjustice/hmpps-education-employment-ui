@@ -9,6 +9,7 @@ const getArchivedJobs = async (
     page?: number
     sort?: string
     order?: string
+    locationFilter?: string
   },
 ) => {
   try {

@@ -24,13 +24,15 @@ describe('getArchivedJobsResolver', () => {
 
   const serviceMock = {
     getArchivedJobs: jest.fn(),
+    getAddressForOffender: jest.fn(),
   }
   const error = new Error('mock_error')
 
-  const resolver = middleware(serviceMock as any)
+  const resolver = middleware(serviceMock as any, serviceMock as any)
 
   it('On error - Calls next with error', async () => {
     serviceMock.getArchivedJobs.mockRejectedValue(error)
+    serviceMock.getAddressForOffender.mockResolvedValue({})
 
     await resolver(req, res, next)
 
@@ -39,6 +41,7 @@ describe('getArchivedJobsResolver', () => {
 
   it('On success - Attaches data to context and call next', async () => {
     serviceMock.getArchivedJobs.mockResolvedValue(mockData)
+    serviceMock.getAddressForOffender.mockResolvedValue({})
 
     await resolver(req, res, next)
 

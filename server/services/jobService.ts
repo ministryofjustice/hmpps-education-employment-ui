@@ -29,6 +29,7 @@ export default class JobService {
       page?: number
       sort?: string
       order?: string
+      locationFilter?: string
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
@@ -43,6 +44,7 @@ export default class JobService {
       page?: number
       sort?: string
       order?: string
+      locationFilter?: string
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)

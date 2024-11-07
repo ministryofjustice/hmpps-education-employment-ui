@@ -10,7 +10,10 @@ export default (router: Router, services: Services) => {
   const controller = new ArchivedJobsController(services.paginationService)
   router.get(
     '/mjma/:id/jobs/archived',
-    [getPrisonerByIdResolver(services.prisonerSearchService), getArchivedJobsResolver(services.jobService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getArchivedJobsResolver(services.jobService, services.deliusIntegrationService),
+    ],
     controller.get,
   )
 

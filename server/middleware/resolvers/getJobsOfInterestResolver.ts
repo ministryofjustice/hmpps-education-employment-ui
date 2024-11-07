@@ -14,6 +14,7 @@ const getJobsOfInterestResolver =
     const { page = '1', sort = '', order = '' } = req.query
 
     try {
+      // Check for address
       if (getSessionData(req, ['prisonerAddress', id])) {
         req.context.prisonerAddress = getSessionData(req, ['prisonerAddress', id])
       } else {
@@ -21,6 +22,7 @@ const getJobsOfInterestResolver =
         setSessionData(req, ['prisonerAddress', id], req.context.prisonerAddress)
       }
 
+      // Get jobs
       const jobsOfInterest = await getJobsOfInterest(jobService, username, {
         offenderNo: id,
         page: Number(page),
