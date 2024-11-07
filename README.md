@@ -136,13 +136,13 @@ There are several feature toggles that can be used to toggle functionality on an
 |:--------------------------------------------------------------------------------------------------------------------------:|
 | Feature toggles                                                                                                            |
 |:--------------------------------------------------------------------------------------------------------------------------:|
-| CANDIDATE_MATCHING_ENABLED - Enables all Work after release and candidate matching functionality, changes homepage to menu |
+| CANDIDATE_MATCHING_ENABLED - Enables all Work after leaving prison and candidate matching functionality, changes homepage to menu |
 | ARCHIVED_JOBS_ENABLED - Enables all archive jobs views and functions                                                       |
 | EXPRESSIONS_OF_INTEREST_ENABLED - Enables all expressions of interest views                                                |
 | TOGGLE_ARCHIVED_JOBS_ENABLED - Enables the toggling of archive status for development and testing                          |
 | TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED - Enables toggling of expression of interest for development and testing            |
 | JOB_APPLICATIONS_ENABLED - Toggles all job applications functions and views                                                |
-| REPORTING_LINK_ENABLED - Enables reporting link on Work after release homepage                                             |
+| REPORTING_LINK_ENABLED - Enables reporting link on Work after leaving prison homepage                                             |
 |:--------------------------------------------------------------------------------------------------------------------------:|
 
 Run the application in development mode, in separate shell sessions:
