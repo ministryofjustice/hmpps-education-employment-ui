@@ -71,18 +71,28 @@ export default class JobApiClient {
     return results
   }
 
-  async getArchivedJobs(params: { offenderNo: string; page?: number; sort?: string; order?: string }) {
-    const { offenderNo, page, sort, order } = params
+  async getArchivedJobs(params: {
+    offenderNo: string
+    page?: number
+    sort?: string
+    order?: string
+    locationFilter?: string
+  }) {
+    const { offenderNo, page = 1, sort, order, locationFilter } = params
 
-    const results = await this.restClient.post<PagedResponseNew<GetArchivedJobsResponse>>({
-      path: `/jobs/archived`,
-      data: {
-        offenderNo,
-        page,
-        sort,
-        order,
-      },
+    const uri = [
+      `page=${page - 1}`,
+      `size=${config.paginationPageSize}`,
+      sort && `sortBy=${sort}`,
+      order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
+      offenderNo && `prisonNumber=${encodeURIComponent(offenderNo)}`,
+      locationFilter && `releaseArea=${encodeURIComponent(locationFilter)}`,
+    ].filter(val => !!val)
+
+    const results = await this.restClient.get<PagedResponseNew<GetArchivedJobsResponse>>({
+      path: `/jobs/archived?${uri.join('&')}`,
     })
+
     return results
   }
 
