@@ -18,7 +18,7 @@ export default class ArchivedJobsController {
     const { page, sort, order } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { prisoner, archivedJobsResults } = req.context
+    const { prisoner, profile, archivedJobsResults } = req.context
 
     try {
       // Paginate where necessary
@@ -61,6 +61,7 @@ export default class ArchivedJobsController {
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
+        workTypesOfInterest: _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest', []),
       }
 
       // Set page data in session

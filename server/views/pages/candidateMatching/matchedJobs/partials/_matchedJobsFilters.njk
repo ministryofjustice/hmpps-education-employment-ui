@@ -96,7 +96,7 @@
       </button>
       {% if filtered %}
         <div style="display: inline-block; padding-left: 10px; padding-top: 10px">
-          <a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}" aria-label="Reset filters">Reset filters</a>
+          <a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
         </div>
       {% endif %}
     </div>

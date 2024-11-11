@@ -79,6 +79,7 @@ describe('ArchivedJobsController', () => {
         },
         sort: 'releaseDate',
         userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
+        workTypesOfInterest: [],
       })
       expect(next).toHaveBeenCalledTimes(0)
     })

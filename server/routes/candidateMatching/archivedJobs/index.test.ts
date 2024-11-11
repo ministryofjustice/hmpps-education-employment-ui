@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import Controller from './archivedJobsController'
 import getArchivedJobsResolver from '../../../middleware/resolvers/getArchivedJobsResolver'
+import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import { Services } from '../../../services'
 import routes from './index'
 
 jest.mock('./archivedJobsController')
+jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getArchivedJobsResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
@@ -26,6 +28,7 @@ describe('Archived jobs routes', () => {
       post: jest.fn(),
     }))
     ;(getArchivedJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -36,6 +39,7 @@ describe('Archived jobs routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/mjma/:id/jobs/archived',
       [
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerListArchivedJobsResolver
       ],
