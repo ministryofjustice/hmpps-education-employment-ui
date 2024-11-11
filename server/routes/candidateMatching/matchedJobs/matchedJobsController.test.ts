@@ -78,7 +78,7 @@ describe('MatchedJobsController', () => {
         order: 'descending',
         paginationData: {},
         locationFilter: '',
-        filtered: false,
+        filtered: true,
         id: 'mock_id',
         matchedJobsResults: {
           filterStatus: 'ALL',

@@ -81,7 +81,7 @@
             {% endif %}
           {% endif %}
 
-          <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending' }}" id="view-matched-jobs-link">View all matched jobs</a></p>
+          <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending&jobSectorFilter=' + workTypesOfInterest.join(',') }}" id="view-matched-jobs-link">View all matched jobs</a></p>
         {% else %}
           <p>There are no matched jobs for {{ prisoner.firstName }} {{ prisoner.lastName }}</p>
         {% endif %}
