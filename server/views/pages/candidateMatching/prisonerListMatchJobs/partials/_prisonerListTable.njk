@@ -71,6 +71,8 @@
     {% if paginationData.results.count >= 1 and prisonerSearchResults.content.length >= 1 %}
         {{ pagination( paginationData ) }}
     {% else %}
-        {% include './_notFoundMessages.njk' %}
+       {% include './_notFoundMessages.njk' %}
     {% endif %}
+
+     
 </div>
