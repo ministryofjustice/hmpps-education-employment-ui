@@ -46,7 +46,7 @@ export default function getRandomPostcode(): string {
     'M6 7FD', // Salford, Pendleton
     'OL1 1AA', // Oldham
     'OL2 5QD', // Royton, Oldham
-    'BB1 6AA', // Blackburn
+    'BB1 6EA', // Blackburn
     'BB2 1ES', // Blackburn South, Darwen
     'PR1 2HE', // Preston City Centre
     'PR2 2DP', // Fulwood, Preston
