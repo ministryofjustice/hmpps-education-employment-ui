@@ -88,8 +88,8 @@ export default class MatchedJobsController {
         jobSectorFilter: _.compact(decodeURIComponent(jobSectorFilter as string).split(',')),
         distanceFilter: decodeURIComponent(distanceFilter as string),
         filtered:
-          decodeURIComponent(locationFilter as string) ||
-          decodeURIComponent(jobSectorFilter as string) ||
+          (decodeURIComponent(locationFilter as string) && decodeURIComponent(locationFilter as string) !== postcode) ||
+          !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
           decodeURIComponent(distanceFilter as string) !== '10',
       }
 

@@ -18,7 +18,7 @@ export default class JobsOfInterestController {
     const { page, sort, order } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { prisoner, jobsOfInterestResults } = req.context
+    const { prisoner, profile, jobsOfInterestResults } = req.context
 
     try {
       // Paginate where necessary
@@ -61,6 +61,7 @@ export default class JobsOfInterestController {
         paginationData,
         userActiveCaseLoad,
         notFoundMsg,
+        workTypesOfInterest: _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest', []),
       }
 
       res.render('pages/candidateMatching/jobsOfInterest/index', { ...data })

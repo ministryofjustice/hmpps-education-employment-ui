@@ -66,6 +66,7 @@ export default class WorkProfileController {
         openApplications: openApplications.content,
         closedApplications: closedApplications.content,
         releaseArea: prisonerAddress,
+        workTypesOfInterest: _.get(profile, 'profileData.supportAccepted.workInterests.workTypesOfInterest', []),
       }
 
       setSessionData(req, ['workProfile', id, 'currentModule'], module)
