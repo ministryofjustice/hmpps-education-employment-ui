@@ -59,7 +59,7 @@
                 {% if archivedJobsResults.page.totalElements === 0 %}
                     <p>There are no archived jobs for {{ prisoner.firstName + " " + prisoner.lastName }}.</p>
                 {% else %}
-                    <h3 class="govuk-heading-s">{{ archivedJobsResults.totalElements }} {{ 'results' if  archivedJobsResults.totalElements > 1 else 'result' }}</h3>
+                    <h3 class="govuk-heading-s">{{ archivedJobsResults.page.totalElements }} {{ 'results' if  archivedJobsResults.page.totalElements > 1 else 'result' }}</h3>
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                 {% endif %}
                
