@@ -13,6 +13,7 @@ import addressLookup from '../../addressLookup'
 import typeOfWorkLookup from '../../../constants/contentLookup/typeOfWork'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { getBackLocation } from '../../../utils/index'
+import logger from '../../../../logger'
 
 export default class MatchedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -97,6 +98,7 @@ export default class MatchedJobsController {
 
       res.render('pages/candidateMatching/matchedJobs/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Matched jobs')
       next(err)
     }
   }
@@ -138,6 +140,7 @@ export default class MatchedJobsController {
           : addressLookup.candidateMatching.matchedJobs(id),
       )
     } catch (err) {
+      logger.error('Error posting form - Matched jobs')
       next(err)
     }
   }

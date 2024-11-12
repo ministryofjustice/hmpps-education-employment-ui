@@ -9,6 +9,7 @@ import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { getBackLocation } from '../../../utils/index'
+import logger from '../../../../logger'
 
 export default class JobsOfInterestController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -66,6 +67,7 @@ export default class JobsOfInterestController {
 
       res.render('pages/candidateMatching/jobsOfInterest/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Jobs of interest')
       next(err)
     }
   }
@@ -83,6 +85,7 @@ export default class JobsOfInterestController {
           : addressLookup.candidateMatching.jobsOfInterest(id),
       )
     } catch (err) {
+      logger.error('Error posting form - Jobs of interest')
       next(err)
     }
   }

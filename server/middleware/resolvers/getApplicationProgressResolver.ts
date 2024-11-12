@@ -5,6 +5,7 @@ import getApplicationProgress from './utils/getApplicationProgress'
 import JobApplicationService from '../../services/jobApplicationService'
 import UserService from '../../services/userService'
 import { getUserFullName } from './utils'
+import logger from '../../../logger'
 
 const getApplicationProgressResolver =
   (jobApplicationService: JobApplicationService, userService: UserService): RequestHandler =>
@@ -37,6 +38,7 @@ const getApplicationProgressResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Application history')
       next(err)
     }
   }

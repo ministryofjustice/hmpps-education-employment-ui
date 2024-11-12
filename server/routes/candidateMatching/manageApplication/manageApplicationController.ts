@@ -17,6 +17,7 @@ import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import ApplicationStatusViewModel from '../../../viewModels/applicationProgressViewModel'
 import validationSchema from './validationSchema'
 import JobApplicationService from '../../../services/jobApplicationService'
+import logger from '../../../../logger'
 
 export default class ManageApplicationController {
   constructor(private readonly jobApplicationService: JobApplicationService) {}
@@ -58,6 +59,7 @@ export default class ManageApplicationController {
 
       res.render('pages/candidateMatching/manageApplication/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Manage application')
       next(err)
     }
   }
@@ -100,6 +102,7 @@ export default class ManageApplicationController {
       // Redirect to the correct page based on mode
       res.redirect(addressLookup.candidateMatching.manageApplication(id, jobId, 'update'))
     } catch (err) {
+      logger.error('Error posting form - Manage application')
       next(err)
     }
   }

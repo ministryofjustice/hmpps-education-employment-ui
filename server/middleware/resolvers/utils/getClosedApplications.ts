@@ -7,7 +7,7 @@ const getClosedApplications = async (jobApplicationService: JobApplicationServic
     return await jobApplicationService.getClosedApplications(username, id)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404 || err?.status === 500) {
+    if (err?.status === 404) {
       return {
         content: [] as GetClosedApplicationsResponse[],
         page: {

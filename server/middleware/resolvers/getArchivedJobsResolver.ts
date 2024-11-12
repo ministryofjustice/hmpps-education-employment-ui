@@ -5,6 +5,7 @@ import getArchivedJobs from './utils/getArchivedJobs'
 import { getSessionData, setSessionData } from '../../utils/session'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
+import logger from '../../../logger'
 
 const getArchivedJobsResolver =
   (jobService: JobService, deliusIntegrationService: DeliusIntegrationService): RequestHandler =>
@@ -35,6 +36,7 @@ const getArchivedJobsResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Archived jobs')
       next(err)
     }
   }

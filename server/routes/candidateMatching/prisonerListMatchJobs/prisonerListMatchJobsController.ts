@@ -6,6 +6,7 @@ import { getSessionData } from '../../../utils/session'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
 import addressLookup from '../../addressLookup'
+import logger from '../../../../logger'
 
 export default class PrisonerListMatchJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -66,6 +67,7 @@ export default class PrisonerListMatchJobsController {
 
       res.render('pages/candidateMatching/prisonerListMatchJobs/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Prisioner list match jobs')
       next(err)
     }
   }
@@ -102,6 +104,7 @@ export default class PrisonerListMatchJobsController {
           : addressLookup.candidateMatching.prisonerListMatchJobs(),
       )
     } catch (err) {
+      logger.error('Error posting form - Prisioner list match jobs')
       next(err)
     }
   }

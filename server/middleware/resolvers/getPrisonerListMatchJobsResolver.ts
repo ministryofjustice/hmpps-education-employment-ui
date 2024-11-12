@@ -7,6 +7,7 @@ import { formatDateToyyyyMMdd, getSessionData, offenderEarliestReleaseDate, setS
 import PrisonerProfileService from '../../services/prisonerProfileService'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
+import logger from '../../../logger'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getPrisonerListMatchJobsResolver =
@@ -80,6 +81,7 @@ const getPrisonerListMatchJobsResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Prisoner list match jobs')
       next(err)
     }
   }

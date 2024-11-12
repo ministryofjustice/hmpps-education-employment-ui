@@ -17,7 +17,7 @@ const getJobsOfInterest = async (
     return await jobService.getJobsOfInterest(username, params)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404 || err?.status === 500) {
+    if (err?.status === 404) {
       return {
         content: [] as GetOtherJobsOfInterestResponse[],
         page: {

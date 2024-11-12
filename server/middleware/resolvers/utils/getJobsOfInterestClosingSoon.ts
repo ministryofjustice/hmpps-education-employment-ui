@@ -7,7 +7,7 @@ const getJobsOfInterestClosingSoon = async (jobService: JobService, username: st
     return await jobService.getJobsOfInterestClosingSoon(username, offenderNo)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404 || err?.status === 500) {
+    if (err?.status === 404) {
       return {
         content: [] as GetJobsOfInterestClosingSoonResponse[],
         page: {
