@@ -15,13 +15,15 @@
                     headerText: "Job role"
                 }) }}
                 <th scope="col" class="govuk-table__header">Type of work</th>
-                {{ sortableTableHeader({
+                {# TODO: Enable when distance sort is fixed #}
+                {# {{ sortableTableHeader({
                     sort: sort,
                     order: order,
                     formName: "prisoner-search-form",
                     fieldName: "distance",
                     headerText: "Job location"
-                }) }}
+                }) }} #}
+                <th scope="col" class="govuk-table__header">Job location</th>
                 {{ sortableTableHeader({
                     sort: sort,
                     order: order,
