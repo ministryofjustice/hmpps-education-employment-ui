@@ -5,6 +5,7 @@ import { plainToClass } from 'class-transformer'
 import JobApplicationService from '../../services/jobApplicationService'
 import PrisonerApplicationViewModel from '../../viewModels/prisonerApplicationViewModel'
 import getPrisonerListApplications from './utils/getPrisonerListApplications'
+import logger from '../../../logger'
 
 // Gets prisoner applications based on the current prisonId of the current user
 const getPrisonerListApplicationsResolver =
@@ -36,6 +37,7 @@ const getPrisonerListApplicationsResolver =
       req.context.prisonerListApplications.content = plainToClass(PrisonerApplicationViewModel, applications.content)
       next()
     } catch (err) {
+      logger.error('Error getting data - Prisoner list applications')
       next(err)
     }
   }

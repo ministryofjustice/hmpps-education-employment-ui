@@ -5,6 +5,7 @@ import JobService from '../../services/jobService'
 import getJobDetails from './utils/getJobDetails'
 import { getSessionData } from '../../utils/session'
 import getEmployer from './utils/getEmployer'
+import logger from '../../../logger'
 
 const getJobDetailsResolver =
   (jobService: JobService): RequestHandler =>
@@ -30,6 +31,7 @@ const getJobDetailsResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Job details')
       next(err)
     }
   }

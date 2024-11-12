@@ -5,6 +5,7 @@ import getJobsOfInterest from './utils/getJobsOfInterest'
 import { getSessionData, setSessionData } from '../../utils/session'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
+import logger from '../../../logger'
 
 const getJobsOfInterestResolver =
   (jobService: JobService, deliusIntegrationService: DeliusIntegrationService): RequestHandler =>
@@ -35,6 +36,7 @@ const getJobsOfInterestResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Jobs of interest')
       next(err)
     }
   }
