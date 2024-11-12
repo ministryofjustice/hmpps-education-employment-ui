@@ -62,7 +62,7 @@
           Search radius
         </label>
         <div id="radius-hint" class="govuk-body govuk-!-margin-bottom-2">
-          From release area
+          From release area postcode
         </div>
         <select class="govuk-select" id="distanceFilter" name="distanceFilter" style="min-width: 120px;">
           <option value="1" {{ "selected" if distanceFilter === "1" }}>1 mile</option>
@@ -90,15 +90,15 @@
   </div>
 
   <div class="govuk-grid-row govuk-!-display-none-print">
-    <div class="govuk-grid-column-full">
-      <button class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
-        Apply filters
-      </button>
-      {% if filtered %}
-        <div style="display: inline-block; padding-left: 10px; padding-top: 10px">
-          <a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
-        </div>
-      {% endif %}
+    <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
+      <div class="govuk-button-group govuk-!-margin-bottom-0">
+        <button class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
+          Apply filters
+        </button>
+        {% if filtered %}
+          <a class="govuk-link" style="" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>
