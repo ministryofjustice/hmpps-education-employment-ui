@@ -32,8 +32,6 @@ export default class PrisonerListMatchJobsController {
         page && `page=${page}`,
       ].filter(val => !!val)
 
-      console.log(prisonerSearchResults)
-
       // Build pagination or error messages
       if (prisonerSearchResults.totalElements) {
         if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
