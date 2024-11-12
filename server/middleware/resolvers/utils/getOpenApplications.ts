@@ -7,7 +7,7 @@ const getOpenApplications = async (jobApplicationService: JobApplicationService,
     return await jobApplicationService.getOpenApplications(username, id)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404 || err?.status === 500) {
+    if (err?.status === 404) {
       return {
         content: [] as GetOpenApplicationsResponse[],
         page: {

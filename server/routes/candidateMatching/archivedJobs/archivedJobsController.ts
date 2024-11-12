@@ -9,6 +9,7 @@ import JobViewModel from '../../../viewModels/jobViewModel'
 import addressLookup from '../../addressLookup'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { getBackLocation, setSessionData } from '../../../utils/index'
+import logger from '../../../../logger'
 
 export default class ArchivedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
@@ -69,6 +70,7 @@ export default class ArchivedJobsController {
 
       res.render('pages/candidateMatching/archivedJobs/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Archived jobs')
       next(err)
     }
   }
@@ -86,6 +88,7 @@ export default class ArchivedJobsController {
           : addressLookup.candidateMatching.archivedJobs(id),
       )
     } catch (err) {
+      logger.error('Error posting form - Archived jobs')
       next(err)
     }
   }

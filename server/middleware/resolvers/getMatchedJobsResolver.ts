@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import JobService from '../../services/jobService'
 import getMatchedJobs from './utils/getMatchedJobs'
+import logger from '../../../logger'
 
 const getMatchedJobsResolver =
   (jobService: JobService): RequestHandler =>
@@ -37,6 +38,7 @@ const getMatchedJobsResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Matched jobs')
       next(err)
     }
   }

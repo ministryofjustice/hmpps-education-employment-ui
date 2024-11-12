@@ -13,13 +13,14 @@ import addressLookup from '../../addressLookup'
 import typeOfWorkLookup from '../../../constants/contentLookup/typeOfWork'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { getBackLocation } from '../../../utils/index'
+import logger from '../../../../logger'
 
 export default class MatchedJobsController {
   constructor(private readonly paginationService: PaginationService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { page, sort, order, jobSectorFilter = '', locationFilter = '', distanceFilter = '10' } = req.query
+    const { page, sort, order, jobSectorFilter = '', locationFilter = '', distanceFilter = '50' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
     const { prisoner, profile, matchedJobsResults, prisonerAddress } = req.context
@@ -90,13 +91,14 @@ export default class MatchedJobsController {
         filtered:
           (decodeURIComponent(locationFilter as string) && decodeURIComponent(locationFilter as string) !== postcode) ||
           !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
-          decodeURIComponent(distanceFilter as string) !== '10',
+          decodeURIComponent(distanceFilter as string) !== '50',
       }
 
       setSessionData(req, ['matchedJobs', 'data'], data)
 
       res.render('pages/candidateMatching/matchedJobs/index', { ...data })
     } catch (err) {
+      logger.error('Error rendering page - Matched jobs')
       next(err)
     }
   }
@@ -138,6 +140,7 @@ export default class MatchedJobsController {
           : addressLookup.candidateMatching.matchedJobs(id),
       )
     } catch (err) {
+      logger.error('Error posting form - Matched jobs')
       next(err)
     }
   }

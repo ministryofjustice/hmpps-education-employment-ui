@@ -19,7 +19,7 @@ const getMatchedJobs = async (
     return await jobService.getMatchedJobs(username, params)
   } catch (err) {
     // Handle no data
-    if (err?.status === 404 || err?.status === 500) {
+    if (err?.status === 404) {
       return {
         content: [] as GetMatchedJobsResponse[],
         page: {

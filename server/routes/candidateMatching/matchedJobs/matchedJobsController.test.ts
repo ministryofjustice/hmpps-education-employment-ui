@@ -91,7 +91,7 @@ describe('MatchedJobsController', () => {
           sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
         },
-        distanceFilter: '10',
+        distanceFilter: '50',
         sort: 'releaseDate',
         jobSectorFilter: [],
         typeOfWorkOptions: [],

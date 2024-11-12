@@ -8,6 +8,7 @@ import addressLookup from '../../addressLookup'
 import { getBackLocation, setSessionData } from '../../../utils/index'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import JobService from '../../../services/jobService'
+import logger from '../../../../logger'
 
 export default class JobDetailsController {
   constructor(private readonly jobService: JobService) {}
@@ -42,6 +43,7 @@ export default class JobDetailsController {
         ...data,
       })
     } catch (err) {
+      logger.error('Error rendering page - Job details')
       next(err)
     }
   }
@@ -67,6 +69,7 @@ export default class JobDetailsController {
 
       res.redirect(req.originalUrl)
     } catch (err) {
+      logger.error('Error posting form - Job details')
       next(err)
     }
   }

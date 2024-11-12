@@ -80,11 +80,10 @@
               <p class="govuk-!-margin-top-8">{{ prisoner.firstName }} {{ prisoner.lastName }} has not noted an interest in any other jobs on the jobs board.</p>
             {% endif %}
           {% endif %}
-
-          <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending&jobSectorFilter=' + workTypesOfInterest.join(',') }}" id="view-matched-jobs-link">View all matched jobs</a></p>
         {% else %}
           <p>There are no matched jobs for {{ prisoner.firstName }} {{ prisoner.lastName }}</p>
         {% endif %}
+        <p class="govuk-body"><a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(prisoner.prisonerNumber) + '?sort=closingDate&order=ascending&jobSectorFilter=' + workTypesOfInterest.join(',') }}" id="view-matched-jobs-link">View all matched jobs</a></p>
       </div>
 
       <!-- TAB 2 -->

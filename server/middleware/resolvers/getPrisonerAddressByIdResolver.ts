@@ -3,6 +3,7 @@ import type { RequestHandler } from 'express'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
 import { getSessionData, setSessionData } from '../../utils/session'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
+import logger from '../../../logger'
 
 // Gets Prisoner Address based on id parameter and puts it into request context
 const getPrisonerAddressByIdResolver =
@@ -25,6 +26,7 @@ const getPrisonerAddressByIdResolver =
 
       next()
     } catch (err) {
+      logger.error('Error getting data - Prisoner address')
       next(err)
     }
   }
