@@ -13,7 +13,7 @@
 
 {% set jobsOfInterest = jobsOfInterestResults.content %}
 {% set activeStatus = filterStatus %}
-{% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName +"'s work profile" %}
+{% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
 
 {% block beforeContent %}
     {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
