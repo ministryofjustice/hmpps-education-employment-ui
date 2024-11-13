@@ -51,21 +51,14 @@
 
         {% if subTasks.length %}
             <div class="govuk-width-container">
-                <ul class="govuk-grid-row card-group">
+                <div class="govuk-grid-row ">
                     {% for task in subTasks %}
-                        <li class="govuk-grid-column-one-third card-group__item">
-                            {{ card({
-                                "href": task.href,
-                                "clickable": "true",
-                                "heading": task.heading,
-                                "description": task.description,
-                                "id": task.id,
-                                "classes": "no-borders",
-                                "nonce": cspNonce 
-                            }) }}
-                        </li>
+                        <div class="govuk-grid-column-one-third" id="{{ task.id }}">
+                            <h2 class="govuk-heading-m govuk-!-margin-top-6"><a class="govuk-link" href="{{ task.href }}">{{ task.heading}}</a></h2>
+                            <p class="govuk-body govuk-!-margin-bottom-8">{{ task.description }}</p>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             <div>
         {% endif %}
 
