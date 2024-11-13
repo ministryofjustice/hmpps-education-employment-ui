@@ -40,7 +40,8 @@
                                 "clickable": "true",
                                 "heading": task.heading,
                                 "description": task.description,
-                                "id": task.id
+                                "id": task.id,
+                                "nonce": cspNonce 
                             }) }}
                         </li>
                     {% endfor %}
@@ -59,7 +60,8 @@
                                 "heading": task.heading,
                                 "description": task.description,
                                 "id": task.id,
-                                "classes": "no-borders"
+                                "classes": "no-borders",
+                                "nonce": cspNonce 
                             }) }}
                         </li>
                     {% endfor %}
