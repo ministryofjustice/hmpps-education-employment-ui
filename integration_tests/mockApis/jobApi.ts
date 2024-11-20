@@ -11,6 +11,7 @@ const getJob = (id = '0190a227-be75-7009-8ad6-c6b068b6754e') =>
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
+        id: '0190a227-be75-7009-8ad6-c6b068b6754e',
         employerId: '01907e1e-bb85-7bb7-9018-33a2070a367d',
         employerName: 'ASDA',
         jobTitle: 'Warehouse operator',

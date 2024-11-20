@@ -49,7 +49,7 @@ const getClosedApplications = (prisonerId = 'G6115VJ') =>
     },
   })
 
-const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '1' }) =>
+const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '0191795f-cbfc-733f-bcf6-080a82390733' }) =>
   stubFor({
     request: {
       method: 'GET',
