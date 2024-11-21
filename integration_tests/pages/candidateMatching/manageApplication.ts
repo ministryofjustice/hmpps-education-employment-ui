@@ -19,5 +19,23 @@ export default class ManageApplicationPage extends Page {
 
   additionalInformation = (): PageElement => cy.get('#additionalInformation')
 
+  applicationStatusPageErrorMessage = (): PageElement => cy.get('[href="#applicationStatus"]')
+
+  applicationStatusFieldErrorMessage = (): PageElement => cy.get('#applicationStatus-error')
+
   submitButton = (): PageElement => cy.get('[data-qa=submit-button]')
+
+  tableData = () =>
+    cy
+      .get('#applicationHistory')
+      .find('.govuk-table__body tr')
+      .spread((...rest) =>
+        rest.map(element => {
+          const tds = Cypress.$(element).find('td.govuk-table__cell')
+          return {
+            status: Cypress.$(tds[0]).text(),
+            moreInformation: Cypress.$(tds[1]).text(),
+          }
+        }),
+      )
 }

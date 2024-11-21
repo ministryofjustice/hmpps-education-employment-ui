@@ -49,11 +49,11 @@ const getClosedApplications = (prisonerId = 'G6115VJ') =>
     },
   })
 
-const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '0191795f-cbfc-733f-bcf6-080a82390733' }) =>
+const getApplicationHistory = (params = { offenderNo: 'G6115VJ', jobId: '0191795f-cbfc-733f-bcf6-080a82390733' }) =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: `/applications/histories`,
+      url: `/applications/histories?jobId=${params.jobId}&prisonNumber=${params.offenderNo}`,
     },
     response: {
       status: 200,
@@ -67,10 +67,10 @@ const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '0191795
           firstName: 'BEAUREGARD',
           lastName: 'YABUT',
           applicationStatus: 'APPLICATION_MADE',
-          additionalInformation: '',
-          createdBy: 'GDUTTON_GEN',
+          additionalInformation: 'Some info',
+          createdBy: 'USER1',
           createdAt: '2024-11-12T13:51:22.525858Z',
-          modifiedBy: 'GDUTTON_GEN',
+          modifiedBy: 'USER1',
           modifiedAt: '2024-11-12T13:51:22.525858Z',
         },
         {
@@ -82,20 +82,20 @@ const getApplicationHistory = (params = { prisonerId: 'G6115VJ', jobId: '0191795
           lastName: 'YABUT',
           applicationStatus: 'JOB_OFFER',
           additionalInformation: '',
-          createdBy: 'GDUTTON_GEN',
+          createdBy: 'USER1',
           createdAt: '2024-11-12T13:51:22.525858Z',
-          modifiedBy: 'GDUTTON_GEN',
+          modifiedBy: 'USER1',
           modifiedAt: '2024-11-12T13:53:14.033160Z',
         },
       ],
     },
   })
 
-const updateApplicationHistory = () =>
+const updateApplicationHistory = (id = '01934f07-3d8d-7773-acfa-48588b797a8b') =>
   stubFor({
     request: {
       method: 'PUT',
-      urlPattern: '/applications/',
+      url: `/applications/${id}`,
     },
     response: {
       status: 200,
