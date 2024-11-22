@@ -62,4 +62,62 @@ export default class WorkProfilePage extends Page {
   closedApplicationByIndexStatus = (index): PageElement => cy.get(`#closed_application_status_${index}`)
 
   closedApplicationByIndexViewDetailsLink = (index): PageElement => cy.get(`#view_closed_application_${index}_link`)
+
+  matchedJobsClosingSoonTableData = () =>
+    cy
+      .get('#matchedJobs')
+      .find('.govuk-table__body tr')
+      .spread((...rest) =>
+        rest.map(element => {
+          const tds = Cypress.$(element).find('td.govuk-table__cell')
+          return {
+            jobTitle: Cypress.$(tds[0]).text(),
+            closingDate: Cypress.$(tds[1]).text(),
+          }
+        }),
+      )
+
+  jobsOfInterestTableData = () =>
+    cy
+      .get('#jobsOfInterest')
+      .find('.govuk-table__body tr')
+      .spread((...rest) =>
+        rest.map(element => {
+          const tds = Cypress.$(element).find('td.govuk-table__cell')
+          return {
+            jobTitle: Cypress.$(tds[0]).text(),
+            closingDate: Cypress.$(tds[1]).text(),
+          }
+        }),
+      )
+
+  openApplicationsTableData = () =>
+    cy
+      .get('#openApplications')
+      .find('.govuk-table__body tr')
+      .spread((...rest) =>
+        rest.map(element => {
+          const tds = Cypress.$(element).find('td.govuk-table__cell')
+          return {
+            jobTitle: Cypress.$(tds[0]).text(),
+            status: Cypress.$(tds[1]).text(),
+            actions: Cypress.$(tds[2]).text(),
+          }
+        }),
+      )
+
+  closedApplicationsTableData = () =>
+    cy
+      .get('#closedApplications')
+      .find('.govuk-table__body tr')
+      .spread((...rest) =>
+        rest.map(element => {
+          const tds = Cypress.$(element).find('td.govuk-table__cell')
+          return {
+            jobTitle: Cypress.$(tds[0]).text(),
+            status: Cypress.$(tds[1]).text(),
+            actions: Cypress.$(tds[2]).text(),
+          }
+        }),
+      )
 }
