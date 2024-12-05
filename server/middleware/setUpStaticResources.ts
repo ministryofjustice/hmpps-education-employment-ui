@@ -13,6 +13,16 @@ export default function setUpStaticResources(): Router {
   //  Static Resources Configuration
   const cacheControl = { maxAge: config.staticResourceCacheDuration }
 
+  // Function to exclude hidden files
+  const excludeHiddenFiles = (res: { setHeader: (arg0: string, arg1: string) => void }, filePath: string) => {
+    if (filePath.split('/').some(part => part.startsWith('.'))) {
+      // Skip hidden files by not setting headers
+      return
+    }
+    // Allow other files
+    res.setHeader('Cache-Control', `max-age=${cacheControl.maxAge}`)
+  }
+
   Array.of(
     '/assets',
     '/assets/stylesheets',
@@ -23,15 +33,21 @@ export default function setUpStaticResources(): Router {
     '/node_modules/@ministryofjustice/frontend',
     '/node_modules/jquery/dist',
   ).forEach(dir => {
-    router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
+    router.use('/assets', express.static(path.join(process.cwd(), dir), { setHeaders: excludeHiddenFiles }))
   })
 
   Array.of('/node_modules/govuk_frontend_toolkit/images').forEach(dir => {
-    router.use('/assets/images/icons', express.static(path.join(process.cwd(), dir), cacheControl))
+    router.use(
+      '/assets/images/icons',
+      express.static(path.join(process.cwd(), dir), { setHeaders: excludeHiddenFiles }),
+    )
   })
 
   Array.of('/node_modules/jquery/dist/jquery.min.js').forEach(dir => {
-    router.use('/assets/js/jquery.min.js', express.static(path.join(process.cwd(), dir), cacheControl))
+    router.use(
+      '/assets/js/jquery.min.js',
+      express.static(path.join(process.cwd(), dir), { setHeaders: excludeHiddenFiles }),
+    )
   })
 
   // Don't cache dynamic resources
