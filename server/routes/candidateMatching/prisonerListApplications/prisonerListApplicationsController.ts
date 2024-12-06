@@ -33,8 +33,8 @@ export default class PrisonerListApplicationsController {
       ].filter(val => !!val)
 
       // Build pagination or error messages
-      if (prisonerSearchResults.totalElements) {
-        if (prisonerSearchResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (prisonerSearchResults.page.totalElements) {
+        if (prisonerSearchResults.page.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPaginationNew(
             prisonerSearchResults,
             new URL(
