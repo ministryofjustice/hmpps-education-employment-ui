@@ -5,7 +5,7 @@
 <div id="offender-container">
     {% if archivedJobsResults.content.length >= 1 %}
         <table id="view-offender" class="govuk-table view-offender">
-        <thead class="govuk-table__head">
+        <thead class="govuk-table__head" id="archivedJobs">
             <tr class="govuk-table__row">
                 {{ sortableTableHeader({
                     sort: sort,

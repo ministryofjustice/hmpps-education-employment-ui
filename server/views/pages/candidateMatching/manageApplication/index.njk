@@ -21,31 +21,31 @@
 
   <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l govuk-!-margin-bottom-2" data-test="job-title">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-2" data-qa="page-title">
           {{ title }}
         </h1>
 
         <div class="govuk-form-group filter-box govuk-!-margin-top-4">
           <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
-                <h2 class="govuk-heading-m">
+                <h2 class="govuk-heading-m" data-qa="job-title">
                   <a class="govuk-link" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) }}">{{ job.jobTitle }}</a>
                 </h2>
               </div>
           </div>
           <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-body">Employer: {{ job.employerName }}</p>
+                <p class="govuk-body" data-qa="employer-name">Employer: {{ job.employerName }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-body">Location: {{ job.postcode }}</p>
+                <p class="govuk-body" data-qa="job-location">Location: {{ job.postcode }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-body">Closing date: {{ job.closingDate }}</p>
+                <p class="govuk-body" data-qa="closing-date">Closing date: {{ job.closingDate }}</p>
               </div>
           </div>
 
-          <p class="govuk-body govuk-!-margin-bottom-1">How to apply: {{ job.howToApply }}</p>
+          <p class="govuk-body govuk-!-margin-bottom-1" data-qa="how-to-apply">How to apply: {{ job.howToApply }}</p>
         </div>
 
         {% include './partials/_applicationHistory.njk' %}

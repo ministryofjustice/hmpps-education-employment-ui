@@ -101,9 +101,9 @@ export function getTestCohortProfileData(): any {
     {
       offenderId: 'A7880DY',
       bookingId: 1201384,
-      createdBy: 'GDUTTON_GEN',
+      createdBy: 'USER1',
       createdDateTime: '2022-10-28T13:18:07.856849',
-      modifiedBy: 'GDUTTON_GEN',
+      modifiedBy: 'USER1',
       modifiedDateTime: '2022-10-28T13:18:07.856862',
       schemaVersion: '1.0',
       profileData: {
@@ -115,9 +115,9 @@ export function getTestCohortProfileData(): any {
     {
       offenderId: 'A8036DY',
       bookingId: 1201576,
-      createdBy: 'GDUTTON_GEN',
+      createdBy: 'USER1',
       createdDateTime: '2022-10-28T13:51:14.357953',
-      modifiedBy: 'GDUTTON_GEN',
+      modifiedBy: 'USER1',
       modifiedDateTime: '2022-10-28T13:51:14.357964',
       schemaVersion: '1.0',
       profileData: {
@@ -129,9 +129,9 @@ export function getTestCohortProfileData(): any {
     {
       offenderId: 'A8321DY',
       bookingId: 1201857,
-      createdBy: 'GDUTTON_GEN',
+      createdBy: 'USER1',
       createdDateTime: '2022-10-28T14:00:41.026489',
-      modifiedBy: 'GDUTTON_GEN',
+      modifiedBy: 'USER1',
       modifiedDateTime: '2022-10-28T14:00:41.026495',
       schemaVersion: '1.0',
       profileData: {
@@ -143,9 +143,9 @@ export function getTestCohortProfileData(): any {
     {
       offenderId: 'G5492UQ',
       bookingId: 874591,
-      createdBy: 'GDUTTON_GEN',
+      createdBy: 'USER1',
       createdDateTime: '2022-11-07T09:45:17.481472',
-      modifiedBy: 'GDUTTON_GEN',
+      modifiedBy: 'USER1',
       modifiedDateTime: '2022-11-07T09:45:17.481482',
       schemaVersion: '1.0',
       profileData: {

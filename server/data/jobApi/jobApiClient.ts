@@ -118,7 +118,7 @@ export default class JobApiClient {
 
     const uri = [
       `size=3`,
-      jobSectorFilter.length && `sector=${encodeURIComponent(jobSectorFilter.join(','))}`,
+      jobSectorFilter.length && `sectors=${encodeURIComponent(jobSectorFilter.join(','))}`,
       `prisonNumber=${encodeURIComponent(offenderNo)}`,
     ].filter(val => !!val)
 

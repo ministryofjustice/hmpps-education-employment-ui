@@ -21,5 +21,5 @@ export default class PrisonerListMatchJobsPage extends Page {
 
   lastNameSortLink = (): PageElement => cy.get('#lastName-sort-link')
 
-  releaseDateSortLink = (): PageElement => cy.get('# releaseDate-sort-link')
+  releaseDateSortLink = (): PageElement => cy.get('#releaseDate-sort-link')
 }

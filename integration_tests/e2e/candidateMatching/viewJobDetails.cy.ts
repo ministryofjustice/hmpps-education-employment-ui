@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import JobDetailsPage from '../../pages/candidateMatching/jobDetails'
+import ManageApplicationPage from '../../pages/candidateMatching/manageApplication'
 
 context('Sign In', () => {
   beforeEach(() => {
@@ -59,5 +60,15 @@ context('Sign In', () => {
 
     jobDetailsPage.employerName().contains('ASDA')
     jobDetailsPage.jobTitle().contains('Warehouse operator')
+  })
+
+  it('View job details - check ', () => {
+    cy.signIn()
+    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+
+    const jobDetailsPage = new JobDetailsPage('Warehouse operator')
+    jobDetailsPage.manageApplicationsButton().click()
+
+    const manageApplicationPage = new ManageApplicationPage("Manage Daniel Craig's application")
   })
 })
