@@ -10,16 +10,9 @@ describe('jobsOfInterestController', () => {
 
   req.context.jobsOfInterestResults = {
     content: [],
-    totalElements: 0,
-    sort: 'releaseDate',
-    order: 'descending',
-    userActiveCaseLoad: {
-      activeCaseLoad: {
-        caseLoadId: 'MDI',
-      },
+    page: {
+      totalElements: 0,
     },
-    searchTerm: '',
-    filterStatus: 'ALL',
   }
 
   req.params.sort = 'releaseDate'
@@ -33,6 +26,27 @@ describe('jobsOfInterestController', () => {
   const mockPaginationService: any = {
     paginationData: {},
     getPagination: jest.fn(),
+  }
+
+  const mockData = {
+    backLocation: '/mjma/profile/mock_id/view/overview',
+    id: 'mock_id',
+    jobsOfInterestResults: {
+      content: [] as any,
+      page: {
+        totalElements: 0,
+      },
+    },
+    order: 'descending',
+    paginationData: {},
+    sort: 'releaseDate',
+    userActiveCaseLoad: {
+      activeCaseLoad: {
+        caseLoadId: 'MDI',
+        description: 'Moorland (HMP & YOI)',
+      },
+    },
+    workTypesOfInterest: [] as any,
   }
 
   const paginationData = {}
@@ -58,26 +72,7 @@ describe('jobsOfInterestController', () => {
       await controller.get(req, res, next)
       next.mockReset()
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/jobsOfInterest/index', {
-        backLocation: '/mjma/profile/mock_id/view/overview',
-        prisoner: undefined,
-        notFoundMsg: undefined,
-        order: 'descending',
-        paginationData: {},
-        id: 'mock_id',
-        jobsOfInterestResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          content: [],
-          totalElements: 0,
-          searchTerm: '',
-          sort: 'releaseDate',
-          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-        },
-        sort: 'releaseDate',
-        userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
-        workTypesOfInterest: [],
-      })
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/jobsOfInterest/index', mockData)
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

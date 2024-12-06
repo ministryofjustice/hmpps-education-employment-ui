@@ -17,8 +17,48 @@ describe('PrisonerListApplicationsController', () => {
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
   req.context.prisonerListApplications = {
+    content: [
+      {
+        displayName: 'mock_displayName',
+        releaseDate: 'mock_releaseDate',
+        status: 'mock_status',
+      },
+      {
+        displayName: 'mock_displayName2',
+        releaseDate: 'mock_releaseDate',
+        status: 'mock_status',
+      },
+    ],
+    page: {
+      totalElements: 2,
+    },
+  }
+
+  req.params.sort = 'lastName'
+  req.params.order = 'descending'
+  const { sort, order } = req.params
+
+  req.query = { sort, order }
+  req.get = jest.fn()
+
+  const mockPaginationService: any = {
+    paginationData: {},
+    getPagination: jest.fn(),
+  }
+
+  const paginationData = {}
+
+  const controller = new Controller(mockPaginationService)
+
+  const mockData = {
+    applicationStatusFilter: '',
+    filtered: '',
+    jobFilter: '',
+    order: 'descending',
+    paginationData: {},
+    prisonerNameFilter: '',
     prisonerSearchResults: {
-      prisonerSearchResults: [
+      content: [
         {
           displayName: 'mock_displayName',
           releaseDate: 'mock_releaseDate',
@@ -30,36 +70,18 @@ describe('PrisonerListApplicationsController', () => {
           status: 'mock_status',
         },
       ],
-      totalElements: 2,
+      page: {
+        totalElements: 2,
+      },
     },
     sort: 'lastName',
-    order: 'descending',
     userActiveCaseLoad: {
       activeCaseLoad: {
         caseLoadId: 'MDI',
+        description: 'Moorland (HMP & YOI)',
       },
     },
-    searchTerm: '',
-    filterStatus: 'ALL',
   }
-
-  req.params.sort = 'lastName'
-  req.params.order = 'descending'
-  const { sort, order } = req.params
-
-  req.query = { sort, order }
-  req.get = jest.fn()
-
-  const mockData = req.context.prisonerListApplications
-
-  const mockPaginationService: any = {
-    paginationData: {},
-    getPagination: jest.fn(),
-  }
-
-  const paginationData = {}
-
-  const controller = new Controller(mockPaginationService)
 
   describe('#get(req, res)', () => {
     beforeEach(() => {
@@ -80,48 +102,7 @@ describe('PrisonerListApplicationsController', () => {
       await controller.get(req, res, next)
       next.mockReset()
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/prisonerListApplications/index', {
-        applicationStatusFilter: '',
-        filtered: '',
-        jobFilter: '',
-        notFoundMsg: undefined,
-        order: 'descending',
-        sort: 'lastName',
-        paginationData: {},
-        prisonerNameFilter: '',
-        prisonerSearchResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          prisonerSearchResults: {
-            prisonerSearchResults: [
-              {
-                displayName: 'mock_displayName',
-                releaseDate: 'mock_releaseDate',
-                status: 'mock_status',
-              },
-              {
-                displayName: 'mock_displayName2',
-                releaseDate: 'mock_releaseDate',
-                status: 'mock_status',
-              },
-            ],
-            totalElements: 2,
-          },
-          searchTerm: '',
-          sort: 'lastName',
-          userActiveCaseLoad: {
-            activeCaseLoad: {
-              caseLoadId: 'MDI',
-            },
-          },
-        },
-        userActiveCaseLoad: {
-          activeCaseLoad: {
-            caseLoadId: 'MDI',
-            description: 'Moorland (HMP & YOI)',
-          },
-        },
-      })
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/prisonerListApplications/index', mockData)
       expect(next).toHaveBeenCalledTimes(0)
     })
   })

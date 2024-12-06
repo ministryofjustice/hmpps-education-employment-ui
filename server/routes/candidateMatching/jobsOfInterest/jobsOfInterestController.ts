@@ -30,8 +30,8 @@ export default class JobsOfInterestController {
       const uri = [sort && `sort=${sort}`, order && `order=${order}`, page && `page=${page}`].filter(val => !!val)
 
       // Build pagination or error messages
-      if (jobsOfInterestResults.totalElements) {
-        if (jobsOfInterestResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (jobsOfInterestResults.page.totalElements) {
+        if (jobsOfInterestResults.page.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPaginationNew(
             jobsOfInterestResults,
             new URL(

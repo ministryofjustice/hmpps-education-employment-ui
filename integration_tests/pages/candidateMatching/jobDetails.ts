@@ -46,4 +46,6 @@ export default class JobDetailsPage extends Page {
   isOnlyForPrisonLeavers = (): PageElement => cy.get('#isOnlyForPrisonLeavers')
 
   createArchiveRecordButton = (): PageElement => cy.get('[data-qa=create-archive-record-button]')
+
+  manageApplicationsButton = (): PageElement => cy.get('#manage-applications-button')
 }

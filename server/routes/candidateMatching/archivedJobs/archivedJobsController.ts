@@ -30,8 +30,8 @@ export default class ArchivedJobsController {
       const uri = [sort && `sort=${sort}`, order && `order=${order}`, page && `page=${page}`].filter(val => !!val)
 
       // Build pagination or error messages
-      if (archivedJobsResults.totalElements) {
-        if (archivedJobsResults.totalElements > parseInt(paginationPageSize.toString(), 10)) {
+      if (archivedJobsResults.page.totalElements) {
+        if (archivedJobsResults.page.totalElements > parseInt(paginationPageSize.toString(), 10)) {
           paginationData = this.paginationService.getPaginationNew(
             archivedJobsResults,
             new URL(

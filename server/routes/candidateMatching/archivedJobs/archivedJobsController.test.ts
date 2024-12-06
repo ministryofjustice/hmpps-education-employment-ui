@@ -11,16 +11,9 @@ describe('ArchivedJobsController', () => {
 
   req.context.archivedJobsResults = {
     content: [],
-    totalElements: 0,
-    sort: 'releaseDate',
-    order: 'descending',
-    userActiveCaseLoad: {
-      activeCaseLoad: {
-        caseLoadId: 'MDI',
-      },
+    page: {
+      totalElements: 0,
     },
-    searchTerm: '',
-    filterStatus: 'ALL',
   }
 
   req.params.sort = 'releaseDate'
@@ -31,7 +24,26 @@ describe('ArchivedJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.archivedJobsResults
+  const mockData = {
+    archivedJobsResults: {
+      content: [] as any,
+      page: {
+        totalElements: 0,
+      },
+    },
+    backLocation: '/mjma/profile/mock_id/view/overview',
+    id: 'mock_id',
+    order: 'descending',
+    paginationData: {},
+    sort: 'releaseDate',
+    userActiveCaseLoad: {
+      activeCaseLoad: {
+        caseLoadId: 'MDI',
+        description: 'Moorland (HMP & YOI)',
+      },
+    },
+    workTypesOfInterest: [] as any,
+  }
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -61,26 +73,7 @@ describe('ArchivedJobsController', () => {
       await controller.get(req, res, next)
       next.mockReset()
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/archivedJobs/index', {
-        backLocation: '/mjma/profile/mock_id/view/overview',
-        prisoner: undefined,
-        notFoundMsg: undefined,
-        order: 'descending',
-        paginationData: {},
-        id: 'mock_id',
-        archivedJobsResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          content: [],
-          totalElements: 0,
-          searchTerm: '',
-          sort: 'releaseDate',
-          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-        },
-        sort: 'releaseDate',
-        userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
-        workTypesOfInterest: [],
-      })
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/archivedJobs/index', mockData)
       expect(next).toHaveBeenCalledTimes(0)
     })
   })
