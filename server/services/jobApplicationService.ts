@@ -1,6 +1,9 @@
+import config from '../config'
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import JobApplicationApiClient from '../data/jobApplicationApi/jobApplicationApiClient'
 import UpdateApplicationProgressData from '../data/jobApplicationApi/updateApplicationData'
+import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
+import { offenderEarliestReleaseDate, formatDateToyyyyMMdd } from '../utils/index'
 
 export default class JobApplicationService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -36,6 +39,7 @@ export default class JobApplicationService {
     )
   }
 
+  // Search all applications
   async applicationSearch(
     username: string,
     params: {
@@ -51,5 +55,74 @@ export default class JobApplicationService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApplicationApiClient(systemToken).applicationSearch(params)
+  }
+
+  // Search applications filtered by qualifying current prisoners
+  async prisonerApplicationSearch(
+    username: string,
+    params: {
+      prisonId: string
+      page?: number
+      sort?: string
+      order?: string
+      applicationStatusFilter?: string
+      prisonerNameFilter?: string
+      jobFilter?: string
+    },
+  ) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    // Prepare search & date parameters
+    const { weeksBeforeRelease } = config
+
+    // Build date filter
+    const dateFilter = {
+      earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
+      latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
+      prisonIds: [params.prisonId],
+    }
+
+    // Get list of valid prisoners
+    const offenders: any = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
+    const offenderIds: string[] = offenders.content.map((offender: { prisonerNumber: any }) => offender.prisonerNumber)
+
+    // Get all applications
+    const applications = await new JobApplicationApiClient(systemToken).applicationSearch({
+      ...params,
+      page: 1,
+      size: 999999,
+    })
+
+    // Filter applications
+    const applicationsFiltered = applications.content.filter((app: { prisonNumber: string }) =>
+      offenderIds.includes(app.prisonNumber),
+    )
+
+    const maxPerPage = config.paginationPageSize
+
+    /* Workout pagination mechanism */
+    const contents = applicationsFiltered?.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / maxPerPage)
+      if (!resultArray[chunkIndex]) {
+        // eslint-disable-next-line no-param-reassign
+        resultArray[chunkIndex] = []
+      }
+      resultArray[chunkIndex].push(item)
+      return resultArray
+    }, [])
+
+    // Paginate results
+    const results = {
+      content: contents[params.page - 1],
+      page: {
+        size: maxPerPage,
+        number: params.page - 1,
+        totalElements: contents.length ? applicationsFiltered.length : 0,
+        totalPages: contents.length,
+      },
+    }
+
+    // Return applications
+    return results
   }
 }

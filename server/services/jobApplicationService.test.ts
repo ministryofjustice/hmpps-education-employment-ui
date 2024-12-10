@@ -23,6 +23,7 @@ describe('JobApplicationService', () => {
       getClosedApplications: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       getApplicationProgress: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       updateApplicationProgress: jest.fn().mockResolvedValue({ data: 'mock_data' }),
+      applicationSearch: jest.fn().mockResolvedValue({ data: 'mock_data' }),
     } as unknown as jest.Mocked<JobApplicationApiClient>
     ;(JobApplicationApiClient as any).mockImplementation(() => jobApplicationApiClient)
 
@@ -78,6 +79,31 @@ describe('JobApplicationService', () => {
       lastName: 'BlOGS',
       prisonNumber: 'offenderId',
       prisonId: 'MDI',
+    })
+  })
+
+  it('#getMatchedJobs - should get token and call correct api method', async () => {
+    const result = await jobApplicationService.applicationSearch('user', {
+      prisonId: 'MDI',
+      page: 1,
+      sort: 'prisonerName',
+      order: 'acsending',
+      applicationStatusFilter: 'APPLICATION_MADE',
+      prisonerNameFilter: 'Joe Bloggs',
+      jobFilter: 'Developer',
+    })
+
+    expect(result).toEqual({ data: 'mock_data' })
+
+    expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
+    expect(jobApplicationApiClient.applicationSearch).toHaveBeenCalledWith({
+      prisonId: 'MDI',
+      page: 1,
+      sort: 'prisonerName',
+      order: 'acsending',
+      applicationStatusFilter: 'APPLICATION_MADE',
+      prisonerNameFilter: 'Joe Bloggs',
+      jobFilter: 'Developer',
     })
   })
 })

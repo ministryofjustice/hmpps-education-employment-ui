@@ -16,7 +16,7 @@ const getPrisonerListApplications = async (
 ) => {
   try {
     // Get Archived jobs
-    return await jobApplicationService.applicationSearch(username, params)
+    return await jobApplicationService.prisonerApplicationSearch(username, params)
   } catch (err) {
     // Handle no data
     if (err?.status === 404) {
