@@ -57,12 +57,13 @@ export default class JobApplicationApiClient {
     applicationStatusFilter?: string
     prisonerNameFilter?: string
     jobFilter?: string
+    size?: number
   }) {
-    const { prisonId, page = 1, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter } = params
+    const { prisonId, page = 1, sort, order, applicationStatusFilter, prisonerNameFilter, jobFilter, size } = params
 
     const uri = [
       `page=${page - 1}`,
-      `size=${config.paginationPageSize}`,
+      `size=${size || config.paginationPageSize}`,
       sort && `sortBy=${sort}`,
       order && `sortOrder=${order === 'ascending' ? 'asc' : 'desc'}`,
       prisonId && `prisonId=${encodeURIComponent(prisonId)}`,
