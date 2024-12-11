@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config'
+import PagedResponse from '../domain/types/pagedResponse'
 import RestClient from '../restClient'
 import GetPrisonerByIdResult from './getPrisonerByIdResult'
 
@@ -31,7 +32,7 @@ export default class PrisonerSearchClient {
   }
 
   async getPrisonersByReleaseDate(searchData: PrisonerSearchByReleaseDate) {
-    return this.restClient.post<string[]>({
+    return this.restClient.post<PagedResponse<GetPrisonerByIdResult>>({
       path: `${PRISONER_SEARCH_BY_RELEASE_DATE}?page=0&size=${config.maximumNumberOfRecordsToReturn}`,
       data: {
         ...searchData,

@@ -83,8 +83,10 @@ export default class JobApplicationService {
     }
 
     // Get list of valid prisoners
-    const offenders: any = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
-    const offenderIds: string[] = offenders.content.map((offender: { prisonerNumber: any }) => offender.prisonerNumber)
+    const offenders = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
+    const offenderIds: string[] = offenders.content.map(
+      (offender: { prisonerNumber: string }) => offender.prisonerNumber,
+    )
 
     // Get all applications
     const applications = await new JobApplicationApiClient(systemToken).applicationSearch({
@@ -113,7 +115,7 @@ export default class JobApplicationService {
 
     // Paginate results
     const results = {
-      content: contents[params.page - 1],
+      content: contents[params.page - 1] || [],
       page: {
         size: maxPerPage,
         number: params.page - 1,
