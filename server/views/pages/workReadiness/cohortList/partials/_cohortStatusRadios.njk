@@ -1,4 +1,4 @@
-<div class="govuk-form-group filter-box govuk-!-margin-top-4" style="padding-left: 0px">
+<div class="govuk-form-group filter-box govuk-!-margin-top-4 govuk-!-padding-left-0">
 
     <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-two-thirds">
         <div class="moj-search">
             <div class="govuk-form-group">
                 <label class="govuk-label moj-search__label govuk-!-font-weight-bold" for="searchTerm">
@@ -82,7 +82,7 @@
         </div>
     </div>
     {% if searchTerm %}
-        <div class="govuk-grid-column-one-third" style="padding-left: 0px">
+        <div class="govuk-grid-column-one-third govuk-!-padding-left-0">
             <p class="govuk-!-margin-bottom-0 govuk-!-margin-top-7">
                 <a class="govuk-link" href="{{ addressLookup.workReadiness.cohortList() }}" aria-label="Clear prisoner status and prisoner name filter options">Clear</a>
             </p>

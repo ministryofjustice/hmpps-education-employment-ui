@@ -2,18 +2,12 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% block head %}
-    <!--[if !IE 8]><!-->
+
     <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
     <script nonce="{{ cspNonce }}" src="https://code.jquery.com/jquery-1.12.4.min.js"
             crossorigin="anonymous"></script>
-    <!--<![endif]-->
 
-    <!--[if lt IE 9]>
-  <link href='/assets/stylesheets/application-ie8.css?{{ version }}' rel='stylesheet'/>
-  <script src='/assets/js/html5shiv-3.7.3.min.js'></script>
-  <![endif]-->
-
-    <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+    <link nonce="{{ cspNonce }}" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
     <script nonce="{{ cspNonce }}" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             crossorigin="anonymous"></script>
 
@@ -63,8 +57,8 @@
     {% if googleTagManagerContainerId %}
         <!-- Google Tag Manager (noscript) -->
         <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id={{ googleTagManagerContainerId }}"
-                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+            <iframe class="govuk-visually-hidden" src="https://www.googletagmanager.com/ns.html?id={{ googleTagManagerContainerId }}"
+                    height="0" width="0"></iframe>
         </noscript>
         <!-- End Google Tag Manager (noscript) -->
     {% endif %}
