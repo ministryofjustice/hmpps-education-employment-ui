@@ -42,7 +42,7 @@
                     <div class="display-none-screen">{{ job.jobTitle }}</div>
                     <div class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</div>
                     {% if job.hasExpressedInterest %}
-                        <strong class="govuk-tag govuk-tag--grey govuk-!-margin-top-3" style="text-transform: none; font-weight: 400; font-size: 19px; letter-spacing: 0px">Prisoner choice</strong>
+                        <strong class="govuk-tag govuk-tag--grey govuk-!-margin-top-3 prisoner-choice-tag">Prisoner choice</strong>
                     {% endif %}
                 </td>
                 <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.sector] }}</td>

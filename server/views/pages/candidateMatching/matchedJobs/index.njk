@@ -16,7 +16,7 @@
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, classes: "govuk-!-display-none-print",attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
+    {{ govukBackLink({ text: "Back", href: backLocation, classes: "govuk-!-display-none-print", attributes: { "aria-label" : "Back to "+ prisoner.firstName + " " + prisoner.lastName +"'s work profile"} }) }}
 {% endblock %}
 
 {% block content %}
@@ -29,8 +29,7 @@
                 {{ govukButton({
                     text: "Print",
                     id:"printLink",
-                    classes: "govuk-button--secondary govuk-!-display-none-print",
-                    attributes: { style: "float: right;" }
+                    classes: "govuk-button--secondary govuk-!-display-none-print float-right"
                 }) }}
             </h1>
 
