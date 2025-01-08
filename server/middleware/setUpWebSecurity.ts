@@ -13,6 +13,10 @@ export default function setUpWebSecurity(): Router {
     res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
     next()
   })
+  router.use((_req: Request, res: Response, next: NextFunction) => {
+    res.removeHeader('Server')
+    next()
+  })
   router.use(
     helmet({
       contentSecurityPolicy: {
@@ -45,6 +49,7 @@ export default function setUpWebSecurity(): Router {
         },
       },
       crossOriginEmbedderPolicy: true,
+      hidePoweredBy: true,
     }),
   )
 
