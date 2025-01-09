@@ -79,9 +79,7 @@ export default class MatchedJobsController {
         userActiveCaseLoad,
         notFoundMsg,
         typeOfWorkOptions: workTypesOfInterest,
-        typeOfWorkOtherOptions: Object.keys(typeOfWorkLookup).filter(
-          p => !workTypesOfInterest.includes(p) && p !== 'OTHER',
-        ),
+        typeOfWorkOtherOptions: Object.keys(typeOfWorkLookup).filter(p => !workTypesOfInterest.includes(p)),
         locationFilter:
           decodeURIComponent(locationFilter as string) === 'none'
             ? ''
