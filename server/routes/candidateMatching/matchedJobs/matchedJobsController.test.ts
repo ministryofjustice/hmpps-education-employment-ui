@@ -97,6 +97,7 @@ describe('MatchedJobsController', () => {
         typeOfWorkOptions: [],
         typeOfWorkOtherOptions: [
           'OUTDOOR',
+          'CLEANING_AND_MAINTENANCE',
           'CONSTRUCTION',
           'DRIVING',
           'BEAUTY',
@@ -109,7 +110,7 @@ describe('MatchedJobsController', () => {
           'WAREHOUSING',
           'EDUCATION_TRAINING',
           'WASTE_MANAGEMENT',
-          'CLEANING_AND_MAINTENANCE',
+          'OTHER',
         ],
         userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
       })

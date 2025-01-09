@@ -1,5 +1,6 @@
 export default {
   OUTDOOR: 'Animal care and farming',
+  CLEANING_AND_MAINTENANCE: 'Cleaning and maintenance',
   CONSTRUCTION: 'Construction and trade',
   DRIVING: 'Driving and transport',
   BEAUTY: 'Hair, beauty and wellbeing',
@@ -12,6 +13,5 @@ export default {
   WAREHOUSING: 'Warehousing and storage',
   EDUCATION_TRAINING: 'Training and support',
   WASTE_MANAGEMENT: 'Waste management',
-  CLEANING_AND_MAINTENANCE: 'Cleaning and maintenance',
   OTHER: 'Other',
 }
