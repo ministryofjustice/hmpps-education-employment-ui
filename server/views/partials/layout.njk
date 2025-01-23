@@ -46,7 +46,7 @@
 {% block pageTitle %}{{ pageTitle | default(applicationName) }}{% endblock %}
 
 {% block header %}
-  {% if feComponents.header %}
+  {% if feComponents.header and useFeComponents === true %}
     {{ feComponents.header | safe }}
   {% else %}
     {% include "./header.njk" %}
@@ -65,7 +65,7 @@
 {% endblock %}
 
 {% block footer %}
-  {% if feComponents.footer %}
+  {% if feComponents.footer and useFeComponents === true %}
     {{ feComponents.footer | safe }}
   {% else %}
     {% include "./footer.njk" %}
