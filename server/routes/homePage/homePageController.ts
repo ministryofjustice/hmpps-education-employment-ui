@@ -4,10 +4,6 @@ import { hasAnyRole } from '../../utils/index'
 import addressLookup from '../addressLookup'
 import config from '../../config'
 
-interface RoleCode {
-  userRoles: string[]
-}
-
 export default class HomePageController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { userRoles } = req.context
