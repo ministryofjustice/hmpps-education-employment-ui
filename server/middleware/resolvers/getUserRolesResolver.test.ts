@@ -1,53 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import jwtDecode from 'jwt-decode'
 import expressMocks from '../../testutils/expressMocks'
-import { setSessionData } from '../../utils/index'
 import getUserRolesResolver from './getUserRolesResolver'
+
+jest.mock('jwt-decode', () => jest.fn())
 
 describe('getUserRolesResolver', () => {
   const { req, res, next } = expressMocks()
-
-  res.locals.user = { username: 'mock_username' }
-  req.context = {}
+  res.locals.user = { token: 'fake-token' }
 
   const mockRoles = ['ROLE_USER', 'ROLE_ADMIN']
-  const userServiceMock = {
-    getDpsUserRoles: jest.fn(),
-  }
-  const error = new Error('mock_error')
+  const error = new Error('Invalid token')
 
-  const resolver = getUserRolesResolver(userServiceMock as any)
+  it('On success - Decodes JWT and assigns user roles to request context', async () => {
+    ;(jwtDecode as jest.Mock).mockReturnValue({ authorities: mockRoles })
 
-  beforeEach(() => {
-    jest.clearAllMocks()
+    await getUserRolesResolver(req, res, next)
+
+    expect(req.context.userRoles).toEqual(mockRoles)
+    expect(next).toHaveBeenCalledWith()
   })
 
-  it('On error - Calls next with error', async () => {
-    userServiceMock.getDpsUserRoles.mockRejectedValue(error)
+  it('On error - Calls next with error when JWT decoding fails', async () => {
+    ;(jwtDecode as jest.Mock).mockImplementation(() => {
+      throw error
+    })
 
-    await resolver(req, res, next)
+    await getUserRolesResolver(req, res, next)
 
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On success - Roles in session - Attaches roles to context and calls next', async () => {
-    setSessionData(req, ['userRoles', 'mock_username'], mockRoles)
+  it('On missing authorities - Assigns undefined to userRoles', async () => {
+    ;(jwtDecode as jest.Mock).mockReturnValue({})
 
-    await resolver(req, res, next)
+    await getUserRolesResolver(req, res, next)
 
-    expect(req.context.userRoles).toEqual(mockRoles)
-    expect(next).toHaveBeenCalledWith()
-    expect(userServiceMock.getDpsUserRoles).not.toHaveBeenCalled()
-  })
-
-  it('On success - Roles not in session - Fetches roles and stores in session', async () => {
-    setSessionData(req, ['userRoles', 'mock_username'], undefined)
-
-    userServiceMock.getDpsUserRoles.mockResolvedValue(mockRoles)
-
-    await resolver(req, res, next)
-
-    expect(userServiceMock.getDpsUserRoles).toHaveBeenCalledWith('mock_username')
-    expect(req.context.userRoles).toEqual(mockRoles)
+    expect(req.context.userRoles).toBeUndefined()
     expect(next).toHaveBeenCalledWith()
   })
 })

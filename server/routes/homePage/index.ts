@@ -5,8 +5,8 @@ import getUserRolesResolver from '../../middleware/resolvers/getUserRolesResolve
 import checkCmsEnabledHomepage from '../../middleware/checkCmsEnabledHomepage'
 import type { Services } from '../../services'
 
-export default (router: Router, services: Services) => {
+export default (router: Router, _services: Services) => {
   const controller = new HomePageController()
 
-  router.get('/', [checkCmsEnabledHomepage, getUserRolesResolver(services.userService)], controller.get)
+  router.get('/', [checkCmsEnabledHomepage, getUserRolesResolver], controller.get)
 }
