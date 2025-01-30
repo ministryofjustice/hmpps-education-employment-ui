@@ -42,6 +42,7 @@ generic-service:
     JOB_APPLICATIONS_ENABLED: true
     REPORTING_LINK_ENABLED: false
     RANDOM_POSTCODES_IN_DEV: true
+    FRONTEND_COMPONENTS_ENABLED: false
 
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts

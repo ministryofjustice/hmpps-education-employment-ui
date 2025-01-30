@@ -202,5 +202,6 @@ export default {
     jobApplicationsEnabled: toBoolean(get('JOB_APPLICATIONS_ENABLED', false)),
     reportingLinkEnabled: toBoolean(get('REPORTING_LINK_ENABLED', false)),
     randomPostcodesInDevEnabled: toBoolean(get('RANDOM_POSTCODES_IN_DEV', false)),
+    frontendComponentsEnabled: toBoolean(get('FRONTEND_COMPONENTS_ENABLED', false)),
   },
 }

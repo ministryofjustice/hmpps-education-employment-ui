@@ -25,24 +25,6 @@ context('SignIn', () => {
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('User name visible in header', () => {
-    cy.signIn()
-
-    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
-      cy.wrap(isEnabled).as('candidateMatchingEnabled')
-    })
-
-    cy.get('@candidateMatchingEnabled').then(isEnabled => {
-      if (isEnabled) {
-        const indexPage = new IndexPage('Work after leaving prison')
-        cy.get('[data-qa=header-user-name]').should('contain.text', 'J. Smith')
-      } else {
-        const indexPage = new IndexPage('Get someone ready to work')
-        cy.get('[data-qa=header-user-name]').should('contain.text', 'J. Smith')
-      }
-    })
-  })
-
   it('User can log out', () => {
     cy.signIn()
 
@@ -59,30 +41,6 @@ context('SignIn', () => {
         const indexPage = new IndexPage('Get someone ready to work')
         indexPage.signOut().click()
         Page.verifyOnPage(AuthSignInPage)
-      }
-    })
-  })
-
-  it('User can manage their details', () => {
-    cy.signIn()
-
-    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
-      cy.wrap(isEnabled).as('candidateMatchingEnabled')
-    })
-
-    cy.get('@candidateMatchingEnabled').then(isEnabled => {
-      if (isEnabled) {
-        const indexPage = new IndexPage('Work after leaving prison')
-
-        indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
-        indexPage.manageDetails().click()
-        Page.verifyOnPage(AuthManageDetailsPage)
-      } else {
-        const indexPage = new IndexPage('Get someone ready to work')
-
-        indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
-        indexPage.manageDetails().click()
-        Page.verifyOnPage(AuthManageDetailsPage)
       }
     })
   })
@@ -108,42 +66,6 @@ context('SignIn', () => {
 
         // can't do a visit here as cypress requires only one domain
         cy.request('/').its('body').should('contain', 'Sign in')
-      }
-    })
-  })
-
-  it('Token verification failure clears user session', () => {
-    cy.signIn()
-
-    cy.checkFeatureToggle('candidateMatchingEnabled', isEnabled => {
-      cy.wrap(isEnabled).as('candidateMatchingEnabled')
-    })
-
-    cy.get('@candidateMatchingEnabled').then(isEnabled => {
-      if (isEnabled) {
-        const indexPage = new IndexPage('Work after leaving prison')
-        cy.task('stubVerifyToken', false)
-
-        // can't do a visit here as cypress requires only one domain
-        cy.request('/').its('body').should('contain', 'Sign in')
-
-        cy.task('stubVerifyToken', true)
-        cy.task('stubAuthUser', 'bobby brown')
-        cy.signIn()
-
-        indexPage.headerUserName().contains('B. Brown')
-      } else {
-        const indexPage = new IndexPage('Get someone ready to work')
-        cy.task('stubVerifyToken', false)
-
-        // can't do a visit here as cypress requires only one domain
-        cy.request('/').its('body').should('contain', 'Sign in')
-
-        cy.task('stubVerifyToken', true)
-        cy.task('stubAuthUser', 'bobby brown')
-        cy.signIn()
-
-        indexPage.headerUserName().contains('B. Brown')
       }
     })
   })

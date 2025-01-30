@@ -4,21 +4,13 @@ import { hasAnyRole } from '../../utils/index'
 import addressLookup from '../addressLookup'
 import config from '../../config'
 
-interface RoleCode {
-  roleCodes: string[]
-}
-
 export default class HomePageController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { userRoles } = req.context
-
     try {
-      // Prepare tasks that will constitute the tiles
-      const roleCodes = [...userRoles.map((userRole: RoleCode) => userRole)]
-
       // Render data
       const data = {
-        tasks: getTasks(roleCodes)
+        tasks: getTasks(userRoles)
           .filter(task => task.enabled())
           .map(task => ({
             id: task.id,
@@ -26,7 +18,7 @@ export default class HomePageController {
             heading: task.heading,
             description: task.description,
           })),
-        subTasks: getSubTasks(roleCodes)
+        subTasks: getSubTasks(userRoles)
           .filter(task => task.enabled())
           .map(task => ({
             id: task.id,
@@ -43,8 +35,8 @@ export default class HomePageController {
   }
 }
 
-const getTasks = (roleCodes: any) => {
-  const userHasRoles = (roles: string[]) => hasAnyRole(roles, roleCodes)
+const getTasks = (userRoles: any) => {
+  const userHasRoles = (roles: string[]) => hasAnyRole(roles, userRoles)
 
   return [
     {
@@ -52,14 +44,14 @@ const getTasks = (roleCodes: any) => {
       heading: 'Get someone ready to work',
       description: 'Record what support a prisoner needs to get work. View who has been assessed as ready to work.',
       href: `${addressLookup.workReadiness.cohortList()}?sort=releaseDate&order=ascending`,
-      enabled: () => userHasRoles(['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']),
+      enabled: () => userHasRoles(['ROLE_WORK_READINESS_VIEW', 'ROLE_WORK_READINESS_EDIT']),
     },
     {
       id: 'match-jobs-and-manage-applications',
       heading: 'Match jobs and manage applications',
       description: 'View jobs matched by work interests and release area. Manage the status of job applications.',
       href: `${addressLookup.candidateMatching.prisonerListMatchJobs()}?sort=releaseDate&order=ascending`,
-      enabled: () => userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']),
+      enabled: () => userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER']),
     },
     {
       id: 'reporting_data',
@@ -67,14 +59,14 @@ const getTasks = (roleCodes: any) => {
       description: 'Create reports showing progress against work after release metrics.',
       href: config.reportingUrl,
       enabled: () =>
-        userHasRoles(['EDUCATION_WORK_PLAN_EDITOR', 'EDUCATION_WORK_PLAN_VIEWER']) &&
+        userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER']) &&
         config.featureToggles.reportingLinkEnabled,
     },
   ]
 }
 
-const getSubTasks = (roleCodes: any) => {
-  const userHasRoles = (roles: string[]) => hasAnyRole(roles, roleCodes)
+const getSubTasks = (userRoles: any) => {
+  const userHasRoles = (roles: string[]) => hasAnyRole(roles, userRoles)
 
   return [
     {
@@ -82,7 +74,7 @@ const getSubTasks = (roleCodes: any) => {
       heading: 'Add jobs and employers',
       description: 'Add and manage job vacancies and employer information.',
       href: config.jobUploadUrl,
-      enabled: () => userHasRoles(['JOBS_BOARD_VIEWER', 'JOBS_BOARD_EDITOR']),
+      enabled: () => userHasRoles(['ROLE_JOBS_BOARD_VIEWER', 'ROLE_JOBS_BOARD_EDITOR']),
     },
   ]
 }
