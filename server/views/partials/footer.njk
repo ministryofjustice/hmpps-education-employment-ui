@@ -1,5 +1,6 @@
-{% if isPrisonUser %}
-    {% include "../partials/dpsFooter.njk" %}
-{% else %}
-    {% include "../partials/externalFooter.njk" %}
-{% endif %}
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+{{
+govukFooter({
+    classes: "govuk-!-display-none-print"
+})
+}}

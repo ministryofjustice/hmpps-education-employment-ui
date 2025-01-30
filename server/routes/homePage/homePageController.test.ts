@@ -15,7 +15,7 @@ jest.mock('../../config', () => ({
 
 describe('HomePageController', () => {
   const { req, res, next } = expressMocks()
-  req.context.userRoles = ['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']
+  req.context.userRoles = ['ROLE_WORK_READINESS_VIEW', 'ROLE_WORK_READINESS_EDIT']
   res.locals.user = { username: 'MOCK_USER' }
 
   const controller = new HomePageController()
@@ -48,7 +48,7 @@ describe('HomePageController', () => {
     })
 
     it('should render tasks - Work readiness only', async () => {
-      req.context.userRoles = ['WORK_READINESS_VIEW', 'WORK_READINESS_EDIT']
+      req.context.userRoles = ['ROLE_WORK_READINESS_VIEW', 'ROLE_WORK_READINESS_EDIT']
 
       await controller.get(req, res, next)
 
@@ -69,12 +69,12 @@ describe('HomePageController', () => {
 
     it('should render tasks - all tasks ', async () => {
       req.context.userRoles = [
-        'EDUCATION_WORK_PLAN_EDITOR',
-        'EDUCATION_WORK_PLAN_VIEWER',
-        'WORK_READINESS_VIEW',
-        'WORK_READINESS_EDIT',
-        'JOBS_BOARD_VIEWER',
-        'JOBS_BOARD_EDITOR',
+        'ROLE_EDUCATION_WORK_PLAN_EDITOR',
+        'ROLE_EDUCATION_WORK_PLAN_VIEWER',
+        'ROLE_WORK_READINESS_VIEW',
+        'ROLE_WORK_READINESS_EDIT',
+        'ROLE_JOBS_BOARD_VIEWER',
+        'ROLE_JOBS_BOARD_EDITOR',
       ]
 
       await controller.get(req, res, next)
