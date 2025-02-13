@@ -4,6 +4,7 @@ import express from 'express'
 import path from 'path'
 import createError from 'http-errors'
 
+import dpsComponents from '@ministryofjustice/hmpps-connect-dps-components'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import authorisationMiddleware, { getAuthorisedRoles } from './middleware/authorisationMiddleware'
@@ -20,10 +21,11 @@ import expressContext from './middleware/expressContext'
 import routes from './routes'
 import type { Services } from './services'
 import setUpLocals from './middleware/setUpLocals'
-import getFrontendComponents from './middleware/getFrontendComponents'
 import setUpEnvironmentName from './middleware/setUpEnvironmentName'
 import sanitizeBody from './middleware/sanitizeBody'
 import sanitizeQuery from './middleware/sanitizeQuery'
+import logger from '../logger'
+import config from './config'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -50,8 +52,13 @@ export default function createApp(services: Services): express.Application {
   app.use(sanitizeQuery)
 
   // Get front end components for DPS header
-  app.get('*', getFrontendComponents(services))
-  app.post('*', getFrontendComponents(services))
+  app.use(
+    dpsComponents.getPageComponents({
+      dpsUrl: config.dpsHomeUrl,
+      logger,
+      useFallbacksByDefault: config.useComponentFallbacksByDefault,
+    }),
+  )
 
   // Check for authorised roles
   app.use(authorisationMiddleware(getAuthorisedRoles()))

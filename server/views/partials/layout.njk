@@ -29,30 +29,23 @@
     <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
     <script src="/assets/js/jquery.min.js"></script>
 
-    {% if frontendComponentsEnabled === true %}
-      {% if feComponents.jsIncludes %}
-        {% for js in feComponents.jsIncludes %}
-          <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
-        {% endfor %}
-      {% endif %}
-
-      {% if feComponents.cssIncludes %}
-        {% for css in feComponents.cssIncludes %}
-          <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
-        {% endfor %}
-      {% endif %}
+    {% if feComponents.jsIncludes %}
+      {% for js in feComponents.jsIncludes %}
+        <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+      {% endfor %}
     {% endif %}
 
+    {% if feComponents.cssIncludes %}
+      {% for css in feComponents.cssIncludes %}
+        <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+      {% endfor %}
+    {% endif %}
 {% endblock %}
 
 {% block pageTitle %}{{ pageTitle | default(applicationName) }}{% endblock %}
 
 {% block header %}
-  {% if feComponents.header and frontendComponentsEnabled === true %}
-    {{ feComponents.header | safe }}
-  {% else %}
-    {% include "./header.njk" %}
-  {% endif %}
+  {{ feComponents.header | safe }}
 {% endblock %}
 
 {% block bodyStart %}
@@ -67,11 +60,7 @@
 {% endblock %}
 
 {% block footer %}
-  {% if feComponents.footer and frontendComponentsEnabled === true %}
-    {{ feComponents.footer | safe }}
-  {% else %}
-    {% include "./footer.njk" %}
-  {% endif %}
+  {{ feComponents.footer | safe }}
 {% endblock %}
 
 {% block bodyEnd %}
