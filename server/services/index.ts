@@ -9,7 +9,6 @@ import PrisonService from './prisonService'
 import WhereaboutsService from './whereaboutsService'
 import AllocationManagerService from './allocationManagerService'
 import DeliusIntegrationService from './deliusIntegrationService'
-import ComponentService from './componentService'
 import JobApplicationService from './jobApplicationService'
 import JobService from './jobService'
 
@@ -27,7 +26,6 @@ export const services = () => {
   const whereaboutsService = new WhereaboutsService(hmppsAuthClient)
   const allocationManagerService = new AllocationManagerService(hmppsAuthClient)
   const deliusIntegrationService = new DeliusIntegrationService(hmppsAuthClient)
-  const componentService = new ComponentService()
   const jobApplicationService = new JobApplicationService(hmppsAuthClient)
   const jobService = new JobService(hmppsAuthClient)
 
@@ -43,7 +41,6 @@ export const services = () => {
     whereaboutsService,
     allocationManagerService,
     deliusIntegrationService,
-    componentService,
     jobApplicationService,
     jobService,
   }

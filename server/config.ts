@@ -172,14 +172,6 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    frontendComponents: {
-      url: get('COMPONENT_API_URL', 'http://localhost:8083', requiredInProduction),
-      timeout: {
-        response: Number(get('COMPONENT_API_URL', 10000)),
-        deadline: Number(get('COMPONENT_API_URL', 10000)),
-      },
-      agent: new AgentConfig(),
-    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
@@ -193,6 +185,7 @@ export default {
   },
   environmentName: get('ENVIRONMENT_NAME', ''),
   urlParameterPassphrase: get('PASSPHRASE', '', requiredInProduction),
+  useComponentFallbacksByDefault: toBoolean(get('USE_COMPONENT_FALLBACKS', false)),
   featureToggles: {
     candidateMatchingEnabled: toBoolean(get('CANDIDATE_MATCHING_ENABLED', false)),
     archiveJobsEnabled: toBoolean(get('ARCHIVED_JOBS_ENABLED', false)),
@@ -202,6 +195,5 @@ export default {
     jobApplicationsEnabled: toBoolean(get('JOB_APPLICATIONS_ENABLED', false)),
     reportingLinkEnabled: toBoolean(get('REPORTING_LINK_ENABLED', false)),
     randomPostcodesInDevEnabled: toBoolean(get('RANDOM_POSTCODES_IN_DEV', false)),
-    frontendComponentsEnabled: toBoolean(get('FRONTEND_COMPONENTS_ENABLED', false)),
   },
 }

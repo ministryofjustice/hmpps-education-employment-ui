@@ -21,7 +21,7 @@ export default function setUpWebSecurity(): Router {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'self'", config.apis.frontendComponents.url],
+          defaultSrc: ["'self'"],
           // This nonce allows us to use scripts with the use of the `cspNonce` local, e.g (in a Nunjucks template):
           // <script nonce="{{ cspNonce }}">
           // or
@@ -33,16 +33,9 @@ export default function setUpWebSecurity(): Router {
             'code.jquery.com',
             '*.google-analytics.com',
             '*.googletagmanager.com',
-            config.apis.frontendComponents.url,
             (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
           ],
-          styleSrc: [
-            "'self'",
-            'code.jquery.com',
-            config.apis.frontendComponents.url,
-            (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
-          ],
-          fontSrc: ["'self'", config.apis.frontendComponents.url],
+          styleSrc: ["'self'", 'code.jquery.com', (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`],
           formAction: [`'self' ${config.apis.hmppsAuth.externalUrl}`],
           connectSrc: ['*.google-analytics.com', '*.googletagmanager.com', '*.analytics.google.com'],
           objectSrc: ["'none'"], // Disallow <object> or <embed> tags
