@@ -13,8 +13,9 @@ import PrisonerProfileClient from '../data/prisonerProfile/prisonerProfileClient
 import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import { convertToTitleCase } from '../utils/index'
 import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
-import PrisonerSearchClient from '../data/prisonerSearch/prisonerSearchClient'
 import config from '../config'
+import PagedResponse from '../data/domain/types/pagedResponse'
+import GetPrisonerByIdResult from '../data/prisonerSearch/getPrisonerByIdResult'
 
 // Sort dataset, given criteria
 function sortPrisonersToMatchJobs(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
@@ -78,6 +79,7 @@ export interface GetPrisonersToMatchJobsArgs {
   sort?: any
   order?: any
   page?: number
+  offenders: PagedResponse<GetPrisonerByIdResult>
 }
 
 export default class PrisonerProfileService {
@@ -108,13 +110,9 @@ export default class PrisonerProfileService {
   }
 
   async getPrisonersToMatchJobs(args: GetPrisonersToMatchJobsArgs) {
-    const { userToken, username, dateFilter, sort, order, searchFilter, page } = args
+    const { userToken, sort, order, searchFilter, page, offenders } = args
     const { status = ['READY_TO_WORK'], searchTerm, typeOfWork } = searchFilter
     const maxPerPage = config.paginationPageSize
-
-    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
-
-    const offenders: any = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
 
     /* Combine offender data with their education profile where necessary */
     const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)

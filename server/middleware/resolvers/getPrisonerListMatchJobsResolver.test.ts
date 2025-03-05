@@ -46,10 +46,13 @@ describe('getPrisonerListMatchJobsResolver', () => {
   const serviceMock2 = {
     getPrisonerAddressById: jest.fn(),
   }
+  const serviceMock3 = {
+    getPrisonersByReleaseDate: jest.fn().mockReturnValue({ content: [] }),
+  }
 
   const error = new Error('mock_error')
 
-  const resolver = middleware(serviceMock as any, serviceMock2 as any)
+  const resolver = middleware(serviceMock as any, serviceMock2 as any, serviceMock3 as any)
 
   it('On error - Calls next with error', async () => {
     serviceMock.getPrisonersToMatchJobs.mockRejectedValue(error)
