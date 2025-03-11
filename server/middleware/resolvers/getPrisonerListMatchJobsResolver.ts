@@ -2,18 +2,25 @@
 import type { RequestHandler } from 'express'
 
 import _ from 'lodash'
-import config from '../../config'
-import { formatDateToyyyyMMdd, getSessionData, offenderEarliestReleaseDate, setSessionData } from '../../utils/index'
+import {
+  formatDateToyyyyMMdd,
+  generateHash,
+  getSessionData,
+  offenderEarliestReleaseDate,
+  setSessionData,
+} from '../../utils/index'
 import PrisonerProfileService from '../../services/prisonerProfileService'
 import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
 import logger from '../../../logger'
+import PrisonerSearchService from '../../services/prisonSearchService'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getPrisonerListMatchJobsResolver =
   (
     prisonerProfileService: PrisonerProfileService,
     deliusIntegrationService: DeliusIntegrationService,
+    prisonerSearchService: PrisonerSearchService,
   ): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { page, sort, order, showNeedsSupportFilter, prisonerNameFilter = '', typeOfWorkFilter = '' } = req.query
@@ -21,9 +28,6 @@ const getPrisonerListMatchJobsResolver =
     const { username, token } = res.locals.user
 
     try {
-      // Prepare search & date parameters
-      const { weeksBeforeRelease } = config
-
       // Build search filter
       const searchFilter = {
         status: showNeedsSupportFilter ? ['READY_TO_WORK', 'SUPPORT_NEEDED'] : ['READY_TO_WORK'],
@@ -34,8 +38,27 @@ const getPrisonerListMatchJobsResolver =
       // Build date filter
       const dateFilter = {
         earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
-        latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
+        latestReleaseDate: offenderEarliestReleaseDate(5200),
         prisonIds: [userActiveCaseLoad.caseLoadId],
+      }
+
+      // Generate a hash for caching
+      const lookupHash = generateHash(
+        `${dateFilter.earliestReleaseDate}-${dateFilter.latestReleaseDate}-${dateFilter.prisonIds.join(',')}`,
+      )
+
+      // Check session for cached offenders list
+      let offenders = getSessionData(req, [lookupHash])
+      if (!offenders) {
+        offenders = await prisonerSearchService.getPrisonersByReleaseDate(username, dateFilter)
+        setSessionData(req, [lookupHash], {
+          ...offenders,
+          content: offenders.content.map((o: { prisonerNumber: any; firstName: any; lastName: any }) => ({
+            prisonerNumber: o.prisonerNumber,
+            firstName: o.firstName,
+            lastName: o.lastName,
+          })),
+        })
       }
 
       req.context.prisonerListMatchedJobs = await prisonerProfileService.getPrisonersToMatchJobs({
@@ -46,6 +69,7 @@ const getPrisonerListMatchJobsResolver =
         sort,
         order,
         page: page ? +page - 1 : 0,
+        offenders,
       })
 
       // Get postcodes in parallel for any results

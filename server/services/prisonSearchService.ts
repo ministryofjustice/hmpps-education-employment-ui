@@ -12,6 +12,7 @@ import PrisonerSearchResult from '../data/prisonerSearch/prisonerSearchResult'
 import getActionsRequired from '../data/prisonerSearch/utils'
 import { convertToTitleCase } from '../utils/index'
 import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
+import PagedResponse from '../data/domain/types/pagedResponse'
 
 // Sort dataset, given criteria
 function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
@@ -74,19 +75,25 @@ export interface SearchPrisonersByReleaseDateArgs {
   sort?: any
   order?: any
   page?: number
+  offenders: PagedResponse<GetPrisonerByIdResult>
 }
 
 export default class PrisonerSearchService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
-  async searchPrisonersByReleaseDate(args: SearchPrisonersByReleaseDateArgs) {
-    const { userToken, username, dateFilter, sort, order, searchFilter, page } = args
-    const { status, searchTerm } = searchFilter
-    const maxPerPage = config.paginationPageSize
-
+  async getPrisonersByReleaseDate(
+    username: string,
+    dateFilter: { earliestReleaseDate: string; latestReleaseDate: string; prisonIds: string[] },
+  ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    const offenders: any = await new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
+    return new PrisonerSearchClient(systemToken).getPrisonersByReleaseDate(dateFilter)
+  }
+
+  async searchPrisonersByReleaseDate(args: SearchPrisonersByReleaseDateArgs) {
+    const { userToken, sort, order, searchFilter, page, offenders } = args
+    const { status, searchTerm } = searchFilter
+    const maxPerPage = config.paginationPageSize
 
     /* Combine offender data with their education profile where necessary */
     const filteredOffenderNumbers = offenders.content?.map((p: any) => p.prisonerNumber)

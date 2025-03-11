@@ -8,7 +8,13 @@ export default (router: Router, services: Services) => {
   const controller = new PrisonerListMatchJobsController(services.paginationService)
   router.get(
     '/mjma/prisoners',
-    [getPrisonerListMatchJobsResolver(services.prisonerProfileService, services.deliusIntegrationService)],
+    [
+      getPrisonerListMatchJobsResolver(
+        services.prisonerProfileService,
+        services.deliusIntegrationService,
+        services.prisonerSearchService,
+      ),
+    ],
     controller.get,
   )
 
