@@ -20,7 +20,9 @@ describe('getCohortListResolver', () => {
 
   const serviceMock = {
     searchPrisonersByReleaseDate: jest.fn(),
+    getPrisonersByReleaseDate: jest.fn(),
   }
+
   const error = new Error('mock_error')
 
   const resolver = middleware(serviceMock as any)

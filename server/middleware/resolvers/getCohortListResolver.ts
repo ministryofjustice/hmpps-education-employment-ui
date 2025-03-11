@@ -29,6 +29,8 @@ const getCohortListResolver =
     }
 
     try {
+      const offenders = await prisonerSearch.getPrisonersByReleaseDate(username, dateFilter)
+
       req.context.cohortList = await prisonerSearch.searchPrisonersByReleaseDate({
         userToken: token,
         username,
@@ -37,6 +39,7 @@ const getCohortListResolver =
         sort,
         order,
         page: page ? +page - 1 : 0,
+        offenders,
       })
 
       next()
