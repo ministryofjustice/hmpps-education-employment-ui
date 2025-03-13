@@ -1,0 +1,67 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+    <form method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Filter by
+            </h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="searchTerm">
+                        Prisoner's name
+                    </label>
+                    <input class="govuk-input" id="searchTerm" name="searchTerm" type="search" value="{{ searchTerm }}">
+                </div>
+            </div>
+
+           <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="timeToReleaseFilter">
+                        Prisoner's time until release
+                    </label>
+                    <select class="govuk-select" id="timeToReleaseFilter" name="timeToReleaseFilter">
+                        <option value="TWELVE_WEEKS" {{ "selected" if applicationStatusFilter === "TWELVE_WEEKS" }}>{{ contentLookup.timeToRelease["TWELVE_WEEKS"] }}</option>
+                        <option value="SIX_MONTHS" {{ "selected" if applicationStatusFilter === "SIX_MONTHS" }}>{{ contentLookup.timeToRelease["SIX_MONTHS"] }}</option>
+                        <option value="ALL" {{ "selected" if applicationStatusFilter === "ALL" }}>{{ contentLookup.timeToRelease["ALL"] }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="applicationStatusFilter">
+                        Application status
+                    </label>
+                    <select class="govuk-select" id="applicationStatusFilter" name="applicationStatusFilter">
+                        <option value="" {{ "selected" if applicationStatusFilter === "" }}>All</option>
+                        <option value="APPLICATION_MADE" {{ "selected" if applicationStatusFilter === "APPLICATION_MADE" }}>{{ contentLookup.applicationStatus["APPLICATION_MADE"] }}</option>
+                        <option value="APPLICATION_UNSUCCESSFUL" {{ "selected" if applicationStatusFilter === "APPLICATION_UNSUCCESSFUL" }}>{{ contentLookup.applicationStatus["APPLICATION_UNSUCCESSFUL"] }}</option>
+                        <option value="SELECTED_FOR_INTERVIEW" {{ "selected" if applicationStatusFilter === "SELECTED_FOR_INTERVIEW" }}>{{ contentLookup.applicationStatus["SELECTED_FOR_INTERVIEW"] }}</option>
+                        <option value="INTERVIEW_BOOKED" {{ "selected" if applicationStatusFilter === "INTERVIEW_BOOKED" }}>{{ contentLookup.applicationStatus["INTERVIEW_BOOKED"] }}</option>
+                        <option value="UNSUCCESSFUL_AT_INTERVIEW" {{ "selected" if applicationStatusFilter === "UNSUCCESSFUL_AT_INTERVIEW" }}>{{ contentLookup.applicationStatus["UNSUCCESSFUL_AT_INTERVIEW"] }}</option>
+                        <option value="JOB_OFFER" {{ "selected" if applicationStatusFilter === "JOB_OFFER" }}>{{ contentLookup.applicationStatus["JOB_OFFER"] }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
+                <div class="govuk-button-group govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+                    <button class="govuk-button" data-module="govuk-button" id="searchButton">
+                        Apply filters
+                    </button>
+                    {% if filtered %}
+                        <a class="govuk-link" id="filter-clear-link" href="{{ addressLookup.workReadiness.cohortList() }}" aria-label="Clear filters">Clear</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
