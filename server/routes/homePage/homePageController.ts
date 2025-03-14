@@ -7,6 +7,7 @@ import config from '../../config'
 export default class HomePageController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { userRoles } = req.context
+
     try {
       // Render data
       const data = {
@@ -51,7 +52,8 @@ const getTasks = (userRoles: any) => {
       heading: 'Match jobs and manage applications',
       description: 'View jobs matched by work interests and release area. Manage the status of job applications.',
       href: `${addressLookup.candidateMatching.prisonerListMatchJobs()}?sort=releaseDate&order=ascending`,
-      enabled: () => userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER']),
+      enabled: () =>
+        userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER', 'ROLE_MATCH_JOBS_EDIT']),
     },
     {
       id: 'reporting_data',
@@ -59,7 +61,7 @@ const getTasks = (userRoles: any) => {
       description: 'Create reports showing progress against work after release metrics.',
       href: config.reportingUrl,
       enabled: () =>
-        userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER']) &&
+        userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER', 'ROLE_MATCH_JOBS_EDIT']) &&
         config.featureToggles.reportingLinkEnabled,
     },
   ]

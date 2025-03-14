@@ -75,6 +75,7 @@ describe('HomePageController', () => {
         'ROLE_WORK_READINESS_EDIT',
         'ROLE_JOBS_BOARD_VIEWER',
         'ROLE_JOBS_BOARD_EDITOR',
+        'ROLE_MATCH_JOBS_EDIT',
       ]
 
       await controller.get(req, res, next)
