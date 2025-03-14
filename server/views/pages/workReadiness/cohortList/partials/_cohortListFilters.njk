@@ -22,13 +22,13 @@
 
            <div class="govuk-grid-column-one-third">
                 <div class="govuk-form-group govuk-!-margin-bottom-1">
-                    <label class="govuk-label" for="timeToReleaseFilter">
+                    <label class="govuk-label" for="timeToRelease">
                         Prisoner's time until release
                     </label>
-                    <select class="govuk-select" id="timeToReleaseFilter" name="timeToReleaseFilter">
-                        <option value="TWELVE_WEEKS" {{ "selected" if applicationStatusFilter === "TWELVE_WEEKS" }}>{{ contentLookup.timeToRelease["TWELVE_WEEKS"] }}</option>
-                        <option value="SIX_MONTHS" {{ "selected" if applicationStatusFilter === "SIX_MONTHS" }}>{{ contentLookup.timeToRelease["SIX_MONTHS"] }}</option>
-                        <option value="ALL" {{ "selected" if applicationStatusFilter === "ALL" }}>{{ contentLookup.timeToRelease["ALL"] }}</option>
+                    <select class="govuk-select" id="timeToRelease" name="timeToRelease">
+                        <option value="TWELVE_WEEKS" {{ "selected" if timeToRelease === "TWELVE_WEEKS" }}>{{ contentLookup.timeToRelease["TWELVE_WEEKS"] }}</option>
+                        <option value="SIX_MONTHS" {{ "selected" if timeToRelease === "SIX_MONTHS" }}>{{ contentLookup.timeToRelease["SIX_MONTHS"] }}</option>
+                        <option value="ALL" {{ "selected" if timeToRelease === "ALL" }}>{{ contentLookup.timeToRelease["ALL"] }}</option>
                     </select>
                 </div>
             </div>
