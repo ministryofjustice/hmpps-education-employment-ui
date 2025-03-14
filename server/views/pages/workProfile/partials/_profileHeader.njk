@@ -16,9 +16,11 @@
     </dd>
 
     {{ statusTag(profile.profileData.status) if profile.profileData.status else statusTag("NOT_STARTED") }}
-    <a class="govuk-link govuk-link--no-visited-state" id="header-change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) if profile.profileData.status else addressLookup.workReadiness.createProfile.rightToWork(prisoner.prisonerNumber) }}">
-      Change<span class="govuk-visually-hidden"> status</span>
-    </a>
+    {% if module === 'wr' %}
+      <a class="govuk-link govuk-link--no-visited-state" id="header-change-status-link" href="{{ addressLookup.workReadiness.changeStatus.newStatus(id) if profile.profileData.status else addressLookup.workReadiness.createProfile.rightToWork(prisoner.prisonerNumber) }}">
+        Change<span class="govuk-visually-hidden"> status</span>
+      </a>
+    {% endif %}
   </dl>
   <dl>
     <dt>Location</dt>
