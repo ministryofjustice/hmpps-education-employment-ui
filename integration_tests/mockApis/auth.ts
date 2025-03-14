@@ -12,6 +12,7 @@ const createToken = () => {
     authorities: [
       'ROLE_EDUCATION_WORK_PLAN_EDITOR',
       'ROLE_EDUCATION_WORK_PLAN_VIEWER',
+      'ROLE_MATCH_JOBS_EDIT',
       'ROLE_WORK_READINESS_VIEWER',
       'ROLE_WORK_READINESS_EDITOR',
       'ROLE_JOBS_BOARD_VIEWER',
