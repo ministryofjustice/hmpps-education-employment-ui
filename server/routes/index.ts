@@ -26,7 +26,11 @@ export default function routes(services: Services): Router {
   // Check for work plan roles for mjma end points
   router.all(
     '/mjma/**',
-    authorisationMiddleware([AuthRole.ROLE_EDUCATION_WORK_PLAN_EDITOR, AuthRole.ROLE_EDUCATION_WORK_PLAN_VIEWER]),
+    authorisationMiddleware([
+      AuthRole.ROLE_EDUCATION_WORK_PLAN_EDITOR,
+      AuthRole.ROLE_EDUCATION_WORK_PLAN_VIEWER,
+      AuthRole.ROLE_MATCH_JOBS_EDIT,
+    ]),
   )
 
   // Append page routes
