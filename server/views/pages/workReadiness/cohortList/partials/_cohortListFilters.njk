@@ -35,17 +35,16 @@
 
             <div class="govuk-grid-column-one-third">
                 <div class="govuk-form-group govuk-!-margin-bottom-1">
-                    <label class="govuk-label" for="applicationStatusFilter">
-                        Application status
+                    <label class="govuk-label" for="selectStatus">
+                        Status
                     </label>
-                    <select class="govuk-select" id="applicationStatusFilter" name="applicationStatusFilter">
-                        <option value="" {{ "selected" if applicationStatusFilter === "" }}>All</option>
-                        <option value="APPLICATION_MADE" {{ "selected" if applicationStatusFilter === "APPLICATION_MADE" }}>{{ contentLookup.applicationStatus["APPLICATION_MADE"] }}</option>
-                        <option value="APPLICATION_UNSUCCESSFUL" {{ "selected" if applicationStatusFilter === "APPLICATION_UNSUCCESSFUL" }}>{{ contentLookup.applicationStatus["APPLICATION_UNSUCCESSFUL"] }}</option>
-                        <option value="SELECTED_FOR_INTERVIEW" {{ "selected" if applicationStatusFilter === "SELECTED_FOR_INTERVIEW" }}>{{ contentLookup.applicationStatus["SELECTED_FOR_INTERVIEW"] }}</option>
-                        <option value="INTERVIEW_BOOKED" {{ "selected" if applicationStatusFilter === "INTERVIEW_BOOKED" }}>{{ contentLookup.applicationStatus["INTERVIEW_BOOKED"] }}</option>
-                        <option value="UNSUCCESSFUL_AT_INTERVIEW" {{ "selected" if applicationStatusFilter === "UNSUCCESSFUL_AT_INTERVIEW" }}>{{ contentLookup.applicationStatus["UNSUCCESSFUL_AT_INTERVIEW"] }}</option>
-                        <option value="JOB_OFFER" {{ "selected" if applicationStatusFilter === "JOB_OFFER" }}>{{ contentLookup.applicationStatus["JOB_OFFER"] }}</option>
+                    <select class="govuk-select" id="selectStatus" name="selectStatus">
+                        <option value="" {{ "selected" if selectStatus === "" }}>All</option>
+                        <option value="NOT_STARTED" {{ "selected" if selectStatus === "NOT_STARTED" }}>{{ contentLookup.profileStatus["NOT_STARTED"] }}</option>
+                        <option value="SUPPORT_NEEDED" {{ "selected" if selectStatus === "SUPPORT_NEEDED" }}>{{ contentLookup.profileStatus["SUPPORT_NEEDED"] }}</option>
+                        <option value="READY_TO_WORK" {{ "selected" if selectStatus === "READY_TO_WORK" }}>{{ contentLookup.profileStatus["READY_TO_WORK"] }}</option>
+                        <option value="SUPPORT_DECLINED" {{ "selected" if selectStatus === "SUPPORT_DECLINED" }}>{{ contentLookup.profileStatus["SUPPORT_DECLINED"] }}</option>
+                        <option value="NO_RIGHT_TO_WORK" {{ "selected" if selectStatus === "NO_RIGHT_TO_WORK" }}>{{ contentLookup.profileStatus["NO_RIGHT_TO_WORK"] }}</option>
                     </select>
                 </div>
             </div>

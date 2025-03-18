@@ -93,7 +93,7 @@ context('SignIn', () => {
   it('Should filter result set by status [READY_TO_WORK] - no records returned', () => {
     cy.task('stubCohortListSupportNeeded')
     const cohortListPage = new CohortListPage()
-    cohortListPage.radioFieldNeedsSupport().click()
+    cohortListPage.statusSelect().select('SUPPORT_NEEDED')
     cohortListPage.searchButton().click()
     cy.visit(`${cohortListUrl}?status=READY_TO_WORK`)
 
