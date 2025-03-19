@@ -16,6 +16,8 @@ import workBaseLocation from './workBaseLocation'
 import workPattern from './workPattern'
 import applicationStatus from './applicationStatus'
 import hours from './hours'
+import profileStatus from './profileStatus'
+import timeToRelease from './timeToRelease'
 
 export default {
   fields: {
@@ -41,4 +43,6 @@ export default {
   },
   toDoStatus,
   applicationStatus,
+  profileStatus,
+  timeToRelease,
 }

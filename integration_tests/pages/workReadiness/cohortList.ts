@@ -7,17 +7,9 @@ export default class CohortListPage extends Page {
     super('Get someone ready to work')
   }
 
-  radioFieldAll = (): PageElement => cy.get('#allStatusFilter')
+  timeToReleaseFilter = (): PageElement => cy.get('#timeToRelease')
 
-  radioFieldNotStarted = (): PageElement => cy.get('#notStartedStatusFilter')
-
-  radioFieldNeedsSupport = (): PageElement => cy.get('#needsSupportStatusFilter')
-
-  radioFieldReadyToWork = (): PageElement => cy.get('#readyToWorkStatusFilter')
-
-  radioFieldDoesNotWantSupport = (): PageElement => cy.get('#doesNotWantSupportStatusFilter')
-
-  radioFieldNoRightToWork = (): PageElement => cy.get('#noRightToWorkStatusFilter')
+  statusSelect = (): PageElement => cy.get('#selectStatus')
 
   searchText = (): PageElement => cy.get('#searchTerm')
 
