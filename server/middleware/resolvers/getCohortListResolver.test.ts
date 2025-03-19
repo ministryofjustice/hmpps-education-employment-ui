@@ -20,7 +20,7 @@ describe('getCohortListResolver', () => {
 
   const serviceMock = {
     searchPrisonersByReleaseDate: jest.fn(),
-    getPrisonersByReleaseDate: jest.fn(),
+    getPrisonersByReleaseDate: jest.fn().mockReturnValue({ content: [] }),
   }
 
   const error = new Error('mock_error')

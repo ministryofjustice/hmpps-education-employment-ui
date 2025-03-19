@@ -82,6 +82,7 @@ describe('CohortListController', () => {
         expect.objectContaining({
           filterStatus: 'ALL',
           searchTerm: '',
+          timeToRelease: 'TWELVE_WEEKS',
           order: 'descending',
           paginationData: {},
           prisonerSearchResults: {

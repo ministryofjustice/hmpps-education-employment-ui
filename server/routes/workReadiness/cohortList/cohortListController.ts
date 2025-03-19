@@ -4,6 +4,7 @@ import type PrisonerSearchService from '../../../services/prisonSearchService'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
 import addressLookup from '../../addressLookup'
+import TimeToRelease from '../../../enums/timeToRelease'
 
 export default class CohortListController {
   constructor(
@@ -12,7 +13,7 @@ export default class CohortListController {
   ) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
-    const { page, sort, order, status = '', searchTerm = '' } = req.query
+    const { page, sort, order, status = '', searchTerm = '', timeToRelease = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
     const prisonerSearchResults = req.context.cohortList
@@ -27,6 +28,7 @@ export default class CohortListController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         status && status !== 'ALL' && `status=${status}`,
+        timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
@@ -51,6 +53,7 @@ export default class CohortListController {
         notFoundMsg,
         searchTerm: decodeURIComponent(searchTerm as string),
         filterStatus: status || 'ALL',
+        timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
 
       res.render('pages/workReadiness/cohortList/index', { ...data })
@@ -61,13 +64,14 @@ export default class CohortListController {
 
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { sort, order } = req.query
-    const { selectStatus, searchTerm } = req.body
+    const { selectStatus, searchTerm, timeToRelease } = req.body
 
     try {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
         selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+        timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
       ].filter(val => !!val)
 

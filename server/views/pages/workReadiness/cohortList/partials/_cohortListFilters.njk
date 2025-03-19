@@ -1,0 +1,66 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+    <form method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+                Filter by
+            </h2>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="searchTerm">
+                        Prisoner's name
+                    </label>
+                    <input class="govuk-input" id="searchTerm" name="searchTerm" type="search" value="{{ searchTerm }}">
+                </div>
+            </div>
+
+           <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="timeToRelease">
+                        Prisoner's time until release
+                    </label>
+                    <select class="govuk-select" id="timeToRelease" name="timeToRelease">
+                        <option value="TWELVE_WEEKS" {{ "selected" if timeToRelease === "TWELVE_WEEKS" }}>{{ contentLookup.timeToRelease["TWELVE_WEEKS"] }}</option>
+                        <option value="SIX_MONTHS" {{ "selected" if timeToRelease === "SIX_MONTHS" }}>{{ contentLookup.timeToRelease["SIX_MONTHS"] }}</option>
+                        <option value="ALL" {{ "selected" if timeToRelease === "ALL" }}>{{ contentLookup.timeToRelease["ALL"] }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="govuk-grid-column-one-third">
+                <div class="govuk-form-group govuk-!-margin-bottom-1">
+                    <label class="govuk-label" for="selectStatus">
+                        Status
+                    </label>
+                    <select class="govuk-select" id="selectStatus" name="selectStatus">
+                        <option value="" {{ "selected" if selectStatus === "" }}>All</option>
+                        <option value="NOT_STARTED" {{ "selected" if selectStatus === "NOT_STARTED" }}>{{ contentLookup.profileStatus["NOT_STARTED"] }}</option>
+                        <option value="SUPPORT_NEEDED" {{ "selected" if selectStatus === "SUPPORT_NEEDED" }}>{{ contentLookup.profileStatus["SUPPORT_NEEDED"] }}</option>
+                        <option value="READY_TO_WORK" {{ "selected" if selectStatus === "READY_TO_WORK" }}>{{ contentLookup.profileStatus["READY_TO_WORK"] }}</option>
+                        <option value="SUPPORT_DECLINED" {{ "selected" if selectStatus === "SUPPORT_DECLINED" }}>{{ contentLookup.profileStatus["SUPPORT_DECLINED"] }}</option>
+                        <option value="NO_RIGHT_TO_WORK" {{ "selected" if selectStatus === "NO_RIGHT_TO_WORK" }}>{{ contentLookup.profileStatus["NO_RIGHT_TO_WORK"] }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
+                <div class="govuk-button-group govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+                    <button class="govuk-button" data-module="govuk-button" id="searchButton">
+                        Apply filters
+                    </button>
+                    {% if filtered %}
+                        <a class="govuk-link" id="filter-clear-link" href="{{ addressLookup.workReadiness.cohortList() }}" aria-label="Clear filters">Clear</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
