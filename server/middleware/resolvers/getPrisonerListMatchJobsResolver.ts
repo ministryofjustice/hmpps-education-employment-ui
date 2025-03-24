@@ -14,6 +14,7 @@ import getPrisonerAddressById from './utils/getPrisonerAddressById'
 import DeliusIntegrationService from '../../services/deliusIntegrationService'
 import logger from '../../../logger'
 import PrisonerSearchService from '../../services/prisonSearchService'
+import GetPrisonerByIdResult from '../../data/prisonerSearch/getPrisonerByIdResult'
 
 // Gets prisoner based on id parameter and puts it into request context
 const getPrisonerListMatchJobsResolver =
@@ -53,10 +54,12 @@ const getPrisonerListMatchJobsResolver =
         offenders = await prisonerSearchService.getPrisonersByReleaseDate(username, dateFilter)
         setSessionData(req, [lookupHash], {
           ...offenders,
-          content: offenders.content.map((o: { prisonerNumber: any; firstName: any; lastName: any }) => ({
+          content: offenders.content.map((o: GetPrisonerByIdResult) => ({
             prisonerNumber: o.prisonerNumber,
             firstName: o.firstName,
             lastName: o.lastName,
+            nonDtoReleaseDateType: o.nonDtoReleaseDateType,
+            releaseDate: o.releaseDate,
           })),
         })
       }
