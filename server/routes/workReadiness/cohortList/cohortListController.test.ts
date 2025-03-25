@@ -80,7 +80,7 @@ describe('CohortListController', () => {
       expect(res.render).toHaveBeenCalledWith(
         'pages/workReadiness/cohortList/index',
         expect.objectContaining({
-          filterStatus: 'ALL',
+          selectStatus: 'ALL',
           searchTerm: '',
           timeToRelease: 'TWELVE_WEEKS',
           order: 'descending',

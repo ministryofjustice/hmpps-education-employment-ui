@@ -52,7 +52,7 @@ export default class CohortListController {
         userActiveCaseLoad,
         notFoundMsg,
         searchTerm: decodeURIComponent(searchTerm as string),
-        filterStatus: status || 'ALL',
+        selectStatus: status || 'ALL',
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
 
