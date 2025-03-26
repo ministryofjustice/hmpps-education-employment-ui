@@ -2,7 +2,7 @@ import { escape, trim } from 'validator'
 import { Request, Response, NextFunction } from 'express'
 
 // Define a whitelist of fields that should not be sanitized
-const WHITELIST = ['_csrf']
+const WHITELIST = ['_csrf', 'prisonerNameFilter', 'jobFilter', 'searchTerm']
 
 const sanitizeBody = (req: Request, res: Response, next: NextFunction): void => {
   const sanitizeField = (value: unknown): string => {
