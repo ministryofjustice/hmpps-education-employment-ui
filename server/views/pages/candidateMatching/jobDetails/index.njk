@@ -53,7 +53,7 @@
           Salary period: <span id="salaryPeriod"> {{ contentLookup.jobs.salaryPeriod[job.salaryPeriod] }}</span>
         </li>
         <li>
-          Additional salary information: <span id="additionalSalaryInformation"> {{ job.additionalSalaryInformation if job.additionalSalaryInformation else 'Not provided' }}</span>
+          Additional salary information: <span id="additionalSalaryInformation"> {{ (job.additionalSalaryInformation | safe) if job.additionalSalaryInformation else 'Not provided' }}</span>
         </li>
         <li>
           Work pattern: <span id="workPattern">{{ contentLookup.jobs.workPattern[job.workPattern] }}</span>
@@ -74,7 +74,7 @@
           Number of vacancies: <span id="numberOfVacancies">{{ job.numberOfVacancies }}</span>
         </li>
         <li>
-          Charity support: <span id="charityName">{{ job.charityName if job.charityName else 'No'}}</span>
+          Charity support: <span id="charityName">{{ (job.charityName | safe) if job.charityName else 'No'}}</span>
         </li>
         <li>
           Only for prison leavers: <span id="isOnlyForPrisonLeavers">{{ 'Yes' if job.isOnlyForPrisonLeavers else 'No'}}</span>
@@ -83,7 +83,7 @@
           Offence exclusions: 
           {% if job.offenceExclusions.length %}
             {% for offence in job.offenceExclusions %}
-              <div>{{ contentLookup.jobs.excludingOffences[offence] }}{{ ' - ' +  job.offenceExclusionsDetails if offence === 'OTHER' }}</div>
+              <div>{{ contentLookup.jobs.excludingOffences[offence] }}{{ ' - ' +  (job.offenceExclusionsDetails | safe) if offence === 'OTHER' }}</div>
             {% endfor %}
           {% else %}
             None

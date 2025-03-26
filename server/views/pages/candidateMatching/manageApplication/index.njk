@@ -29,13 +29,13 @@
           <div class="govuk-grid-row">
               <div class="govuk-grid-column-full">
                 <h2 class="govuk-heading-m" data-qa="job-title">
-                  <a class="govuk-link" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) }}">{{ job.jobTitle }}</a>
+                  <a class="govuk-link" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) }}">{{ job.jobTitle | safe }}</a>
                 </h2>
               </div>
           </div>
           <div class="govuk-grid-row">
               <div class="govuk-grid-column-one-third">
-                <p class="govuk-body" data-qa="employer-name">Employer: {{ job.employerName }}</p>
+                <p class="govuk-body" data-qa="employer-name">Employer: {{ job.employerName | safe }}</p>
               </div>
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-body" data-qa="job-location">Location: {{ job.postcode }}</p>
