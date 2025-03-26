@@ -16,7 +16,7 @@
                     <label class="govuk-label" for="searchTerm">
                         Prisoner's name
                     </label>
-                    <input class="govuk-input" id="searchTerm" name="searchTerm" type="search" value="{{ searchTerm }}">
+                    <input class="govuk-input" id="searchTerm" name="searchTerm" type="search" value="{{ searchTerm | safe }}">
                 </div>
             </div>
 
