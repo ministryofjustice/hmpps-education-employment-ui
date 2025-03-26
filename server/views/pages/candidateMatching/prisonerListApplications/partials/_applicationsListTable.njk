@@ -43,8 +43,8 @@
                     </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ item.prisonNumber }}</span>
                 </td>
                 <td class="govuk-table__cell" id= "job-details-{{ loop.index }}">
-                    {{ item.jobTitle }}</br>
-                    <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName }}</span> 
+                    {{ item.jobTitle | safe }}</br>
+                    <span class="govuk-hint govuk-!-margin-bottom-0">{{ item.employerName | safe }}</span> 
                 </td>
                 <td class="govuk-table__cell" id="job-application-status-{{ loop.index }}">{{ contentLookup.applicationStatus[item.applicationStatus] }}</td>
                 <td class="govuk-table__cell"><a class="govuk-link govuk-link--no-visited-state" href="{{ addressLookup.candidateMatching.manageApplication(item.prisonNumber , item.jobId) + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link-{{ loop.index }}">Update progress</a></td>
