@@ -1,12 +1,12 @@
 {% if prisonerSearchResults.totalElements === 0 %}
   {% if searchTerm and selectStatus !== 'ALL' %}
-    <span class="govuk-heading-m">0 results for "{{ searchTerm }}" in {{ contentLookup.fields.newStatus[selectStatus] }}</span><br>
+    <span class="govuk-heading-m">0 results for "{{ searchTerm | safe }}" in {{ contentLookup.fields.newStatus[selectStatus] }}</span><br>
     <span class="govuk-body govuk-!-font-size-19">Check your spelling and search again, or select another status.</span>
   {% elif selectStatus !== 'ALL' %}
     <span class="govuk-heading-m">0 results in {{ contentLookup.fields.newStatus[selectStatus] }}</span><br>
     <span class="govuk-body govuk-!-font-size-19">Select another status, or search by prisoner name.</span>
   {% else %}
-    <span class="govuk-heading-m">0 results for "{{ searchTerm }}"</span><br>
+    <span class="govuk-heading-m">0 results for "{{ searchTerm | safe }}"</span><br>
     <span class="govuk-body govuk-!-font-size-19">Check your spelling and search again, or clear the search and browse for the prisoner.</span>
   {% endif %}
 {% endif %}
