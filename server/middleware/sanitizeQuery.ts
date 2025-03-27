@@ -2,7 +2,7 @@ import { escape, trim } from 'validator'
 import { Request, Response, NextFunction } from 'express'
 
 // Define a whitelist of query string parameters that should not be sanitized
-const WHITELIST = ['from']
+const WHITELIST = ['from', 'prisonerNameFilter', 'jobFilter', 'searchTerm']
 
 const sanitizeQuery = (req: Request, res: Response, next: NextFunction): void => {
   const sanitizeField = (value: unknown): string => {
