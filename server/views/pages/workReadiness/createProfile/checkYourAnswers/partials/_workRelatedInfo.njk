@@ -21,7 +21,7 @@
       Particular job of interest
     </dt>
     <dd class="govuk-summary-list__value" data-qa="jobOfParticularInterest">
-      {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}{{ (' - ' + record.jobOfParticularInterestDetails if record.jobOfParticularInterest === 'YES') | nl2br | safe }}
+      {{ contentLookup.fields.yesNo[record.jobOfParticularInterest] }}{{ (' - ' + (record.jobOfParticularInterestDetails | safe) if record.jobOfParticularInterest === 'YES') | nl2br | safe }}
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.jobOfParticularInterest(id, 'edit') }}" data-qa="jobOfParticularInterestLink">
@@ -34,7 +34,7 @@
       Work or volunteering experience
     </dt>
     <dd class="govuk-summary-list__value" data-qa="workExperience">
-      {{ contentLookup.fields.yesNo[record.workExperience] }}{{ (' - ' + record.workExperienceDetails if record.workExperience === 'YES') | nl2br | safe }}
+      {{ contentLookup.fields.yesNo[record.workExperience] }}{{ (' - ' + (record.workExperienceDetails | safe) if record.workExperience === 'YES') | nl2br | safe }}
     </dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="{{ addressLookup.workReadiness.createProfile.workExperience(id, 'edit') }}" data-qa="workExperienceLink">
@@ -48,7 +48,7 @@
     </dt>
     <dd class="govuk-summary-list__value" data-qa="trainingAndQualifications">
       {% for item in record.trainingAndQualifications %}
-        <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' + record.trainingAndQualificationsDetails if item === 'OTHER' }}{{ ',' if record.trainingAndQualifications.length !== loop.index }}</div>
+        <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' + (record.trainingAndQualificationsDetails | safe) if item === 'OTHER' }}{{ ',' if record.trainingAndQualifications.length !== loop.index }}</div>
       {% endfor %}
     </dd>
     <dd class="govuk-summary-list__actions">

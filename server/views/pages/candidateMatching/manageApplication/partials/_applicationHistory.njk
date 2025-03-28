@@ -13,7 +13,7 @@
             {{ contentLookup.applicationStatus[item.applicationStatus] }}<br>
             <span class="govuk-hint">{{ item.modifiedAt }}, {{ item.modifiedByNameDisplay }}</span>
           </td>
-          <td class="govuk-table__cell">{{ item.additionalInformation if item.additionalInformation else "None entered" }}</td>
+          <td class="govuk-table__cell">{{ (item.additionalInformation | safe) if item.additionalInformation else "None entered" }}</td>
         </tr>
       {% endfor%}
     </tbody>
