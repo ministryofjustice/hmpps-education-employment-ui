@@ -24,7 +24,7 @@
       </dt>
       <dd class="govuk-summary-list__value" data-qa="identification">
         {% for item in record.identification %}
-          <div>{{ contentLookup.fields.identification[item] }}{{ ' - ' + record.typeOfIdentificationDetails if item === 'OTHER' }}{{ ',' if record.identification.length !== loop.index }}</div>
+          <div>{{ contentLookup.fields.identification[item] }}{{ ' - ' + (record.typeOfIdentificationDetails | safe) if item === 'OTHER' }}{{ ',' if record.identification.length !== loop.index }}</div>
         {% endfor %}
       </dd>
       <dd class="govuk-summary-list__actions">
