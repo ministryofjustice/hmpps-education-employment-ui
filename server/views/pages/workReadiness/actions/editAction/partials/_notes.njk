@@ -17,7 +17,7 @@
               {% endfor %}
               <span class="govuk-hint">{{ item.createdName }}</span>
             </td>
-            <td class="govuk-table__cell govuk-!-width-three-quarters">{{ item.text }}</td>
+            <td class="govuk-table__cell govuk-!-width-three-quarters">{{ item.text | safe }}</td>
           </tr>
         {% endfor %}
     </tbody>
@@ -29,7 +29,7 @@
     id: "noteText",
     name: "noteText",
     rows: "2",
-    value: noteText,
+    value: noteText | safe,
     type: "text",
     label: {
       text: "Add a note",
