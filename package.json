@@ -95,7 +95,7 @@
     ]
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^5.1.2",
+    "@ministryofjustice/frontend": "^5.1.0",
     "@ministryofjustice/hmpps-connect-dps-components": "^2.1.0",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/qs": "^6.9.18",
@@ -118,6 +118,7 @@
     "express": "^4.21.1",
     "express-session": "^1.18.0",
     "follow-redirects": "^1.15.9",
+    "formidable": "^3.5.4",
     "govuk-frontend": "^5.9.0",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
