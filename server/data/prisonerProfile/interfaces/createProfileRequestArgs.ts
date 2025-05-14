@@ -17,6 +17,7 @@ export default interface CreateProfileRequestArgs {
   supportOptIn?: YesNoValue
   rightToWork?: YesNoValue
   prisonName?: string
+  prisonId?: string
 
   // Support declined fields
   supportDeclinedReason?: SupportDeclinedReasonValue[]

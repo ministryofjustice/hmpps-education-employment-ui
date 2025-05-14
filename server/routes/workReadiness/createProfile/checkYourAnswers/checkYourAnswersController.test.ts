@@ -75,7 +75,7 @@ describe('CheckYourAnswersController', () => {
       expect(next).toHaveBeenCalledTimes(1)
       expect(res.render).toHaveBeenCalledTimes(0)
     })
-    it('On success - Calls create profile, tidy session and redirects to workProfile', async () => {
+    it('On success - Calls createProfile, tidy session and redirects to workProfile', async () => {
       mockService.createProfile.mockResolvedValue({})
 
       await controller.post(req, res, next)
@@ -83,6 +83,61 @@ describe('CheckYourAnswersController', () => {
       // expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
       expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
+    })
+
+    it('On success - Calls createProfile with prisonId included in data', async () => {
+      const mockPrisonId = 'MOCK_PRISON_ID'
+      const mockToken = 'MOCK_TOKEN'
+      const bookingId = 123456
+      const prisonName = 'Mock Prison'
+
+      // Set up required mock context
+      res.locals.user = { username: 'USER1', token: mockToken }
+
+      req.context.prisoner = {
+        bookingId,
+        prisonId: mockPrisonId,
+        prisonName,
+      }
+
+      // Set up required session data
+      setSessionData(req, ['createProfile', id], {
+        prisoner: req.context.prisoner,
+        record: {
+          abilityToWork: 'YES',
+          manageDrugsAndAlcohol: 'YES',
+          alreadyInPlace: 'NONE',
+          identification: 'ID',
+          typeOfIdentificationDetails: '',
+          rightToWork: 'NO',
+          supportOptIn: 'NO',
+          supportDeclinedReason: 'OTHER',
+          supportDeclinedDetails: '',
+          whatNeedsToChange: 'ATTITUDE',
+          whatNeedsToChangeDetails: '',
+          typeOfWork: ['TECH'],
+          typeOfWorkDetails: '',
+          jobOfParticularInterest: 'NO',
+          jobOfParticularInterestDetails: '',
+          workExperience: 'SOME',
+          workExperienceDetails: '',
+          trainingAndQualifications: 'YES',
+          trainingAndQualificationsDetails: '',
+        },
+        statusChange: false,
+      })
+
+      mockService.createProfile.mockResolvedValue({})
+
+      await controller.post(req, res, next)
+
+      // Check prisonId is included in second argument
+      expect(mockService.createProfile).toHaveBeenCalledWith(
+        mockToken,
+        expect.objectContaining({
+          prisonId: mockPrisonId,
+        }),
+      )
     })
   })
 })

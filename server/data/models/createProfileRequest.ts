@@ -17,6 +17,7 @@ export default class CreateProfileRequest {
     this.profileData = {
       status: data.status,
       prisonName: data.prisonName,
+      prisonId: data.prisonId,
       supportDeclined:
         data.supportOptIn === YesNoValue.NO
           ? {

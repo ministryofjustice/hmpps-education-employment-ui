@@ -6,6 +6,7 @@ export default interface UpdatePrisonerProfile {
   profileData: {
     status: string
     prisonName?: string
+    prisonId?: string
 
     supportDeclined?: {
       modifiedBy: string
