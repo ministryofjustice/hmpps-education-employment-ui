@@ -1,14 +1,17 @@
-export default function isWithin12Weeks(dateParam: string | Date): boolean {
+export default function isWithin12Weeks(dte: string | Date): boolean {
   try {
-    const dateToCheck = new Date(dateParam)
-    if (Number.isNaN(dateToCheck.getTime())) return false // throw new Error('Invalid date input')
+    if (!dte) return false // throw new Error('Invalid date input')
+
+    const formatDate = (date: Date) => date.toISOString().split('T')[0]
+    const dateToCheck = formatDate(new Date(dte))
 
     const today = new Date()
-    const twelveWeeksAgo = new Date()
+    const twelveWeeks = new Date()
 
-    twelveWeeksAgo.setDate(today.getDate() - 12 * 7) // 12 weeks = 84 days
+    twelveWeeks.setDate(today.getDate() + 12 * 7) // 12 weeks = 84 days
+    const twelveWeeksFromNow = formatDate(twelveWeeks)
 
-    return dateToCheck >= twelveWeeksAgo && dateToCheck <= today
+    return dateToCheck <= twelveWeeksFromNow && dateToCheck >= formatDate(today)
   } catch {
     return false
   }

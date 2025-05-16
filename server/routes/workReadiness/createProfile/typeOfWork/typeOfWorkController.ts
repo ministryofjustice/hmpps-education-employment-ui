@@ -13,6 +13,7 @@ import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class TypeOfWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -98,6 +99,9 @@ export default class TypeOfWorkController {
           workTypesOfInterest: typeOfWork,
           workTypesOfInterestOther: typeOfWork.includes(TypeOfWorkValue.OTHER) ? typeOfWorkDetails : '',
         }
+
+        // Indicate whether releaseDate is within 12 weeks or not
+        profile.profileData.within12Weeks = isWithin12Weeks(profile.profileData.nonDtoReleaseDate)
 
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))

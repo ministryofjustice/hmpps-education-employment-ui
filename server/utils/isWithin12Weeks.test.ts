@@ -5,28 +5,34 @@ describe('isWithin12Weeks', () => {
   const formatDate = (date: Date) => date.toISOString().split('T')[0]
 
   it("returns true for today's date (Date input)", () => {
-    expect(isWithin12Weeks(new Date())).toBe(true)
+    expect(isWithin12Weeks(today)).toBe(true)
   })
 
   it("returns true for today's date (string input)", () => {
     expect(isWithin12Weeks(formatDate(today))).toBe(true)
   })
 
-  it('returns true for a date 10 weeks ago', () => {
+  it('returns false for a date 10 weeks from today', () => {
     const tenWeeksAgo = new Date()
-    tenWeeksAgo.setDate(today.getDate() - 10 * 7)
+    tenWeeksAgo.setDate(today.getDate() + 10 * 7)
     expect(isWithin12Weeks(tenWeeksAgo)).toBe(true)
   })
 
-  it('returns false for a date 13 weeks ago', () => {
+  it('returns false for a date set to yesterday', () => {
     const thirteenWeeksAgo = new Date()
-    thirteenWeeksAgo.setDate(today.getDate() - 13 * 7)
+    thirteenWeeksAgo.setDate(today.getDate() - 1)
     expect(isWithin12Weeks(thirteenWeeksAgo)).toBe(false)
   })
 
-  it('returns false for a date in the future', () => {
+  it('returns true for a date 10 days from today', () => {
     const futureDate = new Date()
     futureDate.setDate(today.getDate() + 10)
+    expect(isWithin12Weeks(futureDate)).toBe(true)
+  })
+
+  it('returns false for a date > 12 weeks from today', () => {
+    const futureDate = new Date()
+    futureDate.setDate(today.getDate() + 13 * 7)
     expect(isWithin12Weeks(futureDate)).toBe(false)
   })
 

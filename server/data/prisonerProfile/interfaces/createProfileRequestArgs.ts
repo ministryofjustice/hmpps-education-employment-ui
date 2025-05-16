@@ -18,6 +18,7 @@ export default interface CreateProfileRequestArgs {
   rightToWork?: YesNoValue
   prisonName?: string
   prisonId?: string
+  within12Weeks?: boolean
 
   // Support declined fields
   supportDeclinedReason?: SupportDeclinedReasonValue[]

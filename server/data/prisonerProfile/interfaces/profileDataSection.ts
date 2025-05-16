@@ -9,6 +9,8 @@ export default interface ProfileDataSection {
 
   prisonId?: string
 
+  within12Weeks?: boolean
+
   supportDeclined?: SupportDeclinedSection
 
   supportAccepted?: SupportAcceptedSection
