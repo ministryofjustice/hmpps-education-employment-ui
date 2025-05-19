@@ -99,7 +99,7 @@
     "@ministryofjustice/hmpps-connect-dps-components": "^2.1.0",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/qs": "^6.9.18",
-    "agentkeepalive": "^4.5.0",
+    "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.5",
     "axios": "^1.7.9",
     "body-parser": "^1.20.2",

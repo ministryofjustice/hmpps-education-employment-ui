@@ -24,26 +24,26 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
+    const identification = new IdentificationPage('What type of ID does Test User1 have?')
 
     identification.submitButton().click()
 
-    identification.pageErrorMessage().contains('Select what type of ID Daniel Craig has')
-    identification.fieldErrorMessage().contains('Select what type of ID Daniel Craig has')
+    identification.pageErrorMessage().contains('Select what type of ID Test User1 has')
+    identification.fieldErrorMessage().contains('Select what type of ID Test User1 has')
   })
 
   it('New record - Select PASSPORT - navigates to ability-to-work page', () => {
-    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
+    const identification = new IdentificationPage('What type of ID does Test User1 have?')
 
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()
@@ -54,7 +54,7 @@ context('SignIn', () => {
   it('Existing record - Select PASSPORT - navigates to check-answers page', () => {
     cy.visit('/wr/profile/create/G6115VJ/identification/edit')
 
-    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
+    const identification = new IdentificationPage('What type of ID does Test User1 have?')
 
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()

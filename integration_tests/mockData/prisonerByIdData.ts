@@ -9,8 +9,8 @@ const prisoners = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         prisonerNumber: 'A00001A',
-        firstName: 'Paris',
-        lastName: 'Jones',
+        firstName: 'Test',
+        lastName: 'User4',
         releaseDate: new Date().toISOString(),
         nonDtoReleaseDateType: 'HDC',
       },
@@ -26,8 +26,8 @@ const prisoners = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         prisonerNumber: 'H4115SD',
-        firstName: 'Billy',
-        lastName: 'Jean',
+        firstName: 'Test',
+        lastName: 'User1',
         releaseDate: new Date().toISOString(),
         nonDtoReleaseDateType: 'HDC',
       },
@@ -43,8 +43,8 @@ const prisoners = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         prisonerNumber: 'G5005GD',
-        firstName: 'John',
-        lastName: 'Smith',
+        firstName: 'Test',
+        lastName: 'User3',
         releaseDate: new Date().toISOString(),
         nonDtoReleaseDateType: 'HDC',
       },
@@ -60,8 +60,8 @@ const prisoners = {
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
         prisonerNumber: 'G6115VJ',
-        firstName: 'Daniel',
-        lastName: 'Craig',
+        firstName: 'Test',
+        lastName: 'User1',
         releaseDate: new Date().toISOString(),
         nonDtoReleaseDateType: 'HDC',
       },

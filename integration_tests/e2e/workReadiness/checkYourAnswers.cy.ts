@@ -36,50 +36,48 @@ context('SignIn', () => {
     rightToWork.radioFieldYes().click()
     rightToWork.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
 
-    const identification = new IdentificationPage('What type of ID does Daniel Craig have?')
+    const identification = new IdentificationPage('What type of ID does Test User1 have?')
     identification.checkboxFieldValue('PASSPORT').click()
     identification.submitButton().click()
 
-    const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
+    const abilityToWork = new AbilityToWorkPage("What might affect Test User1's ability to work?")
     abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.checkboxFieldValue('DEPENDENCY_ISSUES').click()
     abilityToWork.submitButton().click()
 
     const manageDrugsAndAlcohol = new ManageDrugsAndAlcoholPage(
-      'Is Daniel Craig currently able to manage their drug or alcohol dependency?',
+      'Is Test User1 currently able to manage their drug or alcohol dependency?',
     )
     manageDrugsAndAlcohol.radioFieldValue('ABLE_TO_MANAGE').click()
     manageDrugsAndAlcohol.submitButton().click()
 
-    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
+    const typeOfWork = new TypeOfWorkPage('What type of work is Test User1 interested in?')
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.checkboxFieldValue('OTHER').click()
     typeOfWork.textareaField().type('Some Industry')
     typeOfWork.submitButton().click()
 
-    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
+    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Test User1 interested in a particular job?')
     jobOfParticularInterest.radioFieldValue('YES').click()
     jobOfParticularInterest.textareaField().type('Some Job')
     jobOfParticularInterest.submitButton().click()
 
-    const workExperience = new WorkExperiencePage(
-      'Does Daniel Craig have any previous work or volunteering experience?',
-    )
+    const workExperience = new WorkExperiencePage('Does Test User1 have any previous work or volunteering experience?')
     workExperience.radioFieldValue('YES').click()
     workExperience.textareaField().type('Some Experience')
     workExperience.submitButton().click()
 
     const trainingAndQualifications = new TrainingAndQualificationsPage(
-      'Does Daniel Craig have any qualifications or training?',
+      'Does Test User1 have any qualifications or training?',
     )
     trainingAndQualifications.checkboxFieldValue('HIGHER_EDUCATION').click()
     trainingAndQualifications.checkboxFieldValue('OTHER').click()
@@ -87,7 +85,7 @@ context('SignIn', () => {
     trainingAndQualifications.submitButton().click()
 
     // Check content
-    const checkYourAnswers = new CheckYourAnswersPage("Check your answers before saving them to Daniel Craig's profile")
+    const checkYourAnswers = new CheckYourAnswersPage("Check your answers before saving them to Test User1's profile")
 
     checkYourAnswers.rightToWork().contains('Yes')
     checkYourAnswers.rightToWorkLink().click()
@@ -143,22 +141,22 @@ context('SignIn', () => {
     rightToWork.radioFieldYes().click()
     rightToWork.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
 
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User1 not want support?')
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()
 
     const whatNeedsToChange = new WhatNeedsToChangePage(
-      'What change in circumstances would make Daniel Craig want to get work?',
+      'What change in circumstances would make Test User1 want to get work?',
     )
     whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
     whatNeedsToChange.submitButton().click()
 
     // Check content
-    const checkYourAnswers = new CheckYourAnswersPage("Check your answers before saving them to Daniel Craig's profile")
+    const checkYourAnswers = new CheckYourAnswersPage("Check your answers before saving them to Test User1's profile")
 
     checkYourAnswers.rightToWork().contains('Yes')
     checkYourAnswers.rightToWorkLink().click()

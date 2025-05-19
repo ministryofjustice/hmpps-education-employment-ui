@@ -69,6 +69,6 @@ context('Sign In', () => {
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Daniel Craig's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
   })
 })

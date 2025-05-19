@@ -33,7 +33,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.editActionLink('BANK_ACCOUNT').click()
 
     const editActionPage = new EditActionPage('Bank account')
@@ -57,7 +57,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.editActionLink('BANK_ACCOUNT').click()
 
     const editActionPage = new EditActionPage('Bank account')
@@ -93,7 +93,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.editActionLink('ID').click()
 
     const editActionPage = new EditActionPage('ID')

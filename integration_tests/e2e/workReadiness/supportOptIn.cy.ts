@@ -23,16 +23,16 @@ context('SignIn', () => {
   })
 
   it('Validation messages display when no value selected', () => {
-    const supportOptInPage = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptInPage = new SupportOptInPage('Does Test User1 want support to get work?')
 
     supportOptInPage.submitButton().click()
 
-    supportOptInPage.pageErrorMessage().contains('Select if Daniel Craig wants support to get work or not')
-    supportOptInPage.fieldErrorMessage().contains('Select if Daniel Craig wants support to get work or not')
+    supportOptInPage.pageErrorMessage().contains('Select if Test User1 wants support to get work or not')
+    supportOptInPage.fieldErrorMessage().contains('Select if Test User1 wants support to get work or not')
   })
 
   it('New record - Select YES - navigates to support-opt-in page', () => {
-    const supportOptInPage = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptInPage = new SupportOptInPage('Does Test User1 want support to get work?')
 
     supportOptInPage.radioFieldYes().click()
     supportOptInPage.submitButton().click()
@@ -41,7 +41,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select NO - navigates to no-support-reason page', () => {
-    const supportOptInPage = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptInPage = new SupportOptInPage('Does Test User1 want support to get work?')
 
     supportOptInPage.radioFieldNo().click()
     supportOptInPage.submitButton().click()
@@ -52,7 +52,7 @@ context('SignIn', () => {
   it('Existing record - Select YES - navigates to check-answers page', () => {
     cy.visit('/wr/profile/create/G6115VJ/support-opt-in/edit')
 
-    const supportOptInPage = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptInPage = new SupportOptInPage('Does Test User1 want support to get work?')
 
     supportOptInPage.radioFieldYes().click()
     supportOptInPage.submitButton().click()

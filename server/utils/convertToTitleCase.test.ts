@@ -8,24 +8,24 @@ describe('Convert to title case', () => {
     expect(convertToTitleCase('')).toEqual('')
   })
   it('Lower Case', () => {
-    expect(convertToTitleCase('robert')).toEqual('Robert')
+    expect(convertToTitleCase('user1')).toEqual('User1')
   })
   it('Upper Case', () => {
-    expect(convertToTitleCase('ROBERT')).toEqual('Robert')
+    expect(convertToTitleCase('USER1')).toEqual('User1')
   })
   it('Mixed Case', () => {
-    expect(convertToTitleCase('RoBErT')).toEqual('Robert')
+    expect(convertToTitleCase('UsER1')).toEqual('User1')
   })
   it('Multiple words', () => {
-    expect(convertToTitleCase('RobeRT SMiTH')).toEqual('Robert Smith')
+    expect(convertToTitleCase('TesT USer1')).toEqual('Test User1')
   })
   it('Leading spaces', () => {
-    expect(convertToTitleCase('  RobeRT')).toEqual('  Robert')
+    expect(convertToTitleCase('  UseR1')).toEqual('  User1')
   })
   it('Trailing spaces', () => {
-    expect(convertToTitleCase('RobeRT  ')).toEqual('Robert  ')
+    expect(convertToTitleCase('USer1  ')).toEqual('User1  ')
   })
   it('Hyphenated', () => {
-    expect(convertToTitleCase('Robert-John SmiTH-jONes-WILSON')).toEqual('Robert-John Smith-Jones-Wilson')
+    expect(convertToTitleCase('Test-User AnoTHER-tEsT-USER1')).toEqual('Test-User Another-Test-User1')
   })
 })

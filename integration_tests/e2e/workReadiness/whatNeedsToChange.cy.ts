@@ -24,43 +24,43 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
 
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User1 not want support?')
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
     const whatNeedsToChange = new WhatNeedsToChangePage(
-      'What change in circumstances would make Daniel Craig want to get work?',
+      'What change in circumstances would make Test User1 want to get work?',
     )
 
     whatNeedsToChange.submitButton().click()
 
     whatNeedsToChange
       .checkboxPageErrorMessage()
-      .contains('Select what change of circumstances would make Daniel Craig want to get work')
+      .contains('Select what change of circumstances would make Test User1 want to get work')
     whatNeedsToChange
       .checkboxFieldErrorMessage()
-      .contains('Select what change of circumstances would make Daniel Craig want to get work')
+      .contains('Select what change of circumstances would make Test User1 want to get work')
 
     whatNeedsToChange.checkboxFieldValue('OTHER').click()
     whatNeedsToChange.submitButton().click()
 
     whatNeedsToChange
       .detailsPageErrorMessage()
-      .contains('Enter what change of circumstances would make Daniel Craig want to get work')
+      .contains('Enter what change of circumstances would make Test User1 want to get work')
     whatNeedsToChange
       .detailsFieldErrorMessage()
-      .contains('Enter what change of circumstances would make Daniel Craig want to get work')
+      .contains('Enter what change of circumstances would make Test User1 want to get work')
   })
 
   it('New record - Select YES - navigates to check-answers page', () => {
     const whatNeedsToChange = new WhatNeedsToChangePage(
-      'What change in circumstances would make Daniel Craig want to get work?',
+      'What change in circumstances would make Test User1 want to get work?',
     )
 
     whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
@@ -73,7 +73,7 @@ context('SignIn', () => {
     cy.visit('/wr/profile/create/G6115VJ/what-needs-to-change/edit')
 
     const whatNeedsToChange = new WhatNeedsToChangePage(
-      'What change in circumstances would make Daniel Craig want to get work?',
+      'What change in circumstances would make Test User1 want to get work?',
     )
 
     whatNeedsToChange.checkboxFieldValue('HOUSING_ON_RELEASE').click()
