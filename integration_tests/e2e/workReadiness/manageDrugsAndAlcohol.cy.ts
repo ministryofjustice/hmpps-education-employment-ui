@@ -25,37 +25,37 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
 
-    const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
+    const abilityToWork = new AbilityToWorkPage("What might affect Test User1's ability to work?")
     abilityToWork.checkboxFieldValue('DEPENDENCY_ISSUES').click()
     abilityToWork.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
     const manageDrugsAndAlcoholPage = new ManageDrugsAndAlcoholPage(
-      'Is Daniel Craig currently able to manage their drug or alcohol dependency?',
+      'Is Test User1 currently able to manage their drug or alcohol dependency?',
     )
 
     manageDrugsAndAlcoholPage.submitButton().click()
 
     manageDrugsAndAlcoholPage
       .pageErrorMessage()
-      .contains('Select whether Daniel Craig is able to manage their drug or alcohol dependency or not')
+      .contains('Select whether Test User1 is able to manage their drug or alcohol dependency or not')
     manageDrugsAndAlcoholPage
       .fieldErrorMessage()
-      .contains('Select whether Daniel Craig is able to manage their drug or alcohol dependency or not')
+      .contains('Select whether Test User1 is able to manage their drug or alcohol dependency or not')
   })
 
   it('New record - Select ABLE_TO_MANAGE - navigates to type-of-work page', () => {
     const manageDrugsAndAlcoholPage = new ManageDrugsAndAlcoholPage(
-      'Is Daniel Craig currently able to manage their drug or alcohol dependency?',
+      'Is Test User1 currently able to manage their drug or alcohol dependency?',
     )
 
     manageDrugsAndAlcoholPage.radioFieldValue('ABLE_TO_MANAGE').click()
@@ -68,7 +68,7 @@ context('SignIn', () => {
     cy.visit('/wr/profile/create/G6115VJ/manage-drugs-and-alcohol/edit')
 
     const manageDrugsAndAlcoholPage = new ManageDrugsAndAlcoholPage(
-      'Is Daniel Craig currently able to manage their drug or alcohol dependency?',
+      'Is Test User1 currently able to manage their drug or alcohol dependency?',
     )
 
     manageDrugsAndAlcoholPage.radioFieldValue('ABLE_TO_MANAGE').click()

@@ -46,9 +46,9 @@ describe('CommunityService', () => {
       const username = 'user'
       const id = '123'
       const staffDetails: any = {
-        firstName: 'John',
-        lastName: 'Doe',
-        primaryEmail: 'john.doe@example.com',
+        firstName: 'Test1',
+        lastName: 'User1',
+        primaryEmail: 'test1.user1@example.com',
         staffId: 456,
         status: 'mock_status',
         generalAccount: true,
@@ -56,18 +56,18 @@ describe('CommunityService', () => {
 
       hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
       deliusIntegrationApiClient.getCommunityManager.mockResolvedValue({
-        email: 'john.doe@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
+        email: 'test1.user1@example.com',
+        firstName: 'Test1',
+        lastName: 'User1',
       } as any)
       nomisUserRolesApiClient.getStaffDetails.mockResolvedValue(staffDetails)
 
       const result = await deliusIntegrationService.getComForOffender(username, id)
 
       expect(result).toEqual({
-        email: 'john.doe@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
+        email: 'test1.user1@example.com',
+        firstName: 'Test1',
+        lastName: 'User1',
       })
     })
 
@@ -76,9 +76,9 @@ describe('CommunityService', () => {
       const username = 'user'
       const id = '123'
       const com = {
-        email: 'john.doe@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
+        email: 'test1.user1@example.com',
+        firstName: 'Test1',
+        lastName: 'User1',
       }
 
       hmppsAuthClient.getSystemClientToken.mockResolvedValue(systemToken)
@@ -90,9 +90,9 @@ describe('CommunityService', () => {
       const result = await deliusIntegrationService.getComForOffender(username, id)
 
       expect(result).toEqual({
-        email: 'john.doe@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
+        email: 'test1.user1@example.com',
+        firstName: 'Test1',
+        lastName: 'User1',
       })
     })
   })

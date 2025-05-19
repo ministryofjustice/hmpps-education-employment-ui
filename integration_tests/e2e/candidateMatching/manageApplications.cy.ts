@@ -31,7 +31,7 @@ context('Sign In', () => {
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Daniel Craig's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
 
     manageApplicationPage.jobTitle().contains('Warehouse operator')
     manageApplicationPage.employerName().contains('ASDA')
@@ -60,7 +60,7 @@ context('Sign In', () => {
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Daniel Craig's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
 
     manageApplicationPage.updateProgressButton().click()
 
@@ -68,10 +68,10 @@ context('Sign In', () => {
 
     manageApplicationPage
       .applicationStatusPageErrorMessage()
-      .contains("Select an application progress for Daniel Craig's application")
+      .contains("Select an application progress for Test User1's application")
     manageApplicationPage
       .applicationStatusFieldErrorMessage()
-      .contains("Select an application progress for Daniel Craig's application")
+      .contains("Select an application progress for Test User1's application")
 
     manageApplicationPage.applicationStatus().select('APPLICATION_MADE')
     manageApplicationPage.additionalInformation().type('Some info')

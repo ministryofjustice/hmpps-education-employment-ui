@@ -2,7 +2,7 @@ import getValueSafely from './getValueSafely'
 
 describe('getValueSafely', () => {
   const sampleObject = {
-    name: 'John',
+    name: 'User1',
     age: 25,
     isStudent: true,
     details: {
@@ -13,7 +13,7 @@ describe('getValueSafely', () => {
 
   it('should return the value at the specified path', () => {
     const result = getValueSafely(sampleObject, 'name')
-    expect(result).toBe('John')
+    expect(result).toBe('User1')
   })
 
   it('should return the default value if the path does not exist', () => {
