@@ -26,46 +26,44 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
 
-    const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
+    const abilityToWork = new AbilityToWorkPage("What might affect Test User1's ability to work?")
     abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.submitButton().click()
 
-    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
+    const typeOfWork = new TypeOfWorkPage('What type of work is Test User1 interested in?')
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
+    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Test User1 interested in a particular job?')
 
     jobOfParticularInterest.submitButton().click()
 
     jobOfParticularInterest
       .radioPageErrorMessage()
-      .contains('Select if Daniel Craig is interested in a particular job or not')
+      .contains('Select if Test User1 is interested in a particular job or not')
     jobOfParticularInterest
       .radioFieldErrorMessage()
-      .contains('Select if Daniel Craig is interested in a particular job or not')
+      .contains('Select if Test User1 is interested in a particular job or not')
 
     jobOfParticularInterest.radioFieldValue('YES').click()
     jobOfParticularInterest.submitButton().click()
 
-    jobOfParticularInterest.detailsPageErrorMessage().contains('Enter the particular job Daniel Craig is interested in')
-    jobOfParticularInterest
-      .detailsFieldErrorMessage()
-      .contains('Enter the particular job Daniel Craig is interested in')
+    jobOfParticularInterest.detailsPageErrorMessage().contains('Enter the particular job Test User1 is interested in')
+    jobOfParticularInterest.detailsFieldErrorMessage().contains('Enter the particular job Test User1 is interested in')
   })
 
   it('New record - Select NO - navigates to work-experience page', () => {
-    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
+    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Test User1 interested in a particular job?')
 
     jobOfParticularInterest.radioFieldValue('NO').click()
     jobOfParticularInterest.submitButton().click()
@@ -76,7 +74,7 @@ context('SignIn', () => {
   it('Existing record - Select NO - navigates to check-answers page', () => {
     cy.visit('/wr/profile/create/G6115VJ/job-of-particular-interest/edit')
 
-    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
+    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Test User1 interested in a particular job?')
 
     jobOfParticularInterest.radioFieldValue('NO').click()
     jobOfParticularInterest.submitButton().click()

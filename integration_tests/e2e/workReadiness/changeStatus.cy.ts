@@ -29,14 +29,14 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'G6115VJ')
 
     cy.visit('/wr/profile/G6115VJ/view/overview')
-    const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = new NewStatusPage()
     newStatusPage.radioFieldValue('SUPPORT_NEEDED').click()
     newStatusPage.submitButton().click()
 
-    const newStatusPausePage = new NewStatusPausePage("You must now complete Daniel Craig's work assessment")
+    const newStatusPausePage = new NewStatusPausePage("You must now complete Test User1's work assessment")
     cy.contains('.govuk-link', 'Return to profile').should($a => {
       expect($a, $a.parent().parent().text()).to.have.attr('href', '/wr/profile/G6115VJ/view/overview')
     })
@@ -55,7 +55,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = new NewStatusPage()
@@ -76,7 +76,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = new NewStatusPage()
@@ -96,7 +96,7 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
     workProfilePage.overviewChangeStatusLink().click()
 
     const newStatusPage = new NewStatusPage()

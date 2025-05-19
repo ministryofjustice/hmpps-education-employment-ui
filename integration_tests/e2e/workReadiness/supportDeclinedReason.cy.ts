@@ -23,28 +23,28 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldNo().click()
     supportOptIn.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User1 not want support?')
 
     supportDeclinedReason.submitButton().click()
 
-    supportDeclinedReason.reasonPageErrorMessage().contains('Select the reason why Daniel Craig does not want support')
-    supportDeclinedReason.reasonFieldErrorMessage().contains('Select the reason why Daniel Craig does not want support')
+    supportDeclinedReason.reasonPageErrorMessage().contains('Select the reason why Test User1 does not want support')
+    supportDeclinedReason.reasonFieldErrorMessage().contains('Select the reason why Test User1 does not want support')
 
     supportDeclinedReason.checkboxFieldValue('OTHER').click()
     supportDeclinedReason.submitButton().click()
 
-    supportDeclinedReason.detailsPageErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
-    supportDeclinedReason.detailsFieldErrorMessage().contains('Enter the reason why Daniel Craig does not want support')
+    supportDeclinedReason.detailsPageErrorMessage().contains('Enter the reason why Test User1 does not want support')
+    supportDeclinedReason.detailsFieldErrorMessage().contains('Enter the reason why Test User1 does not want support')
   })
 
   it('New record - Select NO_REASON - navigates to what-needs-to-change page', () => {
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User1 not want support?')
 
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()
@@ -55,7 +55,7 @@ context('SignIn', () => {
   it('Existing record - edit - Select NO_REASON - navigates to check-answers page', () => {
     cy.visit('/wr/profile/create/G6115VJ/support-declined-reason/edit')
 
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Daniel Craig not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User1 not want support?')
 
     supportDeclinedReason.checkboxFieldValue('NO_REASON').click()
     supportDeclinedReason.submitButton().click()

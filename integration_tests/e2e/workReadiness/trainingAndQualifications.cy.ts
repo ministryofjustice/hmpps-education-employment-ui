@@ -28,61 +28,59 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
 
-    const abilityToWork = new AbilityToWorkPage("What might affect Daniel Craig's ability to work?")
+    const abilityToWork = new AbilityToWorkPage("What might affect Test User1's ability to work?")
     abilityToWork.checkboxFieldValue('EDUCATION_ENROLLMENT').click()
     abilityToWork.submitButton().click()
 
-    const typeOfWork = new TypeOfWorkPage('What type of work is Daniel Craig interested in?')
+    const typeOfWork = new TypeOfWorkPage('What type of work is Test User1 interested in?')
     typeOfWork.checkboxFieldValue('CONSTRUCTION').click()
     typeOfWork.submitButton().click()
 
-    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Daniel Craig interested in a particular job?')
+    const jobOfParticularInterest = new JobOfParticularInterestPage('Is Test User1 interested in a particular job?')
     jobOfParticularInterest.radioFieldValue('NO').click()
     jobOfParticularInterest.submitButton().click()
 
-    const workExperience = new WorkExperiencePage(
-      'Does Daniel Craig have any previous work or volunteering experience?',
-    )
+    const workExperience = new WorkExperiencePage('Does Test User1 have any previous work or volunteering experience?')
     workExperience.radioFieldValue('NO').click()
     workExperience.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
     const trainingAndQualifications = new TrainingAndQualificationsPage(
-      'Does Daniel Craig have any qualifications or training?',
+      'Does Test User1 have any qualifications or training?',
     )
 
     trainingAndQualifications.submitButton().click()
 
     trainingAndQualifications
       .checkboxPageErrorMessage()
-      .contains('Select any qualifications or training Daniel Craig has')
+      .contains('Select any qualifications or training Test User1 has')
     trainingAndQualifications
       .checkboxFieldErrorMessage()
-      .contains('Select any qualifications or training Daniel Craig has')
+      .contains('Select any qualifications or training Test User1 has')
 
     trainingAndQualifications.checkboxFieldValue('OTHER').click()
     trainingAndQualifications.submitButton().click()
 
     trainingAndQualifications
       .detailsPageErrorMessage()
-      .contains('Enter details of the qualifications or training Daniel Craig has done')
+      .contains('Enter details of the qualifications or training Test User1 has done')
     trainingAndQualifications
       .detailsFieldErrorMessage()
-      .contains('Enter details of the qualifications or training Daniel Craig has done')
+      .contains('Enter details of the qualifications or training Test User1 has done')
   })
 
   it('New record - Select HIGHER_EDUCATION - navigates to check-answers page', () => {
     const trainingAndQualifications = new TrainingAndQualificationsPage(
-      'Does Daniel Craig have any qualifications or training?',
+      'Does Test User1 have any qualifications or training?',
     )
 
     trainingAndQualifications.checkboxFieldValue('HIGHER_EDUCATION').click()
@@ -95,7 +93,7 @@ context('SignIn', () => {
     cy.visit('/wr/profile/create/G6115VJ/training-and-qualifications/edit')
 
     const trainingAndQualifications = new TrainingAndQualificationsPage(
-      'Does Daniel Craig have any qualifications or training?',
+      'Does Test User1 have any qualifications or training?',
     )
 
     trainingAndQualifications.checkboxFieldValue('HIGHER_EDUCATION').click()

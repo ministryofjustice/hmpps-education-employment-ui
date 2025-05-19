@@ -16,14 +16,14 @@ describe('mapToQueryString', () => {
 
   it('should return a query string for a non-empty object with primitive values', () => {
     const params = {
-      name: 'John',
+      name: 'User1',
       age: 25,
       isStudent: true,
     }
 
     const result = mapToQueryString(params)
 
-    expect(result).toBe('name=John&age=25&isStudent=true')
+    expect(result).toBe('name=User1&age=25&isStudent=true')
   })
 
   it('should call arrayToQueryString for array values', () => {
@@ -42,12 +42,12 @@ describe('mapToQueryString', () => {
 
   it('should encode values in the query string', () => {
     const params = {
-      name: 'John Doe',
+      name: 'User1 Tester1',
       location: 'New York',
     }
 
     const result = mapToQueryString(params)
 
-    expect(result).toBe('name=John%20Doe&location=New%20York')
+    expect(result).toBe('name=User1%20Tester1&location=New%20York')
   })
 })

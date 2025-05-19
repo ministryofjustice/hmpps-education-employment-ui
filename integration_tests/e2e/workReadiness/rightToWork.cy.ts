@@ -23,8 +23,8 @@ context('SignIn', () => {
 
     rightToWorkPage.submitButton().click()
 
-    rightToWorkPage.pageErrorMessage().contains('Select if Daniel Craig has the right to work in the UK or not')
-    rightToWorkPage.fieldErrorMessage().contains('Select if Daniel Craig has the right to work in the UK or not')
+    rightToWorkPage.pageErrorMessage().contains('Select if Test User1 has the right to work in the UK or not')
+    rightToWorkPage.fieldErrorMessage().contains('Select if Test User1 has the right to work in the UK or not')
   })
 
   it('New record - Select YES - navigates to support-opt-in page', () => {
