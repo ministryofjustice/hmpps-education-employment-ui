@@ -31,7 +31,7 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'G6115VJ')
 
     cy.visit('/wr/profile/G6115VJ/view/overview')
-    const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
   })
 
   it('No right to work', () => {
@@ -45,7 +45,7 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'G6115VJ')
 
     cy.visit('/wr/profile/G6115VJ/view/overview')
-    const workProfilePage = new WorkProfilePage("Daniel Craig's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
 
     workProfilePage.overviewStatus().contains('NO RIGHT TO WORK')
 
@@ -65,7 +65,7 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
   })
 
   it('No support needed', () => {
@@ -79,17 +79,17 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'G5005GD')
 
     cy.visit('/wr/profile/G5005GD/view/overview')
-    const workProfilePage = new WorkProfilePage("John Smith's work profile")
+    const workProfilePage = new WorkProfilePage("Test User3's work profile")
 
     workProfilePage.overviewDeclinedReasonLink().click()
 
-    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does John Smith not want support?')
+    const supportDeclinedReason = new SupportDeclinedReasonPage('Why does Test User3 not want support?')
     supportDeclinedReason.backLink().click()
 
     workProfilePage.overviewDeclinedChangesRequiredLink().click()
 
     const whatNeedsToChange = new WhatNeedsToChangePage(
-      'What change in circumstances would make John Smith want to get work?',
+      'What change in circumstances would make Test User3 want to get work?',
     )
     whatNeedsToChange.backLink().click()
 
@@ -107,7 +107,7 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'A00001A')
 
     cy.visit('/wr/profile/A00001A/view/overview')
-    const workProfilePage = new WorkProfilePage("Paris Jones's work profile")
+    const workProfilePage = new WorkProfilePage("Test User4's work profile")
 
     workProfilePage.overviewCompleteAssessmentLink().contains('Complete assessment now')
   })

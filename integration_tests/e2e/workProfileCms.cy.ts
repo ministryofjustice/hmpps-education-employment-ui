@@ -27,6 +27,6 @@ context('SignIn', () => {
     cy.task('getPrisonerAddress', 'H4115SD')
 
     cy.visit('/wr/profile/H4115SD/view/overview')
-    const workProfilePage = new WorkProfilePage("Billy Jean's work profile")
+    const workProfilePage = new WorkProfilePage("Test User1's work profile")
   })
 })

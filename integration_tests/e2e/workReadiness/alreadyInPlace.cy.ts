@@ -23,22 +23,22 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldYes().click()
     rightToWorkPage.submitButton().click()
 
-    const supportOptIn = new SupportOptInPage('Does Daniel Craig want support to get work?')
+    const supportOptIn = new SupportOptInPage('Does Test User1 want support to get work?')
     supportOptIn.radioFieldYes().click()
     supportOptIn.submitButton().click()
   })
 
   it('Validation messages display when no value selected', () => {
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
 
     alreadyInPlace.submitButton().click()
 
-    alreadyInPlace.pageErrorMessage().contains('Select what Daniel Craig has in place already')
-    alreadyInPlace.fieldErrorMessage().contains('Select what Daniel Craig has in place already')
+    alreadyInPlace.pageErrorMessage().contains('Select what Test User1 has in place already')
+    alreadyInPlace.fieldErrorMessage().contains('Select what Test User1 has in place already')
   })
 
   it('New record - Select BANK_ACCOUNT - navigates to ability-to-work page', () => {
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
 
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
@@ -47,7 +47,7 @@ context('SignIn', () => {
   })
 
   it('New record - Select ID - navigates to identification page', () => {
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
 
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()
@@ -58,7 +58,7 @@ context('SignIn', () => {
   it('Existing record - Select BANK_ACCOUNT - navigates to check-answers page', () => {
     cy.visit('/wr/profile/create/G6115VJ/already-in-place/edit')
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
 
     alreadyInPlace.checkboxFieldValue('BANK_ACCOUNT').click()
     alreadyInPlace.submitButton().click()
@@ -69,7 +69,7 @@ context('SignIn', () => {
   it('Existing record - Select ID - navigates to identification page', () => {
     cy.visit('/wr/profile/create/G6115VJ/already-in-place/edit')
 
-    const alreadyInPlace = new AlreadyInPlacePage('What does Daniel Craig have in place already?')
+    const alreadyInPlace = new AlreadyInPlacePage('What does Test User1 have in place already?')
 
     alreadyInPlace.checkboxFieldValue('ID').click()
     alreadyInPlace.submitButton().click()

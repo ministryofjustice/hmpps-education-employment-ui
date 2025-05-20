@@ -30,7 +30,7 @@ context('SignIn', () => {
     rightToWorkPage.radioFieldNo().click()
     rightToWorkPage.submitButton().click()
 
-    const ineligableToWork = new IneligableToWorkPage('Daniel Craig is not allowed to work in the UK')
+    const ineligableToWork = new IneligableToWorkPage('Test User1 is not allowed to work in the UK')
 
     ineligableToWork.submitButton().click()
 

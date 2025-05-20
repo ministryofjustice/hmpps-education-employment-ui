@@ -28,7 +28,7 @@ describe('KeyworkerService', () => {
     nomisUserRolesApiClientMock = {
       getStaffDetails: jest
         .fn()
-        .mockResolvedValue({ firstName: 'John', lastName: 'Doe', primaryEmail: 'john.doe@nomis.com' }),
+        .mockResolvedValue({ firstName: 'Test1', lastName: 'User1', primaryEmail: 'test1.user1@nomis.com' }),
     } as unknown as jest.Mocked<NomisUserRolesApiClient>
     ;(NomisUserRolesApiClient as any).mockImplementation(() => nomisUserRolesApiClientMock)
 
@@ -39,9 +39,9 @@ describe('KeyworkerService', () => {
     const result = await keyworkerService.getKeyworkerForOffender('user', 'offender')
 
     expect(result).toEqual({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@nomis.com',
+      firstName: 'Test1',
+      lastName: 'User1',
+      email: 'test1.user1@nomis.com',
     })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
