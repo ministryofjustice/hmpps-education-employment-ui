@@ -128,6 +128,9 @@ export default class PrisonerViewModel {
 
   additionalDaysAwarded: number
 
+  @Type(() => Date)
+  @Expose()
+  @Transform(formatDateStringToddMMMyyyy)
   nonDtoReleaseDate: string
 
   @Expose()

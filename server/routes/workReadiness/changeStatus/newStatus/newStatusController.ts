@@ -86,6 +86,7 @@ export default class NewStatusController {
 
       // Indicate whether releaseDate is within 12 weeks or not
       profile.profileData.within12Weeks = isWithin12Weeks(prisoner.nonDtoReleaseDate)
+      profile.profileData.prisonId = prisoner.prisonId
 
       // Status only change
       if (this.isStatusOnlyChange(newStatus, profile.profileData.status, profile)) {
