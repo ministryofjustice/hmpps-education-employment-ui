@@ -99,6 +99,7 @@ export default class NewStatusController {
               bookingId: prisoner.bookingId,
               status: newStatus,
               currentUser: res.locals.user.username,
+              prisonId: prisoner.prisonId,
             },
             profile,
           ),
