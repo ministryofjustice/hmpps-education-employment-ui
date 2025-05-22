@@ -12,6 +12,7 @@ import NotesViewModel from '../../../../viewModels/notesViewModel'
 import AlreadyInPlaceValue from '../../../../enums/alreadyInPlaceValue'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import IdentificationValue from '../../../../enums/identificationValue'
+import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -140,6 +141,9 @@ export default class EditActionController {
         modifiedBy: res.locals.user.username,
         modifiedDateTime: new Date().toISOString(),
       }
+
+      // Indicate whether releaseDate is within 12 weeks or not
+      profile.profileData.within12Weeks = isWithin12Weeks(profile.profileData.nonDtoReleaseDate)
 
       deleteSessionData(req, ['editAction', id, 'cachedValues'])
 

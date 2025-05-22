@@ -8,6 +8,7 @@ import ProfileStatus from '../../../../enums/profileStatus'
 import { deleteSessionData, getSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import EditProfileRequest from '../../../../data/models/editProfileRequest'
+import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class CheckYourAnswersController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -69,6 +70,8 @@ export default class CheckYourAnswersController {
         trainingAndQualifications: record.trainingAndQualifications,
         trainingAndQualificationsDetails: record.trainingAndQualificationsDetails,
         prisonName: prisoner.prisonName,
+        prisonId: prisoner.prisonId,
+        within12Weeks: isWithin12Weeks(prisoner.nonDtoReleaseDate),
       }
 
       if (statusChange) {

@@ -7,6 +7,10 @@ export default interface ProfileDataSection {
 
   prisonName?: string
 
+  prisonId?: string
+
+  within12Weeks?: boolean
+
   supportDeclined?: SupportDeclinedSection
 
   supportAccepted?: SupportAcceptedSection
