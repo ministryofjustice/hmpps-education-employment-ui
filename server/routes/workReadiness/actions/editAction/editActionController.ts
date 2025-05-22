@@ -143,7 +143,8 @@ export default class EditActionController {
       }
 
       // Indicate whether releaseDate is within 12 weeks or not
-      profile.profileData.within12Weeks = isWithin12Weeks(profile.profileData.nonDtoReleaseDate)
+      profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
+      profile.profileData.prisonId = data.prisoner.prisonId
 
       deleteSessionData(req, ['editAction', id, 'cachedValues'])
 

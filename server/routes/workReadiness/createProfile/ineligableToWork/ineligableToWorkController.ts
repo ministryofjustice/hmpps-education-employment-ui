@@ -8,6 +8,7 @@ import addressLookup from '../../../addressLookup'
 import { deleteSessionData, getSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class IneligableToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -51,6 +52,8 @@ export default class IneligableToWorkController {
         prisonerId: id,
         bookingId: prisoner.bookingId,
         status: ProfileStatus.NO_RIGHT_TO_WORK,
+        prisonId: prisoner.prisonId,
+        within12Weeks: isWithin12Weeks(prisoner.nonDtoReleaseDate),
         currentUser: res.locals.user.username,
       })
 
