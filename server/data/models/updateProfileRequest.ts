@@ -9,6 +9,7 @@ export default class UpdateProfileRequest {
       status: profile.profileData.status,
       supportDeclined: profile.profileData.supportDeclined,
       supportAccepted: profile.profileData.supportAccepted,
+      prisonId: profile.profileData.prisonId,
       within12Weeks: profile.profileData.within12Weeks,
     }
   }
