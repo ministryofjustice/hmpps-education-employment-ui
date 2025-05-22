@@ -14,6 +14,8 @@ export default interface PrisonerProfile {
   profileData: {
     status: ProfileStatus
     prisonName?: string
+    prisonId?: string
+    within12Weeks?: boolean
 
     supportDeclined?: {
       modifiedBy: string

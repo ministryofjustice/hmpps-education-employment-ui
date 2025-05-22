@@ -13,6 +13,7 @@ import EditProfileRequest from '../../../../data/models/editProfileRequest'
 import PrisonerProfile from '../../../../data/prisonerProfile/interfaces/prisonerProfile'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../../utils/urlParameterEncryption'
+import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -82,6 +83,9 @@ export default class NewStatusController {
         res.redirect(addressLookup.workProfile(id, 'overview', module))
         return
       }
+
+      // Indicate whether releaseDate is within 12 weeks or not
+      profile.profileData.within12Weeks = isWithin12Weeks(prisoner.nonDtoReleaseDate)
 
       // Status only change
       if (this.isStatusOnlyChange(newStatus, profile.profileData.status, profile)) {
