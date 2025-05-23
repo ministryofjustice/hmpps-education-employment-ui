@@ -98,7 +98,8 @@ export default class JobOfParticularInterestController {
         }
 
         // Indicate whether releaseDate is within 12 weeks or not
-        profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.releaseDate)
+        profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
+        profile.profileData.prisonId = data.prisoner.prisonId
 
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))

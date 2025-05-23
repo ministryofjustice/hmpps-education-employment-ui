@@ -18,6 +18,7 @@ export default class CreateProfileRequest {
       status: data.status,
       prisonName: data.prisonName,
       prisonId: data.prisonId,
+      within12Weeks: data.within12Weeks,
       supportDeclined:
         data.supportOptIn === YesNoValue.NO
           ? {
