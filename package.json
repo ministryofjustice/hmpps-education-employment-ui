@@ -96,7 +96,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^5.1.0",
-    "@ministryofjustice/hmpps-connect-dps-components": "^2.1.0",
+    "@ministryofjustice/hmpps-connect-dps-components": "^2.2.0",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/qs": "^6.9.18",
     "agentkeepalive": "^4.6.0",
@@ -165,6 +165,7 @@
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "audit-ci": "^6.6.1",
+    "brace-expansion": "^1.1.12",
     "concurrently": "^8.2.2",
     "cookie-session": "^2.1.0",
     "cypress": "^13.12.0",
