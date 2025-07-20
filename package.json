@@ -101,7 +101,7 @@
     "@types/qs": "^6.9.18",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.5",
-    "axios": "^1.7.9",
+    "axios": "^1.10.0",
     "body-parser": "^1.20.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
