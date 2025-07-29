@@ -72,13 +72,22 @@ export default class JobApplicationService {
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    // Prepare search & date parameters
-    const { weeksBeforeRelease } = config
+    // ESWE-1370
+    const TimeToRelease = {
+      TWELVE_WEEKS: 12,
+      SIX_MONTHS: 26,
+      ALL: 5200,
+    } as const
+
+    type TimeToReleaseKey = keyof typeof TimeToRelease
+    type TimeToReleaseValue = (typeof TimeToRelease)[TimeToReleaseKey]
+
+    const allFutureReleases: TimeToReleaseValue = TimeToRelease.ALL
 
     // Build date filter
     const dateFilter = {
       earliestReleaseDate: formatDateToyyyyMMdd(new Date().toString()),
-      latestReleaseDate: offenderEarliestReleaseDate(weeksBeforeRelease),
+      latestReleaseDate: offenderEarliestReleaseDate(allFutureReleases),
       prisonIds: [params.prisonId],
     }
 
