@@ -72,9 +72,6 @@ export default class JobApplicationService {
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    // Prepare search & date parameters
-    const { weeksBeforeRelease } = config
-
     // ESWE-1370
     const TimeToRelease = {
       TWELVE_WEEKS: 12,
