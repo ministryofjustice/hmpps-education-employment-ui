@@ -33,7 +33,7 @@ generic-service:
     MANAGE_USERS_API: "https://manage-users-api-dev.hmpps.service.justice.gov.uk"
     GET_SOMEONE_READY_FOR_WORK_URL: "https://get-ready-for-work-dev.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: DEV
-    WEEKS_BEFORE_RELEASE: 100
+    WEEKS_BEFORE_RELEASE: 12
     CANDIDATE_MATCHING_ENABLED: true
     ARCHIVED_JOBS_ENABLED: true
     EXPRESSIONS_OF_INTEREST_ENABLED: true
