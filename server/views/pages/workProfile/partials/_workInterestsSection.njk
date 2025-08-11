@@ -14,7 +14,7 @@
           </dt>
           <dd class="govuk-summary-list__value" data-qa="interests-type-of-work">
             {% for item in profile.profileData.supportAccepted.workInterests.workTypesOfInterest %}
-              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther if item === 'OTHER' }}{{ ',' if profile.profileData.supportAccepted.workInterests.workTypesOfInterest.length !== loop.index }}</div>
+              <div>{{ contentLookup.fields.typeOfWork[item] }}{{ ' - ' +  (profile.profileData.supportAccepted.workInterests.workTypesOfInterestOther | safe) if item === 'OTHER' }}{{ ',' if profile.profileData.supportAccepted.workInterests.workTypesOfInterest.length !== loop.index }}</div>
             {% endfor %}
           </dd>
           <dd class="govuk-summary-list__actions" id="interests-type-of-work-link">

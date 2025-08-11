@@ -97,7 +97,7 @@
         Essential criteria
       </h2>
       <p class="govuk-body" id="essentialCriteria">
-        {{ job.essentialCriteria | striptags(true) | escape | nl2br }}
+        {{ job.essentialCriteria | striptags(true) | safe | nl2br }}
       </p>
 
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -107,7 +107,7 @@
       </h2>
       <p class="govuk-body" id="desirableCriteria">
         {% if job.desirableCriteria %}
-          {{ job.desirableCriteria | striptags(true) | escape | nl2br }}
+          {{ job.desirableCriteria | striptags(true) | safe | nl2br }}
         {% else %}
           Not provided
         {% endif%}
@@ -119,7 +119,7 @@
         Job description
       </h2>
       <p class="govuk-body" id="description">
-        {{ job.description | striptags(true) | escape | nl2br }}
+        {{ job.description | striptags(true) | safe | nl2br }}
       </p>
 
       {% include './partials/_jobDetailsFormControls.njk' %}
