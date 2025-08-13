@@ -45,7 +45,7 @@
               </div>
           </div>
 
-          <p class="govuk-body govuk-!-margin-bottom-1" data-qa="how-to-apply">How to apply: {{ job.howToApply }}</p>
+          <p class="govuk-body govuk-!-margin-bottom-1" data-qa="how-to-apply">How to apply: {{ job.howToApply | safe }}</p>
         </div>
 
         {% include './partials/_applicationHistory.njk' %}

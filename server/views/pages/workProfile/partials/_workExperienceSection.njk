@@ -28,7 +28,7 @@
         </dt>
         <dd class="govuk-summary-list__value" data-qa="experience-qualifications">
           {% for item in  profile.profileData.supportAccepted.workExperience.qualificationsAndTraining %}
-            <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ ' - ' +  profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther if item === 'OTHER' }}{{ ',' if profile.profileData.supportAccepted.workExperience.qualificationsAndTraining.length !== loop.index }}</div>
+            <div>{{ contentLookup.fields.trainingAndQualifications[item] }}{{ (' - ' +  profile.profileData.supportAccepted.workExperience.qualificationsAndTrainingOther if item === 'OTHER') | safe }}{{ ',' if profile.profileData.supportAccepted.workExperience.qualificationsAndTraining.length !== loop.index }}</div>
           {% endfor %}
         </dd>
         <dd class="govuk-summary-list__actions">
