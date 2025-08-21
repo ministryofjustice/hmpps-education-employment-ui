@@ -194,6 +194,7 @@
     "typescript": "^5.8.3"
   },
   "overrides": {
+    "tmp": "0.2.4",
     "cypress": {
       "@cypress/request": "^3.0.0"
     },
