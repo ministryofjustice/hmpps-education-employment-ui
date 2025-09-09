@@ -76,6 +76,8 @@ describe('HomePageController', () => {
         'ROLE_JOBS_BOARD_VIEWER',
         'ROLE_JOBS_BOARD_EDITOR',
         'ROLE_MATCH_JOBS_EDIT',
+        'ROLE_WALP_DASHBOARD_INTERNAL',
+        'ROLE_WALP_DASHBOARD_EXTERNAL',
       ]
 
       await controller.get(req, res, next)
@@ -109,6 +111,13 @@ describe('HomePageController', () => {
             heading: 'Reporting data',
             href: 'reporting_url',
             id: 'reporting_data',
+          },
+          {
+            description:
+              'View reporting information for all products within Get someone ready to work (GSRTW) and Match jobs and manage applications (MJMA).',
+            heading: 'Reporting dashboard',
+            href: undefined,
+            id: 'jobs-board-reporting',
           },
         ],
       })
