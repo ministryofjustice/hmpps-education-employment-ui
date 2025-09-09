@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, RequestHandler } from 'express'
 import csurf from 'csurf'
 
 const testMode = process.env.NODE_ENV === 'test'
@@ -8,7 +8,7 @@ export default function setUpCsrf(): Router {
 
   // CSRF protection
   if (!testMode) {
-    router.use(csurf())
+    router.use(csurf() as RequestHandler)
   }
 
   router.use((req, res, next) => {

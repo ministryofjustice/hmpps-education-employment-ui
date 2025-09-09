@@ -30,6 +30,7 @@ generic-service:
     JOB_API_URL: "https://jobs-board-api-dev.hmpps.service.justice.gov.uk"
     JOB_UPLOAD_URL: "https://jobs-board-dev.hmpps.service.justice.gov.uk"
     REPORTING_URL: "https://jobs-board-reporting-dev.hmpps.service.justice.gov.uk"
+    JOBS_BOARD_REPORTING_URL: "https://jobs-board-reporting-dev.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API: "https://manage-users-api-dev.hmpps.service.justice.gov.uk"
     GET_SOMEONE_READY_FOR_WORK_URL: "https://get-ready-for-work-dev.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: DEV

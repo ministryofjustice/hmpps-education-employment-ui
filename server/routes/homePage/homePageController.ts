@@ -64,6 +64,14 @@ const getTasks = (userRoles: any) => {
         userHasRoles(['ROLE_EDUCATION_WORK_PLAN_EDITOR', 'ROLE_EDUCATION_WORK_PLAN_VIEWER', 'ROLE_MATCH_JOBS_EDIT']) &&
         config.featureToggles.reportingLinkEnabled,
     },
+    {
+      id: 'jobs-board-reporting',
+      heading: 'Reporting dashboard',
+      description:
+        'View reporting information for all products within Get someone ready to work (GSRTW) and Match jobs and manage applications (MJMA).',
+      href: config.jobsBoardReportingUrl,
+      enabled: () => userHasRoles(['ROLE_WALP_DASHBOARD_INTERNAL', 'ROLE_WALP_DASHBOARD_EXTERNAL']),
+    },
   ]
 }
 

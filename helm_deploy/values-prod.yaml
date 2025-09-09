@@ -28,6 +28,7 @@ generic-service:
     JOB_API_URL: "https://jobs-board-api.hmpps.service.justice.gov.uk"
     JOB_UPLOAD_URL: "https://jobs-board.hmpps.service.justice.gov.uk"
     REPORTING_URL: "https://jobs-board-reporting.hmpps.service.justice.gov.uk"
+    JOBS_BOARD_REPORTING_URL: "https://jobs-board-reporting.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API: "https://manage-users-api.hmpps.service.justice.gov.uk"
     SYSTEM_PHASE: PROD
     WEEKS_BEFORE_RELEASE: 12

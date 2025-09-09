@@ -177,6 +177,7 @@ export default {
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
   jobUploadUrl: get('JOB_UPLOAD_URL', 'http://localhost:3001/', requiredInProduction),
   reportingUrl: get('REPORTING_URL', 'http://localhost:3001/', requiredInProduction),
+  jobsBoardReportingUrl: get('JOBS_BOARD_REPORTING_URL', 'http://localhost:3001', requiredInProduction),
   weeksBeforeRelease: Number(get('WEEKS_BEFORE_RELEASE', 12)),
   phaseName: get('SYSTEM_PHASE', '', requiredInProduction),
   googleAnalytics: {
