@@ -15,6 +15,7 @@ export default class JobService {
       jobSectorFilter?: string
       locationFilter?: string
       distanceFilter?: number
+      isNationalJob?: boolean
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)

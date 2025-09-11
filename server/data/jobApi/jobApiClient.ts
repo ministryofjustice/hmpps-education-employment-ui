@@ -25,8 +25,18 @@ export default class JobApiClient {
     jobSectorFilter?: string
     locationFilter?: string
     distanceFilter?: number
+    isNationalJob?: boolean
   }) {
-    const { offenderNo, page = 1, sort, order, jobSectorFilter, locationFilter, distanceFilter = 9999 } = params
+    const {
+      offenderNo,
+      page = 1,
+      sort,
+      order,
+      jobSectorFilter,
+      locationFilter,
+      distanceFilter = 9999,
+      isNationalJob = false,
+    } = params
 
     const uri = [
       `page=${page - 1}`,
@@ -37,6 +47,7 @@ export default class JobApiClient {
       offenderNo && `prisonNumber=${encodeURIComponent(offenderNo)}`,
       locationFilter && `releaseArea=${encodeURIComponent(locationFilter)}`,
       distanceFilter && locationFilter && `searchRadius=${distanceFilter}`,
+      config.featureToggles.nationalJobsEnabled && `isNationalJob=${isNationalJob}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
