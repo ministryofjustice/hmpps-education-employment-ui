@@ -10,6 +10,7 @@ interface GetMatchedJobsResponse {
   postcode: string
   sector: TypeOfWorkValue
   hasExpressedInterest: boolean
+  isNational: boolean // TODO: Check this is what will be returned from the API
 }
 
 export default GetMatchedJobsResponse
