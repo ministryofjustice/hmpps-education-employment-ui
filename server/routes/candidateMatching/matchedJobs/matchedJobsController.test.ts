@@ -172,5 +172,19 @@ describe('MatchedJobsController', () => {
         `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
       )
     })
+
+    it('On successful POST - with national jobs enabled, call renders with the correct data', async () => {
+      req.body.locationFilter = 'name1'
+      req.body.jobSectorFilter = ['COOKING']
+      req.body.distanceFilter = 'true'
+      res.locals.nationalJobsEnabled = true
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
+      )
+    })
   })
 })
