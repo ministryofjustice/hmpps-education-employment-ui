@@ -70,7 +70,9 @@
           <option value="10" {{ "selected" if distanceFilter === "10" }}>10 miles</option>
           <option value="20" {{ "selected" if distanceFilter === "20" }}>20 miles</option>
           <option value="50" {{ "selected" if distanceFilter === "50" }}>50 miles</option>
-          <option value="0" {{ "selected" if distanceFilter === "0" }}>National</option>
+          <option value="0" {{ "selected" if distanceFilter === "0" }}>
+            {{ "No restrictions" if nationalJobsEnabled else "National" }}
+          </option>
         </select>
       </div>
     </div>

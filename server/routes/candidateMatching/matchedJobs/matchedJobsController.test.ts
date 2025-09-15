@@ -116,6 +116,58 @@ describe('MatchedJobsController', () => {
       })
       expect(next).toHaveBeenCalledTimes(0)
     })
+
+    it('On success - records found - with nationalJobsEnabled, call renders with the correct data', async () => {
+      res.locals.nationalJobsEnabled = true
+      await controller.get(req, res, next)
+      next.mockReset()
+
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
+        backLocation: '/mjma/profile/mock_id/view/overview',
+        profile: undefined,
+        prisoner: undefined,
+        notFoundMsg: undefined,
+        order: 'descending',
+        paginationData: {},
+        locationFilter: '',
+        filtered: true,
+        id: 'mock_id',
+        matchedJobsResults: {
+          filterStatus: 'ALL',
+          order: 'descending',
+          content: [],
+          page: {
+            totalElements: 0,
+          },
+          searchTerm: '',
+          sort: 'releaseDate',
+          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
+        },
+        distanceFilter: '0',
+        sort: 'releaseDate',
+        jobSectorFilter: [],
+        typeOfWorkOptions: [],
+        typeOfWorkOtherOptions: [
+          'OUTDOOR',
+          'CLEANING_AND_MAINTENANCE',
+          'CONSTRUCTION',
+          'DRIVING',
+          'BEAUTY',
+          'HOSPITALITY',
+          'TECHNICAL',
+          'MANUFACTURING',
+          'OFFICE',
+          'RETAIL',
+          'SPORTS',
+          'WAREHOUSING',
+          'EDUCATION_TRAINING',
+          'WASTE_MANAGEMENT',
+          'OTHER',
+        ],
+        userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
+      })
+      expect(next).toHaveBeenCalledTimes(0)
+    })
   })
 
   describe('#post(req, res)', () => {
@@ -170,6 +222,20 @@ describe('MatchedJobsController', () => {
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
         `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
+      )
+    })
+
+    it('On successful POST - with nationalJobsEnabled, call renders with the correct data when no locationFilter', async () => {
+      res.locals.nationalJobsEnabled = true
+      req.body.locationFilter = ''
+      req.body.jobSectorFilter = ['COOKING']
+      req.body.distanceFilter = '20'
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=COOKING&locationFilter=none`,
       )
     })
   })
