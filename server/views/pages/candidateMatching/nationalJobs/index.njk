@@ -11,7 +11,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../../macros/error-summary/macro.njk" import errorSummary %}
 
-{% set matchedJobs = matchedJobsResults.content %}
+{% set matchedJobs = nationalJobsResults.content %}
 {% set activeStatus = filterStatus %}
 {% set title = "Jobs for " + prisoner.firstName + " " + prisoner.lastName %}
 
@@ -42,15 +42,13 @@
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
                         <li class="moj-sub-navigation__item">
-                            <a class="moj-sub-navigation__link govuk-!-display-none-print" aria-current="page" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
+                            <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending' }}">Matched jobs</a>
                             <b class="display-none-screen">Matched jobs</b>
                         </li>
-                        {% if nationalJobsEnabled %}
-                            <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending' }}">National jobs</a>
-                                <span class="display-none-screen">National jobs</span>
-                            </li>
-                        {% endif%}
+                        <li class="moj-sub-navigation__item">
+                            <a class="moj-sub-navigation__link govuk-!-display-none-print" aria-current="page" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending' }}">National jobs</a>
+                            <span class="display-none-screen">National jobs</span>
+                        </li>
                         {% if expressionsOfInterestEnabled %}
                             <li class="moj-sub-navigation__item">
                                 <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
@@ -69,9 +67,9 @@
                     </div>
                 </div>
                 
-                {% include './partials/_matchedJobsFilters.njk' %}
+                {% include './partials/_matchedNationalJobsFilters.njk' %}
                 {% include './partials/_resultsPanel.njk' %}
-                {% include './partials/_matchedJobsTable.njk' %}
+                {% include './partials/_matchedNationalJobsTable.njk' %}
 
             </form>
         </div>

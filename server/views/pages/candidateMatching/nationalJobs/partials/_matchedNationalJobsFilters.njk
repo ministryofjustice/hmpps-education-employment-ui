@@ -1,0 +1,84 @@
+<div class="govuk-form-group filter-box govuk-!-margin-top-4">
+  <div class="govuk-grid-row">
+
+    <div class="filter-box-width-override-60">
+      <div class="govuk-form-group">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-left-3">
+          Type of work interested in
+        </h3>
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+          {% for typeOfWork in typeOfWorkOptions %}
+            <div class="govuk-grid-column-one-half">
+              <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                <input class="govuk-checkboxes__input" id="jobSectorFilter-{{ loop.index }}" name="jobSectorFilter" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if jobSectorFilter.includes(typeOfWork) }}>
+                <label class="govuk-label govuk-checkboxes__label" for="jobSectorFilter-{{ loop.index }}">
+                  {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
+                </label>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-2 govuk-!-padding-left-3">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Show other types of work
+          </span>
+        </summary>
+        <div class="govuk-details__text govuk-!-padding-left-0 no-border-left">
+
+          <div class="govuk-grid-row">
+            <div>
+              <div class="govuk-form-group">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-2 govuk-!-padding-left-3">
+                  Type of work interested in
+                </h3>
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                  {% for typeOfWork in typeOfWorkOtherOptions %}
+                    <div class="govuk-grid-column-one-half">
+                      <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                        <input class="govuk-checkboxes__input" id="jobSectorFilterOther-{{ loop.index }}" name="jobSectorFilterOther" type="checkbox" value="{{ typeOfWork }}" {{ "checked" if jobSectorFilter.includes(typeOfWork) }}>
+                        <label class="govuk-label govuk-checkboxes__label" for="jobSectorFilterOther-{{ loop.index }}">
+                          {{ contentLookup.fields.typeOfWork[typeOfWork]  }}
+                        </label>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+
+        </div>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="filter-box-width-override-20">
+      <div class="govuk-form-group">
+        <label class="govuk-heading-s govuk-!-margin-bottom-1" for="employerFilter">
+          Employer
+        </label>
+        <select class="govuk-select min-width-120" id="employerFilter" name="employerFilter">
+          <option value="1" {{ "selected" if distanceFilter === "1" }}>All employers</option> // TODO: add employer filter
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="govuk-grid-row govuk-!-display-none-print">
+    <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
+      <div class="govuk-button-group govuk-!-margin-bottom-0">
+        <button class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
+          Apply filters
+        </button>
+        {% if filtered %}
+          <a class="govuk-link" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
