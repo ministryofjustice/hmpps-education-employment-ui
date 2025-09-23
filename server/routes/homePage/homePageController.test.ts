@@ -87,7 +87,7 @@ describe('HomePageController', () => {
         subTasks: [
           {
             description: 'Add and manage job vacancies and employer information.',
-            heading: 'Add jobs and employers',
+            heading: 'Manage jobs and employers',
             href: 'job_upload_url',
             id: 'jobs-upload',
           },
