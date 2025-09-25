@@ -1,8 +1,6 @@
 import config from '../../config'
 import RestClient from '../restClient'
-import GetKeyworkerForOffenderResponse from './getKeyworkerForOffenderResponse'
-
-const BASE_URL = '/key-worker'
+import GetStaffAllocationsForOffenderResponse from './getStaffAllocationsForOffenderResponse'
 
 export default class KeyworkerApiClient {
   restClient: RestClient
@@ -11,9 +9,9 @@ export default class KeyworkerApiClient {
     this.restClient = new RestClient('Keyworker API', config.apis.keyworkerApi, token)
   }
 
-  async getKeyworkerForOffender(offenderNo: string) {
-    const result = await this.restClient.get<GetKeyworkerForOffenderResponse>({
-      path: `${BASE_URL}/offender/${offenderNo}`,
+  async getStaffAllocationsForOffender(offenderNo: string) {
+    const result = await this.restClient.get<GetStaffAllocationsForOffenderResponse>({
+      path: `/prisoners/${offenderNo}/allocations/current?includeContactDetails=true`,
     })
 
     return result

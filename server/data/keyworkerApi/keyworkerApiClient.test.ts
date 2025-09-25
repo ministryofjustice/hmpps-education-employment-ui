@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import KeyworkerApiClient from './keyworkerApiClient'
 import RestClient from '../restClient'
-import GetKeyworkerForOffenderResponse from './getKeyworkerForOffenderResponse'
+import GetStaffAllocationsForOffenderResponse from './getStaffAllocationsForOffenderResponse'
 import config from '../../config'
 
 jest.mock('../restClient')
@@ -17,18 +17,29 @@ describe('KeyworkerApiClient', () => {
     client = new KeyworkerApiClient('token')
   })
 
-  describe('getKeyworkerForOffender', () => {
+  describe('getStaffAllocationsForOffender', () => {
     it('should make a GET request to the correct endpoint with the correct parameters', async () => {
-      const expectedPath = `/key-worker/offender/${offenderNo}`
-      const expectedResult: GetKeyworkerForOffenderResponse = {
-        staffId: 1234,
-        firstName: 'mockFirstName',
-        lastName: 'mockLastName',
+      const expectedPath = `/prisoners/${offenderNo}/allocations/current?includeContactDetails=true`
+      const expectedResult: GetStaffAllocationsForOffenderResponse = {
+        allocations: [
+          {
+            policy: {
+              code: 'KEY_WORKER',
+              description: 'key worker',
+            },
+            staffMember: {
+              staffId: 123,
+              firstName: 'Test1',
+              lastName: 'User1',
+              emailAddresses: ['test1.user1@nomis.com'],
+            },
+          },
+        ],
       }
 
       restClientMock.get.mockResolvedValue(expectedResult)
 
-      const result = await client.getKeyworkerForOffender(offenderNo)
+      const result = await client.getStaffAllocationsForOffender(offenderNo)
 
       expect(restClientMock.get).toHaveBeenCalledWith({
         path: expectedPath,
