@@ -111,6 +111,12 @@ describe('SupportDeclinedReasonController', () => {
       validationMock.mockReset()
       setSessionData(req, ['whatNeedsToChange', id, 'data'], mockData)
       setSessionData(req, ['createProfile', id], {})
+
+      req.context.profile = {
+        profileData: {
+          isWithin12Weeks: false,
+        },
+      }
     })
 
     it('On error - Calls next with error', async () => {

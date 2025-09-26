@@ -34,9 +34,13 @@ describe('SupportDeclinedReasonController', () => {
   const pageTitleLookupMock = pageTitleLookup as jest.Mock
   pageTitleLookupMock.mockReturnValue('mock_page_title')
 
+  const today = new Date()
+  const formatDate = (date: Date) => date.toISOString().split('T')[0]
+
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    nonDtoReleaseDate: formatDate(today),
   }
 
   req.params.id = 'mock_ref'
@@ -140,6 +144,11 @@ describe('SupportDeclinedReasonController', () => {
       req.body.supportDeclinedReason = SupportDeclinedReasonValue.OTHER
       req.params.mode = 'new'
 
+      req.context.profile = {
+        profileData: {
+          isWithin12Weeks: false,
+        },
+      }
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['createProfile', id])).toEqual({
