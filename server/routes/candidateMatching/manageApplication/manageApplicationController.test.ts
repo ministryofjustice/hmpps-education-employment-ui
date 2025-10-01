@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './manageApplicationController'
 import addressLookup from '../../addressLookup'
@@ -9,6 +10,7 @@ import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import ApplicationStatusViewModel from '../../../viewModels/applicationProgressViewModel'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import { setSessionData } from '../../../utils/session'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -81,6 +83,7 @@ describe('ManageApplicationController', () => {
   describe('#post(req, res)', () => {
     const errors = { details: 'mock_error' }
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -88,6 +91,10 @@ describe('ManageApplicationController', () => {
       next.mockReset()
       validationMock.mockReset()
       setSessionData(req, ['manageApplication', id, jobId], mockData)
+
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('Should create a new instance', () => {
@@ -124,7 +131,7 @@ describe('ManageApplicationController', () => {
 
       req.context.applicationProgress = [{ id: 'mock_id' }]
 
-      controller.post(req, res, next)
+      await controller.post(req, res, next)
 
       expect(mockService.updateApplicationProgress).toHaveBeenCalledTimes(1)
       expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('MOCK_USER', 'mock_id', {
@@ -135,6 +142,29 @@ describe('ManageApplicationController', () => {
         lastName: 'mock_lastName',
         prisonNumber: 'mock_ref',
         prisonId: 'MDI',
+      })
+    })
+
+    it('On successful POST - audits the update', async () => {
+      req.body.applicationStatus = 'APPLICATION_MADE'
+      req.body.additionalInformation = 'test_data'
+
+      req.context.applicationProgress = [{ id: 'mock_id' }]
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy).toHaveBeenCalledWith({
+        action: 'UPDATE_APPLICATION',
+        who: res.locals.user.username,
+        subjectId: 'mock_id',
+        subjectType: 'NOT_APPLICABLE',
+        service: 'hmpps-education-employment-ui',
+        details: JSON.stringify({
+          jobId: req.params.jobId,
+          prisonNumber: req.params.id,
+          applicationStatus: req.body.applicationStatus,
+        }),
       })
     })
   })

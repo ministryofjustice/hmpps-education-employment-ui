@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
+import { v7 as uuidv7 } from 'uuid'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
 import { getSessionData, setSessionData } from '../../../utils/session'
@@ -64,6 +66,35 @@ export default class PrisonerListApplicationsController {
       }
 
       setSessionData(req, ['prisonerListApplications', 'data'], data)
+
+      if (config.apis.hmppsAudit.enabled) {
+        const correlationId = uuidv7()
+        await Promise.all([
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_APPLICATIONS',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: data.prisonerNameFilter,
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify({
+              userActiveCaseLoad,
+              prisonerNameFilter: data.prisonerNameFilter,
+              applicationStatusFilter: data.applicationStatusFilter,
+              jobFilter: data.jobFilter,
+            }),
+          }),
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_APPLICATIONS_RESULTS',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: data.prisonerNameFilter,
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify(prisonerSearchResults.content),
+          }),
+        ])
+      }
 
       res.render('pages/candidateMatching/prisonerListApplications/index', { ...data })
     } catch (err) {

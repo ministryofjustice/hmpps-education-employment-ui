@@ -7,7 +7,7 @@ describe('NotesViewModel', () => {
   const notesJson = {
     createdBy: 'Jane Doe',
     createdName: 'Jane',
-    createdDateTime: date.toLocaleString(),
+    createdDateTime: date.toISOString(),
     attribute: 'test',
     text: 'This is a note.',
   }

@@ -66,6 +66,10 @@ export default {
       systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
       systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
+    hmppsAudit: {
+      enabled: get('AUDIT_ENABLED', 'false') === 'true',
+      auditServiceName: get('AUDIT_SERVICE_NAME', 'hmpps-education-employment-ui'),
+    },
     tokenVerification: {
       url: get('TOKEN_VERIFICATION_API_URL', 'http://localhost:8100', requiredInProduction),
       timeout: {
