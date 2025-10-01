@@ -52,6 +52,9 @@ generic-service:
       REDIS_AUTH_TOKEN: "auth_token"
     hmpps-education-employment-ui-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    sqs-hmpps-audit-secret:
+      AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
+      AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
 
   allowlist:
     sscl-blackpool: 31.121.5.27/32
