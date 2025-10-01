@@ -3,6 +3,7 @@ import { plainToClass } from 'class-transformer'
 import { v7 as uuidv7 } from 'uuid'
 
 import _ from 'lodash'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import JobDetailsViewModel from '../../../viewModels/jobDetailsViewModel'
 import addressLookup from '../../addressLookup'
 import {
@@ -18,6 +19,7 @@ import ApplicationStatusViewModel from '../../../viewModels/applicationProgressV
 import validationSchema from './validationSchema'
 import JobApplicationService from '../../../services/jobApplicationService'
 import logger from '../../../../logger'
+import config from '../../../config'
 
 export default class ManageApplicationController {
   constructor(private readonly jobApplicationService: JobApplicationService) {}
@@ -87,6 +89,21 @@ export default class ManageApplicationController {
       const applicationId = applicationProgress.length
         ? (_.last(applicationProgress) as ApplicationStatusViewModel).id
         : uuidv7()
+
+      if (config.apis.hmppsAudit.enabled) {
+        await auditService.sendAuditMessage({
+          action: 'UPDATE_APPLICATION',
+          who: res.locals.user.username,
+          subjectType: 'NOT_APPLICABLE',
+          subjectId: applicationId,
+          service: config.apis.hmppsAudit.auditServiceName,
+          details: JSON.stringify({
+            jobId,
+            prisonNumber: id,
+            applicationStatus,
+          }),
+        })
+      }
 
       // Update application progress API
       await this.jobApplicationService.updateApplicationProgress(res.locals.user.username, applicationId, {

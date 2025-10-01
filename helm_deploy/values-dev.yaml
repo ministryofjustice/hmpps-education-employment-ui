@@ -2,6 +2,7 @@
 # Per environment values which override defaults in hmpps-education-employment-ui/values.yaml
 
 generic-service:
+  serviceAccountName: education-skills-and-work-devs-development
   replicaCount: 2
 
   ingress:
@@ -44,6 +45,7 @@ generic-service:
     REPORTING_LINK_ENABLED: false
     RANDOM_POSTCODES_IN_DEV: true
     USE_COMPONENT_FALLBACKS: true
+    AUDIT_ENABLED: 'true'
 
   scheduledDowntime:
     enabled: true
