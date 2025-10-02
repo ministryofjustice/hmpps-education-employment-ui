@@ -78,7 +78,7 @@ export default class PrisonerListApplicationsController {
             subjectId: data.prisonerNameFilter,
             service: config.apis.hmppsAudit.auditServiceName,
             details: JSON.stringify({
-              userActiveCaseLoad,
+              userActiveCaseLoad: userActiveCaseLoad?.caseLoadId,
               prisonerNameFilter: data.prisonerNameFilter,
               applicationStatusFilter: data.applicationStatusFilter,
               jobFilter: data.jobFilter,
@@ -91,7 +91,12 @@ export default class PrisonerListApplicationsController {
             subjectType: 'SEARCH_TERM',
             subjectId: data.prisonerNameFilter,
             service: config.apis.hmppsAudit.auditServiceName,
-            details: JSON.stringify(prisonerSearchResults.content),
+            details: JSON.stringify(
+              prisonerSearchResults.content.map((result: { jobId: any; prisonNumber: any }) => ({
+                jobId: result.jobId,
+                prisonerNumber: result.prisonNumber,
+              })),
+            ),
           }),
         ])
       }

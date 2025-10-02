@@ -22,11 +22,15 @@ describe('PrisonerListApplicationsController', () => {
   req.context.prisonerListApplications = {
     content: [
       {
+        jobId: 'A',
+        prisonNumber: 'A1111AA',
         displayName: 'mock_displayName',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
       },
       {
+        jobId: 'B',
+        prisonNumber: 'A1111AA',
         displayName: 'mock_displayName2',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
@@ -69,11 +73,15 @@ describe('PrisonerListApplicationsController', () => {
     prisonerSearchResults: {
       content: [
         {
+          jobId: 'A',
+          prisonNumber: 'A1111AA',
           displayName: 'mock_displayName',
           releaseDate: 'mock_releaseDate',
           status: 'mock_status',
         },
         {
+          jobId: 'B',
+          prisonNumber: 'A1111AA',
           displayName: 'mock_displayName2',
           releaseDate: 'mock_releaseDate',
           status: 'mock_status',
@@ -138,7 +146,7 @@ describe('PrisonerListApplicationsController', () => {
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
         details: JSON.stringify({
-          userActiveCaseLoad: res.locals.userActiveCaseLoad,
+          userActiveCaseLoad: res.locals.userActiveCaseLoad.caseLoadId,
           prisonerNameFilter: searchTerm,
           applicationStatusFilter: req.query.applicationStatusFilter,
           jobFilter: req.query.jobFilter,
@@ -150,7 +158,10 @@ describe('PrisonerListApplicationsController', () => {
         subjectType: 'SEARCH_TERM',
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
-        details: JSON.stringify(req.context.prisonerListApplications.content),
+        details: JSON.stringify([
+          { jobId: 'A', prisonerNumber: 'A1111AA' },
+          { jobId: 'B', prisonerNumber: 'A1111AA' },
+        ]),
       })
     })
   })
