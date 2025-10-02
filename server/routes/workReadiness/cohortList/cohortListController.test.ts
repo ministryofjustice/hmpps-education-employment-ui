@@ -15,6 +15,7 @@ describe('CohortListController', () => {
   req.context.cohortList = {
     content: [
       {
+        prisonerNumber: 'A1111AA',
         displayName: 'mock_displayName',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
@@ -22,6 +23,7 @@ describe('CohortListController', () => {
         updatedOn: 'mock_updateOn',
       },
       {
+        prisonerNumber: 'A1111BB',
         displayName: 'mock_displayName2',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
@@ -118,7 +120,7 @@ describe('CohortListController', () => {
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
         details: JSON.stringify({
-          userActiveCaseLoad: res.locals.userActiveCaseLoad,
+          userActiveCaseLoad: res.locals.userActiveCaseLoad.caseLoadId,
           selectStatus: 'ALL',
           timeToRelease: TimeToRelease.TWELVE_WEEKS,
         }),
@@ -129,7 +131,7 @@ describe('CohortListController', () => {
         subjectType: 'SEARCH_TERM',
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
-        details: JSON.stringify(req.context.cohortList.content),
+        details: JSON.stringify([{ prisonerNumber: 'A1111AA' }, { prisonerNumber: 'A1111BB' }]),
       })
     })
   })

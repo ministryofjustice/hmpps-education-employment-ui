@@ -22,12 +22,14 @@ describe('PrisonerListMatchJobsController', () => {
   req.context.prisonerListMatchedJobs = {
     content: [
       {
-        displayName: 'mock_displayName',
+        prisonerNumber: 'A1111AA',
+        displayName: 'prisoner 1',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
       },
       {
-        displayName: 'mock_displayName2',
+        prisonerNumber: 'A1111BB',
+        displayName: 'prisoner 2',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
       },
@@ -129,7 +131,7 @@ describe('PrisonerListMatchJobsController', () => {
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
         details: JSON.stringify({
-          userActiveCaseLoad: res.locals.userActiveCaseLoad,
+          userActiveCaseLoad: res.locals.userActiveCaseLoad.caseLoadId,
           prisonerNameFilter: searchTerm,
           typeOfWorkFilter: req.query.typeOfWorkFilter,
           showNeedsSupportFilter: req.query.showNeedsSupportFilter,
@@ -141,7 +143,7 @@ describe('PrisonerListMatchJobsController', () => {
         subjectType: 'SEARCH_TERM',
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
-        details: JSON.stringify(mockData.content),
+        details: JSON.stringify([{ prisonerNumber: 'A1111AA' }, { prisonerNumber: 'A1111BB' }]),
       })
     })
   })

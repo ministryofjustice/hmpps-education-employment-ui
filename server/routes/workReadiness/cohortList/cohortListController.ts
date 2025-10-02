@@ -69,7 +69,7 @@ export default class CohortListController {
             subjectId: decodeURIComponent(searchTerm as string),
             service: config.apis.hmppsAudit.auditServiceName,
             details: JSON.stringify({
-              userActiveCaseLoad,
+              userActiveCaseLoad: userActiveCaseLoad?.caseLoadId,
               selectStatus: status || 'ALL',
               timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
             }),
@@ -81,7 +81,11 @@ export default class CohortListController {
             subjectType: 'SEARCH_TERM',
             subjectId: decodeURIComponent(searchTerm as string),
             service: config.apis.hmppsAudit.auditServiceName,
-            details: JSON.stringify(prisonerSearchResults.content),
+            details: JSON.stringify(
+              prisonerSearchResults.content.map((result: { prisonerNumber: any }) => ({
+                prisonerNumber: result.prisonerNumber,
+              })),
+            ),
           }),
         ])
       }
