@@ -32,4 +32,7 @@ export default class JobViewModel {
 
   @Expose()
   hasExpressedInterest: boolean
+
+  @Expose()
+  numberOfVacancies: number
 }

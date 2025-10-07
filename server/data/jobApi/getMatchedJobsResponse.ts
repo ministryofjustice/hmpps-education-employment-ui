@@ -10,7 +10,7 @@ interface GetMatchedJobsResponse {
   sector: TypeOfWorkValue
   hasExpressedInterest: boolean
   isNational: boolean
-  vacancies?: number
+  numberOfVacancies: number
 }
 
 export default GetMatchedJobsResponse

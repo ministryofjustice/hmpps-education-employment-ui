@@ -8,6 +8,7 @@ import getProfileByIdResolver from '../../../middleware/resolvers/getProfileById
 import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
+import getNationalEmployersListResolver from '../../../middleware/resolvers/getNationalEmployersListResolver'
 
 export default (router: Router, services: Services) => {
   const controller = new NationalJobsController(services.paginationService)
@@ -18,6 +19,7 @@ export default (router: Router, services: Services) => {
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getPrisonerAddressByIdResolver(services.deliusIntegrationService),
       getNationalJobsResolver(services.jobService),
+      getNationalEmployersListResolver(services.jobService),
     ],
     controller.get,
   )

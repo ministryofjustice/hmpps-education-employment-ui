@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import Controller from './nationalJobsController'
-import getPrisonerListNationalJobsResolver from '../../../middleware/resolvers/getNationalJobsResolver'
+import getNationalJobsResolver from '../../../middleware/resolvers/getNationalJobsResolver'
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
@@ -8,11 +8,13 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 import { Services } from '../../../services'
 import routes from './index'
+import getNationalEmployersListResolver from '../../../middleware/resolvers/getNationalEmployersListResolver'
 
 jest.mock('./nationalJobsController')
 jest.mock('../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../middleware/resolvers/getNationalJobsResolver')
+jest.mock('../../../middleware/resolvers/getNationalEmployersListResolver')
 jest.mock('../../../middleware/resolvers/getPrisonerAddressByIdResolver')
 jest.mock('../../../middleware/handleSortMiddleware')
 jest.mock('../../../middleware/parseCheckBoxValue')
@@ -31,7 +33,8 @@ describe('National jobs routes', () => {
       get: jest.fn(),
       post: jest.fn(),
     }))
-    ;(getPrisonerListNationalJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getNationalJobsResolver as jest.Mock).mockImplementation(() => jest.fn())
+    ;(getNationalEmployersListResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(handleSortMiddleware as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
@@ -47,8 +50,9 @@ describe('National jobs routes', () => {
       [
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getPrisonerListNationalJobsResolver
         expect.any(Function), // getPrisonerAddressByIdResolver
+        expect.any(Function), // getNationalJobsResolver
+        expect.any(Function), // getNationalEmployersListResolver
       ],
       expect.any(Function), // controller.get
     )

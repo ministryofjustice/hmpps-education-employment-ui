@@ -13,7 +13,7 @@ const getMatchedJobs = async (
     locationFilter?: string
     distanceFilter?: number
     isNationalJob?: boolean
-    employerFilter?: string
+    employerId?: string
   },
 ) => {
   try {

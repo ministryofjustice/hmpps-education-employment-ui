@@ -40,7 +40,7 @@
                     {% endif %}
                 </td>
                 <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.sector] }}</td>
-                <td class="govuk-table__cell"">{{ job.vacancies if job.vacancies !== '' else 'Not provided'}}</td>
+                <td class="govuk-table__cell"">{{ job.numberOfVacancies }}</td>
                 <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate if job.closingDate !== 'N/A' else 'No closing date' }}</td>
             </tr>
         {% endfor %}

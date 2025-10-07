@@ -58,11 +58,14 @@
 
     <div class="filter-box-width-override-20">
       <div class="govuk-form-group">
-        <label class="govuk-heading-s govuk-!-margin-bottom-1" for="employerFilter">
+        <label class="govuk-heading-s govuk-!-margin-bottom-1" for="employerId">
           Employer
         </label>
         <select class="govuk-select min-width-120" id="employerFilter" name="employerFilter">
-          <option value="1" {{ "selected" if distanceFilter === "1" }}>All employers</option> // TODO: add employer filter
+          <option value="" {{ "selected" if employerFilter === "" }}>All employers</option>
+          {% for employer in nationalEmployersList.content %}
+            <option value="{{ employer.id }}" {{ "selected" if employerFilter === employer.id }}>{{ employer.name }}</option>
+          {% endfor %}
         </select>
       </div>
     </div>

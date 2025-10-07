@@ -16,7 +16,7 @@ export default class JobService {
       locationFilter?: string
       distanceFilter?: number
       isNationalJob?: boolean
-      employerFilter?: string
+      employerId?: string
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
@@ -82,6 +82,12 @@ export default class JobService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new JobApiClient(systemToken).getEmployer(id)
+  }
+
+  async getEmployersWithNationalJobs(username: string) {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new JobApiClient(systemToken).getEmployersWithNationalJobs()
   }
 
   async createExpressionOfInterest(username: string, jobId: string, offenderNo: string) {

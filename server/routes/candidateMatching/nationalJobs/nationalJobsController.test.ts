@@ -40,7 +40,8 @@ describe('NationalJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.nationalJobsResults
+  const mockNationalJobsResults = req.context.nationalJobsResults
+  const mockNationalEmployersList = req.context.nationalEmployersList
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -126,7 +127,7 @@ describe('NationalJobsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['nationalJobs', 'data'], mockData)
+      setSessionData(req, ['nationalJobs', 'data'], mockNationalJobsResults)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -151,23 +152,25 @@ describe('NationalJobsController', () => {
       controller.post(req, res, next)
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/nationalJobs/index', {
-        ...mockData,
+        ...mockNationalJobsResults,
+        ...mockNationalEmployersList,
         errors,
         filterStatus: 'ALL',
         jobSectorFilter: [],
         jobSectorFilterOther: [],
+        employerFilter: '',
       })
     })
 
     it('On successful POST - call renders with the correct data', async () => {
       req.body.jobSectorFilter = ['COOKING']
-      req.body.employerFilter = 'employer1'
+      req.body.employerFilter = '1000'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['nationalJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=COOKING&employerFilter=employer1`,
+        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=COOKING&employerFilter=1000`,
       )
     })
   })

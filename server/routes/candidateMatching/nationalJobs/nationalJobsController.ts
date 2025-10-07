@@ -23,7 +23,7 @@ export default class NationalJobsController {
     const { page, sort, order, jobSectorFilter = '', employerFilter = '' } = req.query
     const { userActiveCaseLoad } = res.locals
     const { paginationPageSize } = config
-    const { prisoner, profile, nationalJobsResults } = req.context
+    const { prisoner, profile, nationalJobsResults, nationalEmployersList } = req.context
 
     try {
       // Paginate where necessary
@@ -71,6 +71,7 @@ export default class NationalJobsController {
         prisoner: plainToInstance(PrisonerViewModel, prisoner),
         profile,
         nationalJobsResults,
+        nationalEmployersList,
         sort,
         order,
         paginationData,
@@ -97,17 +98,19 @@ export default class NationalJobsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { sort, order } = req.query
-    const { jobSectorFilter = [], jobSectorFilterOther = [], employerFilter } = req.body
+    const { jobSectorFilter = [], jobSectorFilterOther = [], employerFilter = '' } = req.body
 
     try {
       // If validation errors render errors
       const data = getSessionData(req, ['nationalJobs', 'data'])
       const errors = validateFormSchema(req, validationSchema())
+      const { nationalEmployersList } = req.context
 
       if (errors) {
         res.render('pages/candidateMatching/nationalJobs/index', {
           ...data,
           errors,
+          nationalEmployersList,
           jobSectorFilter,
           jobSectorFilterOther,
           employerFilter,

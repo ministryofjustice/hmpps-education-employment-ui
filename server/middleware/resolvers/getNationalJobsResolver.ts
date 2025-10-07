@@ -18,7 +18,7 @@ const getNationalJobsResolver =
         sort: sort.toString(),
         order: order.toString(),
         jobSectorFilter: jobSectorFilter.toString(),
-        employerFilter: employerFilter.toString(),
+        employerId: employerFilter.toString(),
         isNationalJob: true,
       })
 
