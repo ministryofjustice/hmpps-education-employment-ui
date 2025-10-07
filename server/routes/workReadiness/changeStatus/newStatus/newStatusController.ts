@@ -101,6 +101,7 @@ export default class NewStatusController {
               status: newStatus,
               currentUser: res.locals.user.username,
               prisonId: prisoner.prisonId,
+              within12Weeks: profile.profileData.within12Weeks,
             },
             profile,
           ),

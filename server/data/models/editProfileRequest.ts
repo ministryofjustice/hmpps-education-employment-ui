@@ -18,7 +18,7 @@ export default class EditProfileRequest {
       status: data.status,
       prisonName: data.prisonName,
       prisonId: data.prisonId,
-      within12Weeks: existingProfile.profileData.within12Weeks,
+      within12Weeks: data.within12Weeks,
       supportDeclined: this.buildSupportDeclined(data),
       supportAccepted: this.buildSupportAccepted(data, existingProfile),
     }
