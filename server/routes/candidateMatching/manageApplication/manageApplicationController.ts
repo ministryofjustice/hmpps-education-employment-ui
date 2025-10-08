@@ -99,7 +99,7 @@ export default class ManageApplicationController {
           service: config.apis.hmppsAudit.auditServiceName,
           details: JSON.stringify({
             jobId,
-            prisonNumber: id,
+            prisonerNumber: id,
             applicationStatus,
           }),
         })
