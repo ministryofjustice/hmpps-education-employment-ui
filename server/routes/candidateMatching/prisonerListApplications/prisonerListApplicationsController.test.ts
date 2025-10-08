@@ -159,8 +159,8 @@ describe('PrisonerListApplicationsController', () => {
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
         details: JSON.stringify([
-          { jobId: 'A', prisonerNumber: 'A1111AA' },
-          { jobId: 'B', prisonerNumber: 'A1111AA' },
+          { jobId: 'A', prisonNumber: 'A1111AA' },
+          { jobId: 'B', prisonNumber: 'A1111AA' },
         ]),
       })
     })

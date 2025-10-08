@@ -162,7 +162,7 @@ describe('ManageApplicationController', () => {
         service: 'hmpps-education-employment-ui',
         details: JSON.stringify({
           jobId: req.params.jobId,
-          prisonerNumber: req.params.id,
+          prisonNumber: req.params.id,
           applicationStatus: req.body.applicationStatus,
         }),
       })
