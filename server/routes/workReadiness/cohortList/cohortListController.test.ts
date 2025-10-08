@@ -131,7 +131,7 @@ describe('CohortListController', () => {
         subjectType: 'SEARCH_TERM',
         subjectId: searchTerm,
         service: config.apis.hmppsAudit.auditServiceName,
-        details: JSON.stringify([{ prisonerNumber: 'A1111AA' }, { prisonerNumber: 'A1111BB' }]),
+        details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
       })
     })
   })

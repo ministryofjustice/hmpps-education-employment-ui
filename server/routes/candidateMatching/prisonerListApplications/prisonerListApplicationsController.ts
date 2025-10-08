@@ -94,7 +94,7 @@ export default class PrisonerListApplicationsController {
             details: JSON.stringify(
               prisonerSearchResults.content.map((result: { jobId: any; prisonNumber: any }) => ({
                 jobId: result.jobId,
-                prisonerNumber: result.prisonNumber,
+                prisonNumber: result.prisonNumber,
               })),
             ),
           }),

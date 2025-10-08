@@ -83,7 +83,7 @@ export default class CohortListController {
             service: config.apis.hmppsAudit.auditServiceName,
             details: JSON.stringify(
               prisonerSearchResults.content.map((result: { prisonerNumber: any }) => ({
-                prisonerNumber: result.prisonerNumber,
+                prisonNumber: result.prisonerNumber,
               })),
             ),
           }),
