@@ -82,7 +82,7 @@ export default class CohortListController {
             subjectId: decodeURIComponent(searchTerm as string),
             service: config.apis.hmppsAudit.auditServiceName,
             details: JSON.stringify(
-              prisonerSearchResults.content.map((result: { prisonerNumber: any }) => ({
+              (prisonerSearchResults?.content ?? []).map((result: { prisonerNumber: any }) => ({
                 prisonNumber: result.prisonerNumber,
               })),
             ),
