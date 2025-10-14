@@ -114,7 +114,7 @@ describe('HomePageController', () => {
           },
           {
             description:
-              'View reporting information for all products within Get someone ready to work (GSRTW) and Match jobs and manage applications (MJMA).',
+              'View reporting information for all products within Get someone ready to work and Match jobs and manage applications.',
             heading: 'Reporting dashboard',
             href: undefined,
             id: 'jobs-board-reporting',
