@@ -35,7 +35,7 @@ export default class JobViewModel {
 
   @Expose()
   isNational: boolean
-  
+
   @Expose()
   numberOfVacancies: number
 }
