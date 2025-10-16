@@ -23,6 +23,7 @@ describe('PrisonService', () => {
       getOtherJobsOfInterest: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       getArchivedJobs: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       getEmployer: jest.fn().mockResolvedValue({ data: 'mock_data' }),
+      getEmployersWithNationalJobs: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       createExpressionOfInterest: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       deleteExpressionOfInterest: jest.fn().mockResolvedValue({ data: 'mock_data' }),
       createArchiveRecord: jest.fn().mockResolvedValue({ data: 'mock_data' }),
@@ -112,6 +113,15 @@ describe('PrisonService', () => {
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
     expect(jobApiClientMock.getEmployer).toHaveBeenCalledWith('employerid')
+  })
+
+  it('#getEmployersWithNationalJobs - should get token and call correct api method', async () => {
+    const result = await jobService.getEmployersWithNationalJobs('user')
+
+    expect(result).toEqual({ data: 'mock_data' })
+
+    expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
+    expect(jobApiClientMock.getEmployersWithNationalJobs).toHaveBeenCalled()
   })
 
   it('#createExpressionOfInterest - should get token and call correct api method', async () => {

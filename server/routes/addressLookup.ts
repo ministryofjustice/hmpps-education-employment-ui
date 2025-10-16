@@ -35,6 +35,7 @@ export default {
     archivedJobs: (id: string) => `/mjma/${id}/jobs/archived`,
     jobsOfInterest: (id: string) => `/mjma/${id}/jobs/interested`,
     matchedJobs: (id: string) => `/mjma/${id}/jobs/matched`,
+    nationalJobs: (id: string) => `/mjma/${id}/jobs/national-jobs`,
     jobDetails: (id: string, jobId: string) => `/mjma/${id}/job/${jobId}/details`,
     manageApplication: (id: string, jobId: string, mode = 'view') => `/mjma/${id}/job/${jobId}/application/${mode}`,
   },
