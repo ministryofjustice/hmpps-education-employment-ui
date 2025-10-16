@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
+import { v7 as uuidv7 } from 'uuid'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
 import { getSessionData } from '../../../utils/session'
@@ -61,6 +63,39 @@ export default class PrisonerListMatchJobsController {
           decodeURIComponent(prisonerNameFilter as string) ||
           decodeURIComponent(typeOfWorkFilter as string) ||
           decodeURIComponent(showNeedsSupportFilter as string),
+      }
+
+      if (config.apis.hmppsAudit.enabled) {
+        const correlationId = uuidv7()
+        await Promise.all([
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_PRISONERS',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: data.prisonerNameFilter,
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify({
+              userActiveCaseLoad: userActiveCaseLoad?.caseLoadId,
+              prisonerNameFilter: data.prisonerNameFilter,
+              typeOfWorkFilter: data.typeOfWorkFilter,
+              showNeedsSupportFilter: data.showNeedsSupportFilter,
+            }),
+          }),
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_PRISONERS_RESULTS',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: data.prisonerNameFilter,
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify(
+              prisonerSearchResults.content.map((r: { prisonerNumber: any }) => ({
+                prisonNumber: r.prisonerNumber,
+              })),
+            ),
+          }),
+        ])
       }
 
       res.render('pages/candidateMatching/prisonerListMatchJobs/index', { ...data })

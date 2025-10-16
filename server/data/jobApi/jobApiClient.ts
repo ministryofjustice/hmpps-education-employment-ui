@@ -26,6 +26,7 @@ export default class JobApiClient {
     locationFilter?: string
     distanceFilter?: number
     isNationalJob?: boolean
+    employerId?: string
   }) {
     const {
       offenderNo,
@@ -36,6 +37,7 @@ export default class JobApiClient {
       locationFilter,
       distanceFilter = 9999,
       isNationalJob = false,
+      employerId,
     } = params
 
     const uri = [
@@ -48,6 +50,10 @@ export default class JobApiClient {
       locationFilter && `releaseArea=${encodeURIComponent(locationFilter)}`,
       distanceFilter && locationFilter && `searchRadius=${distanceFilter}`,
       config.featureToggles.nationalJobsEnabled && `isNationalJob=${isNationalJob}`,
+      config.featureToggles.nationalJobsEnabled &&
+        isNationalJob === true &&
+        employerId &&
+        `employerId=${encodeURIComponent(employerId)}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({
@@ -110,6 +116,14 @@ export default class JobApiClient {
   async getEmployer(id: string) {
     const result = await this.restClient.get<GetEmployerResponse>({
       path: `/employers/${id}`,
+    })
+
+    return result
+  }
+
+  async getEmployersWithNationalJobs() {
+    const result = await this.restClient.get<GetEmployerResponse>({
+      path: `/employers?hasNationalJobs=true`,
     })
 
     return result

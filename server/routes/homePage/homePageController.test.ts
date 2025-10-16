@@ -87,7 +87,7 @@ describe('HomePageController', () => {
         subTasks: [
           {
             description: 'Add and manage job vacancies and employer information.',
-            heading: 'Add jobs and employers',
+            heading: 'Manage jobs and employers',
             href: 'job_upload_url',
             id: 'jobs-upload',
           },
@@ -114,7 +114,7 @@ describe('HomePageController', () => {
           },
           {
             description:
-              'View reporting information for all products within Get someone ready to work (GSRTW) and Match jobs and manage applications (MJMA).',
+              'View reporting information for all products within Get someone ready to work and Match jobs and manage applications.',
             heading: 'Reporting dashboard',
             href: undefined,
             id: 'jobs-board-reporting',

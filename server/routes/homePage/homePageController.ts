@@ -68,7 +68,7 @@ const getTasks = (userRoles: any) => {
       id: 'jobs-board-reporting',
       heading: 'Reporting dashboard',
       description:
-        'View reporting information for all products within Get someone ready to work (GSRTW) and Match jobs and manage applications (MJMA).',
+        'View reporting information for all products within Get someone ready to work and Match jobs and manage applications.',
       href: config.jobsBoardReportingUrl,
       enabled: () => userHasRoles(['ROLE_WALP_DASHBOARD_INTERNAL', 'ROLE_WALP_DASHBOARD_EXTERNAL']),
     },
@@ -81,7 +81,7 @@ const getSubTasks = (userRoles: any) => {
   return [
     {
       id: 'jobs-upload',
-      heading: 'Add jobs and employers',
+      heading: 'Manage jobs and employers',
       description: 'Add and manage job vacancies and employer information.',
       href: config.jobUploadUrl,
       enabled: () => userHasRoles(['ROLE_JOBS_BOARD_VIEWER', 'ROLE_JOBS_BOARD_EDITOR']),

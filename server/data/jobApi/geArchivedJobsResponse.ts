@@ -5,8 +5,7 @@ interface GetArchivedJobsResponse {
   jobTitle: string
   closingDate: string
   distance: number
-  city: string
-  postcode: string
+  postcode?: string
   typeOfWork: TypeOfWorkValue
 }
 
