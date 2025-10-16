@@ -21,7 +21,7 @@ export default class MatchedJobsController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { page, sort, order, jobSectorFilter = '', locationFilter = '', distanceFilter = '50' } = req.query
-    const { userActiveCaseLoad } = res.locals
+    const { userActiveCaseLoad, nationalJobsEnabled } = res.locals
     const { paginationPageSize } = config
     const { prisoner, profile, matchedJobsResults, prisonerAddress } = req.context
 
@@ -38,6 +38,7 @@ export default class MatchedJobsController {
         jobSectorFilter && `jobSectorFilter=${decodeURIComponent(jobSectorFilter as string)}`,
         distanceFilter && `distanceFilter=${decodeURIComponent(distanceFilter as string)}`,
         page && `page=${page}`,
+        nationalJobsEnabled && `isNationalJob=false`,
       ].filter(val => !!val)
 
       // Build pagination or error messages
@@ -105,6 +106,7 @@ export default class MatchedJobsController {
     const { id } = req.params
     const { sort, order } = req.query
     const { jobSectorFilter = [], jobSectorFilterOther = [], locationFilter, distanceFilter } = req.body
+    const { nationalJobsEnabled } = res.locals
 
     try {
       // If validation errors render errors
@@ -130,6 +132,7 @@ export default class MatchedJobsController {
         (jobSectorFilter.length || jobSectorFilterOther.length) &&
           `jobSectorFilter=${encodeURIComponent([...jobSectorFilter, ...jobSectorFilterOther].join(','))}`,
         `locationFilter=${encodeURIComponent(locationFilter || 'none')}`,
+        nationalJobsEnabled && `isNationalJob=false`,
       ].filter(val => !!val)
 
       res.redirect(

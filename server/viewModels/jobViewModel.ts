@@ -34,5 +34,8 @@ export default class JobViewModel {
   hasExpressedInterest: boolean
 
   @Expose()
+  isNational: boolean
+
+  @Expose()
   numberOfVacancies: number
 }
