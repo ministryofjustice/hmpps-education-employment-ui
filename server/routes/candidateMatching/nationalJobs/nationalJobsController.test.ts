@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import expressMocks from '../../../testutils/expressMocks'
-import Controller from './matchedJobsController'
+import Controller from './nationalJobsController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import { getSessionData, setSessionData } from '../../../utils/session'
 
@@ -10,13 +10,13 @@ jest.mock('../../../utils/validateFormSchema', () => ({
   default: jest.fn(),
 }))
 
-describe('MatchedJobsController', () => {
+describe('NationalJobsController', () => {
   const { res, req, next } = expressMocks()
 
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
-  req.context.matchedJobsResults = {
+  req.context.nationalJobsResults = {
     content: [],
     page: {
       totalElements: 0,
@@ -40,7 +40,8 @@ describe('MatchedJobsController', () => {
   req.query = { sort, order }
   req.get = jest.fn()
 
-  const mockData = req.context.matchedJobsResults
+  const mockNationalJobsResults = req.context.nationalJobsResults
+  const mockNationalEmployersList = req.context.nationalEmployersList
 
   const mockPaginationService: any = {
     paginationData: {},
@@ -70,17 +71,16 @@ describe('MatchedJobsController', () => {
       await controller.get(req, res, next)
       next.mockReset()
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/nationalJobs/index', {
         backLocation: '/mjma/profile/mock_id/view/overview',
         profile: undefined,
         prisoner: undefined,
         notFoundMsg: undefined,
         order: 'descending',
         paginationData: {},
-        locationFilter: '',
         filtered: true,
         id: 'mock_id',
-        matchedJobsResults: {
+        nationalJobsResults: {
           filterStatus: 'ALL',
           order: 'descending',
           content: [],
@@ -91,59 +91,7 @@ describe('MatchedJobsController', () => {
           sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
         },
-        distanceFilter: '50',
-        sort: 'releaseDate',
-        jobSectorFilter: [],
-        typeOfWorkOptions: [],
-        typeOfWorkOtherOptions: [
-          'OUTDOOR',
-          'CLEANING_AND_MAINTENANCE',
-          'CONSTRUCTION',
-          'DRIVING',
-          'BEAUTY',
-          'HOSPITALITY',
-          'TECHNICAL',
-          'MANUFACTURING',
-          'OFFICE',
-          'RETAIL',
-          'SPORTS',
-          'WAREHOUSING',
-          'EDUCATION_TRAINING',
-          'WASTE_MANAGEMENT',
-          'OTHER',
-        ],
-        userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
-      })
-      expect(next).toHaveBeenCalledTimes(0)
-    })
-
-    it('On success - records found - with nationalJobsEnabled, call renders with the correct data', async () => {
-      res.locals.nationalJobsEnabled = true
-      await controller.get(req, res, next)
-      next.mockReset()
-
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
-        backLocation: '/mjma/profile/mock_id/view/overview',
-        profile: undefined,
-        prisoner: undefined,
-        notFoundMsg: undefined,
-        order: 'descending',
-        paginationData: {},
-        locationFilter: '',
-        filtered: true,
-        id: 'mock_id',
-        matchedJobsResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          content: [],
-          page: {
-            totalElements: 0,
-          },
-          searchTerm: '',
-          sort: 'releaseDate',
-          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-        },
-        distanceFilter: '0',
+        employerFilter: '',
         sort: 'releaseDate',
         jobSectorFilter: [],
         typeOfWorkOptions: [],
@@ -179,7 +127,7 @@ describe('MatchedJobsController', () => {
       res.redirect.mockReset()
       next.mockReset()
       validationMock.mockReset()
-      setSessionData(req, ['matchedJobs', 'data'], mockData)
+      setSessionData(req, ['nationalJobs', 'data'], mockNationalJobsResults)
       mockPaginationService.getPagination.mockReturnValue(paginationData)
     })
 
@@ -203,40 +151,26 @@ describe('MatchedJobsController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
-        ...mockData,
+      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/nationalJobs/index', {
+        ...mockNationalJobsResults,
+        ...mockNationalEmployersList,
         errors,
         filterStatus: 'ALL',
         jobSectorFilter: [],
         jobSectorFilterOther: [],
+        employerFilter: '',
       })
     })
 
     it('On successful POST - call renders with the correct data', async () => {
-      req.body.locationFilter = 'name1'
       req.body.jobSectorFilter = ['COOKING']
-      req.body.distanceFilter = 'true'
+      req.body.employerFilter = '1000'
 
       controller.post(req, res, next)
 
-      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
+      expect(getSessionData(req, ['nationalJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
-      )
-    })
-
-    it('On successful POST - with nationalJobsEnabled, call renders with the correct data when no locationFilter', async () => {
-      res.locals.nationalJobsEnabled = true
-      req.body.locationFilter = ''
-      req.body.jobSectorFilter = ['COOKING']
-      req.body.distanceFilter = '20'
-      res.locals.nationalJobsEnabled = true
-   
-      controller.post(req, res, next)
-
-      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
-      expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
+        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=COOKING&employerFilter=1000`,
       )
     })
   })

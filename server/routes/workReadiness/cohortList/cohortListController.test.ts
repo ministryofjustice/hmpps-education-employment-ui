@@ -1,33 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './cohortListController'
+import config from '../../../config'
+import TimeToRelease from '../../../enums/timeToRelease'
 
 describe('CohortListController', () => {
   const { res, req, next } = expressMocks()
+  const searchTerm = 'Smith, John'
 
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
   req.context.cohortList = {
-    prisonerSearchResults: {
-      prisonerSearchResults: [
-        {
-          displayName: 'mock_displayName',
-          releaseDate: 'mock_releaseDate',
-          status: 'mock_status',
-          workSummary: 'mock_workSummary',
-          updatedOn: 'mock_updateOn',
-        },
-        {
-          displayName: 'mock_displayName2',
-          releaseDate: 'mock_releaseDate',
-          status: 'mock_status',
-          workSummary: 'mock_workSummary',
-          updatedOn: 'mock_updateOn',
-        },
-      ],
-      totalElements: 2,
-    },
+    content: [
+      {
+        prisonerNumber: 'A1111AA',
+        displayName: 'mock_displayName',
+        releaseDate: 'mock_releaseDate',
+        status: 'mock_status',
+        workSummary: 'mock_workSummary',
+        updatedOn: 'mock_updateOn',
+      },
+      {
+        prisonerNumber: 'A1111BB',
+        displayName: 'mock_displayName2',
+        releaseDate: 'mock_releaseDate',
+        status: 'mock_status',
+        workSummary: 'mock_workSummary',
+        updatedOn: 'mock_updateOn',
+      },
+    ],
+    totalElements: 2,
     sort: 'releaseDate',
     order: 'descending',
     userActiveCaseLoad: {
@@ -35,7 +39,7 @@ describe('CohortListController', () => {
         caseLoadId: 'MDI',
       },
     },
-    searchTerm: '',
+    searchTerm: encodeURIComponent(searchTerm),
     filterStatus: 'ALL',
   }
 
@@ -43,7 +47,7 @@ describe('CohortListController', () => {
   req.params.order = 'descending'
   const { sort, order } = req.params
 
-  req.query = { sort, order }
+  req.query = { sort, order, searchTerm: encodeURIComponent(searchTerm) }
   req.get = jest.fn()
 
   const mockData = req.context.cohortList
@@ -59,9 +63,15 @@ describe('CohortListController', () => {
   const controller = new Controller(mockSearchService, mockPaginationService)
 
   describe('#get(req, res)', () => {
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
+
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
+
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -80,24 +90,49 @@ describe('CohortListController', () => {
       expect(res.render).toHaveBeenCalledWith(
         'pages/workReadiness/cohortList/index',
         expect.objectContaining({
-          selectStatus: 'ALL',
-          searchTerm: '',
-          timeToRelease: 'TWELVE_WEEKS',
+          prisonerSearchResults: mockData,
+          sort: 'releaseDate',
           order: 'descending',
           paginationData: {},
-          prisonerSearchResults: {
-            filterStatus: 'ALL',
-            searchTerm: '',
-            order: 'descending',
-            ...mockData,
-            sort: 'releaseDate',
-            userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-          },
-          sort: 'releaseDate',
           userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } },
+          searchTerm,
+          selectStatus: 'ALL',
+          timeToRelease: 'TWELVE_WEEKS',
         }),
       )
       expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - records found - audits search', async () => {
+      await controller.get(req, res, next)
+      next.mockReset()
+
+      expect(auditSpy).toHaveBeenCalledTimes(2)
+
+      const auditSearch = auditSpy.mock.calls[0][0]
+      const auditResults = auditSpy.mock.calls[1][0]
+
+      expect(auditResults.correlationId).toEqual(auditSearch.correlationId)
+      expect(auditSearch).toMatchObject({
+        action: 'SEARCH_COHORT',
+        who: res.locals.user.username,
+        subjectType: 'SEARCH_TERM',
+        subjectId: searchTerm,
+        service: config.apis.hmppsAudit.auditServiceName,
+        details: JSON.stringify({
+          userActiveCaseLoad: res.locals.userActiveCaseLoad.caseLoadId,
+          selectStatus: 'ALL',
+          timeToRelease: TimeToRelease.TWELVE_WEEKS,
+        }),
+      })
+      expect(auditResults).toMatchObject({
+        action: 'SEARCH_COHORT_RESULTS',
+        who: res.locals.user.username,
+        subjectType: 'SEARCH_TERM',
+        subjectId: searchTerm,
+        service: config.apis.hmppsAudit.auditServiceName,
+        details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
+      })
     })
   })
 })

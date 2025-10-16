@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import expressMocks from '../../../testutils/expressMocks'
 import Controller from './prisonerListApplicationsController'
 import validateFormSchema from '../../../utils/validateFormSchema'
 import { getSessionData, setSessionData } from '../../../utils/session'
+import config from '../../../config'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
@@ -12,6 +14,7 @@ jest.mock('../../../utils/validateFormSchema', () => ({
 
 describe('PrisonerListApplicationsController', () => {
   const { res, req, next } = expressMocks()
+  const searchTerm = 'Smith, John'
 
   res.locals.user = {}
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
@@ -19,11 +22,15 @@ describe('PrisonerListApplicationsController', () => {
   req.context.prisonerListApplications = {
     content: [
       {
+        jobId: 'A',
+        prisonNumber: 'A1111AA',
         displayName: 'mock_displayName',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
       },
       {
+        jobId: 'B',
+        prisonNumber: 'A1111AA',
         displayName: 'mock_displayName2',
         releaseDate: 'mock_releaseDate',
         status: 'mock_status',
@@ -38,7 +45,13 @@ describe('PrisonerListApplicationsController', () => {
   req.params.order = 'descending'
   const { sort, order } = req.params
 
-  req.query = { sort, order }
+  req.query = {
+    sort,
+    order,
+    prisonerNameFilter: encodeURIComponent(searchTerm),
+    applicationStatusFilter: '',
+    jobFilter: '',
+  }
   req.get = jest.fn()
 
   const mockPaginationService: any = {
@@ -52,19 +65,23 @@ describe('PrisonerListApplicationsController', () => {
 
   const mockData = {
     applicationStatusFilter: '',
-    filtered: '',
+    filtered: searchTerm,
     jobFilter: '',
     order: 'descending',
     paginationData: {},
-    prisonerNameFilter: '',
+    prisonerNameFilter: searchTerm,
     prisonerSearchResults: {
       content: [
         {
+          jobId: 'A',
+          prisonNumber: 'A1111AA',
           displayName: 'mock_displayName',
           releaseDate: 'mock_releaseDate',
           status: 'mock_status',
         },
         {
+          jobId: 'B',
+          prisonNumber: 'A1111AA',
           displayName: 'mock_displayName2',
           releaseDate: 'mock_releaseDate',
           status: 'mock_status',
@@ -84,9 +101,15 @@ describe('PrisonerListApplicationsController', () => {
   }
 
   describe('#get(req, res)', () => {
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
+
     beforeEach(() => {
       res.render.mockReset()
       next.mockReset()
+
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -104,6 +127,42 @@ describe('PrisonerListApplicationsController', () => {
 
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/prisonerListApplications/index', mockData)
       expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On success - audits', async () => {
+      await controller.get(req, res, next)
+      next.mockReset()
+
+      expect(auditSpy).toHaveBeenCalledTimes(2)
+
+      const auditSearch = auditSpy.mock.calls[0][0]
+      const auditResults = auditSpy.mock.calls[1][0]
+
+      expect(auditResults.correlationId).toEqual(auditSearch.correlationId)
+      expect(auditSearch).toMatchObject({
+        action: 'SEARCH_APPLICATIONS',
+        who: res.locals.user.username,
+        subjectType: 'SEARCH_TERM',
+        subjectId: searchTerm,
+        service: config.apis.hmppsAudit.auditServiceName,
+        details: JSON.stringify({
+          userActiveCaseLoad: res.locals.userActiveCaseLoad.caseLoadId,
+          prisonerNameFilter: searchTerm,
+          applicationStatusFilter: req.query.applicationStatusFilter,
+          jobFilter: req.query.jobFilter,
+        }),
+      })
+      expect(auditResults).toMatchObject({
+        action: 'SEARCH_APPLICATIONS_RESULTS',
+        who: res.locals.user.username,
+        subjectType: 'SEARCH_TERM',
+        subjectId: searchTerm,
+        service: config.apis.hmppsAudit.auditServiceName,
+        details: JSON.stringify([
+          { jobId: 'A', prisonNumber: 'A1111AA' },
+          { jobId: 'B', prisonNumber: 'A1111AA' },
+        ]),
+      })
     })
   })
 

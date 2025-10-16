@@ -38,6 +38,7 @@ export default class MatchedJobsController {
         jobSectorFilter && `jobSectorFilter=${decodeURIComponent(jobSectorFilter as string)}`,
         distanceFilter && `distanceFilter=${decodeURIComponent(distanceFilter as string)}`,
         page && `page=${page}`,
+        nationalJobsEnabled && `isNationalJob=false`,
       ].filter(val => !!val)
 
       // Build pagination or error messages
@@ -144,6 +145,7 @@ export default class MatchedJobsController {
         (jobSectorFilter.length || jobSectorFilterOther.length) &&
           `jobSectorFilter=${encodeURIComponent([...jobSectorFilter, ...jobSectorFilterOther].join(','))}`,
         `locationFilter=${encodeURIComponent(locationFilter || 'none')}`,
+        nationalJobsEnabled && `isNationalJob=false`,
       ].filter(val => !!val)
 
       res.redirect(

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
+import { v7 as uuidv7 } from 'uuid'
 import type PrisonerSearchService from '../../../services/prisonSearchService'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
@@ -54,6 +56,38 @@ export default class CohortListController {
         searchTerm: decodeURIComponent(searchTerm as string),
         selectStatus: status || 'ALL',
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
+      }
+
+      if (config.apis.hmppsAudit.enabled) {
+        const correlationId = uuidv7()
+        await Promise.all([
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_COHORT',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: decodeURIComponent(searchTerm as string),
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify({
+              userActiveCaseLoad: userActiveCaseLoad?.caseLoadId,
+              selectStatus: status || 'ALL',
+              timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
+            }),
+          }),
+          auditService.sendAuditMessage({
+            correlationId,
+            action: 'SEARCH_COHORT_RESULTS',
+            who: res.locals.user.username,
+            subjectType: 'SEARCH_TERM',
+            subjectId: decodeURIComponent(searchTerm as string),
+            service: config.apis.hmppsAudit.auditServiceName,
+            details: JSON.stringify(
+              (prisonerSearchResults?.content ?? []).map((result: { prisonerNumber: any }) => ({
+                prisonNumber: result.prisonerNumber,
+              })),
+            ),
+          }),
+        ])
       }
 
       res.render('pages/workReadiness/cohortList/index', { ...data })

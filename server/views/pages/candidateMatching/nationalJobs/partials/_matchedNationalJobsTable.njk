@@ -1,0 +1,59 @@
+{% from "../../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
+{% from "../../../../macros/cohortListStatus.njk" import statusTag %}
+{% from "../../../../macros/pagination/macro.njk" import pagination %}
+
+<div id="offender-container">
+    {% if nationalJobsResults.content.length >= 1 %}
+        <table id="view-offender" class="govuk-table view-offender" id="matchedJobs">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "jobTitle",
+                    headerText: "Job role"
+                }) }}
+                <th scope="col" class="govuk-table__header">Type of work</th>
+                <th scope="col" class="govuk-table__header">Vacancies</th>
+                {{ sortableTableHeader({
+                    sort: sort,
+                    order: order,
+                    formName: "prisoner-search-form",
+                    fieldName: "closingDate",
+                    headerText: "Closing date"
+                }) }}
+            </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+        {% set rowClass = cycler("odd", "even") %}
+
+        {% for job in nationalJobsResults.content %}
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    <a class="govuk-link govuk-link--no-visited-state govuk-!-display-none-print" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
+                    <div class="display-none-screen">{{ job.jobTitle }}</div>
+                    <div class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</div>
+                    {% if job.hasExpressedInterest %}
+                        <strong class="govuk-tag govuk-tag--grey govuk-!-margin-top-3 prisoner-choice-tag">Prisoner choice</strong>
+                    {% endif %}
+                </td>
+                <td class="govuk-table__cell">{{ contentLookup.fields.typeOfWork[job.sector] }}</td>
+                <td class="govuk-table__cell"">{{ job.numberOfVacancies }}</td>
+                <td class="govuk-table__cell" data-sort-value="{{ job.closingDate }}">{{ job.closingDate if job.closingDate !== 'N/A' else 'No closing date' }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% endif %}
+
+    
+    {% if paginationData.results.count >= 1 and nationalJobsResults.content.length >= 1 %}
+        {{ pagination( paginationData ) }}
+    {% else %}
+        {% include './_notFoundMessages.njk' %}
+    {% endif %}
+
+</div>

@@ -2,6 +2,7 @@ import { Router } from 'express'
 import type { Services } from '../../services'
 import prisonerListMatchJobsRoutes from './prisonerListMatchJobs'
 import matchedJobsRoutes from './matchedJobs'
+import nationalJobsRoutes from './nationalJobs'
 import jobsOfInterestRoutes from './jobsOfInterest'
 import archivedJobsRoutes from './archivedJobs'
 import jobDetailsRoutes from './jobDetails'
@@ -25,5 +26,9 @@ export default function attachRoutes(router: Router, services: Services): void {
   if (config.featureToggles.jobApplicationsEnabled) {
     manageApplicationRoutes(router, services)
     prisonerListApplicationsRoutes(router, services)
+  }
+
+  if (config.featureToggles.nationalJobsEnabled) {
+    nationalJobsRoutes(router, services)
   }
 }

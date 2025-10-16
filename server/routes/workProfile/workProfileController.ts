@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { plainToClass } from 'class-transformer'
 import { RequestHandler } from 'express'
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { getAge } from '../../utils/index'
 import NeurodivergenceViewModel from '../../viewModels/neurodivergenceViewModel'
 import LearnerEducationViewModel from '../../viewModels/learnerEducationViewModel'
@@ -12,6 +13,7 @@ import EmployabilitySkillViewModel from '../../viewModels/employabilitySkillView
 import ActivityViewModel from '../../viewModels/activityViewModel'
 import { deleteSessionData, setSessionData } from '../../utils/session'
 import JobClosingSoonViewModel from '../../viewModels/jobClosingSoonViewModel'
+import config from '../../config'
 
 export default class WorkProfileController {
   public get: RequestHandler = async (req, res, next): Promise<void> => {
@@ -70,6 +72,16 @@ export default class WorkProfileController {
       }
 
       setSessionData(req, ['workProfile', id, 'currentModule'], module)
+
+      if (config.apis.hmppsAudit.enabled) {
+        await auditService.sendAuditMessage({
+          action: 'VIEW_PRISONER',
+          who: res.locals.user.username,
+          subjectType: 'PRISONER_ID',
+          subjectId: prisoner.prisonerNumber,
+          service: config.apis.hmppsAudit.auditServiceName,
+        })
+      }
 
       res.render('pages/workProfile/index', { ...data })
     } catch (err) {
