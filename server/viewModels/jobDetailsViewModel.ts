@@ -85,4 +85,7 @@ export default class JobViewModel {
 
   @Expose()
   expressionOfInterest: boolean
+
+  @Expose()
+  isNational: boolean
 }

@@ -33,7 +33,11 @@
 
       <ul class="govuk-list">
         <li>
-          Location: <span id="postcode">{{ job.postcode }}</span>
+          {% if job.isNational != true or nationalJobsEnabled == false %}
+            Location: <span id="postcode">{{ job.postcode }}</span>
+          {% else %}
+            Location: <span id="postcode">National</span>
+          {% endif %}
         </li>
         <li>
           Closing date: <span id="closingDate">{{ job.closingDate if job.closingDate !== 'N/A' else 'No closing date' }}</span>
@@ -149,8 +153,14 @@
           <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
             Job location
           </h3>
-          <p class="govuk-body">{{ job.postcode }}</p>
-          {% if releaseArea %}
+          <p class="govuk-body">
+              {% if job.isNational != true or nationalJobsEnabled == false %}
+                {{ job.postcode }}
+              {% else %}
+                National
+              {% endif %}
+          </p>
+          {% if releaseArea and (job.isNational != true or nationalJobsEnabled == false) %}
             <div class="timeline">
               <ul>
                 <li>

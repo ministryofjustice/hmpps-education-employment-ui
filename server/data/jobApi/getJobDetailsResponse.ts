@@ -14,7 +14,7 @@ interface GetJobDetailsResponse {
   sector: TypeOfWorkValue
   numberOfVacancies: number
   charityName?: string
-  postCode: string
+  postCode?: string
   salaryFrom: number
   salaryTo?: number
   salaryPeriod: SalaryPeriod
@@ -34,6 +34,7 @@ interface GetJobDetailsResponse {
   startDate?: string
   isRollingOpportunity: boolean
   isOnlyForPrisonLeavers: boolean
+  isNational: boolean
 }
 
 export default GetJobDetailsResponse
