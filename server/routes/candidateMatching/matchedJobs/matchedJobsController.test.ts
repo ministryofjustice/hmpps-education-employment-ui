@@ -221,7 +221,22 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
+      )
+    })
+
+    it('On successful POST - with nationalJobsEnabled, call renders with the correct data', async () => {
+      res.locals.nationalJobsEnabled = true
+      req.body.locationFilter = 'name1'
+      req.body.jobSectorFilter = ['COOKING']
+      req.body.distanceFilter = '20'
+      res.locals.nationalJobsEnabled = true
+
+      controller.post(req, res, next)
+
+      expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
+      expect(res.redirect).toHaveBeenCalledWith(
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=20&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
       )
     })
 
@@ -231,12 +246,12 @@ describe('MatchedJobsController', () => {
       req.body.jobSectorFilter = ['COOKING']
       req.body.distanceFilter = '20'
       res.locals.nationalJobsEnabled = true
-   
+
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=COOKING&locationFilter=none&isNationalJob=false`,
       )
     })
   })
