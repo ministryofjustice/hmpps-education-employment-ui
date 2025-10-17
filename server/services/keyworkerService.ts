@@ -1,6 +1,6 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
 import KeyworkerApiClient from '../data/keyworkerApi/keyworkerApiClient'
-import NomisUserRolesApiClient from '../data/nomisUserRolesApi/nomisUserRolesApiClient'
+import convertToTitleCase from '../utils/convertToTitleCase'
 
 export default class KeyworkerService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
@@ -11,13 +11,20 @@ export default class KeyworkerService {
   ): Promise<{ firstName: string; lastName: string; email: string }> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    const keyworkerResult = await new KeyworkerApiClient(systemToken).getKeyworkerForOffender(id)
-    const staffDetails = await new NomisUserRolesApiClient(systemToken).getStaffDetails(keyworkerResult.staffId)
+    const staffAllocationsResult = await new KeyworkerApiClient(systemToken).getStaffAllocationsForOffender(id)
 
+    const keyWorkerAllocation = staffAllocationsResult?.allocations.find(a => a.policy.code === 'KEY_WORKER')
+
+    // Handle case where no key worker is allocated
+    const keyWorkerFirstName = keyWorkerAllocation?.staffMember?.firstName
+    const keyWorkerLastName = keyWorkerAllocation?.staffMember?.lastName
+    if (!keyWorkerFirstName || !keyWorkerLastName) {
+      return undefined
+    }
     return {
-      firstName: staffDetails.firstName,
-      lastName: staffDetails.lastName,
-      email: staffDetails.primaryEmail,
+      firstName: convertToTitleCase(keyWorkerFirstName),
+      lastName: convertToTitleCase(keyWorkerLastName),
+      email: keyWorkerAllocation?.staffMember?.emailAddresses[0],
     }
   }
 }

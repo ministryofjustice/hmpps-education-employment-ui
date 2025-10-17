@@ -27,18 +27,6 @@ describe('getKeyworkerById', () => {
     }
   })
 
-  it('On error - 404 - Calls next without error', async () => {
-    serviceMock.getKeyworkerForOffender.mockRejectedValue({
-      data: {
-        status: 404,
-      },
-    })
-
-    const result = await getKeyworkerById(serviceMock as any, username, id)
-
-    expect(result).toEqual(undefined)
-  })
-
   it('On success - Returns correct data', async () => {
     serviceMock.getKeyworkerForOffender.mockResolvedValue(mockData)
 
