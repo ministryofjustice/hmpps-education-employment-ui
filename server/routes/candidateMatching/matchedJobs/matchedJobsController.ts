@@ -82,12 +82,22 @@ export default class MatchedJobsController {
         typeOfWorkOptions: workTypesOfInterest,
         typeOfWorkOtherOptions: Object.keys(typeOfWorkLookup).filter(p => !workTypesOfInterest.includes(p)),
         locationFilter:
+          // If the locationFilter is explicitly set to 'none' (i.e. the postcode field has been cleared by the user),
+          // this overrides the last-known-postcode, so set the filter to an empty string. Otherwise, use the filter if
+          // provided, or the last-known-postcode if not.
           decodeURIComponent(locationFilter as string) === 'none'
             ? ''
             : decodeURIComponent(locationFilter as string) || postcode,
         jobSectorFilter: _.compact(decodeURIComponent(jobSectorFilter as string).split(',')),
-        distanceFilter: decodeURIComponent(distanceFilter as string),
+        distanceFilter:
+          // Initialise the distanceFilter to 0 ('No restrictions') if no postcode/locationFilter is specified.
+          nationalJobsEnabled &&
+          (decodeURIComponent(locationFilter as string) === 'none' ||
+            (decodeURIComponent(locationFilter as string) || postcode) === '')
+            ? '0'
+            : decodeURIComponent(distanceFilter as string),
         filtered:
+          // Mark as filtered if any of the locationFilter, jobSectorFilter or distanceFilter have been changed by the user.
           (decodeURIComponent(locationFilter as string) && decodeURIComponent(locationFilter as string) !== postcode) ||
           !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
           decodeURIComponent(distanceFilter as string) !== '50',
@@ -128,7 +138,10 @@ export default class MatchedJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        distanceFilter && `distanceFilter=${encodeURIComponent(distanceFilter)}`,
+        // If no postcode is specified, set distanceFilter to 0 ('No restrictions'), since we can't calculate a distance
+        // without a postcode to measure from.
+        distanceFilter &&
+          `distanceFilter=${encodeURIComponent(nationalJobsEnabled && !locationFilter ? '0' : distanceFilter)}`,
         (jobSectorFilter.length || jobSectorFilterOther.length) &&
           `jobSectorFilter=${encodeURIComponent([...jobSectorFilter, ...jobSectorFilterOther].join(','))}`,
         `locationFilter=${encodeURIComponent(locationFilter || 'none')}`,
