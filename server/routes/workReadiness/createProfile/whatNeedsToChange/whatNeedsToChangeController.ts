@@ -11,7 +11,6 @@ import getBackLocation from '../../../../utils/getBackLocation'
 import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
-import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class SupportDeclinedReasonController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -84,10 +83,6 @@ export default class SupportDeclinedReasonController {
       }
 
       deleteSessionData(req, ['whatNeedsToChange', id, 'data'])
-
-      // Indicate whether releaseDate is within 12 weeks and store prisonId
-      profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
-      profile.profileData.prisonId = data.prisoner.prisonId
 
       // Handle update
       if (mode === 'update') {
