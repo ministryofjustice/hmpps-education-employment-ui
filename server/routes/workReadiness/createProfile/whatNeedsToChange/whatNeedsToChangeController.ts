@@ -11,7 +11,6 @@ import getBackLocation from '../../../../utils/getBackLocation'
 import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
-import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
 
 export default class SupportDeclinedReasonController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
