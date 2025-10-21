@@ -85,10 +85,6 @@ export default class SupportDeclinedReasonController {
 
       deleteSessionData(req, ['whatNeedsToChange', id, 'data'])
 
-      // Indicate whether releaseDate is within 12 weeks and store prisonId
-      profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
-      profile.profileData.prisonId = data.prisoner.prisonId
-
       // Handle update
       if (mode === 'update') {
         // Update data model
