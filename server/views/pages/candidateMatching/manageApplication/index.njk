@@ -39,7 +39,7 @@
               </div>
               <div class="govuk-grid-column-one-third">
                 <p class="govuk-body" data-qa="job-location">Location:
-                    {% if job.isNational %}
+                    {% if job.isNational and nationalJobsEnabled %}
                         National
                     {% else %}
                         {{ job.postcode }}
