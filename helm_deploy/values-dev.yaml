@@ -46,6 +46,7 @@ generic-service:
     RANDOM_POSTCODES_IN_DEV: true
     USE_COMPONENT_FALLBACKS: true
     AUDIT_ENABLED: 'true'
+    NATIONAL_JOBS: true
 
   scheduledDowntime:
     enabled: true
