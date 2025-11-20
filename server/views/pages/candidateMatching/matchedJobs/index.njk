@@ -47,7 +47,7 @@
                         </li>
                         {% if nationalJobsEnabled %}
                             <li class="moj-sub-navigation__item">
-                                <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending' }}">National jobs</a>
+                                <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}">National jobs</a>
                                 <span class="display-none-screen">National jobs</span>
                             </li>
                         {% endif%}
