@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 
 import { plainToClass } from 'class-transformer'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import addressLookup from '../../../addressLookup'
 import yesNoValue from '../../../../enums/yesNoValue'
@@ -9,6 +10,7 @@ import { deleteSessionData, getSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import EditProfileRequest from '../../../../data/models/editProfileRequest'
 import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class CheckYourAnswersController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -75,6 +77,17 @@ export default class CheckYourAnswersController {
       }
 
       if (statusChange) {
+        // Audit edit profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'EDIT_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
+        }
+
         // Call api, change status
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,
@@ -88,6 +101,17 @@ export default class CheckYourAnswersController {
           ),
         )
       } else {
+        // Audit create profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'CREATE_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
+        }
+
         // Call api, create profile
         await this.prisonerProfileService.createProfile(res.locals.user.token, {
           ...newRecord,
