@@ -1,4 +1,5 @@
 import type { RequestHandler } from 'express'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../../utils/validateFormSchema'
@@ -13,6 +14,7 @@ import AlreadyInPlaceValue from '../../../../enums/alreadyInPlaceValue'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import IdentificationValue from '../../../../enums/identificationValue'
 import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class EditActionController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -69,7 +71,7 @@ export default class EditActionController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, action } = req.params
     const { noteAction = 'view' } = req.query
-    const { profile } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       const data = getSessionData(req, ['editAction', id, 'data'])
@@ -147,6 +149,17 @@ export default class EditActionController {
       profile.profileData.prisonId = data.prisoner.prisonId
 
       deleteSessionData(req, ['editAction', id, 'cachedValues'])
+
+      // Audit edit profile
+      if (config.apis.hmppsAudit.enabled) {
+        await auditService.sendAuditMessage({
+          action: 'EDIT_WORK_PROFILE',
+          who: res.locals.user.username,
+          subjectType: 'PRISONER_ID',
+          subjectId: prisoner.prisonerNumber,
+          service: config.apis.hmppsAudit.auditServiceName,
+        })
+      }
 
       // Call api, change status
       await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))

@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../../utils/validateFormSchema'
@@ -14,6 +15,7 @@ import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class JobOfParticularInterestController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -71,7 +73,7 @@ export default class JobOfParticularInterestController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { jobOfParticularInterest, jobOfParticularInterestDetails } = req.body
-    const { profile } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If validation errors render errors
@@ -100,6 +102,17 @@ export default class JobOfParticularInterestController {
         // Indicate whether releaseDate is within 12 weeks or not
         profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
         profile.profileData.prisonId = data.prisoner.prisonId
+
+        // Audit edit profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'EDIT_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
+        }
 
         // Call api, change status
         await this.prisonerProfileService.updateProfile(res.locals.user.token, id, new UpdateProfileRequest(profile))

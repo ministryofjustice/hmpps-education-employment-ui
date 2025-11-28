@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './ineligableToWorkController'
@@ -6,6 +7,7 @@ import addressLookup from '../../../addressLookup'
 import { getSessionData, setSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -22,6 +24,7 @@ describe('IneligableToWorkController', () => {
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    prisonerNumber: 'A1234AA',
   }
 
   req.params.id = 'mock_ref'
@@ -69,12 +72,16 @@ describe('IneligableToWorkController', () => {
   })
 
   describe('#post(req, res)', () => {
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
     beforeEach(() => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
       mockService.createProfile.mockReset()
       setSessionData(req, ['createProfile', id], {})
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
     it('On error - Calls next with error', async () => {
       mockService.createProfile.mockImplementation(() => {
@@ -95,6 +102,20 @@ describe('IneligableToWorkController', () => {
       expect(res.redirect).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workReadiness.cohortList())
       expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
+    })
+    it('On success - audits create profile', async () => {
+      mockService.createProfile.mockResolvedValue({})
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'CREATE_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })

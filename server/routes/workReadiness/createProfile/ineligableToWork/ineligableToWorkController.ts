@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import ProfileStatus from '../../../../enums/profileStatus'
 
 import YesNoValue from '../../../../enums/yesNoValue'
@@ -9,6 +10,7 @@ import { deleteSessionData, getSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class IneligableToWorkController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -47,6 +49,17 @@ export default class IneligableToWorkController {
     const { prisoner } = req.context
 
     try {
+      // Audit create profile
+      if (config.apis.hmppsAudit.enabled) {
+        await auditService.sendAuditMessage({
+          action: 'CREATE_WORK_PROFILE',
+          who: res.locals.user.username,
+          subjectType: 'PRISONER_ID',
+          subjectId: prisoner.prisonerNumber,
+          service: config.apis.hmppsAudit.auditServiceName,
+        })
+      }
+
       // API call to create profile
       await this.prisonerProfileService.createProfile(res.locals.user.token, {
         prisonerId: id,

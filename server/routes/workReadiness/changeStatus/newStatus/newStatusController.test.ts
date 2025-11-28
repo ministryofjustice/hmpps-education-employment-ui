@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './newStatusController'
@@ -10,6 +11,7 @@ import validateFormSchema from '../../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../../utils/urlParameterEncryption'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -40,6 +42,7 @@ describe('NewStatusController', () => {
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    prisonerNumber: 'A1234AA',
   }
 
   req.context.profile = {
@@ -111,6 +114,7 @@ describe('NewStatusController', () => {
     const errors = { details: 'mock_error' }
 
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -120,6 +124,9 @@ describe('NewStatusController', () => {
       setSessionData(req, ['newStatus', id, 'data'], mockData)
       setSessionData(req, ['changeStatus', id], {})
       mockService.updateProfile.mockResolvedValue({})
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -307,6 +314,22 @@ describe('NewStatusController', () => {
 
       expect(getSessionData(req, ['newStatus', id, 'data'])).toBeFalsy()
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
+    })
+
+    it('On success - status update only - Updates status and redirect to workProfile', async () => {
+      req.context.profile.profileData.status = ProfileStatus.SUPPORT_NEEDED
+      req.body.newStatus = ProfileStatus.READY_TO_WORK
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })

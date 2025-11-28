@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -14,6 +15,7 @@ import PrisonerProfile from '../../../../data/prisonerProfile/interfaces/prisone
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../../utils/urlParameterEncryption'
 import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class NewStatusController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -90,6 +92,17 @@ export default class NewStatusController {
 
       // Status only change
       if (this.isStatusOnlyChange(newStatus, profile.profileData.status, profile)) {
+        // Audit edit profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'EDIT_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
+        }
+
         // Call api, change status
         await this.prisonerProfileService.updateProfile(
           res.locals.user.token,

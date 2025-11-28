@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { plainToClass } from 'class-transformer'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './editActionController'
 import addressLookup from '../../../addressLookup'
@@ -10,6 +11,7 @@ import validateFormSchema from '../../../../utils/validateFormSchema'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import NotesViewModel from '../../../../viewModels/notesViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -38,6 +40,7 @@ describe('EditActionController', () => {
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    prisonerNumber: 'A1234AA',
   }
 
   req.context.notes = [
@@ -128,6 +131,7 @@ describe('EditActionController', () => {
     const errors = { details: 'mock_error' }
 
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -139,6 +143,9 @@ describe('EditActionController', () => {
       mockService.updateProfile.mockResolvedValue({})
       req.params.action = 'cv_and_covering_letter'
       req.body = {}
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -198,6 +205,22 @@ describe('EditActionController', () => {
 
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
       expect(next).toHaveBeenCalledTimes(0)
+    })
+
+    it('On Success - Submit - Audits edit action', async () => {
+      req.query.noteAction = 'view'
+      req.body.saveNote = ''
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })
