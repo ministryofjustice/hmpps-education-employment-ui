@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
-
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './abilityToWorkController'
 import validateFormSchema from '../../../../utils/validateFormSchema'
@@ -12,6 +12,7 @@ import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import workProfileTabs from '../../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../../utils/urlParameterEncryption'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -42,6 +43,7 @@ describe('SupportDeclinedReasonController', () => {
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    prisonerNumber: 'A1234AA',
   }
 
   req.params.id = 'mock_ref'
@@ -124,6 +126,7 @@ describe('SupportDeclinedReasonController', () => {
     const errors = { details: 'mock_error' }
 
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -133,6 +136,9 @@ describe('SupportDeclinedReasonController', () => {
       setSessionData(req, ['abilityToWork', id, 'data'], mockData)
       setSessionData(req, ['createProfile', id], {})
       mockService.updateProfile.mockReset()
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -252,6 +258,29 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+    })
+
+    it('On success - mode = update - audits profile edit', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workImpacts: {},
+          },
+        },
+      }
+      req.body.abilityToWork = [AbilityToWorkValue.EDUCATION_ENROLLMENT]
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })

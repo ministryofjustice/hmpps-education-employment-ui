@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 
 import expressMocks from '../../../../testutils/expressMocks'
@@ -11,6 +12,7 @@ import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import workProfileTabs from '../../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
 import { encryptUrlParameter } from '../../../../utils/urlParameterEncryption'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -39,6 +41,7 @@ describe('ManageDrugsAndAlcoholController', () => {
   req.context.prisoner = {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
+    prisonerNumber: 'A1234AA',
   }
 
   req.params.id = 'mock_ref'
@@ -106,6 +109,7 @@ describe('ManageDrugsAndAlcoholController', () => {
     const errors = { details: 'mock_error' }
 
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -114,6 +118,9 @@ describe('ManageDrugsAndAlcoholController', () => {
       validationMock.mockReset()
       setSessionData(req, ['manageDrugsAndAlcohol', id, 'data'], mockData)
       setSessionData(req, ['createProfile', id], {})
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -181,6 +188,29 @@ describe('ManageDrugsAndAlcoholController', () => {
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, workProfileTabs.DETAILS))
+    })
+
+    it('On success - mode = update - audits profile update', async () => {
+      req.context.profile = {
+        profileData: {
+          supportAccepted: {
+            workImpacts: {},
+          },
+        },
+      }
+      req.body.manageDrugsAndAlcohol = ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })

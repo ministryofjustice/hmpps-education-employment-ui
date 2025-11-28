@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
-
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './supportDeclinedReasonController'
 import validateFormSchema from '../../../../utils/validateFormSchema'
@@ -9,6 +9,7 @@ import SupportDeclinedReasonValue from '../../../../enums/supportDeclinedReasonV
 import { getSessionData, setSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import config from '../../../../config'
 
 jest.mock('../../../../utils/pageTitleLookup', () => ({
   ...jest.requireActual('../../../../utils/pageTitleLookup'),
@@ -41,6 +42,7 @@ describe('SupportDeclinedReasonController', () => {
     firstName: 'mock_firstName',
     lastName: 'mock_lastName',
     nonDtoReleaseDate: formatDate(today),
+    prisonerNumber: 'A1234AA',
   }
 
   req.params.id = 'mock_ref'
@@ -107,6 +109,7 @@ describe('SupportDeclinedReasonController', () => {
     const errors = { details: 'mock_error' }
 
     const validationMock = validateFormSchema as jest.Mock
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
 
     beforeEach(() => {
       res.render.mockReset()
@@ -115,6 +118,9 @@ describe('SupportDeclinedReasonController', () => {
       validationMock.mockReset()
       setSessionData(req, ['supportDeclinedReason', id, 'data'], mockData)
       setSessionData(req, ['createProfile', id], {})
+      config.apis.hmppsAudit.enabled = true
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
 
     it('On error - Calls next with error', async () => {
@@ -186,6 +192,28 @@ describe('SupportDeclinedReasonController', () => {
       expect(next).toHaveBeenCalledTimes(0)
       expect(mockService.updateProfile).toBeCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledWith(addressLookup.workProfile(id, 'overview'))
+    })
+
+    it('On success - mode = update - audits profile update', async () => {
+      req.context.profile = {
+        profileData: {
+          supportDeclined: {},
+        },
+      }
+      req.body.supportDeclinedReason = [SupportDeclinedReasonValue.OTHER]
+      req.body.supportDeclinedDetails = 'Some details'
+      req.params.mode = 'update'
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: 'A1234AA',
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })

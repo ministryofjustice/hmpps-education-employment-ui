@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import type { RequestHandler } from 'express'
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 
 import validateFormSchema from '../../../../utils/validateFormSchema'
@@ -13,6 +14,7 @@ import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import workProfileTabs from '../../../../enums/workProfileTabs'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
+import config from '../../../../config'
 
 export default class ManageDrugsAndAlcoholController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -63,7 +65,7 @@ export default class ManageDrugsAndAlcoholController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { manageDrugsAndAlcohol } = req.body
-    const { profile } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If validation errors render errors
@@ -85,6 +87,17 @@ export default class ManageDrugsAndAlcoholController {
           modifiedBy: res.locals.user.username,
           modifiedDateTime: new Date().toISOString(),
           ableToManageDependencies: manageDrugsAndAlcohol === ManageDrugsAndAlcoholValue.ABLE_TO_MANAGE,
+        }
+
+        // Audit edit profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'EDIT_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
         }
 
         // Call api, change status
