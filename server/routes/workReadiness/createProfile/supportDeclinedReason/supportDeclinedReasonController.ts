@@ -1,5 +1,6 @@
 import type { RequestHandler } from 'express'
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import { plainToClass } from 'class-transformer'
 import validateFormSchema from '../../../../utils/validateFormSchema'
 import validationSchema from './validationSchema'
@@ -11,7 +12,7 @@ import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
 import PrisonerProfileService from '../../../../services/prisonerProfileService'
 import UpdateProfileRequest from '../../../../data/models/updateProfileRequest'
 import pageTitleLookup from '../../../../utils/pageTitleLookup'
-import isWithin12Weeks from '../../../../utils/isWithin12Weeks'
+import config from '../../../../config'
 
 export default class SupportDeclinedReasonController {
   constructor(private readonly prisonerProfileService: PrisonerProfileService) {}
@@ -67,7 +68,7 @@ export default class SupportDeclinedReasonController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id, mode } = req.params
     const { supportDeclinedReason = [], supportDeclinedDetails } = req.body
-    const { profile } = req.context
+    const { prisoner, profile } = req.context
 
     try {
       // If validation errors render errors
@@ -85,10 +86,6 @@ export default class SupportDeclinedReasonController {
 
       deleteSessionData(req, ['supportDeclinedReason', id, 'data'])
 
-      // Indicate whether releaseDate is within 12 weeks and store prisonId
-      profile.profileData.within12Weeks = isWithin12Weeks(data.prisoner.nonDtoReleaseDate)
-      profile.profileData.prisonId = data.prisoner.prisonId
-
       // Handle update
       if (mode === 'update') {
         // Update data model
@@ -98,6 +95,17 @@ export default class SupportDeclinedReasonController {
           modifiedDateTime: new Date().toISOString(),
           supportToWorkDeclinedReason: supportDeclinedReason,
           supportToWorkDeclinedReasonOther: supportDeclinedDetails,
+        }
+
+        // Audit edit profile
+        if (config.apis.hmppsAudit.enabled) {
+          await auditService.sendAuditMessage({
+            action: 'EDIT_WORK_PROFILE',
+            who: res.locals.user.username,
+            subjectType: 'PRISONER_ID',
+            subjectId: prisoner.prisonerNumber,
+            service: config.apis.hmppsAudit.auditServiceName,
+          })
         }
 
         // Call api, change status

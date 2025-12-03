@@ -90,7 +90,7 @@ export default class PrisonerListMatchJobsController {
             subjectId: data.prisonerNameFilter,
             service: config.apis.hmppsAudit.auditServiceName,
             details: JSON.stringify(
-              prisonerSearchResults.content.map((r: { prisonerNumber: any }) => ({
+              (prisonerSearchResults?.content ?? []).map((r: { prisonerNumber: any }) => ({
                 prisonNumber: r.prisonerNumber,
               })),
             ),

@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { plainToClass } from 'class-transformer'
 
+import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import expressMocks from '../../../../testutils/expressMocks'
 import Controller from './checkYourAnswersController'
 import { setSessionData, getSessionData } from '../../../../utils/session'
 import PrisonerViewModel from '../../../../viewModels/prisonerViewModel'
+import config from '../../../../config'
 
 describe('CheckYourAnswersController', () => {
   const { req, res, next } = expressMocks()
@@ -60,12 +62,32 @@ describe('CheckYourAnswersController', () => {
   })
 
   describe('#post(req, res)', () => {
+    const auditSpy = jest.spyOn(auditService, 'sendAuditMessage')
+    const mockPrisonId = 'MOCK_PRISON_ID'
+    const mockToken = 'MOCK_TOKEN'
+    const bookingId = 123456
+    const prisonName = 'Mock Prison'
+
     beforeEach(() => {
       res.render.mockReset()
       res.redirect.mockReset()
       next.mockReset()
       mockService.createProfile.mockReset()
       setSessionData(req, ['createProfile', id], {})
+
+      config.apis.hmppsAudit.enabled = true
+      res.locals.user = {
+        username: 'USER1',
+        token: mockToken,
+      }
+      req.context.prisoner = {
+        bookingId,
+        prisonId: mockPrisonId,
+        prisonName,
+        prisonerNumber: mockPrisonId,
+      }
+      auditSpy.mockReset()
+      auditSpy.mockResolvedValue()
     })
     it('On error - Calls next with error', async () => {
       mockService.createProfile.mockImplementation(() => {
@@ -80,26 +102,12 @@ describe('CheckYourAnswersController', () => {
 
       await controller.post(req, res, next)
 
-      // expect(mockService.createProfile).toHaveBeenCalledTimes(1)
+      expect(mockService.createProfile).toHaveBeenCalledTimes(1)
       expect(res.redirect).toHaveBeenCalledTimes(1)
       expect(getSessionData(req, ['createProfile', id])).toBeFalsy()
     })
 
     it('On success - Calls createProfile with prisonId included in data', async () => {
-      const mockPrisonId = 'MOCK_PRISON_ID'
-      const mockToken = 'MOCK_TOKEN'
-      const bookingId = 123456
-      const prisonName = 'Mock Prison'
-
-      // Set up required mock context
-      res.locals.user = { username: 'USER1', token: mockToken }
-
-      req.context.prisoner = {
-        bookingId,
-        prisonId: mockPrisonId,
-        prisonName,
-      }
-
       // Set up required session data
       setSessionData(req, ['createProfile', id], {
         prisoner: req.context.prisoner,
@@ -138,6 +146,35 @@ describe('CheckYourAnswersController', () => {
           prisonId: mockPrisonId,
         }),
       )
+    })
+    it('On success - audits create profile', async () => {
+      mockService.createProfile.mockResolvedValue({})
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'CREATE_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: mockPrisonId,
+        service: 'hmpps-education-employment-ui',
+      })
+    })
+    it('On success - audits edit profile', async () => {
+      mockService.createProfile.mockResolvedValue({})
+      setSessionData(req, ['changeStatus', id], {})
+
+      await controller.post(req, res, next)
+
+      expect(auditSpy).toHaveBeenCalledTimes(1)
+      expect(auditSpy.mock.lastCall.at(0)).toEqual({
+        action: 'EDIT_WORK_PROFILE',
+        who: res.locals.user.username,
+        subjectType: 'PRISONER_ID',
+        subjectId: mockPrisonId,
+        service: 'hmpps-education-employment-ui',
+      })
     })
   })
 })
