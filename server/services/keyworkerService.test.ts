@@ -47,6 +47,7 @@ describe('KeyworkerService', () => {
       firstName: 'Test1', // Should format the first and last names to title case
       lastName: 'User1',
       email: 'test1.user1@nomis.com', // Should pull out the first email address in the list
+      success: true,
     })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
@@ -80,6 +81,7 @@ describe('KeyworkerService', () => {
       firstName: 'Test1',
       lastName: 'User1',
       email: undefined, // Should return 'undefined' if there are no email addresses
+      success: true,
     })
 
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
@@ -169,6 +171,24 @@ describe('KeyworkerService', () => {
 
     expect(result).toEqual(undefined) // Returns 'undefined' if there is no allocation with policy.code = 'KEY_WORKER'
 
+    expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
+    expect(keyworkerApiClientMock.getStaffAllocationsForOffender).toHaveBeenCalledWith('offender')
+  })
+
+  it('should return response with successful false when an error when the keyworker API call fails with 500', async () => {
+    const apiError = {
+      status: 500,
+      message: 'Keyworker API failure',
+    }
+
+    keyworkerApiClientMock = {
+      getStaffAllocationsForOffender: jest.fn().mockRejectedValue(apiError),
+    } as unknown as jest.Mocked<KeyworkerApiClient>
+    ;(KeyworkerApiClient as any).mockImplementation(() => keyworkerApiClientMock)
+
+    const result = await keyworkerService.getKeyworkerForOffender('user', 'offender')
+
+    expect(result).toEqual({ success: false })
     expect(hmppsAuthClientMock.getSystemClientToken).toHaveBeenCalledWith('user')
     expect(keyworkerApiClientMock.getStaffAllocationsForOffender).toHaveBeenCalledWith('offender')
   })
