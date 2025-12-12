@@ -153,7 +153,7 @@ docker-compose pull
 
 docker-compose up --scale=app=0
 
-npm install (to install all required dependencies)
+npm run setup (to install all required dependencies)
 ```
 
 This will automatically restart it if server code or front-end assets are modified.
