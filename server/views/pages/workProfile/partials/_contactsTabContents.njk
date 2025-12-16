@@ -39,14 +39,11 @@
       </section>
     {% endif %}
 
-      {% if contacts.keyworker.success == false %}
-          {{ mojAlert({
-              variant: "warning",
-              title: "Important",
-              showTitleAsHeading: true,
-              dismissible: false,
-              html: 'Contacts information is not available right now. Reload the page or try again later.'
-          }) }}
+      {% if contacts.keyworker.success == true %}
+        <div class="hmpps-api-error-banner">
+          <p><b>Important</b></p>
+          <p>Contacts information is not available right now. Reload the page or try again later.</p>
+        </div>
       {% else %}
         {%  if contacts.keyworker %}
             <section class="app-summary-card govuk-!-margin-bottom-6">
