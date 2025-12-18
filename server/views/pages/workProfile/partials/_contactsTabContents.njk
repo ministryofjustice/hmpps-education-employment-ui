@@ -4,6 +4,14 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Contacts</h2>
 
+    {% if contacts.keyworker.success == true %}
+      <div class="hmpps-api-error-banner">
+        <p>Important</p>
+        <p>Contacts information is not available right now. Reload the page or try again later.</p>
+      </div>
+      <br/>
+    {% endif %}
+
     {% if contacts.com %}
       <section class="app-summary-card govuk-!-margin-bottom-6">
         <header class="app-summary-card__header">
@@ -46,39 +54,31 @@
             Key worker
           </h3>
         </header>
-      {% if contacts.keyworker.success == false %}
-        </section>
-        <div class="hmpps-api-error-banner">
-          <p>Important</p>
-          <p>Contacts information is not available right now. Reload the page or try again later.</p>
+        <div class="app-summary-card__body">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Name
+              </dt>
+              <dd class="govuk-summary-list__value">
+               {{ contacts.keyworker.firstName }} {{ contacts.keyworker.lastName }}
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Email address
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if contacts.keyworker.email %}
+                  <a href="mailto: {{ contacts.keyworker.email }}">{{ contacts.keyworker.email }}</a>
+                {% else%}
+                  Not entered
+                {% endif %}
+              </dd>
+            </div>
+          </dl>
         </div>
-      {% else %}
-          <div class="app-summary-card__body">
-            <dl class="govuk-summary-list">
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Name
-                </dt>
-                <dd class="govuk-summary-list__value">
-                 {{ contacts.keyworker.firstName }} {{ contacts.keyworker.lastName }}
-                </dd>
-              </div>
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Email address
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  {% if contacts.keyworker.email %}
-                    <a href="mailto: {{ contacts.keyworker.email }}">{{ contacts.keyworker.email }}</a>
-                  {% else%}
-                    Not entered
-                  {% endif %}
-                </dd>
-              </div>
-            </dl>
-          </div>
       </section>
-      {% endif %}
     {% endif %}
 
     {% if contacts.pom %}
