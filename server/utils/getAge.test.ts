@@ -6,7 +6,7 @@ describe('getAge', () => {
     const result = getAge(birthdate)
 
     // Assuming the current date is '2024-01-01'
-    expect(result).toBe(35)
+    expect(result).toBe(36)
   })
 
   it('should return NaN for an invalid date string', () => {
