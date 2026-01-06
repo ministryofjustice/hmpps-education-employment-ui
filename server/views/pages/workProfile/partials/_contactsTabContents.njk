@@ -4,7 +4,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m govuk-!-margin-bottom-7">Contacts</h2>
 
-    {% if not (contacts.keyworker.success | default(false)) %}
+    {% if contacts.keyworker and not (contacts.keyworker.success | default(false)) %}
       <div class="hmpps-api-error-banner">
         <p>Important</p>
         <p>Contacts information is not available right now. Reload the page or try again later.</p>
