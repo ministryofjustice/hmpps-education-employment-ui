@@ -43,6 +43,7 @@ generic-service:
     JOB_APPLICATIONS_ENABLED: true
     REPORTING_LINK_ENABLED: false
     USE_COMPONENT_FALLBACKS: true
+    NATIONAL_JOBS: true
 
   scheduledDowntime:
     enabled: true
