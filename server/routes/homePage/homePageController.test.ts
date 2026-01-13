@@ -1,5 +1,6 @@
 import expressMocks from '../../testutils/expressMocks'
 import HomePageController from './homePageController'
+import config from '../../config'
 
 jest.mock('../../config', () => ({
   ...jest.requireActual('../../config'),
@@ -9,6 +10,7 @@ jest.mock('../../config', () => ({
     jobUploadUrl: 'job_upload_url',
     featureToggles: {
       reportingLinkEnabled: true,
+      brokerIterationEnabled: true,
     },
   },
 }))
@@ -87,7 +89,9 @@ describe('HomePageController', () => {
         subTasks: [
           {
             description: 'Add and manage job vacancies and employer information.',
-            heading: 'Add jobs and employers',
+            heading: config.featureToggles.brokerIterationEnabled
+              ? 'Manage jobs and employers'
+              : 'Add jobs and employers',
             href: 'job_upload_url',
             id: 'jobs-upload',
           },
