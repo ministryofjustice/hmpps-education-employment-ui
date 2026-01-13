@@ -201,5 +201,6 @@ export default {
     reportingLinkEnabled: toBoolean(get('REPORTING_LINK_ENABLED', false)),
     randomPostcodesInDevEnabled: toBoolean(get('RANDOM_POSTCODES_IN_DEV', false)),
     nationalJobsEnabled: toBoolean(get('NATIONAL_JOBS', false)),
+    brokerIterationEnabled: toBoolean(get('BROKER_ITERATION_ENABLED', false)),
   },
 }
