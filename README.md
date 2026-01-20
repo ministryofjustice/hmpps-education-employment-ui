@@ -1,6 +1,6 @@
-[![CircleCI](https://circleci.com/gh/ministryofjustice/hmpps-education-employment-ui/tree/main.svg?style=svg)](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-education-employment-ui?branch=main)
+[![Pipeline [test -> build -> deploy]](https://github.com/ministryofjustice/hmpps-education-employment-ui/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/ministryofjustice/hmpps-education-employment-ui/actions/workflows/pipeline.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui/badge.svg)](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui)
-[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fhmpps-education-employment-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-education-employment-ui "Link to report")
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-education-employment-ui/badge)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-education-employment-ui)
 
 [![JS](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=fff)](http://www.typescriptlang.org/)
