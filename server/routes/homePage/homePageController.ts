@@ -81,7 +81,7 @@ const getSubTasks = (userRoles: any) => {
   return [
     {
       id: 'jobs-upload',
-      heading: 'Add jobs and employers',
+      heading: config.featureToggles.brokerIterationEnabled ? 'Manage jobs and employers' : 'Add jobs and employers',
       description: 'Add and manage job vacancies and employer information.',
       href: config.jobUploadUrl,
       enabled: () => userHasRoles(['ROLE_JOBS_BOARD_VIEWER', 'ROLE_JOBS_BOARD_EDITOR']),
