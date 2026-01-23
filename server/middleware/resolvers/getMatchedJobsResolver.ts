@@ -16,7 +16,7 @@ const getMatchedJobsResolver =
       order = '',
       jobSectorFilter = '',
       locationFilter = '',
-      distanceFilter = '50',
+      distanceFilter,
       isNationalJob = 'false',
     } = req.query
     const { prisonerAddress } = req.context
@@ -32,7 +32,7 @@ const getMatchedJobsResolver =
         order: order.toString(),
         jobSectorFilter: jobSectorFilter.toString(),
         locationFilter: locationFilter.toString() === 'none' ? '' : locationFilter.toString() || postcode,
-        distanceFilter: Number(distanceFilter) ? Number(distanceFilter) : 9999,
+        distanceFilter: Number(distanceFilter) ? Number(distanceFilter) : null,
         isNationalJob: isNationalJob.toString() === 'true',
       })
 
