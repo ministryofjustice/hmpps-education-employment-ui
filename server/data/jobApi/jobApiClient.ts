@@ -35,7 +35,7 @@ export default class JobApiClient {
       order,
       jobSectorFilter,
       locationFilter,
-      distanceFilter = 9999,
+      distanceFilter,
       isNationalJob = false,
       employerId,
     } = params
