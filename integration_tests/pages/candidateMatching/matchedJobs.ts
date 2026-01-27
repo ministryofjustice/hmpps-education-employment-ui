@@ -3,6 +3,12 @@ import Page from '../page'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class MatchedJobsPage extends Page {
+  locationFilter = () => cy.get('[id=locationFilter]')
+
+  distanceFilter = () => cy.get('[id=distanceFilter]')
+
+  applyFiltersButton = () => cy.get('button.govuk-button').contains('Apply filters')
+
   matchedJobsClosingSoonTableData = () =>
     cy
       .get('#matchedJobs')
