@@ -3,6 +3,7 @@
     <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
     <a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}" id="manage-applications-button">Manage application</a>
 
+
     {% if archiveJobsEnabled %}
       {% if job.archived %}
         {% if toggleArchiveJobsEnabled %}
@@ -57,7 +58,7 @@
               "data-qa": "create-expression-of-interest"
             },
             classes: "govuk-button--secondary"
-          })
+          }) 
         }}
       {% endif %} 
     {% endif %} 
