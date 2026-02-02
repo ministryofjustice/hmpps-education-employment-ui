@@ -48,8 +48,8 @@
             classes: "govuk-button--secondary"
           }) 
         }}
-      {% else %}
-        {{  
+      {% elseif toggleExpressionsOfInterestEnabled %}
+        {{
           govukButton({
             text: "Prisoner interested in job",
             type: "archive",

@@ -45,4 +45,26 @@ describe('getMatchedJobsResolver', () => {
     expect(req.context.matchedJobsResults).toEqual(mockData)
     expect(next).toHaveBeenCalledWith()
   })
+
+  it('defaults distanceFilter to null when not present', async () => {
+    const req: any = {
+      params: { id: 'A1234BC' },
+      query: {}, // distanceFilter not present
+      context: { prisonerAddress: { postcode: 'N9 0BA' } },
+    }
+    const next = jest.fn()
+
+    await resolver(req, res, next)
+
+    expect(serviceMock.getMatchedJobs).toHaveBeenCalledWith(
+      'mock_username',
+      expect.objectContaining({
+        locationFilter: 'N9 0BA',
+        offenderNo: 'A1234BC',
+        distanceFilter: null,
+      }),
+    )
+
+    expect(next).toHaveBeenCalledWith()
+  })
 })

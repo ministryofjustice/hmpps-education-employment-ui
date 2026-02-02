@@ -129,3 +129,4 @@ integration_tests/screenshots/
 **/Chart.lock
 .DS_Store
 integration_tests/e2e/private/
+downloads/downloads.html
