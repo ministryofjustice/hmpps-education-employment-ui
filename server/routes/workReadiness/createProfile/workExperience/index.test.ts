@@ -51,6 +51,7 @@ describe('Work experience routes', () => {
       '/wr/profile/create/:id/work-experience/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
       ],
       expect.any(Function), // controller.post
     )

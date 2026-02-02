@@ -51,6 +51,7 @@ describe('Ability to work routes', () => {
       '/wr/profile/create/:id/ability-to-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post

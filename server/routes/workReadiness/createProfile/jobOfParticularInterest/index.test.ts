@@ -51,6 +51,7 @@ describe('Job of particular interest routes', () => {
       '/wr/profile/create/:id/job-of-particular-interest/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getPrisonerByIdResolver
       ],
       expect.any(Function), // controller.post
     )

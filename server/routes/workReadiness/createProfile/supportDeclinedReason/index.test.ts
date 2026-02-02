@@ -51,6 +51,7 @@ describe('Support declined routes', () => {
       '/wr/profile/create/:id/support-declined-reason/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post
