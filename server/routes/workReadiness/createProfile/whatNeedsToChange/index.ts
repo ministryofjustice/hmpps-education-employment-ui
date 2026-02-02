@@ -20,6 +20,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/wr/profile/create/:id/what-needs-to-change/:mode',
     [
+      getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('whatNeedsToChange'),
     ],

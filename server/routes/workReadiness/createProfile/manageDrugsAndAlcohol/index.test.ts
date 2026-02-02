@@ -51,6 +51,7 @@ describe('Manage drugs and alcohol routes', () => {
       '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getPrisonerByIdResolver
       ],
       expect.any(Function), // controller.post
     )
