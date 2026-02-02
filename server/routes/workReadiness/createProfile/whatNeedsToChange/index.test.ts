@@ -51,6 +51,7 @@ describe('What needs to change routes', () => {
       '/wr/profile/create/:id/what-needs-to-change/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post

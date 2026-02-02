@@ -18,7 +18,10 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/wr/profile/create/:id/work-experience/:mode',
-    [getProfileByIdResolver(services.prisonerProfileService, services.userService)],
+    [
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+    ],
     controller.post,
   )
 }
