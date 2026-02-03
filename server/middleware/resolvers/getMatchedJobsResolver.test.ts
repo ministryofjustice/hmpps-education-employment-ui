@@ -46,7 +46,7 @@ describe('getMatchedJobsResolver', () => {
     expect(next).toHaveBeenCalledWith()
   })
 
-  it('defaults distanceFilter to null when not present', async () => {
+  it('defaults distanceFilter to 50 when not present', async () => {
     const req: any = {
       params: { id: 'A1234BC' },
       query: {}, // distanceFilter not present
@@ -61,7 +61,7 @@ describe('getMatchedJobsResolver', () => {
       expect.objectContaining({
         locationFilter: 'N9 0BA',
         offenderNo: 'A1234BC',
-        distanceFilter: null,
+        distanceFilter: 50,
       }),
     )
 
