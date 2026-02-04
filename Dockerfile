@@ -1,26 +1,18 @@
 # Stage: base image
-FROM node:20.15-bookworm-slim as base
+FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine AS base
 
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
-ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
+# Cache breaking and ensure required build / git args defined
+RUN test -n "$BUILD_NUMBER" || (echo "BUILD_NUMBER not set" && false)
+RUN test -n "$GIT_REF" || (echo "GIT_REF not set" && false)
 
-RUN addgroup --gid 2000 --system appgroup && \
-        adduser --uid 2000 --system appuser --gid 2000
-
-WORKDIR /app
-
-# Cache breaking
+# Define env variables for runtime health / info
 ENV BUILD_NUMBER ${BUILD_NUMBER:-1_0_0}
-
-RUN apt-get update && \
-        apt-get upgrade -y && \
-        apt-get autoremove -y && \
-        rm -rf /var/lib/apt/lists/*
+ENV GIT_REF=${GIT_REF}
 
 # Stage: build assets
 FROM base as build
@@ -30,13 +22,11 @@ ARG GIT_REF=not-available
 
 COPY package*.json ./
 RUN CYPRESS_INSTALL_BINARY=0 npm run setup --no-audit
+RUN npm run setup
+ENV NODE_ENV='production'
 
 COPY . .
 RUN npm run build
-
-RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
-        export GIT_REF=${GIT_REF} && \
-        npm run record-build-info
 
 RUN npm prune --no-audit --production
 
