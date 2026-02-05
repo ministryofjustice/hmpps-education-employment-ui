@@ -51,6 +51,7 @@ describe('Right to work routes', () => {
       '/wr/profile/create/:id/type-of-work/:mode',
       [
         expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post

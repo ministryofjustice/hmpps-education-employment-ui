@@ -19,7 +19,11 @@ export default (router: Router, services: Services) => {
   )
   router.post(
     '/wr/profile/create/:id/type-of-work/:mode',
-    [getProfileByIdResolver(services.prisonerProfileService, services.userService), parseCheckBoxValue('typeOfWork')],
+    [
+      getPrisonerByIdResolver(services.prisonerSearchService),
+      getProfileByIdResolver(services.prisonerProfileService, services.userService),
+      parseCheckBoxValue('typeOfWork'),
+    ],
     controller.post,
   )
 }
