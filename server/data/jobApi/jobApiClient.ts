@@ -123,7 +123,7 @@ export default class JobApiClient {
 
   async getEmployersWithNationalJobs() {
     const result = await this.restClient.get<GetEmployerResponse>({
-      path: `/employers?hasNationalJobs=true`,
+      path: `/employers?hasNationalJobs=true&size=9999`,
     })
 
     return result
