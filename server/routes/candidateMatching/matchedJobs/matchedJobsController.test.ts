@@ -17,19 +17,79 @@ describe('MatchedJobsController', () => {
   res.locals.userActiveCaseLoad = { activeCaseLoad: { caseLoadId: 'MDI', description: 'Moorland (HMP & YOI)' } }
 
   req.context.matchedJobsResults = {
-    content: [],
-    page: {
-      totalElements: 0,
-    },
-    sort: 'releaseDate',
-    order: 'descending',
-    userActiveCaseLoad: {
-      activeCaseLoad: {
-        caseLoadId: 'MDI',
+    content: [
+      {
+        id: '0194f5cf-0cac-7333-81b1-c9d4f3c98f04',
+        jobTitle: 'Dev Test Job 1',
+        employerName: 'Dev Test 1 - v11',
+        sector: 'OUTDOOR',
+        postcode: 'NE15 7LR',
+        closingDate: '2026-06-11',
+        hasExpressedInterest: false,
+        createdAt: '2025-02-11T16:19:35.217290Z',
+        distance: null,
+        isNational: false,
+        numberOfVacancies: 1,
       },
+      {
+        id: '019c1f86-2266-7cca-bc1e-8a97d791a037',
+        jobTitle: 'Dev Test Job 7',
+        employerName: 'Dev Test 5',
+        sector: 'OUTDOOR',
+        postcode: 'NE15 7LR',
+        closingDate: null,
+        hasExpressedInterest: false,
+        createdAt: '2026-02-02T18:03:30.605822Z',
+        distance: null,
+        isNational: false,
+        numberOfVacancies: 1,
+      },
+      {
+        id: '0191795c-d293-733f-bcf5-5724980adfaf',
+        jobTitle: 'test',
+        employerName: 'ABC Construction 10',
+        sector: 'OUTDOOR',
+        postcode: 'NW1 4NP',
+        closingDate: null,
+        hasExpressedInterest: false,
+        createdAt: '2025-11-12T10:18:10.010566Z',
+        distance: null,
+        isNational: false,
+        numberOfVacancies: 1,
+      },
+      {
+        id: '019a7792-9737-799c-879e-b92934255032',
+        jobTitle: 'test',
+        employerName: 'ABC Construction 10',
+        sector: 'OUTDOOR',
+        postcode: 'NW1 4NP',
+        closingDate: null,
+        hasExpressedInterest: false,
+        createdAt: '2025-11-12T10:18:10.010566Z',
+        distance: null,
+        isNational: false,
+        numberOfVacancies: 1,
+      },
+      {
+        id: '0194d5bc-72c2-733a-b679-16cff5767c2b',
+        jobTitle: 'Dummy job',
+        employerName: 'ABC Construction 4',
+        sector: 'CLEANING_AND_MAINTENANCE',
+        postcode: 'NE15 7LR',
+        closingDate: null,
+        hasExpressedInterest: false,
+        createdAt: '2025-02-05T10:51:25.438938Z',
+        distance: null,
+        isNational: false,
+        numberOfVacancies: 1,
+      },
+    ],
+    page: {
+      size: 5,
+      number: 0,
+      totalElements: 26,
+      totalPages: 6,
     },
-    searchTerm: '',
-    filterStatus: 'ALL',
   }
 
   req.params.sort = 'releaseDate'
@@ -44,7 +104,7 @@ describe('MatchedJobsController', () => {
 
   const mockPaginationService: any = {
     paginationData: {},
-    getPagination: jest.fn(),
+    getPaginationNew: jest.fn(() => paginationData),
   }
 
   const paginationData = {}
@@ -80,17 +140,7 @@ describe('MatchedJobsController', () => {
         locationFilter: '',
         filtered: true,
         id: 'mock_id',
-        matchedJobsResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          content: [],
-          page: {
-            totalElements: 0,
-          },
-          searchTerm: '',
-          sort: 'releaseDate',
-          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-        },
+        matchedJobsResults: mockData,
         distanceFilter: '50',
         sort: 'releaseDate',
         jobSectorFilter: [],
@@ -132,17 +182,7 @@ describe('MatchedJobsController', () => {
         locationFilter: '',
         filtered: true,
         id: 'mock_id',
-        matchedJobsResults: {
-          filterStatus: 'ALL',
-          order: 'descending',
-          content: [],
-          page: {
-            totalElements: 0,
-          },
-          searchTerm: '',
-          sort: 'releaseDate',
-          userActiveCaseLoad: { activeCaseLoad: { caseLoadId: 'MDI' } },
-        },
+        matchedJobsResults: mockData,
         distanceFilter: '0',
         sort: 'releaseDate',
         jobSectorFilter: [],
@@ -180,7 +220,7 @@ describe('MatchedJobsController', () => {
       next.mockReset()
       validationMock.mockReset()
       setSessionData(req, ['matchedJobs', 'data'], mockData)
-      mockPaginationService.getPagination.mockReturnValue(paginationData)
+      mockPaginationService.getPaginationNew.mockReturnValue(paginationData)
     })
 
     it('Should create a new instance', () => {
@@ -206,7 +246,6 @@ describe('MatchedJobsController', () => {
       expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/matchedJobs/index', {
         ...mockData,
         errors,
-        filterStatus: 'ALL',
         jobSectorFilter: [],
         jobSectorFilterOther: [],
       })
