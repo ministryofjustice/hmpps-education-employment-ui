@@ -72,7 +72,7 @@
     }}
 
   {% else %}
-    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id, 'update') }}" id="update-progress-link">Update progress</a></p>
+    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link">Update progress</a></p>
   {% endif%}
 
 </form>
