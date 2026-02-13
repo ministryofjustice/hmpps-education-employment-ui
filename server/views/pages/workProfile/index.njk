@@ -55,37 +55,41 @@
 
 {% block content %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">{{ title }}</h1>
-    </div>
-  </div>
-  
-  {% if candidateMatchingEnabled %}
-    <div class="govuk-grid-row">
-      {% include './partials/_profileHeader.njk' %}
-    </div>
-  {% endif %}
+   {% if profileViewNotAllowed %}
+        {% include './partials/_profileViewNotAllowed.njk' %}
+   {% else %}
+       <div class="govuk-grid-row">
+           <div class="govuk-grid-column-two-thirds">
+               <h1 class="govuk-heading-l">{{ title }}</h1>
+           </div>
+       </div>
 
-  {% include './partials/_navigation.njk' %}
+      {% if candidateMatchingEnabled %}
+        <div class="govuk-grid-row">
+          {% include './partials/_profileHeader.njk' %}
+        </div>
+      {% endif %}
 
-  {% if tab === 'overview' %}
-    {% include './partials/_overviewTabContents.njk' %}
-  {% endif %}
+      {% include './partials/_navigation.njk' %}
 
-  {% if tab === 'details' %}
-    {% include './partials/_detailsTabContents.njk' %}
-  {% endif %}
+      {% if tab === 'overview' %}
+        {% include './partials/_overviewTabContents.njk' %}
+      {% endif %}
 
-  {% if tab === 'training' %}
-    {% include './partials/_trainingTabContents.njk' %}
-  {% endif %}
+      {% if tab === 'details' %}
+        {% include './partials/_detailsTabContents.njk' %}
+      {% endif %}
 
-  {% if tab === 'experience' %}
-    {% include './partials/_experienceTabContents.njk' %}
-  {% endif %}
+      {% if tab === 'training' %}
+        {% include './partials/_trainingTabContents.njk' %}
+      {% endif %}
 
-  {% if tab === 'contacts' %}
-    {% include './partials/_contactsTabContents.njk' %}
-  {% endif %}
+      {% if tab === 'experience' %}
+        {% include './partials/_experienceTabContents.njk' %}
+      {% endif %}
+
+      {% if tab === 'contacts' %}
+        {% include './partials/_contactsTabContents.njk' %}
+      {% endif %}
+   {% endif %}
 {% endblock %}

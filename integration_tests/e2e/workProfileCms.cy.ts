@@ -17,6 +17,7 @@ context('SignIn', () => {
   })
 
   it('Check content - MJMA overview', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('getCurrentOffenderActivities', 'H4115SD')

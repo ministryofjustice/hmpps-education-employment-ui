@@ -3,6 +3,8 @@ import Page from './page'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class WorkProfilePage extends Page {
+  profileViewNotAllowed = (): PageElement => cy.get('[data-qa=profile-view-not-allowed]')
+
   tabOverview = (): PageElement => cy.get('[data-qa=tab-overview]')
 
   tabDetails = (): PageElement => cy.get('[data-qa=tab-details]')
