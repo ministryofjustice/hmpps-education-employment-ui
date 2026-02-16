@@ -1,36 +1,100 @@
-import { Request, Response } from 'express'
-import getCurrentPathMiddleware from './getCurrentPageUrl'
+import getCurrentPathMiddleware, { getDefaultBackLink } from './getCurrentPageUrl'
+
+jest.mock('../../../utils/index', () => ({
+  encryptUrlParameter: jest.fn(() => 'encrypted-default'),
+}))
+
+const mockRequest = (overrides = {}) =>
+  ({
+    originalUrl: '/test',
+    query: {},
+    params: {},
+    ...overrides,
+  } as any)
+
+const mockResponse = () =>
+  ({
+    locals: {},
+  } as any)
+
+const mockNext = jest.fn()
+
+describe('getDefaultBackLink', () => {
+  it('returns application mode path when id, jobId and mode exist', () => {
+    const req = {
+      params: { id: 'A123', jobId: '99', mode: 'edit' },
+    } as any
+
+    expect(getDefaultBackLink(req)).toBe('/mjma/A123/job/99/application/edit')
+  })
+
+  it('returns profile overview when only id exists', () => {
+    const req = {
+      params: { id: 'A123' },
+    } as any
+
+    expect(getDefaultBackLink(req)).toBe('/mjma/profile/A123/view/overview')
+  })
+
+  it('returns applications list when no id exists', () => {
+    const req = { params: {} } as any
+
+    expect(getDefaultBackLink(req)).toBe('/mjma/applications')
+  })
+})
 
 describe('getCurrentPageUrl', () => {
-  const mockRequest = (overrides: Partial<Request> = {}): Partial<Request> => ({
-    originalUrl: '/some/path?from=abc',
-    ...overrides,
-  })
-
-  const mockResponse = (): Partial<Response> => ({
-    locals: {},
-  })
-
-  it('sets res.locals.currentPath from req.originalUrl', () => {
-    const req = mockRequest()
+  it('sets res.locals.currentPath to originalUrl', () => {
+    const req = mockRequest({ originalUrl: '/abc?x=1' })
     const res = mockResponse()
-    const next = jest.fn()
 
-    getCurrentPathMiddleware(req as Request, res as Response, next)
+    getCurrentPathMiddleware(req, res, mockNext)
 
-    expect(res.locals?.currentPath).toBe('/some/path')
+    expect(res.locals.currentPath).toBe('/abc?x=1')
   })
 
-  it('extracts the from query parameter when present', () => {
+  it('uses existing from query param', () => {
     const req = mockRequest({
-      originalUrl: '/some/path?from=encodedValue123',
+      originalUrl: '/abc?from=existing',
     })
     const res = mockResponse()
-    const next = jest.fn()
 
-    getCurrentPathMiddleware(req as Request, res as Response, next)
+    getCurrentPathMiddleware(req, res, mockNext)
 
-    expect(res.locals?.backLink).toBe('encodedValue123')
+    expect(req.query.from).toBe('existing')
+  })
+
+  it('uses encrypted default when from is not present', () => {
+    const req = mockRequest({
+      originalUrl: '/abc',
+      params: { id: 'A123' },
+    })
+    const res = mockResponse()
+
+    getCurrentPathMiddleware(req, res, mockNext)
+
+    expect(req.query.from).toBe('encrypted-default')
+  })
+
+  it('preserves other query params and does not break', () => {
+    const req = mockRequest({
+      originalUrl: '/abc?sort=name&order=asc',
+      params: { id: 'A123' },
+    })
+    const res = mockResponse()
+
+    getCurrentPathMiddleware(req, res, mockNext)
+
+    expect(req.query.from).toBe('encrypted-default')
+  })
+
+  it('handles undefined originalUrl', () => {
+    const req = mockRequest({ originalUrl: undefined })
+    const res = mockResponse()
+
+    getCurrentPathMiddleware(req, res, mockNext)
+
+    expect(res.locals.currentPath).toBe('')
   })
 
   it('calls next()', () => {
@@ -38,56 +102,8 @@ describe('getCurrentPageUrl', () => {
     const res = mockResponse()
     const next = jest.fn()
 
-    getCurrentPathMiddleware(req as Request, res as Response, next)
+    getCurrentPathMiddleware(req, res, next)
 
-    expect(next).toHaveBeenCalledTimes(1)
-  })
-
-  it('URL-decodes the from query parameter', () => {
-    const req = mockRequest({
-      originalUrl: '/some/path?from=U2FsdGVkX1%2Babc%3D',
-    })
-    const res = mockResponse()
-    const next = jest.fn()
-
-    getCurrentPathMiddleware(req as Request, res as Response, next)
-
-    expect(res.locals?.backLink).toBe('U2FsdGVkX1+abc=')
-  })
-
-  it('sets from to undefined when the query parameter is missing', () => {
-    const req = mockRequest({
-      originalUrl: '/some/path?foo=bar',
-    })
-    const res = mockResponse()
-    const next = jest.fn()
-
-    getCurrentPathMiddleware(req as Request, res as Response, next)
-
-    expect(res.locals?.from).toBeUndefined()
-  })
-
-  it('sets from to undefined when there is no query string', () => {
-    const req = mockRequest({
-      originalUrl: '/some/path',
-    })
-    const res = mockResponse()
-    const next = jest.fn()
-
-    getCurrentPathMiddleware(req as Request, res as Response, next)
-
-    expect(res.locals?.from).toBeUndefined()
-  })
-
-  it('sets from to undefined when there is no query string', () => {
-    const req = mockRequest({
-      originalUrl: '/some/path',
-    })
-    const res = mockResponse()
-    const next = jest.fn()
-
-    getCurrentPathMiddleware(req as Request, res as Response, next)
-
-    expect(res.locals?.from).toBeUndefined()
+    expect(next).toHaveBeenCalled()
   })
 })

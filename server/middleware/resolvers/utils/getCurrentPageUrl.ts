@@ -1,9 +1,20 @@
 import { Request, Response, NextFunction } from 'express'
+import { encryptUrlParameter } from '../../../utils/index'
 
-const DEFAULT_RETURN_URL = ''
+// if user lands directly on a deep page without from, the safest logical fallback is:
+export const getDefaultBackLink = (req: Request): string => {
+  if (req.params?.id && req.params.jobId && req.params?.mode) {
+    return `/mjma/${req.params.id}/job/${req.params.jobId}/application/${req.params.mode}`
+  }
+  if (req.params?.id) {
+    return `/mjma/profile/${req.params.id}/view/overview`
+  }
+  return '/mjma/applications'
+}
 
 const getCurrentPathMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   const originalUrl = req.originalUrl ?? ''
+  const initialUrl = getDefaultBackLink(req)
 
   // Always expose currentPath
   res.locals.currentPath = originalUrl
@@ -12,20 +23,21 @@ const getCurrentPathMiddleware = (req: Request, res: Response, next: NextFunctio
   const [path, queryString] = originalUrl.split('?')
   const params = new URLSearchParams(queryString ?? '')
 
-  // Derive `from`
-  const from = params?.get('from') // ?? res.locals.from ?? encryptUrlParameter(originalUrl)
+  // Determine base from value
+  const existingFrom = params.get('from')
+  const effectiveFrom = existingFrom ?? encryptUrlParameter(initialUrl)
 
-  // Back link precedence:
-  // 1. explicit ?from=
-  // 2. fallback
-  res.locals.backLink = from ?? DEFAULT_RETURN_URL
-
-  // Remove `from` so currentPath is clean
+  // Remove any existing `from` to avoid duplication
   params.delete('from')
 
-  // Pass it forward automatically
-  const remainingQuery = params.toString()
-  res.locals.currentPath = remainingQuery ? `${path}?${remainingQuery}` : path
+  // Rebuild current URL without `from`
+  const cleanedQuery = params.toString()
+  const cleanedUrl = cleanedQuery ? `${path}?${cleanedQuery}` : path
+
+  // Set req.query.from to: originalUrl + '?from=' + effectiveFrom
+  const separator = cleanedUrl.includes('?') ? '&' : '?'
+
+  req.query.from = effectiveFrom
 
   next()
 }
