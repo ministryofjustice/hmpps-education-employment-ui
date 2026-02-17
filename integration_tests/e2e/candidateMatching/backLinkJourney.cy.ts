@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import JobDetailsPage from '../../pages/candidateMatching/jobDetails'
 import ManageApplicationPage from '../../pages/candidateMatching/manageApplication'
+import MatchedJobsPage from '../../pages/candidateMatching/matchedJobs'
 
 context('Sign In', () => {
   beforeEach(() => {
@@ -93,5 +93,32 @@ context('Sign In', () => {
 
     jobDetailsPage.employerName().contains('ASDA')
     jobDetailsPage.jobTitle().contains('Warehouse operator')
+  })
+
+  it('Back from Job detail to Matched jobs', () => {
+    cy.signIn()
+    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+
+    const jobDetailsPage = new JobDetailsPage('Warehouse operator')
+    jobDetailsPage.manageApplicationsButton().click()
+
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
+    manageApplicationPage.jobTitle().contains('Warehouse operator')
+
+    manageApplicationPage.backLinkUrl().click()
+
+    jobDetailsPage.employerName().contains('ASDA')
+    jobDetailsPage.jobTitle().contains('Warehouse operator')
+
+    manageApplicationPage.backLinkUrl().click()
+
+    const matchedJobsPage = new MatchedJobsPage("Test User1's work profile")
+    cy.get('#prisoner-name').contains('User1, Test')
+    cy.get('[data-qa="tab-overview"]').should('have.attr', 'aria-current', 'page')
+
+    // Assert that other tabs are not selected
+    cy.get('[data-qa="tab-details"]').should('not.have.attr', 'aria-current')
+    cy.get('[data-qa="tab-training"]').should('not.have.attr', 'aria-current')
+    cy.get('[data-qa="tab-contacts"]').should('not.have.attr', 'aria-current')
   })
 })
