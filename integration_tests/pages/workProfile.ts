@@ -5,6 +5,8 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class WorkProfilePage extends Page {
   profileViewNotAllowed = (): PageElement => cy.get('[data-qa=profile-view-not-allowed]')
 
+  notFound = (): PageElement => cy.get('[data-qa=not-found]')
+
   tabOverview = (): PageElement => cy.get('[data-qa=tab-overview]')
 
   tabDetails = (): PageElement => cy.get('[data-qa=tab-details]')

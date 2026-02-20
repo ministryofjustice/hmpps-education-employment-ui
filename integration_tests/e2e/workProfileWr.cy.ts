@@ -128,9 +128,11 @@ context('SignIn', () => {
     cy.task('getCommunityManager', 'A00001Z')
     cy.task('getPrisonerAddress', 'A00001Z')
 
-    cy.visit('/wr/profile/A00001Z/view/overview')
+    cy.visit('/wr/profile/A00001Z/view/overview', {
+      failOnStatusCode: false,
+    })
     const workProfilePage = new WorkProfilePage()
 
-    workProfilePage.profileViewNotAllowed().should('be.visible').contains('Profile not available')
+    workProfilePage.notFound().should('be.visible').contains('Page not found')
   })
 })

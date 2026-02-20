@@ -1,18 +1,18 @@
-import type { Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import checkPrisonerInActiveCaseLoad from './checkPrisonerInActiveCaseLoad'
-import PrisonerSearchService from '../services/prisonSearchService'
-import PrisonerSearchByPrisonIdResponse from '../data/prisonerSearch/prisonerSearchByPrisonIdResponse'
+import type PrisonerSearchService from '../services/prisonSearchService'
+import type PrisonerSearchByPrisonIdResponse from '../data/prisonerSearch/prisonerSearchByPrisonIdResponse'
 
 describe('checkPrisonerInActiveCaseLoad middleware', () => {
   const renderMock = jest.fn()
-  const statusMock = jest.fn(() => ({ render: renderMock }))
+  const statusMock = jest.fn().mockReturnValue({ render: renderMock })
 
   const makeReq = (id = 'A1234BC') =>
     ({
       params: { id },
     } as unknown as Request)
 
-  const makeRes = (overrides?: Response) =>
+  const makeRes = (overrides?: Partial<Response> & { locals?: Partial<Response['locals']> }) =>
     ({
       locals: {
         userActiveCaseLoad: { caseLoadId: 'MDI' },
@@ -35,7 +35,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     jest.clearAllMocks()
   })
 
-  it('sets profileViewNotAllowed=false and calls next when prisoner is in active caseload (empty=false)', async () => {
+  it('calls next when prisoner is in active caseload (empty=false)', async () => {
     const service = makeService()
     const prisonerFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: false }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFound)
@@ -44,7 +44,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
     const req = makeReq('A1234BC')
     const res = makeRes()
-    const next = jest.fn()
+    const next: NextFunction = jest.fn()
 
     await middleware(req, res, next)
 
@@ -54,12 +54,13 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
       'A1234BC',
     )
 
-    expect(res.locals.profileViewNotAllowed).toBe(false)
+    expect(statusMock).not.toHaveBeenCalled()
+    expect(renderMock).not.toHaveBeenCalled()
     expect(next).toHaveBeenCalledTimes(1)
     expect(next).toHaveBeenCalledWith()
   })
 
-  it('sets profileViewNotAllowed=true and calls next when response is empty', async () => {
+  it('renders notFoundPage and does not call next when response is empty', async () => {
     const service = makeService()
     const prisonerNotFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: true }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerNotFound)
@@ -68,16 +69,16 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
     const req = makeReq('A1234BC')
     const res = makeRes()
-    const next = jest.fn()
+    const next: NextFunction = jest.fn()
 
     await middleware(req, res, next)
 
-    expect(res.locals.profileViewNotAllowed).toBe(true)
-    expect(next).toHaveBeenCalledTimes(1)
-    expect(next).toHaveBeenCalledWith()
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(next).not.toHaveBeenCalled()
   })
 
-  it('sets profileViewNotAllowed=true and calls next when service throws', async () => {
+  it('renders notFoundPage and does not call next when service throws', async () => {
     const service = makeService()
     service.getPrisonerByCaseLoadIdAndOffenderId.mockRejectedValue(new Error('boom'))
 
@@ -85,16 +86,16 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
     const req = makeReq('A1234BC')
     const res = makeRes()
-    const next = jest.fn()
+    const next: NextFunction = jest.fn()
 
     await middleware(req, res, next)
 
-    expect(res.locals.profileViewNotAllowed).toBe(true)
-    expect(next).toHaveBeenCalledTimes(1)
-    expect(next).toHaveBeenCalledWith()
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(next).not.toHaveBeenCalled()
   })
 
-  it('initialises profileViewNotAllowed to false even if already set', async () => {
+  it('does not render notFoundPage when prisoner is found', async () => {
     const service = makeService()
     const prisonerFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: false }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFound)
@@ -103,12 +104,11 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
     const req = makeReq('A1234BC')
     const res = makeRes()
-    res.locals.profileViewNotAllowed = true
-    const next = jest.fn()
+    const next: NextFunction = jest.fn()
 
     await middleware(req, res, next)
 
-    expect(res.locals.profileViewNotAllowed).toBe(false)
+    expect(renderMock).not.toHaveBeenCalled()
     expect(next).toHaveBeenCalled()
   })
 })

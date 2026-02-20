@@ -7,9 +7,6 @@ const checkPrisonerInActiveCaseLoad =
     const { id } = req.params
     const { userActiveCaseLoad, username } = res.locals
 
-    // default: allowed
-    res.locals.profileViewNotAllowed = false
-
     try {
       const searchByPrisonIdResponse = await prisonerSearchService.getPrisonerByCaseLoadIdAndOffenderId(
         username,
@@ -17,10 +14,12 @@ const checkPrisonerInActiveCaseLoad =
         id,
       )
       if (searchByPrisonIdResponse.empty) {
-        res.locals.profileViewNotAllowed = true
+        res.status(404).render('notFoundPage.njk')
+        return
       }
     } catch (err) {
-      res.locals.profileViewNotAllowed = true
+      res.status(404).render('notFoundPage.njk')
+      return
     }
     next()
   }
