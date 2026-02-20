@@ -20,7 +20,7 @@ FROM base as build
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
 
-COPY package*.json ./
+COPY package*.json .allowed-scripts.mjs ./
 RUN CYPRESS_INSTALL_BINARY=0 npm run setup --no-audit
 RUN npm run setup
 ENV NODE_ENV='production'
