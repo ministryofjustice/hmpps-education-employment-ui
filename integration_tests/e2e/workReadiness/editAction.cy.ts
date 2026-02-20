@@ -22,6 +22,7 @@ context('SignIn', () => {
   })
 
   it('Edit action - basic update', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
@@ -45,6 +46,7 @@ context('SignIn', () => {
   })
 
   it('Edit action - add note', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
@@ -81,6 +83,7 @@ context('SignIn', () => {
   })
 
   it('Edit action - ID field is displayed', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')

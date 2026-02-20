@@ -36,6 +36,7 @@ describe('Cohort list routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/:module/profile/:id/view/:tab',
       [
+        expect.any(Function), // checkPrisonerInActiveCaseLoad
         expect.any(Function), // checkCmsEnabledProfile
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getAllProfileDataResolver

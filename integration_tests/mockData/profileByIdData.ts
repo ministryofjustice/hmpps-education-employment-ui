@@ -113,6 +113,58 @@ const profiles = {
       },
     },
   },
+  A00001Z: {
+    request: {
+      method: 'GET',
+      urlPattern: '/readiness-profiles/A00001Z',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        offenderId: 'A00001Z',
+        modifiedBy: 'USER1',
+        modifiedDateTime: new Date().toISOString(),
+        profileData: {
+          status: 'SUPPORT_NEEDED',
+          modifiedBy: 'USER1',
+          modifiedDateTime: new Date().toISOString(),
+          supportAccepted: {
+            actionsRequired: {
+              modifiedBy: 'USER1',
+              modifiedDateTime: new Date().toISOString(),
+              actions: [
+                {
+                  todoItem: 'BANK_ACCOUNT',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'CV_AND_COVERING_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'DISCLOSURE_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'EMAIL_OR_PHONE',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'HOUSING',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'ID',
+                  status: 'COMPLETED',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  },
 }
 
 export default profiles

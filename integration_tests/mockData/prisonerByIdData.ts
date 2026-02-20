@@ -67,6 +67,23 @@ const prisoners = {
       },
     },
   },
+  A00001Z: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/A00001Z',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'A00001Z',
+        firstName: 'Test',
+        lastName: 'User5',
+        releaseDate: new Date().toISOString(),
+        nonDtoReleaseDateType: 'HDC',
+      },
+    },
+  },
 }
 
 export default prisoners

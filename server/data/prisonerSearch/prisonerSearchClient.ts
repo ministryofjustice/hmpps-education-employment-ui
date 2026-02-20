@@ -3,6 +3,7 @@ import config from '../../config'
 import PagedResponse from '../domain/types/pagedResponse'
 import RestClient from '../restClient'
 import GetPrisonerByIdResult from './getPrisonerByIdResult'
+import PrisonerSearchByPrisonIdResponse from './prisonerSearchByPrisonIdResponse'
 
 export interface ReleaseDateSearch {
   // The lower bound for the release date range of which to search - defaults to today if not provided
@@ -15,7 +16,12 @@ export interface ReleaseDateSearch {
 
 type PrisonerSearchByReleaseDate = ReleaseDateSearch
 
+type ExtractParams<T extends string> = T extends `${string}{${infer P}}${infer Rest}` ? P | ExtractParams<Rest> : never
+
 const GET_PRISONER_BY_ID_PATH = '/prisoner'
+
+const SEARCH_PRISONER_BY_CASELOAD_AND_OFFENDER_ID_TEMPLATE =
+  '/prison/{prisonId}/prisoners?term={offenderId}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'
@@ -45,4 +51,25 @@ export default class PrisonerSearchClient {
       path: `${GET_PRISONER_BY_ID_PATH}/${id}`,
     })
   }
+
+  async getPrisonerByCaseLoadIdAndOffenderId(
+    caseloadId: string,
+    id: string,
+  ): Promise<PrisonerSearchByPrisonIdResponse> {
+    return this.restClient.get<PrisonerSearchByPrisonIdResponse>({
+      path: this.urlFromTemplateBuilder(SEARCH_PRISONER_BY_CASELOAD_AND_OFFENDER_ID_TEMPLATE, {
+        offenderId: id,
+        prisonId: caseloadId,
+      }),
+    })
+  }
+
+  urlFromTemplateBuilder = <T extends string>(template: T, params: Record<ExtractParams<T>, string | number>): string =>
+    template.replace(/{(\w+)}/g, (_, key) => {
+      const value = params[key as ExtractParams<T>]
+      if (value === undefined) {
+        throw new Error(`Missing value for URL parameter '${key}'`)
+      }
+      return encodeURIComponent(String(value))
+    })
 }

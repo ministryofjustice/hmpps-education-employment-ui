@@ -56,4 +56,40 @@ describe('PrisonerSearchClient', () => {
       expect(result).toEqual(expectedResult)
     })
   })
+
+  describe('#getPrisonerByCaseLoadIdAndOffenderId', () => {
+    it('should make a GET request to the correct endpoint with the correct parameters', async () => {
+      const caseloadId = 'MDI'
+      const offenderNo = 'A1234BC'
+      const expectedPath = `/prison/${encodeURIComponent(caseloadId)}/prisoners?term=${encodeURIComponent(
+        offenderNo,
+      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate`
+      const expectedResult: any = { empty: false }
+
+      restClientMock.get.mockResolvedValue(expectedResult)
+
+      const result = await client.getPrisonerByCaseLoadIdAndOffenderId(caseloadId, offenderNo)
+
+      expect(restClientMock.get).toHaveBeenCalledWith({
+        path: expectedPath,
+      })
+      expect(result).toEqual(expectedResult)
+    })
+
+    it('URL-encodes path parameters', async () => {
+      const caseloadId = 'LEI/1'
+      const offenderNo = 'A1234BC+X'
+      const expectedPath = `/prison/${encodeURIComponent(caseloadId)}/prisoners?term=${encodeURIComponent(
+        offenderNo,
+      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate`
+
+      restClientMock.get.mockResolvedValue({ empty: false } as any)
+
+      await client.getPrisonerByCaseLoadIdAndOffenderId(caseloadId, offenderNo)
+
+      expect(restClientMock.get).toHaveBeenCalledWith({
+        path: expectedPath,
+      })
+    })
+  })
 })

@@ -1,0 +1,27 @@
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block beforeContent %}
+    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : backLocationAriaText } }) }}
+{% endblock %}
+
+<div class="govuk-notification-banner govuk-notification-banner--warning"
+        role="region"
+        aria-labelledby="profile-not-allowed-title"
+        data-module="govuk-notification-banner"
+>
+    <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="profile-not-allowed-title" data-qa="profile-view-not-allowed">
+            Profile not available
+        </h2>
+    </div>
+
+    <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">
+            You cannot view this prisoner’s profile because they are not in your active caseload.
+        </p>
+
+        <p class="govuk-body">
+            Switch to the correct caseload or select another prisoner to continue.
+        </p>
+    </div>
+</div>

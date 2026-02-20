@@ -1,12 +1,21 @@
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default abstract class Page {
+  protected readonly title?: string
+
   static verifyOnPage<T>(constructor: new (title?: string) => T, title?: string): T {
     return title ? new constructor(title) : new constructor()
   }
 
-  constructor(private readonly title: string) {
-    this.checkOnPage()
+  constructor()
+
+  constructor(title: string)
+
+  constructor(title?: string) {
+    this.title = title
+    if (this.title != null) {
+      this.checkOnPage()
+    }
   }
 
   checkOnPage(): void {
