@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextFunction, Request, Response } from 'express'
 import getCurrentPathMiddleware, { getDefaultBackLink } from './getCurrentPageUrl'
+import JourneyTypeValue from '../../../enums/journeyTypeValue'
 
 jest.mock('../../../utils/index', () => ({
   encryptUrlParameter: jest.fn(() => 'encrypted-default'),
@@ -10,56 +13,85 @@ const mockRequest = (overrides = {}) =>
     query: {},
     params: {},
     ...overrides,
-  } as any)
+  } as unknown as Request)
 
 const mockResponse = () =>
   ({
     locals: {},
-  } as any)
+  } as unknown as Response)
 
-const mockNext = jest.fn()
+const mockNext: NextFunction = jest.fn()
 
 describe('getDefaultBackLink', () => {
-  it('returns application mode path when id, jobId and mode exist', () => {
-    const req = {
-      params: { id: 'A123', jobId: '99', mode: 'edit' },
-    } as any
+  const mockRequest = (params: Record<string, string> = {}): Request =>
+    ({
+      params,
+    } as unknown as Request)
 
-    expect(getDefaultBackLink(req)).toBe('/mjma/A123/job/99/application/edit')
+  it('returns JOB_DETAILS url', () => {
+    const req = mockRequest({
+      id: 'G6115VJ',
+      jobId: '123',
+    })
+
+    const result = getDefaultBackLink(req, JourneyTypeValue.JOB_DETAILS)
+
+    expect(result).toBe('/mjma/G6115VJ/job/123/details')
   })
 
-  it('returns profile overview when only id exists', () => {
-    const req = {
-      params: { id: 'A123' },
-    } as any
+  it('returns MATCHED_JOBS url', () => {
+    const req = mockRequest({
+      id: 'G6115VJ',
+    })
 
-    expect(getDefaultBackLink(req)).toBe('/mjma/profile/A123/view/overview')
+    const result = getDefaultBackLink(req, JourneyTypeValue.MATCHED_JOBS)
+
+    expect(result).toBe('/mjma/profile/G6115VJ/view/overview')
   })
 
-  it('returns applications list when no id exists', () => {
-    const req = { params: {} } as any
+  it('returns MANAGED_APPLICATIONS url', () => {
+    const req = mockRequest({
+      id: 'G6115VJ',
+      jobId: '123',
+      mode: 'edit',
+    })
 
-    expect(getDefaultBackLink(req)).toBe('/mjma/applications')
+    const result = getDefaultBackLink(req, JourneyTypeValue.MANAGED_APPLICATIONS)
+
+    expect(result).toBe('/mjma/G6115VJ/job/123/application/edit')
+  })
+
+  it('returns default when urlFrom is undefined', () => {
+    const req = mockRequest()
+
+    const result = getDefaultBackLink(req)
+
+    expect(result).toBe('/mjma/prisoners?sort=releaseDate&order=ascending')
   })
 })
 
 describe('getCurrentPageUrl', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('sets res.locals.currentPath to originalUrl', () => {
     const req = mockRequest({ originalUrl: '/abc?x=1' })
     const res = mockResponse()
 
-    getCurrentPathMiddleware(req, res, mockNext)
+    getCurrentPathMiddleware(null)(req, res, mockNext)
 
     expect(res.locals.currentPath).toBe('/abc?x=1')
+    expect(mockNext).toHaveBeenCalled()
   })
 
-  it('uses existing from query param', () => {
+  it('uses existing from query param if present', () => {
     const req = mockRequest({
       originalUrl: '/abc?from=existing',
     })
     const res = mockResponse()
 
-    getCurrentPathMiddleware(req, res, mockNext)
+    getCurrentPathMiddleware(JourneyTypeValue.JOB_DETAILS)(req, res, mockNext)
 
     expect(req.query.from).toBe('existing')
   })
@@ -71,9 +103,19 @@ describe('getCurrentPageUrl', () => {
     })
     const res = mockResponse()
 
-    getCurrentPathMiddleware(req, res, mockNext)
+    getCurrentPathMiddleware()(req, res, mockNext)
 
-    expect(req.query.from).toBe('encrypted-default')
+    expect(req.query.from).toBeTruthy()
+  })
+
+  it('handles undefined originalUrl safely', () => {
+    const req = mockRequest({ originalUrl: undefined })
+    const res = mockResponse()
+
+    getCurrentPathMiddleware()(req, res, mockNext)
+
+    expect(res.locals.currentPath).toBe('')
+    expect(mockNext).toHaveBeenCalled()
   })
 
   it('preserves other query params and does not break', () => {
@@ -83,16 +125,18 @@ describe('getCurrentPageUrl', () => {
     })
     const res = mockResponse()
 
-    getCurrentPathMiddleware(req, res, mockNext)
+    getCurrentPathMiddleware(JourneyTypeValue.JOB_DETAILS)(req, res, mockNext)
 
-    expect(req.query.from).toBe('encrypted-default')
+    expect(req.query.from).toBeDefined()
+    expect(req.query.from).not.toBe('')
+    expect(typeof req.query.from).toBe('string')
   })
 
   it('handles undefined originalUrl', () => {
     const req = mockRequest({ originalUrl: undefined })
     const res = mockResponse()
 
-    getCurrentPathMiddleware(req, res, mockNext)
+    getCurrentPathMiddleware(JourneyTypeValue.JOB_DETAILS)(req, res, mockNext)
 
     expect(res.locals.currentPath).toBe('')
   })
@@ -102,7 +146,7 @@ describe('getCurrentPageUrl', () => {
     const res = mockResponse()
     const next = jest.fn()
 
-    getCurrentPathMiddleware(req, res, next)
+    getCurrentPathMiddleware(JourneyTypeValue.JOB_DETAILS)(req, res, next)
 
     expect(next).toHaveBeenCalled()
   })

@@ -1,45 +1,46 @@
-import { Request, Response, NextFunction } from 'express'
-import { encryptUrlParameter } from '../../../utils/index'
+import { NextFunction, Request, Response } from 'express'
+import { encryptUrlParameter } from '../../../utils/urlParameterEncryption'
+import JourneyTypeValue from '../../../enums/journeyTypeValue'
 
 // if user lands directly on a deep page without from, the safest logical fallback is:
-export const getDefaultBackLink = (req: Request): string => {
-  if (req.params?.id && req.params.jobId && req.params?.mode) {
-    return `/mjma/${req.params.id}/job/${req.params.jobId}/application/${req.params.mode}`
+export const getDefaultBackLink = (req: Request, urlFrom?: JourneyTypeValue): string => {
+  switch (urlFrom) {
+    case JourneyTypeValue.JOB_DETAILS:
+      return `/mjma/${req.params.id}/job/${req.params.jobId}/details`
+
+    case JourneyTypeValue.MATCHED_JOBS:
+      return `/mjma/profile/${req.params.id}/view/overview`
+
+    case JourneyTypeValue.MANAGED_APPLICATIONS:
+      return `/mjma/${req.params.id}/job/${req.params.jobId}/application/${req.params.mode}`
+
+    case JourneyTypeValue.VIEW_APPLICATION:
+      return `/mjma/applications?sort=prisonerName&order=ascending`
+
+    default:
+      return '/mjma/prisoners?sort=releaseDate&order=ascending'
   }
-  if (req.params?.id) {
-    return `/mjma/profile/${req.params.id}/view/overview`
-  }
-  return '/mjma/applications'
 }
 
-const getCurrentPathMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  const originalUrl = req.originalUrl ?? ''
-  const initialUrl = getDefaultBackLink(req)
+const getCurrentPathMiddleware =
+  (sourceUrl?: JourneyTypeValue) =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    const originalUrl = req.originalUrl ?? ''
+    const backLinkUrl = getDefaultBackLink(req, sourceUrl)
 
-  // Always expose currentPath
-  res.locals.currentPath = originalUrl
+    // Always expose currentPath
+    res.locals.currentPath = originalUrl
 
-  // Extract query params safely
-  const [path, queryString] = originalUrl.split('?')
-  const params = new URLSearchParams(queryString ?? '')
+    // Extract query params safely
+    const [, queryString] = originalUrl.split('?')
+    const params = new URLSearchParams(queryString ?? '')
 
-  // Determine base from value
-  const existingFrom = params.get('from')
-  const effectiveFrom = existingFrom ?? encryptUrlParameter(initialUrl)
+    const existingFrom = params.get('from')
+    const effectiveFrom = existingFrom ?? encryptUrlParameter(backLinkUrl)
 
-  // Remove any existing `from` to avoid duplication
-  params.delete('from')
+    req.query.from = effectiveFrom
 
-  // Rebuild current URL without `from`
-  const cleanedQuery = params.toString()
-  const cleanedUrl = cleanedQuery ? `${path}?${cleanedQuery}` : path
-
-  // Set req.query.from to: originalUrl + '?from=' + effectiveFrom
-  const separator = cleanedUrl.includes('?') ? '&' : '?'
-
-  req.query.from = effectiveFrom
-
-  next()
-}
+    next()
+  }
 
 export default getCurrentPathMiddleware

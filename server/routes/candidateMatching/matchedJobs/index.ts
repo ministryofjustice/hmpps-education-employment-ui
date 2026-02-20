@@ -9,13 +9,14 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 import getCurrentPathMiddleware from '../../../middleware/resolvers/utils/getCurrentPageUrl'
+import JourneyTypeValue from '../../../enums/journeyTypeValue'
 
 export default (router: Router, services: Services) => {
   const controller = new MatchedJobsController(services.paginationService)
   router.get(
     '/mjma/:id/jobs/matched',
     [
-      getCurrentPathMiddleware,
+      getCurrentPathMiddleware(JourneyTypeValue.MATCHED_JOBS),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getPrisonerAddressByIdResolver(services.deliusIntegrationService),

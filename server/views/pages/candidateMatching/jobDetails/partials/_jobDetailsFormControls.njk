@@ -1,7 +1,7 @@
 <p class="govuk-body govuk-!-margin-bottom-8">
   <form class="form govuk-!-display-none-print" method="post" novalidate="">
     <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-    <a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}" id="manage-applications-button">Manage application</a>
+    <a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id) }}" id="manage-applications-button">Manage application</a>
 
 
     {% if archiveJobsEnabled %}

@@ -112,13 +112,7 @@ context('Sign In', () => {
 
     manageApplicationPage.backLinkUrl().click()
 
-    const matchedJobsPage = new MatchedJobsPage("Test User1's work profile")
-    cy.get('#prisoner-name').contains('User1, Test')
-    cy.get('[data-qa="tab-overview"]').should('have.attr', 'aria-current', 'page')
-
-    // Assert that other tabs are not selected
-    cy.get('[data-qa="tab-details"]').should('not.have.attr', 'aria-current')
-    cy.get('[data-qa="tab-training"]').should('not.have.attr', 'aria-current')
-    cy.get('[data-qa="tab-contacts"]').should('not.have.attr', 'aria-current')
+    const matchedJobsPage = new MatchedJobsPage('Jobs for Test User1')
+    cy.url().should('include', '/jobs/matched')
   })
 })
