@@ -15,6 +15,9 @@ export const getDefaultBackLink = (req: Request, urlFrom?: JourneyTypeValue): st
       return `/mjma/${req.params.id}/job/${req.params.jobId}/application/${req.params.mode}`
 
     case JourneyTypeValue.VIEW_APPLICATION:
+      if (req.params?.id && req.params?.jobId) {
+        return `/mjma/${req.params.id}/job/${req.params.jobId}/details`
+      }
       return `/mjma/applications?sort=prisonerName&order=ascending`
 
     default:
