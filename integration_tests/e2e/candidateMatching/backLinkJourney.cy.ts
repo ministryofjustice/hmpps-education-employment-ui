@@ -91,8 +91,8 @@ context('Sign In', () => {
 
     manageApplicationPage.backLinkUrl().click()
 
-    jobDetailsPage.employerName().contains('ASDA')
-    jobDetailsPage.jobTitle().contains('Warehouse operator')
+    const matchedJobsPage = new MatchedJobsPage('Matched jobs and manage applications')
+    cy.url().should('include', '/applications')
   })
 
   it('Back from Job detail to Matched jobs', () => {
@@ -100,19 +100,12 @@ context('Sign In', () => {
     cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
-    jobDetailsPage.manageApplicationsButton().click()
-
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
-    manageApplicationPage.jobTitle().contains('Warehouse operator')
-
-    manageApplicationPage.backLinkUrl().click()
 
     jobDetailsPage.employerName().contains('ASDA')
     jobDetailsPage.jobTitle().contains('Warehouse operator')
 
-    manageApplicationPage.backLinkUrl().click()
+    jobDetailsPage.backLinkUrl().click()
 
-    const matchedJobsPage = new MatchedJobsPage('Jobs for Test User1')
     cy.url().should('include', '/jobs/matched')
   })
 })

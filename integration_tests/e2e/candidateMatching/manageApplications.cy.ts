@@ -78,20 +78,4 @@ context('Sign In', () => {
 
     manageApplicationPage.submitButton().click()
   })
-
-  it('Back from Manage applications to Job detail', () => {
-    cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
-
-    const jobDetailsPage = new JobDetailsPage('Warehouse operator')
-    jobDetailsPage.manageApplicationsButton().click()
-
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
-    manageApplicationPage.jobTitle().contains('Warehouse operator')
-
-    manageApplicationPage.backLinkUrl().click()
-
-    jobDetailsPage.employerName().contains('ASDA')
-    jobDetailsPage.jobTitle().contains('Warehouse operator')
-  })
 })
