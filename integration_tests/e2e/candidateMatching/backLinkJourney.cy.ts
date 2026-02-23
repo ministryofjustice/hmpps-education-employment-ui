@@ -90,9 +90,7 @@ context('Sign In', () => {
     manageApplicationPage.jobTitle().contains('Warehouse operator')
 
     manageApplicationPage.backLinkUrl().click()
-
-    const matchedJobsPage = new MatchedJobsPage('Matched jobs and manage applications')
-    cy.url().should('include', '/applications')
+    cy.url().should('include', '/details')
   })
 
   it('Back from Job detail to Matched jobs', () => {
