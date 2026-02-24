@@ -20,6 +20,7 @@ context('SignIn', () => {
   })
 
   it('Change to - SUPPORT_NEEDED', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'G6115VJ')
     cy.task('getPrisonerById', 'G6115VJ')
     cy.task('getProfileById', 'G6115VJ')
     cy.task('getCurrentOffenderActivities', 'G6115VJ')
@@ -45,6 +46,7 @@ context('SignIn', () => {
   })
 
   it('Change to - NO_RIGHT_TO_WORK', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
@@ -66,6 +68,7 @@ context('SignIn', () => {
   })
 
   it('Change to - READY_TO_WORK', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('updateProfile', 'H4115SD')
@@ -87,6 +90,7 @@ context('SignIn', () => {
   })
 
   it('Change to - SUPPORT_DECLINED', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'H4115SD')
     cy.task('getPrisonerById', 'H4115SD')
     cy.task('getProfileById', 'H4115SD')
     cy.task('getCurrentOffenderActivities', 'H4115SD')

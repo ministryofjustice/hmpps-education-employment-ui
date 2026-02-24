@@ -13,6 +13,7 @@ import getActionsRequired from '../data/prisonerSearch/utils'
 import { convertToTitleCase } from '../utils/index'
 import { WorkReadinessProfileStatus } from '../data/domain/types/profileStatus'
 import PagedResponse from '../data/domain/types/pagedResponse'
+import PrisonerSearchByPrisonIdResponse from '../data/prisonerSearch/prisonerSearchByPrisonIdResponse'
 
 // Sort dataset, given criteria
 function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, orderBy: string) {
@@ -186,5 +187,15 @@ export default class PrisonerSearchService {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
     return new PrisonerSearchClient(systemToken).getPrisonerById(id)
+  }
+
+  async getPrisonerByCaseLoadIdAndOffenderId(
+    username: string,
+    caseloadId: string,
+    id: string,
+  ): Promise<PrisonerSearchByPrisonIdResponse> {
+    const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
+
+    return new PrisonerSearchClient(systemToken).getPrisonerByCaseLoadIdAndOffenderId(caseloadId, id)
   }
 }
