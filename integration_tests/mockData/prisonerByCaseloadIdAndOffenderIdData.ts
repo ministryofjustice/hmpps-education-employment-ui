@@ -15,7 +15,7 @@ const prisonersByCaseloadIdAndOffenderId = {
       jsonBody: {
         content: [
           {
-            prisonerNumber: 'A8317DY',
+            prisonerNumber: 'A00001A',
             firstName: 'SUSAN',
             lastName: 'VICTOR',
             prisonId: 'MDI',
@@ -66,7 +66,7 @@ const prisonersByCaseloadIdAndOffenderId = {
       jsonBody: {
         content: [
           {
-            prisonerNumber: 'A8317DY',
+            prisonerNumber: 'H4115SD',
             firstName: 'SUSAN',
             lastName: 'VICTOR',
             prisonId: 'MDI',
@@ -117,7 +117,7 @@ const prisonersByCaseloadIdAndOffenderId = {
       jsonBody: {
         content: [
           {
-            prisonerNumber: 'A8317DY',
+            prisonerNumber: 'H4115SD',
             firstName: 'SUSAN',
             lastName: 'VICTOR',
             prisonId: 'MDI',
@@ -168,7 +168,7 @@ const prisonersByCaseloadIdAndOffenderId = {
       jsonBody: {
         content: [
           {
-            prisonerNumber: 'A8317DY',
+            prisonerNumber: 'H4115SD',
             firstName: 'SUSAN',
             lastName: 'VICTOR',
             prisonId: 'MDI',
