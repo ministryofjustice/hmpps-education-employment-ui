@@ -5,7 +5,8 @@ interface PrisonerSearchResultShort {
   firstName: string
   lastName: string
   prisonId: string
-  releaseDate: string
+  releaseDate?: string
+  confirmedReleaseDate?: string
 }
 
 export default interface PrisonerSearchByPrisonIdResponse {
