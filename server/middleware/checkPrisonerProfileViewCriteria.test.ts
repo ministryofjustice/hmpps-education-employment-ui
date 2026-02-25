@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import checkPrisonerInActiveCaseLoad from './checkPrisonerInActiveCaseLoad'
+import checkPrisonerProfileViewCriteria from './checkPrisonerProfileViewCriteria'
 import type PrisonerSearchService from '../services/prisonSearchService'
 import type PrisonerSearchByPrisonIdResponse from '../data/prisonerSearch/prisonerSearchByPrisonIdResponse'
 
@@ -37,10 +37,24 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
   it('calls next when prisoner is in active caseload (empty=false)', async () => {
     const service = makeService()
-    const prisonerFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: false }
+    const prisonerFound: PrisonerSearchByPrisonIdResponse = {
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          releaseDate: '2028-08-13',
+          confirmedReleaseDate: '2028-08-13',
+        },
+      ],
+      empty: false,
+    }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFound)
 
-    const middleware = checkPrisonerInActiveCaseLoad(service)
+    const middleware = checkPrisonerProfileViewCriteria(service)
 
     const req = makeReq('A1234BC')
     const res = makeRes()
@@ -65,7 +79,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     const prisonerNotFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: true }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerNotFound)
 
-    const middleware = checkPrisonerInActiveCaseLoad(service)
+    const middleware = checkPrisonerProfileViewCriteria(service)
 
     const req = makeReq('A1234BC')
     const res = makeRes()
@@ -82,7 +96,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     const service = makeService()
     service.getPrisonerByCaseLoadIdAndOffenderId.mockRejectedValue(new Error('boom'))
 
-    const middleware = checkPrisonerInActiveCaseLoad(service)
+    const middleware = checkPrisonerProfileViewCriteria(service)
 
     const req = makeReq('A1234BC')
     const res = makeRes()
@@ -97,10 +111,24 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
   it('does not render notFoundPage when prisoner is found', async () => {
     const service = makeService()
-    const prisonerFound: PrisonerSearchByPrisonIdResponse = { content: [], empty: false }
+    const prisonerFound: PrisonerSearchByPrisonIdResponse = {
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          releaseDate: '2028-08-13',
+          confirmedReleaseDate: '2028-08-13',
+        },
+      ],
+      empty: false,
+    }
     service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFound)
 
-    const middleware = checkPrisonerInActiveCaseLoad(service)
+    const middleware = checkPrisonerProfileViewCriteria(service)
 
     const req = makeReq('A1234BC')
     const res = makeRes()
@@ -110,5 +138,36 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
 
     expect(renderMock).not.toHaveBeenCalled()
     expect(next).toHaveBeenCalled()
+  })
+
+  it('should render notFoundPage when releaseDate is missing', async () => {
+    const service = makeService()
+    const prisonerFoundNoReleaseDate: PrisonerSearchByPrisonIdResponse = {
+      empty: false,
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          confirmedReleaseDate: '2028-08-13',
+          // releaseDate intentionally missing
+        },
+      ],
+    }
+    service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFoundNoReleaseDate)
+
+    const middleware = checkPrisonerProfileViewCriteria(service)
+
+    const req = makeReq('A1234BC')
+    const res = makeRes()
+    const next: NextFunction = jest.fn()
+    await middleware(req, res, next)
+
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(next).not.toHaveBeenCalled()
   })
 })
