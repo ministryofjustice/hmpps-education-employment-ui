@@ -208,6 +208,13 @@
     },
     "mocha": {
       "diff": "8.0.3"
+    },
+    "minimatch": "^10.2.3",
+    "eslint": {
+      "minimatch": "^3.1.4"
+    },
+    "@ministryofjustice/hmpps-audit-client": {
+      "fast-xml-parser": "^5.3.8"
     }
   }
 }
