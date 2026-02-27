@@ -213,6 +213,9 @@
     "eslint": {
       "minimatch": "^3.1.4"
     },
+    "eslint-plugin-import": {
+      "minimatch": "^3.1.4"
+    },
     "@ministryofjustice/hmpps-audit-client": {
       "fast-xml-parser": "^5.3.8"
     }
