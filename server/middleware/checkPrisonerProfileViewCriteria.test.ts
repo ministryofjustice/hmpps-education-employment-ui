@@ -47,7 +47,6 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
           lastName: 'XAVION',
           prisonId: 'MDI',
           releaseDate: '2028-08-13',
-          confirmedReleaseDate: '2028-08-13',
         },
       ],
       empty: false,
@@ -121,7 +120,6 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
           lastName: 'XAVION',
           prisonId: 'MDI',
           releaseDate: '2028-08-13',
-          confirmedReleaseDate: '2028-08-13',
         },
       ],
       empty: false,
@@ -152,7 +150,6 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
           firstName: 'EILLIPS',
           lastName: 'XAVION',
           prisonId: 'MDI',
-          confirmedReleaseDate: '2028-08-13',
           // releaseDate intentionally missing
         },
       ],
