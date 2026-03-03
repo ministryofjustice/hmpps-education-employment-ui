@@ -30,4 +30,23 @@ context('SignIn', () => {
     cy.visit('/wr/profile/H4115SD/view/overview')
     const workProfilePage = new WorkProfilePage("Test User1's work profile")
   })
+
+  it('Profile outside active caseload', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'A00001Z')
+    cy.task('getPrisonerById', 'A00001Z')
+    cy.task('getProfileById', 'A00001Z')
+    cy.task('getCurrentOffenderActivities', 'A00001Z')
+    cy.task('getKeyworker', 'A00001Z')
+    cy.task('getUnacceptableAbsenceCount', 'A00001Z')
+    cy.task('getPomForOffender', 'A00001Z')
+    cy.task('getCommunityManager', 'A00001Z')
+    cy.task('getPrisonerAddress', 'A00001Z')
+
+    cy.visit('/mjma/profile/A00001Z/view/overview', {
+      failOnStatusCode: false,
+    })
+    const workProfilePage = new WorkProfilePage()
+
+    workProfilePage.notFound().should('be.visible').contains('Page not found')
+  })
 })
