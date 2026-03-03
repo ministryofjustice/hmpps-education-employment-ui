@@ -63,6 +63,7 @@ describe('Matched jobs routes', () => {
         expect.any(Function), // handleSortMiddleware
         expect.any(Function), // parseCheckBoxValue
         expect.any(Function), // parseCheckBoxValue
+        expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post
     )

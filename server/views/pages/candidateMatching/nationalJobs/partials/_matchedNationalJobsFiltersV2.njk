@@ -2,29 +2,14 @@
     <h2 class="govuk-heading-m">Filter</h2>
     <hr>
     <div class="govuk-form-group">
-        <label class="govuk-heading-s govuk-!-margin-bottom-1" for="locationFilter">
-            Release area
+        <label class="govuk-heading-s govuk-!-margin-bottom-4 govuk-!-margin-top-4" for="employerFilter">
+            Employer
         </label>
-        <div id="locationFilter-hint" class="govuk-body govuk-!-margin-bottom-2">
-            Default is prisoner's last recorded home address
-        </div>
-        <input class="govuk-input govuk-!-width-two-thirds govuk-!-margin-bottom-2" id="locationFilter" name="locationFilter" type="text" value="{{ locationFilter }}">
-        <hr>
-        <label class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-2" for="distanceFilter">
-            Search radius
-        </label>
-        <div id="radius-hint" class="govuk-body govuk-!-margin-bottom-2 govuk-!-padding-right-2">
-            From release area postcode
-        </div>
-        <select class="govuk-select min-width-120" id="distanceFilter" name="distanceFilter">
-            <option value="1" {{ "selected" if distanceFilter === "1" }}>1 mile</option>
-            <option value="5" {{ "selected" if distanceFilter === "5" }}>5 miles</option>
-            <option value="10" {{ "selected" if distanceFilter === "10" }}>10 miles</option>
-            <option value="20" {{ "selected" if distanceFilter === "20" }}>20 miles</option>
-            <option value="50" {{ "selected" if distanceFilter === "50" }}>50 miles</option>
-            <option value="0" {{ "selected" if distanceFilter === "0" }}>
-                {{ "No restrictions" if nationalJobsEnabled else "National" }}
-            </option>
+        <select class="govuk-select min-width-120" id="employerFilter" name="employerFilter">
+            <option value="" {{ "selected" if employerFilter === "" }}>All employers</option>
+            {% for employer in nationalEmployersList.content %}
+                <option value="{{ employer.id }}" {{ "selected" if employerFilter === employer.id }}>{{ employer.name }}</option>
+            {% endfor %}
         </select>
     </div>
     <hr>
@@ -130,7 +115,7 @@
             </div>
             <div class="govuk-button-group govuk-!-margin-bottom-0 govuk-!-margin-top-2">
                 {% if filtered %}
-                    <a class="govuk-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Clear filters">Clear filters</a>
+                    <a class="govuk-link" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
                 {% endif %}
             </div>
         </div>
