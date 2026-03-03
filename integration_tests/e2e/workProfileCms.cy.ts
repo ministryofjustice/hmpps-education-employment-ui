@@ -49,4 +49,23 @@ context('SignIn', () => {
 
     workProfilePage.notFound().should('be.visible').contains('Page not found')
   })
+
+  it('Prisoner release date is absent', () => {
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'A5167EC')
+    cy.task('getPrisonerById', 'A5167EC')
+    cy.task('getProfileById', 'A5167EC')
+    cy.task('getCurrentOffenderActivities', 'A5167EC')
+    cy.task('getKeyworker', 'A5167EC')
+    cy.task('getUnacceptableAbsenceCount', 'A5167EC')
+    cy.task('getPomForOffender', 'A5167EC')
+    cy.task('getCommunityManager', 'A5167EC')
+    cy.task('getPrisonerAddress', 'A5167EC')
+
+    cy.visit('/mjma/profile/A00001Z/view/overview', {
+      failOnStatusCode: false,
+    })
+    const workProfilePage = new WorkProfilePage()
+
+    workProfilePage.notFound().should('be.visible').contains('Page not found')
+  })
 })
