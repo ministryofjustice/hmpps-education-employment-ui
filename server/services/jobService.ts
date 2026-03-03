@@ -17,6 +17,7 @@ export default class JobService {
       distanceFilter?: number
       isNationalJob?: boolean
       employerId?: string
+      offenceFilter?: string
     },
   ) {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)

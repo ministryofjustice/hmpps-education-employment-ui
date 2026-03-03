@@ -68,10 +68,22 @@
 
                     </div>
                 </div>
-                
-                {% include './partials/_matchedJobsFilters.njk' %}
-                {% include './partials/_resultsPanel.njk' %}
-                {% include './partials/_matchedJobsTable.njk' %}
+
+                {% if (offenceFilterEnabled) %}
+                    <div class="govuk-grid-row">
+                                        <div class="govuk-grid-column-one-quarter">
+                                            {% include './partials/_matchedJobsFiltersV2.njk' %}
+                                        </div>
+                                        <div class="govuk-grid-column-three-quarters">
+                                            {% include './partials/_resultsPanel.njk' %}
+                                            {% include './partials/_matchedJobsTable.njk' %}
+                                        </div>
+                                    </div>
+                {% else %}
+                    {% include './partials/_matchedJobsFilters.njk' %}
+                    {% include './partials/_resultsPanel.njk' %}
+                    {% include './partials/_matchedJobsTable.njk' %}
+                {% endif %}
 
             </form>
         </div>
