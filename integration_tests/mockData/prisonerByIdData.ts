@@ -96,8 +96,6 @@ const prisoners = {
         prisonerNumber: 'A5167EC',
         firstName: 'Test',
         lastName: 'User6',
-        releaseDate: new Date().toISOString(),
-        nonDtoReleaseDateType: 'HDC',
       },
     },
   },
