@@ -19,6 +19,7 @@ export default function setUpLocals(): Router {
     res.locals.toggleExpressionsOfInterestEnabled = config.featureToggles.toggleExpressionsOfInterestEnabled
     res.locals.jobApplicationsEnabled = config.featureToggles.jobApplicationsEnabled
     res.locals.nationalJobsEnabled = config.featureToggles.nationalJobsEnabled
+    res.locals.offenceFilterEnabled = config.featureToggles.offenceFilterEnabled
     next()
   })
 
