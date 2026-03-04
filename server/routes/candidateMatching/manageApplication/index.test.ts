@@ -38,6 +38,7 @@ describe('Right to work routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/mjma/:id/job/:jobId/application/:mode',
       [
+        expect.any(Function), // getCurrentPageUrl
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getJobDetailsResolver
         expect.any(Function), // getApplicationProgressResolver

@@ -246,6 +246,59 @@ const prisonersByCaseloadIdAndOffenderId = {
       },
     },
   },
+  A5167EC: {
+    request: {
+      method: 'GET',
+      urlPathPattern: '/prison/\\w+/prisoners',
+      queryParameters: {
+        term: {
+          matches: '.*',
+        },
+      },
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [
+          {
+            prisonerNumber: 'A5167EC',
+            bookingId: '1228442',
+            bookNumber: '65153A',
+            firstName: 'GARGARIN',
+            lastName: 'ALEXEI',
+            dateOfBirth: '1980-04-03',
+            gender: 'Male',
+          },
+        ],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 1,
+          sort: {
+            empty: true,
+            sorted: false,
+            unsorted: true,
+          },
+          offset: 0,
+          paged: true,
+          unpaged: false,
+        },
+        last: true,
+        totalElements: 1,
+        totalPages: 1,
+        size: 1,
+        number: 0,
+        first: true,
+        sort: {
+          empty: true,
+          sorted: false,
+          unsorted: true,
+        },
+        numberOfElements: 1,
+        empty: false,
+      },
+    },
+  },
 }
 
 export default prisonersByCaseloadIdAndOffenderId

@@ -84,6 +84,21 @@ const prisoners = {
       },
     },
   },
+  A5167EC: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/A5167EC',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'A5167EC',
+        firstName: 'Test',
+        lastName: 'User6',
+      },
+    },
+  },
 }
 
 export default prisoners

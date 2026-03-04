@@ -21,7 +21,7 @@ type ExtractParams<T extends string> = T extends `${string}{${infer P}}${infer R
 const GET_PRISONER_BY_ID_PATH = '/prisoner'
 
 const SEARCH_PRISONER_BY_CASELOAD_AND_OFFENDER_ID_TEMPLATE =
-  '/prison/{prisonId}/prisoners?term={offenderId}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate'
+  '/prison/{prisonId}/prisoners?term={offenderId}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate'
 
 // Match prisoners who have a release date within a range, and optionally by prison
 const PRISONER_SEARCH_BY_RELEASE_DATE = '/prisoner-search/release-date-by-prison'

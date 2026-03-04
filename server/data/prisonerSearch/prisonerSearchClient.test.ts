@@ -63,7 +63,7 @@ describe('PrisonerSearchClient', () => {
       const offenderNo = 'A1234BC'
       const expectedPath = `/prison/${encodeURIComponent(caseloadId)}/prisoners?term=${encodeURIComponent(
         offenderNo,
-      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate`
+      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate`
       const expectedResult: any = { empty: false }
 
       restClientMock.get.mockResolvedValue(expectedResult)
@@ -81,7 +81,7 @@ describe('PrisonerSearchClient', () => {
       const offenderNo = 'A1234BC+X'
       const expectedPath = `/prison/${encodeURIComponent(caseloadId)}/prisoners?term=${encodeURIComponent(
         offenderNo,
-      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate,confirmedReleaseDate`
+      )}&size=1&responseFields=prisonerNumber,pncNumber,title,firstName,lastName,prisonId,releaseDate`
 
       restClientMock.get.mockResolvedValue({ empty: false } as any)
 

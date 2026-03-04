@@ -3,6 +3,10 @@ import Page from '../page'
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default class ManageApplicationPage extends Page {
+  backLinkUrl() {
+    return cy.get('.govuk-back-link')
+  }
+
   jobTitle = (): PageElement => cy.get('[data-qa=job-title]')
 
   employerName = (): PageElement => cy.get('[data-qa=employer-name]')
