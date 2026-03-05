@@ -1,13 +1,14 @@
 import { type RequestHandler } from 'express'
 import PrisonerSearchService from '../services/prisonSearchService'
 
-const MODULE_ROUTES: Record<string, string> = {
+const MODULE_REDIRECTS: Record<string, string> = {
   mjma: '/mjma/prisoners?sort=releaseDate&order=ascending',
   wr: '/wr/cohort-list?sort=releaseDate&order=ascending',
+  unknown: '/',
 }
 
 function getContinueUrl(module: string): string {
-  return MODULE_ROUTES[module] || MODULE_ROUTES.wr
+  return MODULE_REDIRECTS[module] || MODULE_REDIRECTS.unknown
 }
 
 const checkPrisonerProfileViewCriteria =

@@ -205,4 +205,36 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     })
     expect(next).not.toHaveBeenCalled()
   })
+
+  it('should render notFoundPage with correct continue url for unrecognised module', async () => {
+    const service = makeService()
+    const prisonerFoundNoReleaseDate: PrisonerSearchByPrisonIdResponse = {
+      empty: false,
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          // releaseDate intentionally missing
+        },
+      ],
+    }
+    service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFoundNoReleaseDate)
+
+    const middleware = checkPrisonerProfileViewCriteria(service)
+
+    const req = makeReq('A1234BC', 'some-module-i-dont-know-about')
+    const res = makeRes()
+    const next: NextFunction = jest.fn()
+    await middleware(req, res, next)
+
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/',
+    })
+    expect(next).not.toHaveBeenCalled()
+  })
 })
