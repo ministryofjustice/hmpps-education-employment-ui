@@ -7,9 +7,9 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
   const renderMock = jest.fn()
   const statusMock = jest.fn().mockReturnValue({ render: renderMock })
 
-  const makeReq = (id = 'A1234BC') =>
+  const makeReq = (id = 'A1234BC', module = 'wr') =>
     ({
-      params: { id },
+      params: { id, module },
     } as unknown as Request)
 
   const makeRes = (overrides?: Partial<Response> & { locals?: Partial<Response['locals']> }) =>
@@ -87,7 +87,9 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     await middleware(req, res, next)
 
     expect(statusMock).toHaveBeenCalledWith(404)
-    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/wr/cohort-list?sort=releaseDate&order=ascending',
+    })
     expect(next).not.toHaveBeenCalled()
   })
 
@@ -104,7 +106,9 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     await middleware(req, res, next)
 
     expect(statusMock).toHaveBeenCalledWith(404)
-    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/wr/cohort-list?sort=releaseDate&order=ascending',
+    })
     expect(next).not.toHaveBeenCalled()
   })
 
@@ -164,7 +168,41 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     await middleware(req, res, next)
 
     expect(statusMock).toHaveBeenCalledWith(404)
-    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk')
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/wr/cohort-list?sort=releaseDate&order=ascending',
+    })
+    expect(next).not.toHaveBeenCalled()
+  })
+
+  it('should render notFoundPage with correct continue url for mjma', async () => {
+    const service = makeService()
+    const prisonerFoundNoReleaseDate: PrisonerSearchByPrisonIdResponse = {
+      empty: false,
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          // releaseDate intentionally missing
+        },
+      ],
+    }
+    service.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFoundNoReleaseDate)
+
+    const middleware = checkPrisonerProfileViewCriteria(service)
+
+    const req = makeReq('A1234BC', 'mjma')
+    const res = makeRes()
+    const next: NextFunction = jest.fn()
+    await middleware(req, res, next)
+
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/mjma/prisoners?sort=releaseDate&order=ascending',
+    })
     expect(next).not.toHaveBeenCalled()
   })
 })
