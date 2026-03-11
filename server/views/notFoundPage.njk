@@ -19,7 +19,7 @@
             <p class="govuk-body">
                 {{ govukButton({
                     text: "Continue",
-                    href: '/'
+                    href: continueUrl | default('/')
                 }) }}
             </p>
         </div>
