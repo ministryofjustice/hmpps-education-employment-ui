@@ -33,11 +33,11 @@
     <hr>
     <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-2">
         <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
+            <b class="govuk-details__summary-text govuk-link--no-underline">
                 Other types of work
-            </span>
+            </b>
             {% if jobSectorFilterOther.length > 0 %}
-                    <div id="other-job-sectors-filter-hint" class="govuk-hint">
+                    <div id="other-job-sectors-filter-hint" class="govuk-hint govuk-!-font-size-16 greyed-text">
                         {{jobSectorFilterOther.length}} selected
                     </div>
             {% endif %}
@@ -71,11 +71,11 @@
     <hr>
     <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-2">
         <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
+            <b class="govuk-details__summary-text govuk-link--no-underline">
                 Hide jobs with offence exclusions
-            </span>
+            </b>
             {% if offenceFilter.length > 0 %}
-                    <div id="offence-filter-hint" class="govuk-hint">
+                    <div id="offence-filter-hint" class="govuk-hint govuk-!-font-size-16 greyed-text">
                         {{offenceFilter.split(',').length}} selected
                     </div>
             {% endif %}
