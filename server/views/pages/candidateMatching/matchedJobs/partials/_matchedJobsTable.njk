@@ -4,7 +4,7 @@
 
 <div id="offender-container">
     {% if matchedJobsResults.content.length >= 1 %}
-        <table id="view-offender" class="govuk-table view-offender" id="matchedJobs">
+        <table class="govuk-table" id="matchedJobs">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 {{ sortableTableHeader({
@@ -39,9 +39,10 @@
         {% set rowClass = cycler("odd", "even") %}
 
         {% for job in matchedJobsResults.content %}
+            {% set rowIdx = loop.index0 %}
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                    <a class="govuk-link govuk-link--no-visited-state govuk-!-display-none-print" data-sort-value="{{ job.jobTitle }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
+                    <a class="govuk-link govuk-link--no-visited-state govuk-!-display-none-print" data-sort-value="{{ job.jobTitle }}" data-qa="job-link-{{ rowIdx }}" href="{{ addressLookup.candidateMatching.jobDetails(id, job.id) + '?from=' + encryptUrlParameter(originalUrl) }}">{{ job.jobTitle }}</a>
                     <div class="display-none-screen">{{ job.jobTitle }}</div>
                     <div class="govuk-hint govuk-!-margin-bottom-0"> {{ job.employerName }}</div>
                     {% if job.hasExpressedInterest %}
