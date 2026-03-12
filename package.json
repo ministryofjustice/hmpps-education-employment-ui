@@ -26,6 +26,9 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
+    "int-test-playwright": "npx playwright test",
+    "int-test-playwright-ui": "npx playwright test --ui",
+    "int-test-init:ci": "npx playwright install",
     "clean": "rm -rf dist build node_modules stylesheets",
     "rebuild": "npm run clean && npm run setup && npm run build",
     "record-build-info": "node ./bin/record-build-info",
@@ -146,6 +149,8 @@
   "devDependencies": {
     "@cypress/skip-test": "^2.6.1",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
+    "@playwright/test": "^1.56.1",
+    "@tsconfig/node24": "^24.0.4",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.7.5",
