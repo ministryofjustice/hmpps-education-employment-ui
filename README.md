@@ -189,6 +189,11 @@ pulled from AWS secrets at deployment time by the circle CI jobs - they are neve
 
 ### Running integration tests
 
+We have two sets of integration tests – older tests in cypress, newer tests in playwright.  All new test suites should be
+written in playwright. 
+
+#### Running cypress integration tests
+
 Run the full set of headless integration tests, in separate shell sessions:
 
 ```shell
@@ -205,6 +210,27 @@ docker compose -f docker-compose-test.yml up
 npm run start-feature:dev
 npm run int-test-ui
 ```
+
+#### Running playwright integration tests
+For local running, start a wiremock instance by:
+
+`docker compose -f docker-compose-test.yml up`
+
+Then run the server in test mode by:
+
+`npm run start-feature` (or `npm run start-feature:dev` to run with auto-restart on changes)
+
+After first install ensure playwright is initialised:
+
+`npm run int-test-init:ci`
+
+And then either, run tests in headless mode with:
+
+`npm run int-test-playwright`
+
+Or run tests with the UI:
+
+`npm run int-test-playwright-ui`
 
 ### Code style tests
 
