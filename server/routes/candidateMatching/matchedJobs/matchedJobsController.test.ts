@@ -263,22 +263,22 @@ describe('MatchedJobsController', () => {
 
     it('On successful POST - call renders with the correct data', async () => {
       req.body.locationFilter = 'name1'
-      req.body.jobSectorFilter = ['COOKING']
-      req.body.jobSectorFilterOther = ['OTHER']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
+      req.body.jobSectorFilterOther = ['WAREHOUSING']
       req.body.distanceFilter = 'true'
 
       controller.post(req, res, next)
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=COOKING&jobSectorFilterOther=OTHER&locationFilter=name1`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=true&jobSectorFilter=CONSTRUCTION&jobSectorFilterOther=WAREHOUSING&locationFilter=name1`,
       )
     })
 
     it('On successful POST - with nationalJobsEnabled, call renders with the correct data', async () => {
       res.locals.nationalJobsEnabled = true
       req.body.locationFilter = 'name1'
-      req.body.jobSectorFilter = ['COOKING']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
       req.body.distanceFilter = '20'
       res.locals.nationalJobsEnabled = true
 
@@ -286,14 +286,14 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=20&jobSectorFilter=COOKING&locationFilter=name1&isNationalJob=false`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=20&jobSectorFilter=CONSTRUCTION&locationFilter=name1&isNationalJob=false`,
       )
     })
 
     it('On successful POST - with nationalJobsEnabled, call renders with the correct data when no locationFilter', async () => {
       res.locals.nationalJobsEnabled = true
       req.body.locationFilter = ''
-      req.body.jobSectorFilter = ['COOKING']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
       req.body.distanceFilter = '20'
       res.locals.nationalJobsEnabled = true
 
@@ -301,15 +301,15 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=COOKING&locationFilter=none&isNationalJob=false`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=0&jobSectorFilter=CONSTRUCTION&locationFilter=none&isNationalJob=false`,
       )
     })
 
     it('On successful POST - with offenceFilterEnabled, call renders with the correct data', async () => {
       res.locals.offenceFilterEnabled = true
       req.body.locationFilter = ''
-      req.body.jobSectorFilter = ['COOKING']
-      req.body.jobSectorFilterOther = ['OTHER']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
+      req.body.jobSectorFilterOther = ['WAREHOUSING']
       req.body.distanceFilter = '20'
       req.body.offenceFilter = ['ARSON', 'MURDER']
 
@@ -317,7 +317,7 @@ describe('MatchedJobsController', () => {
 
       expect(getSessionData(req, ['matchedJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=20&jobSectorFilter=COOKING&jobSectorFilterOther=OTHER&locationFilter=none&offenceFilter=ARSON%2CMURDER`,
+        `/mjma/${id}/jobs/matched?sort=releaseDate&order=descending&distanceFilter=20&jobSectorFilter=CONSTRUCTION&jobSectorFilterOther=WAREHOUSING&locationFilter=none&offenceFilter=ARSON%2CMURDER`,
       )
     })
   })

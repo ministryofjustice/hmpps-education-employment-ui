@@ -445,8 +445,8 @@ describe('NationalJobsController', () => {
     })
 
     it('On successful POST - call renders with the correct data', async () => {
-      req.body.jobSectorFilter = ['COOKING']
-      req.body.jobSectorFilterOther = ['OTHER']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
+      req.body.jobSectorFilterOther = ['WAREHOUSING']
       req.body.employerFilter = '1000'
       req.body.offenceFilter = ['TERRORISM']
 
@@ -454,14 +454,14 @@ describe('NationalJobsController', () => {
 
       expect(getSessionData(req, ['nationalJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=COOKING&jobSectorFilterOther=OTHER&employerFilter=1000`,
+        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=CONSTRUCTION&jobSectorFilterOther=WAREHOUSING&employerFilter=1000`,
       )
     })
 
     it('On successful POST - with offenceFilterEnabled - call renders with the correct data', async () => {
       res.locals.offenceFilterEnabled = true
-      req.body.jobSectorFilter = ['COOKING']
-      req.body.jobSectorFilterOther = ['OTHER']
+      req.body.jobSectorFilter = ['CONSTRUCTION']
+      req.body.jobSectorFilterOther = ['WAREHOUSING']
       req.body.employerFilter = '1000'
       req.body.offenceFilter = ['TERRORISM']
 
@@ -469,7 +469,7 @@ describe('NationalJobsController', () => {
 
       expect(getSessionData(req, ['nationalJobs', 'data'])).toBeTruthy()
       expect(res.redirect).toHaveBeenCalledWith(
-        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=COOKING&jobSectorFilterOther=OTHER&employerFilter=1000&offenceFilter=TERRORISM`,
+        `/mjma/${id}/jobs/national-jobs?sort=releaseDate&order=descending&jobSectorFilter=CONSTRUCTION&jobSectorFilterOther=WAREHOUSING&employerFilter=1000&offenceFilter=TERRORISM`,
       )
     })
   })
