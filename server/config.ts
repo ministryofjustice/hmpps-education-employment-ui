@@ -202,5 +202,6 @@ export default {
     randomPostcodesInDevEnabled: toBoolean(get('RANDOM_POSTCODES_IN_DEV', false)),
     nationalJobsEnabled: toBoolean(get('NATIONAL_JOBS', false)),
     brokerIterationEnabled: toBoolean(get('BROKER_ITERATION_ENABLED', false)),
+    offenceFilterEnabled: toBoolean(get('OFFENCE_FILTER_ENABLED', false)),
   },
 }

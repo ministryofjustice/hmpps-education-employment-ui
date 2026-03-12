@@ -27,6 +27,7 @@ export default class JobApiClient {
     distanceFilter?: number
     isNationalJob?: boolean
     employerId?: string
+    offenceFilter?: string
   }) {
     const {
       offenderNo,
@@ -38,6 +39,7 @@ export default class JobApiClient {
       distanceFilter,
       isNationalJob = false,
       employerId,
+      offenceFilter,
     } = params
 
     const uri = [
@@ -54,6 +56,9 @@ export default class JobApiClient {
         isNationalJob === true &&
         employerId &&
         `employerId=${encodeURIComponent(employerId)}`,
+      config.featureToggles.offenceFilterEnabled &&
+        offenceFilter &&
+        `offenceExclusions=${encodeURIComponent(offenceFilter)}`,
     ].filter(val => !!val)
 
     const results = await this.restClient.get<PagedResponseNew<GetMatchedJobsResponse>>({

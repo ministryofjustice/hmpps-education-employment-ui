@@ -14,14 +14,23 @@ import typeOfWorkLookup from '../../../constants/contentLookup/typeOfWork'
 import PrisonerViewModel from '../../../viewModels/prisonerViewModel'
 import { getBackLocation } from '../../../utils/index'
 import logger from '../../../../logger'
+import excludingOffences from '../../../enums/excludingOffences'
 
 export default class NationalJobsController {
   constructor(private readonly paginationService: PaginationService) {}
 
   public get: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
-    const { page, sort, order, jobSectorFilter = '', employerFilter = '' } = req.query
-    const { userActiveCaseLoad } = res.locals
+    const {
+      page,
+      sort,
+      order,
+      jobSectorFilter = '',
+      jobSectorFilterOther = '',
+      employerFilter = '',
+      offenceFilter = '',
+    } = req.query
+    const { userActiveCaseLoad, offenceFilterEnabled } = res.locals
     const { paginationPageSize } = config
     const { prisoner, profile, nationalJobsResults, nationalEmployersList } = req.context
 
@@ -35,7 +44,9 @@ export default class NationalJobsController {
         sort && `sort=${sort}`,
         order && `order=${order}`,
         jobSectorFilter && `jobSectorFilter=${decodeURIComponent(jobSectorFilter as string)}`,
+        jobSectorFilterOther && `jobSectorFilterOther=${decodeURIComponent(jobSectorFilterOther as string)}`,
         employerFilter && `employerFilter=${decodeURIComponent(employerFilter as string)}`,
+        offenceFilterEnabled && `offenceFilter=${decodeURIComponent(offenceFilter as string)}`,
         page && `page=${page}`,
       ].filter(val => !!val)
 
@@ -80,9 +91,21 @@ export default class NationalJobsController {
         typeOfWorkOptions: workTypesOfInterest,
         typeOfWorkOtherOptions: Object.keys(typeOfWorkLookup).filter(p => !workTypesOfInterest.includes(p)),
         jobSectorFilter: _.compact(decodeURIComponent(jobSectorFilter as string).split(',')),
+        jobSectorFilterOther: _.compact(decodeURIComponent(jobSectorFilterOther as string).split(',')),
         employerFilter: decodeURIComponent(employerFilter as string),
+        offenceExclusionsOptions: [
+          excludingOffences.ARSON,
+          excludingOffences.DRIVING,
+          excludingOffences.MURDER,
+          excludingOffences.SEXUAL,
+          excludingOffences.TERRORISM,
+        ],
+        offenceFilter: decodeURIComponent(offenceFilter as string),
         filtered:
+          // Mark as filtered if any of the locationFilter, jobSectorFilter, jobSectorFilterOther, offenceFilter or distanceFilter have been changed by the user.
           !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
+          !_.isEmpty(decodeURIComponent(jobSectorFilterOther as string).split(',')) ||
+          !_.isEmpty(decodeURIComponent(offenceFilter as string).split(',')) ||
           decodeURIComponent(employerFilter as string),
       }
 
@@ -98,7 +121,8 @@ export default class NationalJobsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { sort, order } = req.query
-    const { jobSectorFilter = [], jobSectorFilterOther = [], employerFilter = '' } = req.body
+    const { jobSectorFilter = [], jobSectorFilterOther = [], employerFilter = '', offenceFilter = [] } = req.body
+    const { offenceFilterEnabled } = res.locals
 
     try {
       // If validation errors render errors
@@ -114,6 +138,7 @@ export default class NationalJobsController {
           jobSectorFilter,
           jobSectorFilterOther,
           employerFilter,
+          offenceFilter,
         })
         return
       }
@@ -121,9 +146,10 @@ export default class NationalJobsController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        (jobSectorFilter.length || jobSectorFilterOther.length) &&
-          `jobSectorFilter=${encodeURIComponent([...jobSectorFilter, ...jobSectorFilterOther].join(','))}`,
+        jobSectorFilter.length && `jobSectorFilter=${encodeURIComponent(jobSectorFilter.join(','))}`,
+        jobSectorFilterOther.length && `jobSectorFilterOther=${encodeURIComponent(jobSectorFilterOther.join(','))}`,
         employerFilter && `employerFilter=${encodeURIComponent(employerFilter)}`,
+        offenceFilterEnabled && `offenceFilter=${encodeURIComponent(offenceFilter.join(','))}`,
       ].filter(val => !!val)
 
       res.redirect(

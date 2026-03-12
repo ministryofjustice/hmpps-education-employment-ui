@@ -5,9 +5,14 @@
         <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== jobSectorFilter.length }} </span>
       {% endfor %}
     </span>
-    <p>Increase the search radius, change the area or show more types of work.</p>
   {% else %}
     <span class="govuk-heading-m">0 results</span>
-    <p>Increase the search radius, change the area or show more types of work.</p>
   {% endif %}
+  <p>To get more results, you can: </p>
+  <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-5">
+    <li>try a different search term</li>
+    <li>change the area</li>
+    <li>show more types of work</li>
+    <li>remove offence exclusions</li>
+  </ul>
 {% endif %}

@@ -31,6 +31,7 @@ export default (router: Router, services: Services) => {
       handleSortMiddleware('sortAction', 'releaseDate'),
       parseCheckBoxValue('jobSectorFilter'),
       parseCheckBoxValue('jobSectorFilterOther'),
+      parseCheckBoxValue('offenceFilter'),
     ],
     controller.post,
   )

@@ -9,7 +9,16 @@ const getNationalJobsResolver =
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
-    const { page = '1', sort = '', order = '', jobSectorFilter = '', employerFilter = '' } = req.query
+    const { offenceFilterEnabled } = res.locals
+    const {
+      page = '1',
+      sort = '',
+      order = '',
+      jobSectorFilter = '',
+      jobSectorFilterOther = '',
+      employerFilter = '',
+      offenceFilter = '',
+    } = req.query
 
     try {
       const nationalJobs = await getMatchedJobs(jobService, username, {
@@ -17,9 +26,10 @@ const getNationalJobsResolver =
         page: Number(page),
         sort: sort.toString(),
         order: order.toString(),
-        jobSectorFilter: jobSectorFilter.toString(),
+        jobSectorFilter: [jobSectorFilter.toString(), jobSectorFilterOther.toString()].filter(Boolean).join(','),
         employerId: employerFilter.toString(),
         isNationalJob: true,
+        offenceFilter: offenceFilterEnabled ? offenceFilter.toString() : null,
       })
 
       req.context.nationalJobsResults = nationalJobs
