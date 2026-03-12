@@ -203,5 +203,6 @@ export default {
     nationalJobsEnabled: toBoolean(get('NATIONAL_JOBS', false)),
     brokerIterationEnabled: toBoolean(get('BROKER_ITERATION_ENABLED', false)),
     offenceFilterEnabled: toBoolean(get('OFFENCE_FILTER_ENABLED', false)),
+    gsrwDisplayCellLocationEnabled: toBoolean(get('GSRW_DISPLAY_CELL_LOCATION_ENABLED', false)),
   },
 }
