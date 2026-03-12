@@ -6,9 +6,10 @@
         formName - html name property of form to be submitted
         fieldName - field name of this column
         headerText - Display text for table header
+        width - width of column, if specified
     ------------------------------------------------------------- #}
 {% macro sortableTableHeader(config) %}
-    <th scope="col" class="govuk-table__header" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-qa="{ config.fieldName }}-column-header">
+    <th scope="col" class="govuk-table__header {{ config.width }}" aria-sort="{{ config.order if config.sort === config.fieldName else 'none' }}" data-qa="{ config.fieldName }}-column-header">
         <button type="submit" class="sortable-table-header__button" form="{{ config.formName }}" id="{{ config.fieldName }}-sort-action" name='sortAction' value="{{ config.fieldName }}" aria-label="Sort by {{ config.headerText }}">
             <span class="govuk-visually-hidden">Sort by</span>
             {{ config.headerText }}
