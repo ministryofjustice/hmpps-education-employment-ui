@@ -117,7 +117,7 @@ export default class ManageApplicationController {
       })
 
       // Redirect to the correct page based on mode
-      res.redirect(addressLookup.candidateMatching.manageApplication(id, jobId, 'update'))
+      res.redirect(res.locals.withFrom(addressLookup.candidateMatching.manageApplication(id, jobId, 'view')))
     } catch (err) {
       logger.error('Error posting form - Manage application')
       next(err)
