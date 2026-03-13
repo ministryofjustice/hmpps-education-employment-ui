@@ -18,6 +18,9 @@ export default class PrisonerSearchResult {
   prisonId: string
 
   @Expose()
+  cellLocation: string
+
+  @Expose()
   workTypeInterests: string
 
   @Expose()

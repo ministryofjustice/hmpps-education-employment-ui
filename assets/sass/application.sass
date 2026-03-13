@@ -121,3 +121,10 @@ $govuk-page-width: $moj-page-width
   font-weight: 400
   font-size: 19px
   letter-spacing: 0px
+
+.govuk-checkboxes__label:before
+  background-color: govuk-colour("white")
+
+@media screen and (forced-colors: active)
+  .govuk-checkboxes__label:before
+    background-color: transparent

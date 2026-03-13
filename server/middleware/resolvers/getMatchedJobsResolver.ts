@@ -15,11 +15,14 @@ const getMatchedJobsResolver =
       sort = '',
       order = '',
       jobSectorFilter = '',
+      jobSectorFilterOther = '',
       locationFilter = '',
       distanceFilter = '50',
       isNationalJob = 'false',
+      offenceFilter = '',
     } = req.query
     const { prisonerAddress } = req.context
+    const { offenceFilterEnabled } = res.locals
 
     try {
       // Get default release area postcode
@@ -30,10 +33,11 @@ const getMatchedJobsResolver =
         page: Number(page),
         sort: sort.toString(),
         order: order.toString(),
-        jobSectorFilter: jobSectorFilter.toString(),
+        jobSectorFilter: [jobSectorFilter.toString(), jobSectorFilterOther.toString()].filter(Boolean).join(','),
         locationFilter: locationFilter.toString() === 'none' ? '' : locationFilter.toString() || postcode,
         distanceFilter: Number(distanceFilter) ? Number(distanceFilter) : null,
         isNationalJob: isNationalJob.toString() === 'true',
+        offenceFilter: offenceFilterEnabled ? offenceFilter.toString() : null,
       })
 
       req.context.matchedJobsResults = matchedJobs
