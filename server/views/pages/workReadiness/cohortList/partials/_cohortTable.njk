@@ -15,6 +15,15 @@
                 fieldName: "lastName",
                 headerText: "Prisoner"
             }) }}
+            {% if gsrwDisplayCellLocationEnabled %}
+            {{ sortableTableHeader({
+                sort: sort,
+                order: order,
+                formName: "prisoner-search-form",
+                fieldName: "cellLocation",
+                headerText: "Location"
+            }) }}
+            {% endif %}
             {{ sortableTableHeader({
                 sort: sort,
                 order: order,
@@ -48,6 +57,9 @@
                        class="govuk-link govuk-link--no-visited-state govuk-!-font-weight-bold">{{ offender.displayName }}</a>
                     </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                 </td>
+                {% if gsrwDisplayCellLocationEnabled %}
+                <td class="govuk-table__cell">{{ offender.cellLocation or 'Not Available' }}</td>
+                {% endif %}
                 <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                     <p>{{ offender.releaseDate or 'N/A' }}</p>
                 </td>

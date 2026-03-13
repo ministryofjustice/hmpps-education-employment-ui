@@ -43,6 +43,7 @@ generic-service:
     USE_COMPONENT_FALLBACKS: true
     NATIONAL_JOBS: true
     BROKER_ITERATION_ENABLED: true
+    GSRW_DISPLAY_CELL_LOCATION_ENABLED: false
 
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
