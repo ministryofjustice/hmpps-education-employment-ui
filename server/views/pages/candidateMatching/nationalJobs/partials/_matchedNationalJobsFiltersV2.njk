@@ -106,6 +106,7 @@
             <div>
         </fieldset>
     </details>
+    <hr>
     <div class="govuk-grid-row govuk-!-display-none-print">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
             <div class="govuk-button-group govuk-!-margin-bottom-0">
@@ -115,7 +116,7 @@
             </div>
             <div class="govuk-button-group govuk-!-margin-bottom-0 govuk-!-margin-top-2">
                 {% if filtered %}
-                    <a class="govuk-link" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Reset filters">Reset filters</a>
+                    <a class="govuk-link" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Clear filters">Clear filters</a>
                 {% endif %}
             </div>
         </div>
