@@ -26,6 +26,7 @@ import sanitizeBody from './middleware/sanitizeBody'
 import sanitizeQuery from './middleware/sanitizeQuery'
 import logger from '../logger'
 import config from './config'
+import navigationMiddleware from './middleware/navigationMiddleware'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -51,7 +52,7 @@ export default function createApp(services: Services): express.Application {
   app.use(sanitizeBody)
   app.use(sanitizeQuery)
 
-  // Get front end components for DPS header
+  // Get front end components for the DPS header
   app.use(
     dpsComponents.getPageComponents({
       dpsUrl: config.dpsHomeUrl,
@@ -62,6 +63,7 @@ export default function createApp(services: Services): express.Application {
 
   // Check for authorised roles
   app.use(authorisationMiddleware(getAuthorisedRoles()))
+  app.use(navigationMiddleware)
 
   app.use(routes(services))
 

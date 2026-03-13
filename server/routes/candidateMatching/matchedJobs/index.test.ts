@@ -45,7 +45,6 @@ describe('Matched jobs routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/mjma/:id/jobs/matched',
       [
-        expect.any(Function), // getCurrentPageUrl
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerListMatchedJobsResolver
