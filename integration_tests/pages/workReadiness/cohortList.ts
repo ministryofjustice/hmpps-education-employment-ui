@@ -47,10 +47,11 @@ export default class CohortListPage extends Page {
           return {
             viewLink: Cypress.$(tds[0]).find('a').attr('href'),
             displayName: Cypress.$(tds[0]).text(),
-            releaseDate: Cypress.$(tds[1]).text(),
-            status: Cypress.$(tds[2]).text(),
-            workSummary: Cypress.$(tds[3]).text(),
-            updatedOn: Cypress.$(tds[4]).text(),
+            cellLocation: Cypress.$(tds[1]).text(),
+            releaseDate: Cypress.$(tds[2]).text(),
+            status: Cypress.$(tds[3]).text(),
+            workSummary: Cypress.$(tds[4]).text(),
+            updatedOn: Cypress.$(tds[5]).text(),
           }
         }),
       )

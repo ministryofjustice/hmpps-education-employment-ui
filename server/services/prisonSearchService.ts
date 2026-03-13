@@ -31,6 +31,10 @@ function sortOffenderProfile(profiles: PrisonerSearchResult[], sortBy: string, o
       if (new Date(a.updatedOn) > new Date(b.updatedOn)) return orderBy === 'ascending' ? 1 : -1
       if (new Date(b.updatedOn) > new Date(a.updatedOn)) return orderBy === 'ascending' ? -1 : 1
     }
+    if (sortBy === 'cellLocation') {
+      if (a.cellLocation > b.cellLocation) return orderBy === 'ascending' ? 1 : -1
+      if (b.cellLocation > a.cellLocation) return orderBy === 'ascending' ? -1 : 1
+    }
   })
 }
 
@@ -112,6 +116,7 @@ export default class PrisonerSearchService {
         displayName: convertToTitleCase(`${p.lastName}, ${p.firstName}`),
         updatedOn: offenderWithProfile ? offenderWithProfile.modifiedDateTime : null,
         status: offenderWithProfile ? offenderWithProfile.profileData.status : WorkReadinessProfileStatus.NOT_STARTED,
+        cellLocation: p.cellLocation,
         searchTerms: [
           p.prisonerNumber.toLowerCase(),
           p.firstName.toLowerCase(),

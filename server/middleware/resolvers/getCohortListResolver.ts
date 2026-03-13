@@ -56,6 +56,7 @@ const getCohortListResolver =
             prisonerNumber: o.prisonerNumber,
             firstName: o.firstName,
             lastName: o.lastName,
+            cellLocation: o.cellLocation,
             nonDtoReleaseDateType: o.nonDtoReleaseDateType,
             releaseDate: o.releaseDate,
           })),
