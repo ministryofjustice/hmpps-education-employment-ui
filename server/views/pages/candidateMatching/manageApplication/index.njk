@@ -13,7 +13,7 @@
 {% set title = "Manage " + prisoner.firstName + " " + prisoner.lastName + "'s application"%}
 
 {% block beforeContent %}
-    {{ govukBackLink({ text: "Back", href: backLocation, attributes: { "aria-label" : "Back to " + job.jobTitle } }) }}
+    {{ govukBackLink({ text: "Back", href: withFrom(backLocation), attributes: { "aria-label" : "Back to " + job.jobTitle } }) }}
 {% endblock %}
 
 {% block content %}
