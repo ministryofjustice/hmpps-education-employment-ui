@@ -9,12 +9,14 @@ import parseCheckBoxValue from '../../../middleware/parseCheckBoxValue'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
 import getNationalEmployersListResolver from '../../../middleware/resolvers/getNationalEmployersListResolver'
+import checkPrisonerProfileViewCriteria from '../../../middleware/checkPrisonerProfileViewCriteria'
 
 export default (router: Router, services: Services) => {
   const controller = new NationalJobsController(services.paginationService)
   router.get(
     '/mjma/:id/jobs/national-jobs',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getPrisonerAddressByIdResolver(services.deliusIntegrationService),

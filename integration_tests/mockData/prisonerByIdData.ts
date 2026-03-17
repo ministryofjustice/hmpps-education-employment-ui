@@ -99,6 +99,21 @@ const prisoners = {
       },
     },
   },
+  G6115VK: {
+    request: {
+      method: 'GET',
+      urlPattern: '/prisoner/G6115VK',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        prisonerNumber: 'G6115VK',
+        firstName: 'Test',
+        lastName: 'User7',
+      },
+    },
+  },
 }
 
 export default prisoners

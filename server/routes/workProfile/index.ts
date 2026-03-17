@@ -13,7 +13,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/:module/profile/:id/view/:tab',
     [
-      checkPrisonerProfileViewCriteria(services.prisonerSearchService),
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       checkCmsEnabledProfile,
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getAllProfileDataResolver(services),

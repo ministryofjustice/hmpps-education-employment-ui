@@ -33,6 +33,7 @@ describe('Edit action routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/actions/:id/edit/:action',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getNotesResolver

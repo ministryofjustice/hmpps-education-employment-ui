@@ -48,6 +48,7 @@ describe('National jobs routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/mjma/:id/jobs/national-jobs',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getPrisonerAddressByIdResolver

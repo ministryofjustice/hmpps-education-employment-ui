@@ -19,14 +19,15 @@ context('Sign In', () => {
     cy.task('getEmployer', '01907e1e-bb85-7bb7-9018-33a2070a367d')
     cy.task('getJob', '0190a227-be75-7009-8ad6-c6b068b6754e')
     cy.task('getNationalJob', '0190a227-be75-7009-8ad6-c6b068b6754f')
-    cy.task('getPrisonerById', 'G6115VJ')
-    cy.task('getProfileById', 'G6115VJ')
-    cy.task('createArchiveRecord', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VJ' })
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'G6115VK')
+    cy.task('getPrisonerById', 'G6115VK')
+    cy.task('getProfileById', 'G6115VK')
+    cy.task('createArchiveRecord', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VK' })
   })
 
   it('View job details - check loaded content', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
 
@@ -62,7 +63,7 @@ context('Sign In', () => {
       skipOn(!isEnabled)
     })
 
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754f/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754f/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
 
@@ -91,7 +92,7 @@ context('Sign In', () => {
 
   it('View job details - check archive record', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.createArchiveRecordButton().click()
@@ -102,11 +103,11 @@ context('Sign In', () => {
 
   it('View job details - check manage application page', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User7's application")
   })
 })

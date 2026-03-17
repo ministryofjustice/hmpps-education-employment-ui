@@ -217,6 +217,58 @@ const profiles = {
       },
     },
   },
+  G6115VK: {
+    request: {
+      method: 'GET',
+      urlPattern: '/readiness-profiles/G6115VK',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        offenderId: 'G6115VK',
+        modifiedBy: 'USER1',
+        modifiedDateTime: new Date().toISOString(),
+        profileData: {
+          status: 'SUPPORT_NEEDED',
+          modifiedBy: 'USER1',
+          modifiedDateTime: new Date().toISOString(),
+          supportAccepted: {
+            actionsRequired: {
+              modifiedBy: 'USER1',
+              modifiedDateTime: new Date().toISOString(),
+              actions: [
+                {
+                  todoItem: 'BANK_ACCOUNT',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'CV_AND_COVERING_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'DISCLOSURE_LETTER',
+                  status: 'NOT_STARTED',
+                },
+                {
+                  todoItem: 'EMAIL_OR_PHONE',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'HOUSING',
+                  status: 'COMPLETED',
+                },
+                {
+                  todoItem: 'ID',
+                  status: 'COMPLETED',
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  },
 }
 
 export default profiles
