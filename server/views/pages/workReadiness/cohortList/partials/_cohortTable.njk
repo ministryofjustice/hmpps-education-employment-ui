@@ -58,7 +58,7 @@
                     </br><span class="govuk-hint govuk-!-margin-bottom-0">{{ offender.prisonerNumber }}</span>
                 </td>
                 {% if gsrwDisplayCellLocationEnabled %}
-                <td class="govuk-table__cell">{{ offender.cellLocation or 'Not Available' }}</td>
+                <td class="govuk-table__cell">{{ offender.cellLocation or 'Unavailable' }}</td>
                 {% endif %}
                 <td class="govuk-table__cell">{{ offender.nonDtoReleaseDateType or '' }}
                     <p>{{ offender.releaseDate or 'N/A' }}</p>
