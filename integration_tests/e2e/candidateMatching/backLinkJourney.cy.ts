@@ -17,21 +17,23 @@ context('Sign In', () => {
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
     cy.task('getEmployer', '01907e1e-bb85-7bb7-9018-33a2070a367d')
     cy.task('getJob', '0190a227-be75-7009-8ad6-c6b068b6754e')
-    cy.task('getPrisonerById', 'G6115VJ')
-    cy.task('getProfileById', 'G6115VJ')
-    cy.task('createArchiveRecord', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VJ' })
-    cy.task('getApplicationHistory', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VJ' })
+    cy.task('getPrisonerByCaseLoadIdAndOffenderId', 'G6115VK')
+    cy.task('getPrisonerById', 'G6115VK')
+    cy.task('getProfileById', 'G6115VK')
+    cy.task('createArchiveRecord', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VK' })
+    cy.task('getApplicationHistory', { jobId: '0190a227-be75-7009-8ad6-c6b068b6754e', offenderNo: 'G6115VK' })
     cy.task('updateApplicationHistory', '019320a4-a8a5-7667-aeb4-fdd8d7e48c2c')
+    cy.task('getPrisonerAddress', 'G6115VK')
   })
 
   it('Manage applications - check content', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User7's application")
 
     manageApplicationPage.jobTitle().contains('Warehouse operator')
     manageApplicationPage.employerName().contains('ASDA')
@@ -55,12 +57,12 @@ context('Sign In', () => {
 
   it('Manage applications - validation and submit', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User7's application")
 
     manageApplicationPage.updateProgressButton().click()
 
@@ -68,10 +70,10 @@ context('Sign In', () => {
 
     manageApplicationPage
       .applicationStatusPageErrorMessage()
-      .contains("Select an application progress for Test User1's application")
+      .contains("Select an application progress for Test User7's application")
     manageApplicationPage
       .applicationStatusFieldErrorMessage()
-      .contains("Select an application progress for Test User1's application")
+      .contains("Select an application progress for Test User7's application")
 
     manageApplicationPage.applicationStatus().select('APPLICATION_MADE')
     manageApplicationPage.additionalInformation().type('Some info')
@@ -81,12 +83,12 @@ context('Sign In', () => {
 
   it('Back from Manage applications to Job detail', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
     jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage("Manage Test User1's application")
+    const manageApplicationPage = new ManageApplicationPage("Manage Test User7's application")
     manageApplicationPage.jobTitle().contains('Warehouse operator')
 
     manageApplicationPage.backLinkUrl().click()
@@ -95,7 +97,7 @@ context('Sign In', () => {
 
   it('Back from Job detail to Matched jobs', () => {
     cy.signIn()
-    cy.visit('/mjma/G6115VJ/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
+    cy.visit('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = new JobDetailsPage('Warehouse operator')
 
