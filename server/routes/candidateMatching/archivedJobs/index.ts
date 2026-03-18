@@ -6,12 +6,14 @@ import getArchivedJobsResolver from '../../../middleware/resolvers/getArchivedJo
 import handleSortMiddleware from '../../../middleware/handleSortMiddleware'
 import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerByIdResolver'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
+import checkPrisonerProfileViewCriteria from '../../../middleware/checkPrisonerProfileViewCriteria'
 
 export default (router: Router, services: Services) => {
   const controller = new ArchivedJobsController(services.paginationService)
   router.get(
     '/mjma/:id/jobs/archived',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getArchivedJobsResolver(services.jobService, services.deliusIntegrationService),
