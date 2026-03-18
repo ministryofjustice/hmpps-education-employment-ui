@@ -37,6 +37,7 @@ describe('HomePageController', () => {
     releaseArea: {
       postcode: 'mock_postcode',
     },
+    journey: 'manageApplication',
   }
 
   const mockService: any = {

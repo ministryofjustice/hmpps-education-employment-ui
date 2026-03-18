@@ -1,78 +1,95 @@
 <form class="form" method="post" novalidate="">
-  <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-  {% if mode === 'update' %}
-    {{ govukSelect({
-        id: "applicationStatus",
-        name: "applicationStatus",
-        label: {
-          text: 'Application progress'
-        },
-        items: [
-          {
-            value: "",
-            text: "Select application status"
-          },
-          {
-            value: "APPLICATION_MADE",
-            text: contentLookup.applicationStatus["APPLICATION_MADE"]
-          },
-          {
-            value: "APPLICATION_UNSUCCESSFUL",
-            text: contentLookup.applicationStatus["APPLICATION_UNSUCCESSFUL"]
-          },
-          {
-            value: "SELECTED_FOR_INTERVIEW",
-            text: contentLookup.applicationStatus["SELECTED_FOR_INTERVIEW"]
-            
-          },
-          {
-            value: "INTERVIEW_BOOKED",
-            text: contentLookup.applicationStatus["INTERVIEW_BOOKED"]
-          },
-          {
-            value: "UNSUCCESSFUL_AT_INTERVIEW",
-            text: contentLookup.applicationStatus["UNSUCCESSFUL_AT_INTERVIEW"]
-          },
-          {
-            value: "JOB_OFFER",
-            text: contentLookup.applicationStatus["JOB_OFFER"]
-          }
-        ],
-        errorMessage: errors.applicationStatus
-      }) 
-    }}
+    {% if mode === 'update' %}
+        {{ govukSelect({
+            id: "applicationStatus",
+            name: "applicationStatus",
+            label: {
+                text: 'Application progress'
+            },
+            items: [
+                {
+                    value: "",
+                    text: "Select application status"
+                },
+                {
+                    value: "APPLICATION_MADE",
+                    text: contentLookup.applicationStatus["APPLICATION_MADE"]
+                },
+                {
+                    value: "APPLICATION_UNSUCCESSFUL",
+                    text: contentLookup.applicationStatus["APPLICATION_UNSUCCESSFUL"]
+                },
+                {
+                    value: "SELECTED_FOR_INTERVIEW",
+                    text: contentLookup.applicationStatus["SELECTED_FOR_INTERVIEW"]
 
-    {{ 
-      govukTextarea({
-        id: "additionalInformation",
-        name: "additionalInformation",
-        rows: "3",
-        value: additionalInformation,
-        type: "text",
-         value: additionalInformation,
-        label: {
-          text: "Add additional information or feedback"
-        },
-        errorMessage: errors.additionalInformation
-      }) 
-    }}
+                },
+                {
+                    value: "INTERVIEW_BOOKED",
+                    text: contentLookup.applicationStatus["INTERVIEW_BOOKED"]
+                },
+                {
+                    value: "UNSUCCESSFUL_AT_INTERVIEW",
+                    text: contentLookup.applicationStatus["UNSUCCESSFUL_AT_INTERVIEW"]
+                },
+                {
+                    value: "JOB_OFFER",
+                    text: contentLookup.applicationStatus["JOB_OFFER"]
+                }
+            ],
+            errorMessage: errors.applicationStatus
+        }) }}
 
-    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link" href="{{ withFrom(addressLookup.candidateMatching.manageApplication(id, job.id)) }}" id="cancel-link">Cancel update</a></p>
+        {{ govukTextarea({
+            id: "additionalInformation",
+            name: "additionalInformation",
+            rows: "3",
+            value: additionalInformation,
+            type: "text",
+            value: additionalInformation,
+            label: {
+                text: "Add additional information or feedback"
+            },
+            errorMessage: errors.additionalInformation
+        }) }}
 
-    {{  
-      govukButton({
-        text: "Save and update",
-        type: "submit",
-        attributes: {
-          "data-qa": "submit-button",
-          "data-ga-category": "submit-selected-data"
-        }
-      }) 
-    }}
+        <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link"
+                                                         href="{{ withFrom(addressLookup.candidateMatching.manageApplication(id, job.id)) }}"
+                                                         onclick="event.stopPropagation();" id="cancel-link">Cancel update</a></p>
 
-  {% else %}
-    <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button" href="{{ addressLookup.candidateMatching.manageApplication(id, job.id, 'update') + '?from=' + encryptUrlParameter(originalUrl) }}" id="update-progress-link">Update progress</a></p>
-  {% endif%}
+        {{ govukButton({
+            text: "Save and update",
+            type: "submit",
+            attributes: {
+                "data-qa": "submit-button",
+                "data-ga-category": "submit-selected-data"
+            }
+        }) }}
+
+    {% else %}
+      {% set returnButtonName = "returnToJobMatchesList" %}
+      {% set returnButtonText = "Return to matched jobs" %}
+      {% if journey == "manageApplication" %}
+        {% set returnButtonName = "returnToApplicationsList" %}
+        {% set returnButtonText = "Return to manage application" %}
+      {% endif %}
+
+        <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-button"
+                                                         href="{{ withFrom(addressLookup.candidateMatching.manageApplication(id, job.id, 'update')) }}"
+                                                         id="update-progress-link">Update progress</a>
+
+            {{ govukButton({
+                text: returnButtonText,
+                type: "submit",
+                name: returnButtonName,
+                attributes: {
+                    "data-qa": "return-to-applications-list-button"
+                },
+                classes: "govuk-button--secondary"
+            }) }}
+        </p>
+    {% endif %}
 
 </form>

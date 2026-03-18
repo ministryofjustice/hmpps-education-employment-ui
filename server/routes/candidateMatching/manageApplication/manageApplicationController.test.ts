@@ -11,12 +11,22 @@ import ApplicationStatusViewModel from '../../../viewModels/applicationProgressV
 import validateFormSchema from '../../../utils/validateFormSchema'
 import { setSessionData } from '../../../utils/session'
 import config from '../../../config'
+import * as sessionModule from '../../../utils/session'
 
 jest.mock('../../../utils/validateFormSchema', () => ({
   ...jest.requireActual('../../../utils/validateFormSchema'),
   __esModule: true,
   default: jest.fn(),
 }))
+
+jest.mock('../../../utils/session', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../utils/session'),
+  getSessionData: jest.fn(),
+  setSessionData: jest.fn(), // optional, but good practice
+}))
+
+const mockGetSessionData = sessionModule.getSessionData as jest.Mock
 
 describe('ManageApplicationController', () => {
   const { req, res, next } = expressMocks()
@@ -47,6 +57,7 @@ describe('ManageApplicationController', () => {
     job: plainToClass(JobDetailsViewModel, req.context.jobDetails),
     mode: 'update',
     applicationProgress: plainToClass(ApplicationStatusViewModel, req.context.applicationProgress),
+    journey: 'manageMatchedJobs',
   }
 
   const mockService: any = {
@@ -118,36 +129,128 @@ describe('ManageApplicationController', () => {
 
       controller.post(req, res, next)
 
-      expect(res.render).toHaveBeenCalledWith('pages/candidateMatching/manageApplication/index', {
-        ...mockData,
-        additionalInformation: 'test_data',
-        errors,
-      })
+      expect(res.redirect).not.toHaveBeenCalled()
     })
 
-    it('On successful POST - redirects to manageApplication in update mode', async () => {
-      req.body.applicationStatus = 'APPLICATION_MADE'
-      req.body.additionalInformation = 'test_data'
+    it('On validation error - Does not redirect when validation fails', async () => {
+      const errors = { field: 'error' }
 
-      req.context.applicationProgress = [{ id: 'mock_id' }]
+      ;(validateFormSchema as jest.Mock).mockReturnValue(errors)
+
+      req.body = { additionalInformation: 'test' }
 
       await controller.post(req, res, next)
 
-      expect(mockService.updateApplicationProgress).toHaveBeenCalledTimes(1)
-      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith('MOCK_USER', 'mock_id', {
-        additionalInformation: 'test_data',
+      expect(res.redirect).not.toHaveBeenCalled()
+    })
+
+    it('On successful POST - redirects to manageApplication in update mode', async () => {
+      req.params = {
+        id: '123',
+        jobId: '456',
+      }
+
+      req.body = {
         applicationStatus: 'APPLICATION_MADE',
-        firstName: 'mock_firstName',
-        jobId: '1',
-        lastName: 'mock_lastName',
-        prisonNumber: 'mock_ref',
-        prisonId: 'MDI',
+        additionalInformation: 'test_data',
+      }
+
+      mockGetSessionData.mockReturnValue({
+        id: '123',
+        jobId: '456',
+        applicationProgress: [],
+        backLocation: '/mjma/123/job/456/details',
+        job: {},
+        prisoner: { firstName: 'John', lastName: 'Doe' },
+        mode: 'update',
       })
+
+      req.context = {
+        prisoner: { firstName: 'John', lastName: 'Doe' },
+        applicationProgress: [{ id: 'mock_id' }],
+      }
+
+      res.locals = {
+        user: { username: 'MOCK_USER' },
+        userActiveCaseLoad: { caseLoadId: 'MDI' },
+        withFrom: jest.fn(url => url),
+      }
+
+      await controller.post(req, res, next)
+
+      expect(mockService.updateApplicationProgress).toHaveBeenCalledWith(
+        'MOCK_USER',
+        'mock_id',
+        expect.objectContaining({
+          jobId: '456',
+          prisonNumber: '123',
+          applicationStatus: 'APPLICATION_MADE',
+          additionalInformation: 'test_data',
+        }),
+      )
+
+      expect(res.redirect).toHaveBeenCalled()
+    })
+
+    it('On validation error - renders page with errors', async () => {
+      const errors = { applicationStatus: { text: 'Select a status' } }
+
+      validationMock.mockReturnValue(errors)
+
+      mockGetSessionData.mockReturnValue({
+        id: '123',
+        jobId: '456',
+        applicationProgress: [],
+        backLocation: '/mjma/123/job/456/details',
+        job: {},
+        prisoner: { firstName: 'John', lastName: 'Doe' },
+        mode: 'update',
+      })
+
+      req.params = { id: '123', jobId: '456' }
+
+      req.body = {
+        applicationStatus: '',
+        additionalInformation: 'test_data',
+      }
+
+      req.context = {
+        prisoner: { firstName: 'John', lastName: 'Doe' },
+        applicationProgress: [],
+      }
+
+      res.locals = {
+        user: { username: 'MOCK_USER' },
+        userActiveCaseLoad: { caseLoadId: 'MDI' },
+      }
+
+      await controller.post(req, res, next)
+
+      expect(res.render).toHaveBeenCalledWith(
+        'pages/candidateMatching/manageApplication/index',
+        expect.objectContaining({
+          additionalInformation: 'test_data',
+          errors,
+        }),
+      )
+
+      expect(res.redirect).not.toHaveBeenCalled()
     })
 
     it('On successful POST - audits the update', async () => {
-      req.body.applicationStatus = 'APPLICATION_MADE'
-      req.body.additionalInformation = 'test_data'
+      req.body = {
+        applicationStatus: 'APPLICATION_MADE',
+        additionalInformation: 'test_data',
+      }
+      mockGetSessionData.mockReturnValue({
+        id: '123',
+        jobId: '456',
+        applicationProgress: [],
+        backLocation: '/mjma/123/job/456/details',
+        job: {},
+        prisoner: { firstName: 'John', lastName: 'Doe' },
+        mode: 'update',
+      })
 
       req.context.applicationProgress = [{ id: 'mock_id' }]
 
@@ -166,6 +269,25 @@ describe('ManageApplicationController', () => {
           applicationStatus: req.body.applicationStatus,
         }),
       })
+    })
+
+    it('redirects to applications list when returnToApplicationsList is present', async () => {
+      req.body = { returnToApplicationsList: true }
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(addressLookup.candidateMatching.prisonerListApplications())
+      expect(res.render).not.toHaveBeenCalled()
+    })
+
+    it('redirects to job matches list when returnToJobMatchesList is present', async () => {
+      req.body = { returnToJobMatchesList: true }
+
+      controller.post(req, res, next)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        `${addressLookup.candidateMatching.prisonerListMatchJobs()}?sort=releaseDate&order=ascending`,
+      )
     })
   })
 })

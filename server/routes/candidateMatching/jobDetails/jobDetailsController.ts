@@ -37,10 +37,16 @@ export default class JobDetailsController {
         releaseArea: prisonerAddress,
       }
 
+      const path = data.backLocation.split('?')[0]
+      const isFromMatchedJobs = path.includes('/jobs/matched') || path.includes('/details')
+
+      const journey = !isFromMatchedJobs ? 'manageMatchedJobs' : 'manageApplication'
+
       setSessionData(req, ['jobDetails', id, 'data'], data)
 
       res.render('pages/candidateMatching/jobDetails/index', {
         ...data,
+        journey,
       })
     } catch (err) {
       logger.error('Error rendering page - Job details')
@@ -51,6 +57,15 @@ export default class JobDetailsController {
   public post: RequestHandler = async (req, res, next): Promise<void> => {
     const { jobId, id } = req.params
     try {
+      if (Object.prototype.hasOwnProperty.call(req.body, 'returnToApplicationsList')) {
+        res.redirect(addressLookup.candidateMatching.prisonerListApplications())
+        return
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, 'returnToJobMatchesList')) {
+        res.redirect(`${addressLookup.candidateMatching.prisonerListMatchJobs()}$?sort=releaseDate&order=ascending`)
+        return
+      }
+
       if (Object.prototype.hasOwnProperty.call(req.body, 'createArchiveRecord')) {
         await this.jobService.createArchiveRecord(res.locals.user.username, jobId, id)
       }
