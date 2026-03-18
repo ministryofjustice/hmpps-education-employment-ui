@@ -299,6 +299,57 @@ const prisonersByCaseloadIdAndOffenderId = {
       },
     },
   },
+  G6115VK: {
+    request: {
+      method: 'GET',
+      urlPathPattern: '/prison/\\w+/prisoners',
+      queryParameters: {
+        term: {
+          matches: '.*',
+        },
+      },
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [
+          {
+            prisonerNumber: 'G6115VK',
+            firstName: 'SUSAN',
+            lastName: 'VICTOR',
+            prisonId: 'MDI',
+            releaseDate: '2026-03-02',
+          },
+        ],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 1,
+          sort: {
+            empty: true,
+            sorted: false,
+            unsorted: true,
+          },
+          offset: 0,
+          paged: true,
+          unpaged: false,
+        },
+        last: true,
+        totalElements: 1,
+        totalPages: 1,
+        size: 1,
+        number: 0,
+        first: true,
+        sort: {
+          empty: true,
+          sorted: false,
+          unsorted: true,
+        },
+        numberOfElements: 1,
+        empty: false,
+      },
+    },
+  },
 }
 
 export default prisonersByCaseloadIdAndOffenderId
