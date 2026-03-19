@@ -6,12 +6,14 @@ import getPrisonerByIdResolver from '../../../middleware/resolvers/getPrisonerBy
 import JobDetailsController from './jobDetailsController'
 import getProfileByIdResolver from '../../../middleware/resolvers/getProfileByIdResolver'
 import getPrisonerAddressByIdResolver from '../../../middleware/resolvers/getPrisonerAddressByIdResolver'
+import checkPrisonerProfileViewCriteria from '../../../middleware/checkPrisonerProfileViewCriteria'
 
 export default (router: Router, services: Services) => {
   const controller = new JobDetailsController(services.jobService)
   router.get(
     '/mjma/:id/job/:jobId/details',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getPrisonerAddressByIdResolver(services.deliusIntegrationService),
