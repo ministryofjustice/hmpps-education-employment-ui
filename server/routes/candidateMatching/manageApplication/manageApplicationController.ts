@@ -56,10 +56,16 @@ export default class ManageApplicationController {
         applicationProgress: plainToClass(ApplicationStatusViewModel, applicationProgress),
       }
 
+      const path = data.backLocation.split('?')[0]
+      const isFromMatchedJobs =
+        path.includes(addressLookup.candidateMatching.prisonerListMatchJobs()) || path.includes('/details')
+
+      const journey = isFromMatchedJobs ? 'manageMatchedJobs' : 'manageApplication'
+
       // Set page data in session
       setSessionData(req, ['manageApplication', id, jobId, 'data'], data)
 
-      res.render('pages/candidateMatching/manageApplication/index', { ...data })
+      res.render('pages/candidateMatching/manageApplication/index', { ...data, journey })
     } catch (err) {
       logger.error('Error rendering page - Manage application')
       next(err)
@@ -73,6 +79,15 @@ export default class ManageApplicationController {
     const { prisoner, applicationProgress = [] } = req.context
 
     try {
+      if (Object.prototype.hasOwnProperty.call(req.body, 'returnToApplicationsList')) {
+        res.redirect(addressLookup.candidateMatching.prisonerListApplications())
+        return
+      }
+      if (Object.prototype.hasOwnProperty.call(req.body, 'returnToJobMatchesList')) {
+        res.redirect(`${addressLookup.candidateMatching.prisonerListMatchJobs()}?sort=releaseDate&order=ascending`)
+        return
+      }
+
       // If validation errors render errors
       const data = getSessionData(req, ['manageApplication', id, jobId, 'data'])
       const errors = validateFormSchema(req, validationSchema(data))
