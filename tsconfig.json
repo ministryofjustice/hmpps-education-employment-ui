@@ -26,7 +26,8 @@
     "integration_tests_playwright",
     "dist",
     "cypress.config.ts",
-    "coverage"
+    "coverage",
+    "test_results"
   ],
   "include": ["**/*.js", "**/*.ts"]
 }

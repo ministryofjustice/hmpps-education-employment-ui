@@ -1,6 +1,11 @@
-import { expect, Page } from '@playwright/test'
-import AbstractPage from './pages/abstractPage'
+import { Page } from '@playwright/test'
+import tokenVerification from './mockApis/tokenVerification'
 import hmppsAuth, { type UserToken } from './mockApis/hmppsAuth'
+import { resetStubs } from './mockApis/wiremock'
+
+export { resetStubs }
+
+const DEFAULT_ROLES = ['ROLE_SOME_REQUIRED_ROLE']
 
 export const attemptHmppsAuthLogin = async (page: Page) => {
   await page.goto('/')
@@ -11,7 +16,7 @@ export const attemptHmppsAuthLogin = async (page: Page) => {
 
 export const login = async (
   page: Page,
-  { name, roles = DEFAULT_ROLES, active = true, authSource = 'nomis' }: UserToken & { active?: boolean } = {}
+  { name, roles = DEFAULT_ROLES, active = true, authSource = 'nomis' }: UserToken & { active?: boolean } = {},
 ) => {
   await Promise.all([
     hmppsAuth.favicon(),
@@ -21,13 +26,4 @@ export const login = async (
     tokenVerification.stubVerifyToken(active),
   ])
   await attemptHmppsAuthLogin(page)
-}
-
-export const verifyOnPage = async <T extends AbstractPage>(
-  page: Page,
-  constructor: new (page: Page) => T
-): Promise<T> => {
-  const pageInstance = new constructor(page)
-  await expect(pageInstance.header).toBeVisible()
-  return pageInstance
 }
