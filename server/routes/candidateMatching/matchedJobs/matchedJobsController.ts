@@ -121,8 +121,16 @@ export default class MatchedJobsController {
           // Mark as filtered if any of the locationFilter, jobSectorFilter, jobSectorFilterOther, offenceFilter or distanceFilter have been changed by the user.
           (decodeURIComponent(locationFilter as string) && decodeURIComponent(locationFilter as string) !== postcode) ||
           !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
-          !_.isEmpty(decodeURIComponent(jobSectorFilterOther as string).split(',')) ||
-          !_.isEmpty(decodeURIComponent(offenceFilter as string).split(',')) ||
+          !_.isEmpty(
+            decodeURIComponent(jobSectorFilterOther as string)
+              .split(',')
+              .filter(Boolean),
+          ) ||
+          !_.isEmpty(
+            decodeURIComponent(offenceFilter as string)
+              .split(',')
+              .filter(Boolean),
+          ) ||
           decodeURIComponent(distanceFilter as string) !== '50',
       }
 
