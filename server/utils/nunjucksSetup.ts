@@ -7,7 +7,7 @@ import { decryptUrlParameter, encryptUrlParameter } from './urlParameterEncrypti
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): void {
+export default function nunjucksSetup(app: express.Express, path: typeof pathModule): void {
   app.set('view engine', 'njk')
 
   app.locals.dpsHomeUrl = config.dpsHomeUrl
