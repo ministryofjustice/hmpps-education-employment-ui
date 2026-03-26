@@ -102,10 +102,18 @@ export default class NationalJobsController {
         ],
         offenceFilter: decodeURIComponent(offenceFilter as string),
         filtered:
-          // Mark as filtered if any of the locationFilter, jobSectorFilter, jobSectorFilterOther, offenceFilter or distanceFilter have been changed by the user.
+          // Mark as filtered if any of the jobSectorFilter, jobSectorFilterOther, offenceFilter or employerFilter have been changed by the user.
           !_.isEqual(decodeURIComponent(jobSectorFilter as string).split(','), workTypesOfInterest) ||
-          !_.isEmpty(decodeURIComponent(jobSectorFilterOther as string).split(',')) ||
-          !_.isEmpty(decodeURIComponent(offenceFilter as string).split(',')) ||
+          !_.isEmpty(
+            decodeURIComponent(jobSectorFilterOther as string)
+              .split(',')
+              .filter(Boolean),
+          ) ||
+          !_.isEmpty(
+            decodeURIComponent(offenceFilter as string)
+              .split(',')
+              .filter(Boolean),
+          ) ||
           decodeURIComponent(employerFilter as string),
       }
 
