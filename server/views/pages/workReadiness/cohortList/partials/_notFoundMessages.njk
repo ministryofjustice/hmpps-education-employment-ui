@@ -1,12 +1,36 @@
-{% if prisonerSearchResults.totalElements === 0 %}
-  {% if searchTerm and selectStatus !== 'ALL' %}
-    <span class="govuk-heading-m">0 results for "{{ searchTerm | safe }}" in {{ contentLookup.fields.newStatus[selectStatus] }}</span><br>
-    <span class="govuk-body govuk-!-font-size-19">Check your spelling and search again, or select another status.</span>
-  {% elif selectStatus !== 'ALL' %}
-    <span class="govuk-heading-m">0 results in {{ contentLookup.fields.newStatus[selectStatus] }}</span><br>
-    <span class="govuk-body govuk-!-font-size-19">Select another status, or search by prisoner name.</span>
-  {% else %}
-    <span class="govuk-heading-m">0 results for "{{ searchTerm | safe }}"</span><br>
-    <span class="govuk-body govuk-!-font-size-19">Check your spelling and search again, or clear the search and browse for the prisoner.</span>
-  {% endif %}
-{% endif %}
+{% set defaultTimeUntilRelease = 'TWELVE_WEEKS' %}
+{% set defaultStatus = 'ALL' %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if prisonerSearchResults.totalElements == 0 %}
+
+      {# 1. Search term WITH specific status and time filters #}
+      {% if searchTerm and (selectStatus != defaultStatus or timeToRelease != defaultTimeUntilRelease) %}
+      <h2 class="govuk-heading-m">0 results for "{{ searchTerm }}" in {{ contentLookup.timeToRelease[timeToRelease] }} in {{ contentLookup.fields.newStatus[selectStatus] }}</h2>
+      <p class="govuk-body">Check your spelling and search again, or select another time to release or work status.</p>
+
+      {# 2. Search term ONLY (Default filters) #}
+      {% elif searchTerm %}
+      <h2 class="govuk-heading-m">0 results for "{{ searchTerm }}"</h2>
+      <p class="govuk-body">Check your spelling and search again, or clear the search and browse for the prisoner.</p>
+
+      {# 3. No search term, but 0 results at DEFAULT filters #}
+      {% elif selectStatus == defaultStatus and timeToRelease == defaultTimeUntilRelease %}
+      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[defaultTimeUntilRelease] }} in {{ defaultStatus }}</h2>
+      <p class="govuk-body">Select another time to release.</p>
+
+      {# 4. No search term, and 0 results at "Any" status (All) for a specific time #}
+      {% elif selectStatus == defaultStatus %}
+      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[timeToRelease] }} in {{ defaultStatus }}</h2>
+      <p class="govuk-body">There are no prisoners with a release date at this time.</p>
+
+      {# 5. 0 results for a specific status/time combination (No search term) #}
+      {% else %}
+        <h2 class="govuk-heading-m">0 results in {{ contentLookup.timeToRelease[timeToRelease] }} in {{ contentLookup.fields.newStatus[selectStatus] }}</h2>
+        <p class="govuk-body">Select another time to release or work status, or search by prisoner name.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
