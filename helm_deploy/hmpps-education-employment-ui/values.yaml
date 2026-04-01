@@ -1,5 +1,6 @@
 generic-service:
   nameOverride: hmpps-education-employment-ui
+  productId: "DPS034"
 
   replicaCount: 4
 

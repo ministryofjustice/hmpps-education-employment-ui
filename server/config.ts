@@ -36,6 +36,11 @@ export interface ApiConfig {
 }
 
 export default {
+  buildNumber: get('BUILD_NUMBER', '1_0_0', requiredInProduction),
+  productId: get('PRODUCT_ID', 'UNASSIGNED', requiredInProduction),
+  gitRef: get('GIT_REF', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
+  branchName: get('GIT_BRANCH', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
+  production,
   https: production,
   staticResourceCacheDuration: '1h',
   displayErrorDetails: !production && get('DISPLAY_ERROR_DETAILS', 'true') === 'true',
@@ -55,6 +60,7 @@ export default {
   apis: {
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
+      healthPath: '/health/ping',
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
       timeout: {
         response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
@@ -72,6 +78,7 @@ export default {
     },
     tokenVerification: {
       url: get('TOKEN_VERIFICATION_API_URL', 'http://localhost:8100', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000)),
         deadline: Number(get('TOKEN_VERIFICATION_API_TIMEOUT_DEADLINE', 5000)),
@@ -81,6 +88,7 @@ export default {
     },
     hmppsPrisonApi: {
       url: get('HMPPS_PRISON_API_URL', 'http://localhost:8080', requiredInProduction),
+      healthPath: '/health/ping',
       externalUrl: get('HMPPS_PRISON_API_EXTERNAL_URL', get('HMPPS_PRISON_API_URL', 'http://localhost:8080')),
       timeout: {
         response: Number(get('HMPPS_PRISON_API_TIMEOUT_RESPONSE', 10000)),
@@ -90,6 +98,7 @@ export default {
     },
     prisonerSearch: {
       url: get('PRISONER_SEARCH_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 10000)),
@@ -98,6 +107,7 @@ export default {
     },
     prisonerEducationProfile: {
       url: get('ESWE_PROFILE_API_URL', 'http://localhost:8084', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('PRISONER_SEARCH_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('PRISONER_SEARCH_TIMEOUT_DEADLINE', 10000)),
@@ -106,6 +116,7 @@ export default {
     },
     nomisUserRolesApi: {
       url: get('NOMIS_USER_ROLES_API_URL', 'http://localhost:8082', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('NOMIS_USER_ROLES_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('NOMIS_USER_ROLES_TIMEOUT_DEADLINE', 10000)),
@@ -114,6 +125,7 @@ export default {
     },
     esweProfileApi: {
       url: get('ESWE_PROFILE_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
@@ -130,6 +142,7 @@ export default {
     },
     keyworkerApi: {
       url: get('KEYWORKER_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
@@ -138,6 +151,7 @@ export default {
     },
     whereaboutsApi: {
       url: get('WHEREABOUTS_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
@@ -154,6 +168,7 @@ export default {
     },
     deliusIntegrationApi: {
       url: get('DELIUS_INTEGRATION_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
@@ -162,6 +177,7 @@ export default {
     },
     manageUsersApi: {
       url: get('MANAGE_USERS_API', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('ESWE_PROFILE_TIMEOUT_DEADLINE', 10000)),
@@ -170,6 +186,7 @@ export default {
     },
     jobApi: {
       url: get('JOB_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/health/ping',
       timeout: {
         response: Number(get('JOB_API_URL', 10000)),
         deadline: Number(get('JOB_API_URL', 10000)),
