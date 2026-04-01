@@ -172,7 +172,7 @@
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "audit-ci": "^6.6.1",
-    "brace-expansion": "^1.1.12",
+    "brace-expansion": "^1.1.13",
     "concurrently": "^8.2.2",
     "cookie-session": "^2.1.0",
     "cypress": "^13.12.0",
