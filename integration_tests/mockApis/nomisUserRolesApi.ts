@@ -1,4 +1,18 @@
+import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
+
+const stubNomisUserRolesApiPing = (status = 200): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/nomisUserRolesApi/health/ping',
+    },
+    response: {
+      status,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: { status: 'UP' },
+    },
+  })
 
 const getUserActiveCaseLoad = () =>
   stubFor({
@@ -92,6 +106,7 @@ const getUserRoles = (userId = 'USER1') =>
   })
 
 export default {
+  stubNomisUserRolesApiPing,
   getUserActiveCaseLoad,
   getStaffDetails,
   getUserRoles,

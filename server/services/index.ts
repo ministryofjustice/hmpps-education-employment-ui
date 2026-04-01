@@ -13,7 +13,7 @@ import JobApplicationService from './jobApplicationService'
 import JobService from './jobService'
 
 export const services = () => {
-  const { hmppsAuthClient } = dataAccess()
+  const { applicationInfo, hmppsAuthClient } = dataAccess()
 
   const userService = new UserService(hmppsAuthClient)
   const prisonerSearchService = new PrisonerSearchService(hmppsAuthClient)
@@ -30,6 +30,7 @@ export const services = () => {
   const jobService = new JobService(hmppsAuthClient)
 
   return {
+    applicationInfo,
     userService,
     prisonerSearchService,
     paginationService,
