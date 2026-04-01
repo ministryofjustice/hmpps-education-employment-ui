@@ -1,4 +1,18 @@
+import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
+
+const stubPrisonApiPing = (status = 200): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/prisonApi/health/ping',
+    },
+    response: {
+      status,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: { status: 'UP' },
+    },
+  })
 
 const getCurrentOffenderActivities = (id = 'G6115VJ') =>
   stubFor({
@@ -35,5 +49,6 @@ const getCurrentOffenderActivities = (id = 'G6115VJ') =>
   })
 
 export default {
+  stubPrisonApiPing,
   getCurrentOffenderActivities,
 }
