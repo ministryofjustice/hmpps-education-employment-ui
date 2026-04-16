@@ -65,6 +65,8 @@ context('SignIn', () => {
     const editActionPage = new EditActionPage('Bank account')
     editActionPage.addNoteLink().click()
 
+    editActionPage.addNoteButton().should('be.visible').and('contain.text', 'Save note')
+    editActionPage.saveProgressButton().should('be.visible').and('contain.text', 'Save progress')
     editActionPage.addNoteButton().click()
 
     editActionPage.pageErrorMessage().contains('Add or cancel your note before trying to save progress')
