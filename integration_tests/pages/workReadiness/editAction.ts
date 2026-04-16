@@ -17,6 +17,8 @@ export default class EditActionPage extends Page {
 
   addNoteButton = (): PageElement => cy.get('[data-qa=add-note-button]')
 
+  saveProgressButton = (): PageElement => cy.get('[data-qa=submit-button]')
+
   pageErrorMessage = (): PageElement => cy.get('[href="#noteText"]')
 
   fieldErrorMessage = (): PageElement => cy.get('#noteText-error')
