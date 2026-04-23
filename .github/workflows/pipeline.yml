@@ -39,6 +39,7 @@ jobs:
     needs: [node_build]
     secrets: inherit
     with:
+      npm_script: 'int-test-cypress'
       test_results_artifact_name: 'npm_integration_test_artifacts_cypress'
       redis_tag: '7'
   node_integration_tests_playwright:

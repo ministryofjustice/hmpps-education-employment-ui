@@ -1,13 +1,15 @@
 {% if matchedJobsResults.page.totalElements === 0 %}
-  {% if jobSectorFilter.length %}
-    <span class="govuk-heading-m">0 results in 
-      {% for typeOfWork in jobSectorFilter %}
-        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== jobSectorFilter.length }} </span>
-      {% endfor %}
-    </span>
-  {% else %}
-    <span class="govuk-heading-m">0 results</span>
-  {% endif %}
+  <span class="govuk-heading-m">
+    {% if jobSectorFilter.length %}
+        0 results in
+          {% for typeOfWork in jobSectorFilter %}
+            <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== jobSectorFilter.length }} </span>
+          {% endfor %}
+    {% else %}
+        0 results
+    {% endif %}
+  </span>
+
   <p>To get more results, you can: </p>
   <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-5">
     <li>try a different search term</li>

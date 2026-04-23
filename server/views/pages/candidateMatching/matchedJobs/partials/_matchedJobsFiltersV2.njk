@@ -46,9 +46,9 @@
         </div>
     </fieldset>
     <hr>
-    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4">
+    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4" data-qa="other-job-sectors-filter-section">
         <summary class="govuk-details__summary">
-            <b class="govuk-details__summary-text govuk-link--no-underline">
+            <b class="govuk-details__summary-text govuk-link--no-underline" data-qa="other-job-sectors-filter-section-toggle">
                 Other types of work
             </b>
             {% if jobSectorFilterOther.length > 0 %}
@@ -84,9 +84,9 @@
         </fieldset>
     </details>
     <hr>
-    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4">
+    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4" data-qa="offence-filter-section">
         <summary class="govuk-details__summary">
-            <b class="govuk-details__summary-text govuk-link--no-underline">
+            <b class="govuk-details__summary-text govuk-link--no-underline" data-qa="offence-filter-section-toggle">
                 Hide jobs with offence exclusions
             </b>
             {% if offenceFilter.length > 0 %}
@@ -125,13 +125,13 @@
     <div class="govuk-grid-row govuk-!-display-none-print govuk-!-margin-top-4">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
             <div class="govuk-!-margin-bottom-0">
-                <button class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+                <button class="govuk-button govuk-!-margin-bottom-4" data-qa="apply-button" data-module="govuk-button">
                     Apply
                 </button>
             </div>
             <div class="govuk-!-margin-bottom-0 govuk-!-margin-top-0">
                 {% if filtered %}
-                    <a class="govuk-link govuk-button-link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Clear filters">Clear filters</a>
+                    <a class="govuk-link govuk-button-link" data-qa="clear-filters-button" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + typeOfWorkOptions.join(',') }}" aria-label="Clear filters">Clear filters</a>
                 {% endif %}
             </div>
         </div>

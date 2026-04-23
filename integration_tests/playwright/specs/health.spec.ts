@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test'
-import prisonApi from '../mockApis/prisonApi'
-import hmppsAuth from '../mockApis/hmppsAuth'
-import tokenVerification from '../mockApis/tokenVerification'
-import nomisUserRoles from '../mockApis/nomisUserRolesApi'
-import ping from '../mockApis/ping'
+import prisonApi from '../../mockApis/prisonApi'
+import hmppsAuth from '../../mockApis/hmppsAuth'
+import tokenVerification from '../../mockApis/tokenVerification'
+import nomisUserRoles from '../../mockApis/nomisUserRolesApi'
+import ping from '../../mockApis/ping'
 
 import { resetStubs } from '../testUtils'
 
@@ -16,9 +16,9 @@ test.describe('Health', () => {
     test.beforeEach(async () => {
       await Promise.all([
         hmppsAuth.stubPing(),
-        prisonApi.stubPing(),
-        tokenVerification.stubPing(),
-        nomisUserRoles.stubPing(),
+        prisonApi.stubPrisonApiPing(),
+        tokenVerification.stubTokenVerificationPing(),
+        nomisUserRoles.stubNomisUserRolesApiPing(),
         ping.stubPing(),
       ])
     })
@@ -46,9 +46,9 @@ test.describe('Health', () => {
     test.beforeEach(async () => {
       await Promise.all([
         hmppsAuth.stubPing(),
-        prisonApi.stubPing(),
-        tokenVerification.stubPing(500),
-        nomisUserRoles.stubPing(),
+        prisonApi.stubPrisonApiPing(),
+        tokenVerification.stubTokenVerificationPing(500),
+        nomisUserRoles.stubNomisUserRolesApiPing(),
         ping.stubPing(),
       ])
     })

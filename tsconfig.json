@@ -23,7 +23,7 @@
     "node_modules",
     "assets/**/*.js",
     "integration_tests",
-    "integration_tests_playwright",
+    "integration_tests/playwright",
     "dist",
     "cypress.config.ts",
     "coverage",

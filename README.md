@@ -199,7 +199,7 @@ Run the full set of headless integration tests, in separate shell sessions:
 ```shell
 docker compose -f docker-compose-test.yml up
 npm run start-feature
-npm run int-test
+npm run int-test-cypress
 ```
 
 Integration tests can also be run in development mode with a UI
@@ -208,7 +208,7 @@ so that assets are rebuilt when modified and tests will re-run:
 ```shell
 docker compose -f docker-compose-test.yml up
 npm run start-feature:dev
-npm run int-test-ui
+npm run int-test-cypress-ui
 ```
 
 #### Running playwright integration tests
@@ -226,11 +226,11 @@ After first install ensure playwright is initialised:
 
 And then either, run tests in headless mode with:
 
-`npm run int-test-playwright`
+`npm run int-test`
 
 Or run tests with the UI:
 
-`npm run int-test-playwright-ui`
+`npm run int-test-ui`
 
 ### Code style tests
 
