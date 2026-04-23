@@ -49,6 +49,7 @@ generic-service:
     NATIONAL_JOBS: true
     BROKER_ITERATION_ENABLED: true
     GSRW_DISPLAY_CELL_LOCATION_ENABLED: true
+    OFFENCE_FILTER_ENABLED: true
 
   scheduledDowntime:
     enabled: true
