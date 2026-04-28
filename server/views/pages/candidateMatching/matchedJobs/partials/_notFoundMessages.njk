@@ -1,5 +1,5 @@
 {% if matchedJobsResults.page.totalElements === 0 %}
-  <span class="govuk-heading-m">
+  <span class="govuk-heading-m" data-qa="no-results-heading">
     {% if jobSectorFilter.length %}
         0 results in
           {% for typeOfWork in jobSectorFilter %}

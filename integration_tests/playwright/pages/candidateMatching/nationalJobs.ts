@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 import AbstractPage from '../abstractPage'
 
-export default class MatchedJobsPage extends AbstractPage {
+export default class NationalJobsPage extends AbstractPage {
   readonly header: Locator
 
   private constructor(page: Page, prisonerName: string) {
@@ -9,10 +9,10 @@ export default class MatchedJobsPage extends AbstractPage {
     this.header = page.locator('h1', { hasText: `Jobs for ${prisonerName}` })
   }
 
-  static async verifyOnPage(page: Page, prisonerName: string): Promise<MatchedJobsPage> {
-    const matchedJobsPage = new MatchedJobsPage(page, prisonerName)
-    await expect(matchedJobsPage.header).toBeVisible()
-    return matchedJobsPage
+  static async verifyOnPage(page: Page, prisonerName: string): Promise<NationalJobsPage> {
+    const nationalJobsPage = new NationalJobsPage(page, prisonerName)
+    await expect(nationalJobsPage.header).toBeVisible()
+    return nationalJobsPage
   }
 
   backLinkUrl(): Locator {
@@ -37,12 +37,8 @@ export default class MatchedJobsPage extends AbstractPage {
   }
 
   // Filter panel elements
-  locationFilter(): Locator {
-    return this.page.locator('#locationFilter')
-  }
-
-  distanceFilter(): Locator {
-    return this.page.locator('#distanceFilter')
+  employerFilter(): Locator {
+    return this.page.locator('#employerFilter')
   }
 
   jobSectorFilter1(): Locator {
@@ -114,14 +110,6 @@ export default class MatchedJobsPage extends AbstractPage {
     return this.page.locator('[data-qa=closingDate-column-header]')
   }
 
-  jobLink1(): Locator {
-    return this.page.locator('[data-qa=job-link-0]')
-  }
-
-  jobLink2(): Locator {
-    return this.page.locator('[data-qa=job-link-1]')
-  }
-
   async tableData(): Promise<
     Array<{
       jobRole: string
@@ -130,7 +118,7 @@ export default class MatchedJobsPage extends AbstractPage {
       closingDate: string
     }>
   > {
-    const rows = await this.page.locator('#matchedJobs .govuk-table__row').elementHandles()
+    const rows = await this.page.locator('#nationalJobs .govuk-table__row').elementHandles()
     return Promise.all(
       // Skip header row
       rows.slice(1).map(async row => {

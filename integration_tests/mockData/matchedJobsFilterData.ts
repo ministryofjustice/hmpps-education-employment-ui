@@ -24,6 +24,19 @@ const job2 = {
   numberOfVacancies: 2,
 }
 
+const job3 = {
+  id: 3,
+  employerName: 'Walmart',
+  jobTitle: 'Cashier 2',
+  closingDate: '2024-06-03T14:21:24.852Z',
+  distance: 6.5,
+  postcode: 'M12 6LP',
+  sector: 'RETAIL',
+  hasExpressedInterest: false,
+  isNational: false,
+  numberOfVacancies: 1,
+}
+
 const job4 = {
   id: 4,
   employerName: 'Walmart',
@@ -128,22 +141,45 @@ const job13 = {
   numberOfVacancies: 1,
 }
 
+const filterDistance50 = 'page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
+const filterSectorConstruction =
+  'page=0&size=20&sectors=CONSTRUCTION&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
+
 export const matchedJobs = {
-  'releaseArea=L15%207LR&searchRadius=50&isNationalJob=false': {
+  [filterDistance50]: {
     request: {
       method: 'GET',
-      url: '/jobs/matching-candidate?page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false',
+      url: `/jobs/matching-candidate?${filterDistance50}`,
     },
     response: {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        content: [job1, job2, job4, job5, job6, job8, job9, job10, job12, job13],
+        content: [job1, job2, job3, job4, job5, job6, job8, job9, job10, job12, job13],
         page: {
           size: 10,
           number: 0,
-          totalElements: 20,
+          totalElements: 11,
           totalPages: 2,
+        },
+      },
+    },
+  },
+  [filterSectorConstruction]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterSectorConstruction}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [],
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 0,
+          totalPages: 1,
         },
       },
     },

@@ -1,12 +1,18 @@
-import { type Locator, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 import AbstractPage from '../abstractPage'
 
 export default class JobDetailsPage extends AbstractPage {
-  readonly page: Page
+  readonly header: Locator
 
-  constructor(page: Page) {
-    super(page)
-    this.page = page
+  private constructor(page: Page, jobTitle: string) {
+    super(page, jobTitle)
+    this.header = page.locator('h1', { hasText: jobTitle })
+  }
+
+  static async verifyOnPage(page: Page, jobTitle: string): Promise<JobDetailsPage> {
+    const jobDetailsPage = new JobDetailsPage(page, jobTitle)
+    await expect(jobDetailsPage.header).toBeVisible()
+    return jobDetailsPage
   }
 
   backLinkUrl(): Locator {
