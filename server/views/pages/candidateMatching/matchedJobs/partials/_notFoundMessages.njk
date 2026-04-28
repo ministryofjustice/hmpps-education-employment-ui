@@ -1,8 +1,9 @@
 {% if matchedJobsResults.page.totalElements === 0 %}
-  {% if jobSectorFilter.length %}
-    <span class="govuk-heading-m">0 results in 
-      {% for typeOfWork in jobSectorFilter %}
-        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{{ ',' if loop.index !== jobSectorFilter.length }} </span>
+  {% if jobSectorFilter.length or jobSectorFilterOther.length %}
+    {% set filteredTypesOfWork = jobSectorFilter.concat(jobSectorFilterOther) %}
+    <span class="govuk-heading-m">0 results in
+      {% for typeOfWork in filteredTypesOfWork %}
+        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{% if not loop.last %}, {% endif %}</span>
       {% endfor %}
     </span>
   {% else %}
