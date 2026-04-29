@@ -1,19 +1,10 @@
 {% if matchedJobsResults.page.totalElements === 0 %}
-  {% if jobSectorFilter.length or jobSectorFilterOther.length %}
-    {% set filteredTypesOfWork = jobSectorFilter.concat(jobSectorFilterOther) %}
-    <span class="govuk-heading-m">0 results in
-      {% for typeOfWork in filteredTypesOfWork %}
-        <span>{{ contentLookup.fields.typeOfWork[typeOfWork] }}{% if not loop.last %}, {% endif %}</span>
-      {% endfor %}
-    </span>
-  {% else %}
-    <span class="govuk-heading-m">0 results</span>
-  {% endif %}
+  <span class="govuk-heading-m">0 results</span>
   <p>To get more results, you can: </p>
   <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-5">
-    <li>try a different search term</li>
-    <li>change the area</li>
-    <li>show more types of work</li>
+    <li>change the release area postcode</li>
+    <li>increase the search radius</li>
+    <li>change the types of work</li>
     <li>remove offence exclusions</li>
   </ul>
 {% endif %}
