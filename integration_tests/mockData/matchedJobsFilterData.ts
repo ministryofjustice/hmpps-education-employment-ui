@@ -144,8 +144,50 @@ const job13 = {
 const filterDistance50 = 'page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
 const filterSectorConstruction =
   'page=0&size=20&sectors=CONSTRUCTION&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
+const filterDefault =
+  'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
+const filterDefaultNational =
+  'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true'
 
 export const matchedJobs = {
+  [filterDefault]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterDefault}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [job1, job3, job4, job9, job13],
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 5,
+          totalPages: 1,
+        },
+      },
+    },
+  },
+  [filterDefaultNational]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterDefaultNational}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [], // TODO: Add national jobs
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 5,
+          totalPages: 1,
+        },
+      },
+    },
+  },
   [filterDistance50]: {
     request: {
       method: 'GET',

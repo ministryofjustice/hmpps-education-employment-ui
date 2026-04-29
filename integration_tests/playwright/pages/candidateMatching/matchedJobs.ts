@@ -19,21 +19,25 @@ export default class MatchedJobsPage extends AbstractPage {
     return this.page.locator('.govuk-back-link')
   }
 
+  printButton(): Locator {
+    return this.page.locator('#printLink')
+  }
+
   // Sub-navigation elements
   matchedJobsTab(): Locator {
-    return this.page.locator('#matched-jobs-tab')
+    return this.page.locator('[data-qa=matched-jobs-tab]')
   }
 
   nationalJobsTab(): Locator {
-    return this.page.locator('#national-jobs-tab')
+    return this.page.locator('[data-qa=national-jobs-tab]')
   }
 
   jobsOfInterestTab(): Locator {
-    return this.page.locator('#jobs-of-interest-tab')
+    return this.page.locator('[data-qa=jobs-of-interest-tab]')
   }
 
   archivedJobsTab(): Locator {
-    return this.page.locator('#archived-jobs-tab')
+    return this.page.locator('[data-qa=archived-jobs-tab]')
   }
 
   // Filter panel elements
@@ -51,6 +55,10 @@ export default class MatchedJobsPage extends AbstractPage {
 
   jobSectorFilter2(): Locator {
     return this.page.locator('#jobSectorFilter-2')
+  }
+
+  jobSectorFilter3(): Locator {
+    return this.page.locator('#jobSectorFilter-3')
   }
 
   jobSectorsFilterOtherSection(): Locator {

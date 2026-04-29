@@ -21,19 +21,19 @@ export default class ArchivedJobsPage extends AbstractPage {
 
   // Sub-navigation elements
   matchedJobsTab(): Locator {
-    return this.page.locator('#matched-jobs-tab')
+    return this.page.locator('[data-qa=matched-jobs-tab]')
   }
 
   nationalJobsTab(): Locator {
-    return this.page.locator('#national-jobs-tab')
+    return this.page.locator('[data-qa=national-jobs-tab]')
   }
 
   jobsOfInterestTab(): Locator {
-    return this.page.locator('#jobs-of-interest-tab')
+    return this.page.locator('[data-qa=jobs-of-interest-tab]')
   }
 
   archivedJobsTab(): Locator {
-    return this.page.locator('#archived-jobs-tab')
+    return this.page.locator('[data-qa=archived-jobs-tab]')
   }
 
   // Results table elements

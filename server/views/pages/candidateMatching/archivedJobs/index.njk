@@ -34,21 +34,21 @@
 
                     <nav class="moj-sub-navigation govuk-!-margin-bottom-7" aria-label="Sub navigation">
                         <ul class="moj-sub-navigation__list">
-                        <li class="moj-sub-navigation__item">
+                        <li class="moj-sub-navigation__item" data-qa="matched-jobs-tab">
                             <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.matchedJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + workTypesOfInterest.join(',') }}">Matched jobs</a>
                         </li>
                         {% if nationalJobsEnabled %}
-                            <li class="moj-sub-navigation__item">
+                            <li class="moj-sub-navigation__item" data-qa="national-jobs-tab">
                                 <a class="moj-sub-navigation__link govuk-!-display-none-print" href="{{ addressLookup.candidateMatching.nationalJobs(id) + '?sort=closingDate&order=ascending&jobSectorFilter=' + workTypesOfInterest.join(',') }}">National jobs</a>
                                 <span class="display-none-screen">National jobs</span>
                             </li>
                         {% endif%}
                         {% if expressionsOfInterestEnabled %}
-                            <li class="moj-sub-navigation__item">
+                            <li class="moj-sub-navigation__item" data-qa="jobs-of-interest-tab">
                                 <a class="moj-sub-navigation__link" href="{{ addressLookup.candidateMatching.jobsOfInterest(id) + '?sort=closingDate&order=ascending' }}">Other jobs chosen by prisoner</a>
                             </li>
                         {% endif%}
-                        <li class="moj-sub-navigation__item">
+                        <li class="moj-sub-navigation__item" data-qa="archived-jobs-tab">
                             <a class="moj-sub-navigation__link" aria-current="page" href="{{ addressLookup.candidateMatching.archivedJobs(id) + '?sort=closingDate&order=ascending' }}">Archived jobs</a>
                         </li>
                         </ul>

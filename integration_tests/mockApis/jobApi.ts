@@ -124,6 +124,30 @@ const getEmployer = (id = '01907e1e-bb85-7bb7-9018-33a2070a367d') =>
     },
   })
 
+const getEmployersWithNationalJobs = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      url: '/employers?hasNationalJobs=true&size=9999',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [
+          {
+            id: '019a15bc-2444-711d-83c0-892a1d9a57c0',
+            name: 'ABC Construction 10',
+            description: 'Construction company working in NW England',
+            sector: 'CONSTRUCTION',
+            status: 'REGIONAL_PLATINUM',
+            createdAt: '2025-10-24T10:20:43.037276Z',
+          },
+        ],
+      },
+    },
+  })
+
 const getMatchedJobsClosingSoon = () =>
   stubFor({
     request: {
@@ -171,8 +195,8 @@ const getJobOfInterestClosingSoon = (prisonerId = 'G6115VJ') =>
 const getArchivedJobs = () =>
   stubFor({
     request: {
-      method: 'POST',
-      url: '/candidate-matching/jobs/archived',
+      method: 'GET',
+      url: '/jobs/archived?page=0&size=20&sortBy=closingDate&sortOrder=asc&prisonNumber=G6115VK&releaseArea=L15%207LR',
     },
     response: {
       status: 200,
@@ -489,4 +513,5 @@ export default {
   createExpressionOfInterest,
   deleteExpressionOfInterest,
   getMatchedJobs,
+  getEmployersWithNationalJobs,
 }
