@@ -26,6 +26,7 @@
     "integration_tests/playwright",
     "dist",
     "cypress.config.ts",
+    "playwright.config.ts",
     "coverage",
     "test_results"
   ],
