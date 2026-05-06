@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
-import { v7 as uuidv7 } from 'uuid'
+import { randomUUID } from 'crypto'
 import { auditService } from '@ministryofjustice/hmpps-audit-client'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
@@ -68,7 +68,7 @@ export default class PrisonerListApplicationsController {
       setSessionData(req, ['prisonerListApplications', 'data'], data)
 
       if (config.apis.hmppsAudit.enabled) {
-        const correlationId = uuidv7()
+        const correlationId = randomUUID()
         await Promise.all([
           auditService.sendAuditMessage({
             correlationId,

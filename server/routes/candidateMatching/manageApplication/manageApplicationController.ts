@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { plainToClass } from 'class-transformer'
-import { v7 as uuidv7 } from 'uuid'
+import { randomUUID } from 'crypto'
 
 import _ from 'lodash'
 import { auditService } from '@ministryofjustice/hmpps-audit-client'
@@ -103,7 +103,7 @@ export default class ManageApplicationController {
       // Check for existing application ID
       const applicationId = applicationProgress.length
         ? (_.last(applicationProgress) as ApplicationStatusViewModel).id
-        : uuidv7()
+        : randomUUID()
 
       if (config.apis.hmppsAudit.enabled) {
         await auditService.sendAuditMessage({

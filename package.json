@@ -143,7 +143,6 @@
     "reflect-metadata": "^0.2.2",
     "superagent": "^10.2.3",
     "url-value-parser": "^2.2.0",
-    "uuid": "^10.0.0",
     "validator": "^13.12.0"
   },
   "devDependencies": {
@@ -172,7 +171,6 @@
     "@types/ramda": "^0.30.2",
     "@types/superagent": "^8.1.9",
     "@types/supertest": "^6.0.2",
-    "@types/uuid": "^10",
     "@types/validator": "^13.12.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
