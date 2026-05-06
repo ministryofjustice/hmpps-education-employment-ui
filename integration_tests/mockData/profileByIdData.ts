@@ -264,6 +264,13 @@ const profiles = {
                 },
               ],
             },
+            workInterests: {
+              modifiedBy: 'USER1',
+              modifiedDateTime: '2022-07-06T12:00:00',
+              workTypesOfInterest: ['CONSTRUCTION', 'OUTDOOR', 'RETAIL'],
+              workTypesOfInterestOther: ['CLEANING_AND_MAINTENANCE'],
+              jobOfParticularInterest: 'OUTDOOR',
+            },
           },
         },
       },

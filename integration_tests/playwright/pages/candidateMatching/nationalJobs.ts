@@ -1,0 +1,135 @@
+import { expect, type Locator, type Page } from '@playwright/test'
+import AbstractPage from '../abstractPage'
+
+export default class NationalJobsPage extends AbstractPage {
+  readonly header: Locator
+
+  private constructor(page: Page, prisonerName: string) {
+    super(page, `Jobs for ${prisonerName}`)
+    this.header = page.locator('h1', { hasText: `Jobs for ${prisonerName}` })
+  }
+
+  static async verifyOnPage(page: Page, prisonerName: string): Promise<NationalJobsPage> {
+    const nationalJobsPage = new NationalJobsPage(page, prisonerName)
+    await expect(nationalJobsPage.header).toBeVisible()
+    return nationalJobsPage
+  }
+
+  backLinkUrl(): Locator {
+    return this.page.locator('.govuk-back-link')
+  }
+
+  // Sub-navigation elements
+  matchedJobsTab(): Locator {
+    return this.page.locator('[data-qa=matched-jobs-tab]')
+  }
+
+  nationalJobsTab(): Locator {
+    return this.page.locator('[data-qa=national-jobs-tab]')
+  }
+
+  jobsOfInterestTab(): Locator {
+    return this.page.locator('[data-qa=jobs-of-interest-tab]')
+  }
+
+  archivedJobsTab(): Locator {
+    return this.page.locator('[data-qa=archived-jobs-tab]')
+  }
+
+  // Filter panel elements
+  employerFilter(): Locator {
+    return this.page.locator('#employerFilter')
+  }
+
+  jobSectorFilter1(): Locator {
+    return this.page.locator('#jobSectorFilter-1')
+  }
+
+  jobSectorFilter2(): Locator {
+    return this.page.locator('#jobSectorFilter-2')
+  }
+
+  jobSectorsFilterOtherSection(): Locator {
+    return this.page.locator('[data-qa=other-job-sectors-filter-section]')
+  }
+
+  jobSectorsFilterOtherSectionToggle(): Locator {
+    return this.page.locator('[data-qa=other-job-sectors-filter-section-toggle]')
+  }
+
+  jobSectorFilterOther1(): Locator {
+    return this.page.locator('#jobSectorFilterOther-1')
+  }
+
+  jobSectorFilterOther2(): Locator {
+    return this.page.locator('#jobSectorFilterOther-2')
+  }
+
+  offenceFilterSection(): Locator {
+    return this.page.locator('[data-qa=offence-filter-section]')
+  }
+
+  offenceFilterSectionToggle(): Locator {
+    return this.page.locator('[data-qa=offence-filter-section-toggle]')
+  }
+
+  offenceFilter1(): Locator {
+    return this.page.locator('#offenceFilter-1')
+  }
+
+  offenceFilter2(): Locator {
+    return this.page.locator('#offenceFilter-2')
+  }
+
+  applyButton(): Locator {
+    return this.page.locator('[data-qa=apply-button]')
+  }
+
+  clearFiltersButton(): Locator {
+    return this.page.locator('[data-qa=clear-filters-button]')
+  }
+
+  // Results table elements
+  resultsCounter(): Locator {
+    return this.page.locator('[data-qa=results-counter]')
+  }
+
+  noResultsHeader(): Locator {
+    return this.page.locator('[data-qa=no-results-heading]')
+  }
+
+  jobRoleColumnToggle(): Locator {
+    return this.page.locator('#jobTitle-sort-action')
+  }
+
+  jobLocationColumnToggle(): Locator {
+    return this.page.locator('#distance-sort-action')
+  }
+
+  closingDateColumnToggle(): Locator {
+    return this.page.locator('#closingDate-sort-action')
+  }
+
+  async tableData(): Promise<
+    Array<{
+      jobRole: string
+      typeOfWork: string
+      location: string
+      closingDate: string
+    }>
+  > {
+    const rows = await this.page.locator('#nationalJobs .govuk-table__row').elementHandles()
+    return Promise.all(
+      // Skip header row
+      rows.slice(1).map(async row => {
+        const tds = await row.$$('td.govuk-table__cell')
+        return {
+          jobRole: tds[0] ? await tds[0].innerText() : '',
+          typeOfWork: tds[1] ? await tds[1].innerText() : '',
+          location: tds[2] ? await tds[2].innerText() : '',
+          closingDate: tds[3] ? await tds[3].innerText() : '',
+        }
+      }),
+    )
+  }
+}

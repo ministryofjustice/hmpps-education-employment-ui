@@ -124,9 +124,9 @@ build-info.json
 dist/
 test_results/
 integration_tests/videos/
-integration_tests/screenshots/
+integration_tests/cypress/screenshots/
 */*.iml
 **/Chart.lock
 .DS_Store
-integration_tests/e2e/private/
+integration_tests/cypress/e2e/private/
 downloads/downloads.html

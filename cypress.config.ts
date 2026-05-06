@@ -22,9 +22,9 @@ import stubCohortListSortedByLastName from './integration_tests/mockData/cohortL
 
 export default defineConfig({
   chromeWebSecurity: false,
-  fixturesFolder: 'integration_tests/fixtures',
-  screenshotsFolder: 'integration_tests/screenshots',
-  videosFolder: 'integration_tests/videos',
+  fixturesFolder: 'integration_tests/cypress/fixtures',
+  screenshotsFolder: 'integration_tests/cypress/screenshots',
+  videosFolder: 'integration_tests/cypress/videos',
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
@@ -58,7 +58,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'integration_tests/support/index.ts',
+    specPattern: 'integration_tests/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'integration_tests/cypress/support/index.ts',
   },
 })
