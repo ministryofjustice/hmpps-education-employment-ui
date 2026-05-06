@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express'
 import { auditService } from '@ministryofjustice/hmpps-audit-client'
-import { v7 as uuidv7 } from 'uuid'
+import { randomUUID } from 'crypto'
 import type PrisonerSearchService from '../../../services/prisonSearchService'
 import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
@@ -59,7 +59,7 @@ export default class CohortListController {
       }
 
       if (config.apis.hmppsAudit.enabled) {
-        const correlationId = uuidv7()
+        const correlationId = randomUUID()
         await Promise.all([
           auditService.sendAuditMessage({
             correlationId,
