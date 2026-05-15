@@ -52,6 +52,7 @@ test.describe('Health', () => {
         tokenVerification.stubTokenVerificationPing(500),
         nomisUserRoles.stubNomisUserRolesApiPing(),
         ping.stubPing(),
+        componentApi.stubComponentPing(),
       ])
     })
 
