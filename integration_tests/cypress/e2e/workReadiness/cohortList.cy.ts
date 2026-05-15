@@ -33,7 +33,7 @@ context('SignIn', () => {
     const cohortListPage = new CohortListPage()
     cohortListPage.paginationResult().should('contain', 'Showing')
     cohortListPage.paginationResult().then(page => {
-      expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 results')
+      expect(page[0].innerText).to.deep.equal('Showing 1 to 20 of 21 total results')
     })
   })
 

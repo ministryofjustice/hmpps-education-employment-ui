@@ -4,6 +4,7 @@ import hmppsAuth from '../../mockApis/hmppsAuth'
 import tokenVerification from '../../mockApis/tokenVerification'
 import nomisUserRoles from '../../mockApis/nomisUserRolesApi'
 import ping from '../../mockApis/ping'
+import componentApi from '../../mockApis/componentApi'
 
 import { resetStubs } from '../testUtils'
 
@@ -20,6 +21,7 @@ test.describe('Health', () => {
         tokenVerification.stubTokenVerificationPing(),
         nomisUserRoles.stubNomisUserRolesApiPing(),
         ping.stubPing(),
+        componentApi.stubComponentPing(),
       ])
     })
 

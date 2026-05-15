@@ -1,2 +1,3 @@
-import { initAll } from 'govuk-frontend'
-initAll()
+// import { initAll } from 'govuk-frontend'
+// initAll()
+window.GOVUKFrontend.initAll()
