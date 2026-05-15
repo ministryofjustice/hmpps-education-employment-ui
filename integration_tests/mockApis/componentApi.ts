@@ -5,7 +5,7 @@ const stubComponentPing = (status = 200): SuperAgentRequest =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/frontendComponents/ping',
+      urlPattern: '/ping',
     },
     response: {
       status,
