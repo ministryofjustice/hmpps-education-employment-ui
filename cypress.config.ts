@@ -19,6 +19,7 @@ import stubCohortListByReleaseDate from './integration_tests/mockData/cohortList
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
 import stubCohortListSortedByLastName from './integration_tests/mockData/cohortListSortedByLastNameData'
+import stubComponentApi from './integration_tests/mockApis/componentApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -54,6 +55,7 @@ export default defineConfig({
         ...deliusIntegrationApi,
         ...jobApi,
         ...jobApplicationApi,
+        ...stubComponentApi,
       })
     },
     baseUrl: 'http://localhost:3007',
