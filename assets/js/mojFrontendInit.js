@@ -1,1 +1,2 @@
-window.MOJFrontend.initAll()
+import { initAll } from '@ministryofjustice/frontend'
+initAll()

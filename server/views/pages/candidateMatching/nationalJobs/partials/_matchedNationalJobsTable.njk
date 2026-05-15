@@ -1,6 +1,6 @@
 {% from "../../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
 {% from "../../../../macros/cohortListStatus.njk" import statusTag %}
-{% from "../../../../macros/pagination/macro.njk" import pagination %}
+{%- from "moj/components/pagination/macro.njk" import mojPagination -%}
 
 <div id="offender-container">
     {% if nationalJobsResults.content.length >= 1 %}
@@ -54,7 +54,7 @@
 
     
     {% if paginationData.results.count >= 1 and nationalJobsResults.content.length >= 1 %}
-        {{ pagination( paginationData ) }}
+        {{ mojPagination( paginationData ) }}
     {% else %}
         {% include './_notFoundMessages.njk' %}
     {% endif %}

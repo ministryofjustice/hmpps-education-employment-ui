@@ -193,6 +193,15 @@ export default {
       },
       agent: new AgentConfig(),
     },
+    frontendComponents: {
+      url: get('COMPONENT_API_URL', 'http://localhost:8083', requiredInProduction),
+      healthPath: '/ping',
+      timeout: {
+        response: Number(get('COMPONENT_API_URL', 10000)),
+        deadline: Number(get('COMPONENT_API_URL', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   dpsHomeUrl: get('DPS_URL', 'http://localhost:3001/', requiredInProduction),
