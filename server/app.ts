@@ -54,7 +54,7 @@ export default function createApp(services: Services): express.Application {
 
   // Get front end components for the DPS header
   app.use(
-    /^(?!\/api|^\/$).*/,
+    /^(?!\/api).*/,
     getFrontendComponents({
       componentApiConfig: config.apis.frontendComponents,
       requestOptions: { includeSharedData: true, useFallbacksByDefault: config.useComponentFallbacksByDefault },
