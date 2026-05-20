@@ -99,9 +99,9 @@
     ]
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "5.1.0",
+    "@ministryofjustice/frontend": "9.0.0",
     "@ministryofjustice/hmpps-audit-client": "^1.1.1",
-    "@ministryofjustice/hmpps-connect-dps-components": "^2.2.0",
+    "@ministryofjustice/hmpps-connect-dps-components": "5.5.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/qs": "^6.9.18",
@@ -126,7 +126,7 @@
     "express-session": "^1.18.0",
     "follow-redirects": "^1.15.9",
     "formidable": "^3.5.4",
-    "govuk-frontend": "^5.9.0",
+    "govuk-frontend": "6.1.0",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
     "joi": "^17.13.3",

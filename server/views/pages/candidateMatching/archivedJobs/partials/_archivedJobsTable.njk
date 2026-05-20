@@ -1,10 +1,10 @@
 {% from "../../../../macros/cohortListFunctions.njk" import sortableTableHeader, supportNeeded, readyToWork, supportDeclined, noRightToWork, notStarted %}
 {% from "../../../../macros/cohortListStatus.njk" import statusTag %}
-{% from "../../../../macros/pagination/macro.njk" import pagination %}
+{%- from "moj/components/pagination/macro.njk" import mojPagination -%}
 
 <div id="offender-container">
     {% if archivedJobsResults.content.length >= 1 %}
-        <table id="archivedJobs" class="govuk-table">
+        <table id="archivedJobs" class="govuk-table moj-sortable-table">
         <thead class="govuk-table__head" id="archivedJobs">
             <tr class="govuk-table__row">
                 {{ sortableTableHeader({
@@ -62,6 +62,6 @@
     {% endif %}
 
     {% if paginationData.results.count >= 1 and archivedJobsResults.content.length >= 1 %}
-        {{ pagination( paginationData ) }}
+        {{ mojPagination( paginationData ) }}
     {% endif %}
 </div>

@@ -1,10 +1,12 @@
-$govuk-global-styles: true
 $path: "/assets/images/"
-$moj-page-width: 1170px
-$govuk-page-width: $moj-page-width
 
-@import 'node_modules/govuk-frontend/dist/govuk/all'
-@import 'node_modules/@ministryofjustice/frontend/moj/all'
+@use "node_modules/govuk-frontend/dist/govuk" as * with (
+  $govuk-global-styles: true,
+  $govuk-page-width: 1170px
+)
+
+@use "node_modules/@ministryofjustice/frontend/moj/all"
+
 @import 'node_modules/@ministryofjustice/hmpps-connect-dps-components/dist/assets/footer'
 @import 'node_modules/@ministryofjustice/hmpps-connect-dps-components/dist/assets/header-bar'
 
@@ -15,11 +17,12 @@ $govuk-page-width: $moj-page-width
 @import './components/_card'
 @import './components/_mini-profile-header'
 @import './components/_timeline'
+@import './components/sortable-table'
 
 // Add extra styles here, or re-organise the Sass files in whichever way makes most sense to you
 
 .filter-box
-  background-color: govuk-colour("light-grey")
+  background-color: govuk-colour("black", $variant: "tint-95")
   padding: 25px 10px 25px 10px
 
 .filter-box-width-override-60 
@@ -31,7 +34,7 @@ $govuk-page-width: $moj-page-width
   float: left
 
 .filter-box-custom-padding
-  background-color: govuk-colour("light-grey")
+  background-color: govuk-colour("black", $variant: "tint-95")
   padding: 30px 20px 30px 20px
 
 .govuk-button-link 

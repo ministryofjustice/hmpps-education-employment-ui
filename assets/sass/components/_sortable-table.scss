@@ -1,0 +1,73 @@
+.moj-sortable-table {
+  .moj-sortable-table__button {
+    display: inline-flex;
+    background-color: transparent;
+    border-width: 0;
+    -webkit-box-shadow: 0 0 0 0;
+    -moz-box-shadow: 0 0 0 0;
+    box-shadow: 0 0 0 0;
+    color: #005ea5;
+    cursor: pointer;
+    padding: 0 16px 0 0;
+    position: relative;
+    text-decoration: none;
+    margin: 0;
+
+    &:hover {
+      padding: 0 16px 0 0;
+    }
+
+    &:focus {
+      background-color: $govuk-focus-colour;
+      color: $govuk-focus-text-colour;
+      box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+      outline: none;
+    }
+
+    &:before,
+    &:after {
+      position: absolute;
+      right: 0;
+      font-size: 0.5em;
+    }
+
+    &:before {
+      content: " \25bc" / "";
+      top: 11px;
+    }
+
+    &:after {
+      content: " \25b2" / "";
+      top: 2px;
+    }
+  }
+
+  button svg {
+    display: none;
+  }
+}
+
+[aria-sort="ascending"] {
+  .moj-sortable-table__button {
+    // Inherit all base styles, only override pseudo-elements
+    &:before {
+      content: none;
+    }
+    &:after {
+      font-size: .8em;
+    }
+  }
+}
+
+[aria-sort="descending"] {
+  .moj-sortable-table__button  {
+    // Inherit all base styles, only override pseudo-elements
+    &:after {
+      content: none;
+    }
+    &:before {
+      font-size: .8em;
+      top: 2px;
+    }
+  }
+}

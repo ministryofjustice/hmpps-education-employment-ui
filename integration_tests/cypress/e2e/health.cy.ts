@@ -7,6 +7,7 @@ context('Healthcheck', () => {
       cy.task('stubPrisonApiPing')
       cy.task('stubNomisUserRolesApiPing')
       cy.task('stubPing')
+      cy.task('stubComponentPing')
     })
 
     it('Health check is accessible and status is UP', () => {
@@ -40,6 +41,7 @@ context('Healthcheck', () => {
       cy.task('stubPrisonApiPing')
       cy.task('stubNomisUserRolesApiPing')
       cy.task('stubPing')
+      cy.task('stubComponentPing')
 
       cy.request({ url: '/health', method: 'GET', failOnStatusCode: false }).then(response => {
         expect(response.status).to.equal(500)
@@ -56,6 +58,7 @@ context('Healthcheck', () => {
         expect(response.body.components.deliusIntegrationApi.status).to.equal('UP')
         expect(response.body.components.manageUsersApi.status).to.equal('UP')
         expect(response.body.components.jobApi.status).to.equal('UP')
+        expect(response.body.components.frontendComponents.status).to.equal('UP')
         // unhealthy API
         expect(response.body.components.tokenVerification.status).to.equal('DOWN')
         expect(response.body.components.tokenVerification.details).to.contain({ status: 500, attempts: 3 })
