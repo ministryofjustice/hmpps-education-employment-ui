@@ -16,7 +16,7 @@ describe('SupportDeclinedSectionViewModel', () => {
     const supportViewModel = plainToClass(SupportDeclinedSectionViewModel, supportJson)
 
     expect(supportViewModel.modifiedBy).toBe(supportJson.modifiedBy)
-    expect(supportViewModel.modifiedDateTime).toBe('19 April')
+    expect(supportViewModel.modifiedDateTime).toBe('19 April 2022')
     expect(supportViewModel.supportToWorkDeclinedReason).toStrictEqual(supportJson.supportToWorkDeclinedReason)
     expect(supportViewModel.supportToWorkDeclinedReasonOther).toBe(supportJson.supportToWorkDeclinedReasonOther)
     expect(supportViewModel.circumstanceChangesRequiredToWork).toStrictEqual(

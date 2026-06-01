@@ -20,7 +20,7 @@ describe('ActionsRequiredViewModel', () => {
     expect(actionsRequiredViewModel.modifiedBy).toBe(actionsRequiredJson.modifiedBy)
 
     // Transformed properties
-    expect(actionsRequiredViewModel.modifiedDateTime).toBe('01 May 2022')
+    expect(actionsRequiredViewModel.modifiedDateTime).toBe('1 May 2022')
     expect(actionsRequiredViewModel.actions.length).toBe(2)
     expect(actionsRequiredViewModel.actions[0] instanceof TodoItemViewModel).toBe(true)
     expect(actionsRequiredViewModel.actions[1] instanceof TodoItemViewModel).toBe(true)

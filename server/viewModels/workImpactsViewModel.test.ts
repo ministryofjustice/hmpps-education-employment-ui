@@ -16,7 +16,7 @@ describe('WorkImpactsViewModel', () => {
     const viewModel = plainToClass(WorkImpactsViewModel, viewModelJson)
 
     expect(viewModel.modifiedBy).toBe(viewModelJson.modifiedBy)
-    expect(viewModel.modifiedDateTime).toBe('31 December')
+    expect(viewModel.modifiedDateTime).toBe('31 December 2022')
     expect(viewModel.abilityToWorkImpactedBy).toEqual(viewModelJson.abilityToWorkImpactedBy)
     expect(viewModel.caringResponsibilitiesFullTime).toBe(viewModelJson.caringResponsibilitiesFullTime)
     expect(viewModel.ableToManageMentalHealth).toBe(viewModelJson.ableToManageMentalHealth)
