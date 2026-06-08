@@ -2,8 +2,8 @@ import { format } from 'date-fns'
 import { TransformFnParams } from 'class-transformer'
 
 export default function formatDateStringTodMMMyyyy(params: TransformFnParams) {
+  if (!params.value) return 'N/A'
   try {
-    if (!params.value) return 'N/A'
     const date = new Date(params.value)
 
     return format(date, 'd MMM yyyy')
