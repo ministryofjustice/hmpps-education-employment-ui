@@ -143,8 +143,8 @@
     "reflect-metadata": "^0.2.2",
     "superagent": "^10.2.3",
     "url-value-parser": "^2.2.0",
-    "validator": "^13.12.0",
-    "uuid": "^11.1.1"
+    "uuid": "11.1.1",
+    "validator": "^13.12.0"
   },
   "devDependencies": {
     "@cypress/skip-test": "^2.6.1",
@@ -206,7 +206,6 @@
   },
   "overrides": {
     "qs": "6.15.2",
-    "uuid": "^11.1.1",
     "cypress": {
       "@cypress/request": "^3.0.0"
     },
