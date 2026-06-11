@@ -205,6 +205,12 @@
     "typescript": "^5.7.3"
   },
   "overrides": {
+    "@cypress/request": {
+      "uuid": "11.1.1"
+    },
+    "jest-junit": {
+      "uuid": "11.1.1"
+    },
     "qs": "6.15.2",
     "cypress": {
       "@cypress/request": "^3.0.0"
