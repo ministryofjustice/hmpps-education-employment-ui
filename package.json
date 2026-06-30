@@ -206,14 +206,15 @@
   },
   "overrides": {
     "@cypress/request": {
-      "uuid": "11.1.1"
+      "uuid": "^11.1.1"
     },
     "jest-junit": {
       "uuid": "11.1.1"
     },
     "qs": "6.15.2",
     "cypress": {
-      "@cypress/request": "^3.0.0"
+      "@cypress/request": "^4.0.1",
+      "uuid": "11.1.1"
     },
     "csurf": {
       "cookie": "0.7.2"
@@ -231,6 +232,9 @@
     },
     "@ministryofjustice/hmpps-audit-client": {
       "fast-xml-parser": "^5.3.8"
-    }
+    },
+    "@opentelemetry/core": "^2.8.0",
+    "@opentelemetry/sdk-trace-base": "^2.8.0",
+    "js-yaml": "^4.2.0"
   }
 }
