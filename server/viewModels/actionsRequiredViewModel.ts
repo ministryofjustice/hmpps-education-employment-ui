@@ -1,12 +1,12 @@
 import { Transform, Type } from 'class-transformer'
-import { formatDateStringTodMMMyyyy } from '../utils/index'
+import { formatDateStringTodMMMMyyyy } from '../utils/index'
 import TodoItemViewModel from './todoItemViewModel'
 
 export default class ActionsRequiredViewModel {
   modifiedBy: string
 
   @Type(() => Date)
-  @Transform(formatDateStringTodMMMyyyy)
+  @Transform(formatDateStringTodMMMMyyyy)
   modifiedDateTime: string
 
   @Type(() => TodoItemViewModel)
