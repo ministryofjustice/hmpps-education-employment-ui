@@ -8,7 +8,12 @@ const MODULE_REDIRECTS: Record<string, string> = {
   unknown: '/',
 }
 
-const MJMA_ALLOWED_PROFILE_STATUSES = ['READY_TO_WORK', 'SUPPORT_NEEDED'] as const
+const MJMA_ALLOWED_PROFILE_STATUSES = [
+  'READY_TO_WORK',
+  'SUPPORT_NEEDED',
+  'SUPPORT_DECLINED',
+  'NO_RIGHT_TO_WORK',
+] as const
 
 const MJMA_CONTEXT_VALUE = 'mjma'
 
@@ -39,7 +44,7 @@ const checkPrisonerProfileViewCriteria =
           .render('notFoundPage.njk', { continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)) })
         return
       }
-      if (isMjmaContext) {
+      try {
         const { profileData } = await prisonerProfileService.getProfileById(user.token, id)
 
         if (!MJMA_ALLOWED_PROFILE_STATUSES.includes(profileData?.status)) {
@@ -48,6 +53,15 @@ const checkPrisonerProfileViewCriteria =
             .render('notFoundPage.njk', { continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)) })
           return
         }
+      } catch (err) {
+        if (
+          err?.data?.status === 404 &&
+          err?.data?.userMessage?.indexOf(`Readiness profile does not exist for offender ${id}`) > -1
+        ) {
+          res.redirect(`/wr/profile/create/${id}/right-to-work/new`)
+          return
+        }
+        throw err
       }
     } catch (err) {
       res.status(404).render('notFoundPage.njk', {
