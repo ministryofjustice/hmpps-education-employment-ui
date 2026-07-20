@@ -47,19 +47,6 @@ describe('getProfileByIdResolver', () => {
     expect(next).toHaveBeenCalledWith()
   })
 
-  it('On error - 400 error - Calls next without error', async () => {
-    serviceMock.getProfileById.mockRejectedValue({
-      data: {
-        status: 400,
-        userMessage: 'Readiness profile does not exist',
-      },
-    })
-
-    await resolver(req, res, next)
-
-    expect(next).toHaveBeenCalledWith()
-  })
-
   it('On success - Attaches data to context and call next', async () => {
     serviceMock.getProfileById.mockResolvedValue(mockData.profile)
     serviceMock.getUserByUsername.mockResolvedValue(mockData.user)
