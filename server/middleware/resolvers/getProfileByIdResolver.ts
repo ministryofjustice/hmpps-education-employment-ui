@@ -66,8 +66,11 @@ const getProfileByIdResolver =
 
       next()
     } catch (err) {
-      // Handle no profile
-      if (err?.data?.status === 400 && err?.data?.userMessage.indexOf('Readiness profile does not exist') > -1) {
+      // Handle no profile - accept both 400 and 404
+      if (
+        (err?.data?.status === 400 || err?.data?.status === 404) &&
+        err?.data?.userMessage?.includes('Readiness profile does not exist')
+      ) {
         next()
         return
       }
