@@ -51,7 +51,7 @@ describe('getProfileByIdResolver', () => {
     serviceMock.getProfileById.mockRejectedValue({
       data: {
         status: 400,
-        userMessage: `Readiness profile does not exist for offender ${req.id}`,
+        userMessage: `Readiness profile does not exist`,
       },
     })
 

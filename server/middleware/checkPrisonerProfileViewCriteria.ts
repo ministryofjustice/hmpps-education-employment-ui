@@ -39,7 +39,7 @@ const checkPrisonerProfileViewCriteria =
           .render('notFoundPage.njk', { continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)) })
         return
       }
-      if (isMjmaContext)
+      if (isMjmaContext) {
         try {
           const { profileData } = await prisonerProfileService.getProfileById(user.token, id)
           if (!MJMA_ALLOWED_PROFILE_STATUSES.includes(profileData?.status)) {
@@ -52,7 +52,9 @@ const checkPrisonerProfileViewCriteria =
           res.status(404).render('notFoundPage.njk', {
             continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)),
           })
+          return
         }
+      }
     } catch (err) {
       res.status(404).render('notFoundPage.njk', {
         continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)),
