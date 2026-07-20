@@ -8,7 +8,7 @@ const MODULE_REDIRECTS: Record<string, string> = {
   unknown: '/',
 }
 
-const MJMA_ALLOWED_PROFILE_STATUSES = ['SUPPORT_DECLINED', 'NO_RIGHT_TO_WORK'] as const
+const MJMA_ALLOWED_PROFILE_STATUSES = ['READY_TO_WORK', 'SUPPORT_NEEDED'] as const
 
 const MJMA_CONTEXT_VALUE = 'mjma'
 
@@ -40,18 +40,11 @@ const checkPrisonerProfileViewCriteria =
         return
       }
       if (isMjmaContext) {
-        try {
-          const { profileData } = await prisonerProfileService.getProfileById(user.token, id)
-          if (!MJMA_ALLOWED_PROFILE_STATUSES.includes(profileData?.status)) {
-            res
-              .status(404)
-              .render('notFoundPage.njk', { continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)) })
-            return
-          }
-        } catch (err) {
-          res.status(404).render('notFoundPage.njk', {
-            continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)),
-          })
+        const { profileData } = await prisonerProfileService.getProfileById(user.token, id)
+        if (!MJMA_ALLOWED_PROFILE_STATUSES.includes(profileData?.status)) {
+          res
+            .status(404)
+            .render('notFoundPage.njk', { continueUrl: getContinueUrl(resolveModule(isMjmaContext, module)) })
           return
         }
       }

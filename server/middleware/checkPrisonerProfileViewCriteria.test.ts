@@ -19,7 +19,6 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
       locals: {
         userActiveCaseLoad: { caseLoadId: 'MDI' },
         username: 'username',
-        user: { token: 'mock-token' },
         ...(overrides?.locals ?? {}),
       },
       status: statusMock,
@@ -269,7 +268,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     prisonerProfileService.getProfileById.mockResolvedValue(profileByIdResult)
 
     const req = makeReq('A1234BC', 'mjma')
-    const res = makeRes({ locals: { user: { token: 'mock-token' } } })
+    const res = makeRes()
     const next: NextFunction = jest.fn()
     await middleware(req, res, next)
 
@@ -313,7 +312,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     prisonerProfileService.getProfileById.mockResolvedValue(profileByIdResult)
 
     const req = makeReq('A1234BC')
-    const res = makeRes({ locals: { originalUrl: '/mjma/prisoner/A1234BC/profile', user: { token: 'mock-token' } } })
+    const res = makeRes({ locals: { originalUrl: '/mjma/prisoner/A1234BC/profile' } })
     const next: NextFunction = jest.fn()
     await middleware(req, res, next)
 
