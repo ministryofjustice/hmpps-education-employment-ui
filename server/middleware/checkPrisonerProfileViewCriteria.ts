@@ -41,6 +41,7 @@ const checkPrisonerProfileViewCriteria =
       }
       if (isMjmaContext) {
         const { profileData } = await prisonerProfileService.getProfileById(user.token, id)
+
         if (!MJMA_ALLOWED_PROFILE_STATUSES.includes(profileData?.status)) {
           res
             .status(404)
