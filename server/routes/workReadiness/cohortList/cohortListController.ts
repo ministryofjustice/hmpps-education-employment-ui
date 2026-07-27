@@ -71,7 +71,7 @@ export default class CohortListController {
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
       const decodedSearchTerm = decodeURIComponent(searchTerm as string)
-      const searchTermValidationError = typeof searchTerm === 'string' && isInvalidSearchTerm(decodedSearchTerm)
+      const searchTermValidationError = isInvalidSearchTerm(decodedSearchTerm)
 
       if (searchTermValidationError) {
         logger.info('Invalid search term: audit message for cohort search not sent')

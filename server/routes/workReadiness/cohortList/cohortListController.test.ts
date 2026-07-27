@@ -134,7 +134,7 @@ describe('CohortListController', () => {
         details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
       })
     })
-    it('does audit when searchTermValidationError=false', async () => {
+    it('does audit when search term is a valid name', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -143,7 +143,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).toHaveBeenCalled()
     })
-    it('does not audit when searchTermValidationError=true', async () => {
+    it('does not audit when search term is less than two words', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -152,16 +152,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).not.toHaveBeenCalled()
     })
-    it('does not audit when searchTerm is less than two words', async () => {
-      req.query = {
-        sort: 'releaseDate',
-        order: 'descending',
-        searchTerm: encodeURIComponent('Name'),
-      }
-      await controller.get(req, res, next)
-      expect(auditSpy).not.toHaveBeenCalled()
-    })
-    it('does not audit when searchTerm is more than four words', async () => {
+    it('does not audit when search term is more than four words', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -170,7 +161,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).not.toHaveBeenCalled()
     })
-    it('does not audit when a searchTerm part is more than 35 chars', async () => {
+    it('does not audit when a search term part is more than 35 chars', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -179,7 +170,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).not.toHaveBeenCalled()
     })
-    it('does not audit when a searchTerm part contains invalid chars - number', async () => {
+    it('does not audit when a search term part contains invalid chars - number', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -188,7 +179,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).not.toHaveBeenCalled()
     })
-    it('does not audit when a searchTerm part contains invalid chars - symbol', async () => {
+    it('does not audit when a search term part contains invalid chars - symbol', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -197,7 +188,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).not.toHaveBeenCalled()
     })
-    it('does audit when a searchTerm part contains a hyphen', async () => {
+    it('does audit when a search term part contains a hyphen', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
