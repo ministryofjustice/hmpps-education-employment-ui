@@ -134,5 +134,77 @@ describe('CohortListController', () => {
         details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
       })
     })
+    it('does audit when isInvalidSearchTerm=false', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Test Name'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).toHaveBeenCalled()
+    })
+    it('does not audit when isInvalidSearchTerm=true', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Name'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does not audit when searchTerm is less than two words', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Name'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does not audit when searchTerm is more than four words', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('A Much Longer Test Name'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does not audit when a searchTerm part is more than 35 chars', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('a'.repeat(36)),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does not audit when a searchTerm part contains invalid chars - number', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Test Name6'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does not audit when a searchTerm part contains invalid chars - symbol', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Test Name&!@'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
+    it('does audit when a searchTerm part contains a hyphen', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('Valid Test-Name'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).toHaveBeenCalled()
+    })
   })
 })

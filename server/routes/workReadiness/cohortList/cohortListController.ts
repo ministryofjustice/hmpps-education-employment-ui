@@ -7,6 +7,20 @@ import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
 import addressLookup from '../../addressLookup'
 import TimeToRelease from '../../../enums/timeToRelease'
+import logger from '../../../../logger'
+
+// validate searchTerm
+const isInvalidSearchTerm = (searchTerm: string): boolean => {
+  const parts = searchTerm.trim().split(/\s+/)
+  const validChars = /^[A-Z|a-z ,.'-]+$/
+
+  return (
+    parts.length < 2 ||
+    parts.length > 4 ||
+    parts.some(part => !validChars.test(part)) ||
+    parts.some(part => part.length > 35)
+  )
+}
 
 export default class CohortListController {
   constructor(
@@ -57,8 +71,13 @@ export default class CohortListController {
         selectStatus: status || 'ALL',
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
+      const decodedSearchTerm = decodeURIComponent(searchTerm as string)
+      const searchTermValidationError = typeof searchTerm === 'string' && isInvalidSearchTerm(decodedSearchTerm)
 
-      if (config.apis.hmppsAudit.enabled) {
+      if (searchTermValidationError) {
+        logger.info('Invalid search term: audit message for cohort search not sent')
+      } else if (config.apis.hmppsAudit.enabled && !searchTermValidationError) {
+        logger.debug('Sending audit messages for cohort search')
         const correlationId = randomUUID()
         await Promise.all([
           auditService.sendAuditMessage({
