@@ -14,7 +14,7 @@ const isInvalidSearchTermName = (searchTerm: string): boolean => {
   const validChars = /^[A-Z|a-z ,.'-]+$/
 
   return (
-    parts.length < 2 ||
+    parts.length < 1 ||
     parts.length > 4 ||
     parts.some(part => !validChars.test(part)) ||
     parts.some(part => part.length > 35)

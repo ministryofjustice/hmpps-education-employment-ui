@@ -134,23 +134,25 @@ describe('CohortListController', () => {
         details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
       })
     })
-    it('does audit when search term is a valid name', async () => {
+    it.each([
+      [' ', false],
+      ['Name', true],
+      ['Test Name', true],
+      ['Test Middle Name', true],
+      ['Test Two Middle Names', true],
+      ['Test Name With Three Middle Names', false],
+    ])('search term %s should audit: %s', async (searchTerm, shouldAudit) => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
-        searchTerm: encodeURIComponent('Test Name'),
+        searchTerm: encodeURIComponent(searchTerm),
       }
       await controller.get(req, res, next)
-      expect(auditSpy).toHaveBeenCalled()
-    })
-    it('does not audit when search term is less than two words', async () => {
-      req.query = {
-        sort: 'releaseDate',
-        order: 'descending',
-        searchTerm: encodeURIComponent('Name'),
+      if (shouldAudit) {
+        expect(auditSpy).toHaveBeenCalled()
+      } else {
+        expect(auditSpy).not.toHaveBeenCalled()
       }
-      await controller.get(req, res, next)
-      expect(auditSpy).not.toHaveBeenCalled()
     })
     it('does not audit when search term is more than four words', async () => {
       req.query = {
