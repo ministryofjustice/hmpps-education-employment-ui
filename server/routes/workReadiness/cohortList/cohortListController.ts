@@ -9,7 +9,7 @@ import addressLookup from '../../addressLookup'
 import TimeToRelease from '../../../enums/timeToRelease'
 import logger from '../../../../logger'
 
-const isInvalidSearchTerm = (searchTerm: string): boolean => {
+const isInvalidSearchTermName = (searchTerm: string): boolean => {
   const parts = searchTerm.trim().split(/\s+/)
   const validChars = /^[A-Z|a-z ,.'-]+$/
 
@@ -19,6 +19,11 @@ const isInvalidSearchTerm = (searchTerm: string): boolean => {
     parts.some(part => !validChars.test(part)) ||
     parts.some(part => part.length > 35)
   )
+}
+
+const isInvalidSearchTermPRN = (searchTerm: string): boolean => {
+  const validPRN = /^[A-Za-z]\d{4}[A-Za-z]{2}$/
+  return !validPRN.test(searchTerm)
 }
 
 export default class CohortListController {
@@ -71,9 +76,10 @@ export default class CohortListController {
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
       const decodedSearchTerm = decodeURIComponent(searchTerm as string)
-      const searchTermValidationError = isInvalidSearchTerm(decodedSearchTerm)
+      const searchTermNameValidationError = isInvalidSearchTermName(decodedSearchTerm)
+      const searchTermPRNValidationError = isInvalidSearchTermPRN(decodedSearchTerm)
 
-      if (searchTermValidationError) {
+      if (searchTermNameValidationError && searchTermPRNValidationError) {
         logger.info('Invalid search term: audit message for cohort search not sent')
       } else if (config.apis.hmppsAudit.enabled) {
         const correlationId = randomUUID()

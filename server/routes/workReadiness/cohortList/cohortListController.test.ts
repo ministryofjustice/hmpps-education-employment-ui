@@ -197,5 +197,23 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).toHaveBeenCalled()
     })
+    it('does audit when a search term is a valid PRN', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('A1234BC'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).toHaveBeenCalled()
+    })
+    it('does not audit when a search term is not a valid PRN', async () => {
+      req.query = {
+        sort: 'releaseDate',
+        order: 'descending',
+        searchTerm: encodeURIComponent('A12B'),
+      }
+      await controller.get(req, res, next)
+      expect(auditSpy).not.toHaveBeenCalled()
+    })
   })
 })
