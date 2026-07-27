@@ -134,7 +134,7 @@ describe('CohortListController', () => {
         details: JSON.stringify([{ prisonNumber: 'A1111AA' }, { prisonNumber: 'A1111BB' }]),
       })
     })
-    it('does audit when isInvalidSearchTerm=false', async () => {
+    it('does audit when searchTermValidationError=false', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',
@@ -143,7 +143,7 @@ describe('CohortListController', () => {
       await controller.get(req, res, next)
       expect(auditSpy).toHaveBeenCalled()
     })
-    it('does not audit when isInvalidSearchTerm=true', async () => {
+    it('does not audit when searchTermValidationError=true', async () => {
       req.query = {
         sort: 'releaseDate',
         order: 'descending',

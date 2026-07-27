@@ -9,7 +9,6 @@ import addressLookup from '../../addressLookup'
 import TimeToRelease from '../../../enums/timeToRelease'
 import logger from '../../../../logger'
 
-// validate searchTerm
 const isInvalidSearchTerm = (searchTerm: string): boolean => {
   const parts = searchTerm.trim().split(/\s+/)
   const validChars = /^[A-Z|a-z ,.'-]+$/
@@ -76,8 +75,7 @@ export default class CohortListController {
 
       if (searchTermValidationError) {
         logger.info('Invalid search term: audit message for cohort search not sent')
-      } else if (config.apis.hmppsAudit.enabled && !searchTermValidationError) {
-        logger.debug('Sending audit messages for cohort search')
+      } else if (config.apis.hmppsAudit.enabled) {
         const correlationId = randomUUID()
         await Promise.all([
           auditService.sendAuditMessage({
