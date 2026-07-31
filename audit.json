@@ -1,0 +1,540 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@eslint/eslintrc": {
+      "name": "@eslint/eslintrc",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["minimatch"],
+      "effects": ["eslint"],
+      "range": "0.0.1 || >=0.1.1",
+      "nodes": ["node_modules/@eslint/eslintrc"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@humanwhocodes/config-array": {
+      "name": "@humanwhocodes/config-array",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["minimatch"],
+      "effects": ["eslint"],
+      "range": "*",
+      "nodes": ["node_modules/@humanwhocodes/config-array"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@jest/core": {
+      "name": "@jest/core",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@jest/reporters",
+        "@jest/transform",
+        "jest-config",
+        "jest-resolve-dependencies",
+        "jest-runner",
+        "jest-runtime",
+        "jest-snapshot"
+      ],
+      "effects": ["jest", "jest-cli"],
+      "range": "*",
+      "nodes": ["node_modules/@jest/core"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@jest/expect": {
+      "name": "@jest/expect",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["jest-snapshot"],
+      "effects": ["@jest/globals", "jest-circus"],
+      "range": "*",
+      "nodes": ["node_modules/@jest/expect"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@jest/globals": {
+      "name": "@jest/globals",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/expect"],
+      "effects": ["jest-runtime"],
+      "range": ">=28.0.0-alpha.0",
+      "nodes": ["node_modules/@jest/globals"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@jest/reporters": {
+      "name": "@jest/reporters",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/transform", "glob"],
+      "effects": ["@jest/core"],
+      "range": "*",
+      "nodes": ["node_modules/@jest/reporters"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@jest/transform": {
+      "name": "@jest/transform",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["babel-plugin-istanbul"],
+      "effects": ["babel-jest", "jest-runner", "jest-runtime", "jest-snapshot", "ts-jest"],
+      "range": "*",
+      "nodes": ["node_modules/@jest/transform"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@typescript-eslint/eslint-plugin": {
+      "name": "@typescript-eslint/eslint-plugin",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["@typescript-eslint/parser", "@typescript-eslint/type-utils", "@typescript-eslint/utils", "eslint"],
+      "effects": [],
+      "range": "<=8.55.1-alpha.3",
+      "nodes": ["node_modules/@typescript-eslint/eslint-plugin"],
+      "fixAvailable": {
+        "name": "@typescript-eslint/eslint-plugin",
+        "version": "8.65.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@typescript-eslint/parser": {
+      "name": "@typescript-eslint/parser",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["eslint"],
+      "effects": ["@typescript-eslint/eslint-plugin"],
+      "range": "1.1.1-alpha.0 - 8.55.1-alpha.3",
+      "nodes": ["node_modules/@typescript-eslint/parser"],
+      "fixAvailable": {
+        "name": "@typescript-eslint/parser",
+        "version": "8.65.0",
+        "isSemVerMajor": true
+      }
+    },
+    "@typescript-eslint/type-utils": {
+      "name": "@typescript-eslint/type-utils",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@typescript-eslint/utils"],
+      "effects": [],
+      "range": "5.9.2-alpha.0 - 8.55.1-alpha.3",
+      "nodes": ["node_modules/@typescript-eslint/type-utils"],
+      "fixAvailable": true
+    },
+    "@typescript-eslint/utils": {
+      "name": "@typescript-eslint/utils",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["eslint"],
+      "effects": ["@typescript-eslint/eslint-plugin", "@typescript-eslint/type-utils"],
+      "range": "<=8.55.1-alpha.3",
+      "nodes": ["node_modules/@typescript-eslint/utils"],
+      "fixAvailable": {
+        "name": "@typescript-eslint/eslint-plugin",
+        "version": "8.65.0",
+        "isSemVerMajor": true
+      }
+    },
+    "babel-jest": {
+      "name": "babel-jest",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/transform", "babel-plugin-istanbul"],
+      "effects": ["jest-config", "ts-jest"],
+      "range": ">=24.0.0-alpha.0",
+      "nodes": ["node_modules/babel-jest"],
+      "fixAvailable": {
+        "name": "ts-jest",
+        "version": "29.1.2",
+        "isSemVerMajor": true
+      }
+    },
+    "babel-plugin-istanbul": {
+      "name": "babel-plugin-istanbul",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["test-exclude"],
+      "effects": ["@jest/transform", "babel-jest"],
+      "range": "5.0.1 - 7.0.1",
+      "nodes": ["node_modules/babel-plugin-istanbul"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "brace-expansion": {
+      "name": "brace-expansion",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1124334,
+          "name": "brace-expansion",
+          "dependency": "brace-expansion",
+          "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+          "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+          "severity": "high",
+          "cwe": ["CWE-400", "CWE-770"],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=5.0.7"
+        }
+      ],
+      "effects": ["minimatch"],
+      "range": "<=5.0.7",
+      "nodes": ["node_modules/brace-expansion"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "create-jest": {
+      "name": "create-jest",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["jest-config"],
+      "effects": ["jest-cli"],
+      "range": ">=29.7.0",
+      "nodes": ["node_modules/create-jest"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "eslint": {
+      "name": "eslint",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["@eslint/eslintrc", "@humanwhocodes/config-array", "file-entry-cache", "minimatch"],
+      "effects": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "@typescript-eslint/utils",
+        "eslint-config-airbnb-base"
+      ],
+      "range": "0.12.0 - 2.0.0-rc.1 || 4.1.0 - 10.0.0-rc.2",
+      "nodes": ["node_modules/eslint"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "eslint-config-airbnb-base": {
+      "name": "eslint-config-airbnb-base",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["eslint", "eslint-plugin-import"],
+      "effects": [],
+      "range": ">=7.2.0",
+      "nodes": ["node_modules/eslint-config-airbnb-base"],
+      "fixAvailable": {
+        "name": "eslint-config-airbnb-base",
+        "version": "11.3.2",
+        "isSemVerMajor": true
+      }
+    },
+    "eslint-plugin-import": {
+      "name": "eslint-plugin-import",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["minimatch"],
+      "effects": ["eslint-config-airbnb-base"],
+      "range": ">=1.15.0",
+      "nodes": ["node_modules/eslint-plugin-import"],
+      "fixAvailable": {
+        "name": "eslint-plugin-import",
+        "version": "1.14.0",
+        "isSemVerMajor": true
+      }
+    },
+    "file-entry-cache": {
+      "name": "file-entry-cache",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["flat-cache"],
+      "effects": ["eslint"],
+      "range": "4.0.0 - 7.0.2",
+      "nodes": ["node_modules/file-entry-cache"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "flat-cache": {
+      "name": "flat-cache",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["rimraf"],
+      "effects": ["file-entry-cache"],
+      "range": "1.3.4 - 4.0.0",
+      "nodes": ["node_modules/flat-cache"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "glob": {
+      "name": "glob",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["minimatch"],
+      "effects": ["@jest/reporters", "jest-config", "jest-runtime", "mocha", "rimraf", "test-exclude"],
+      "range": "4.3.0 - 10.5.0",
+      "nodes": [
+        "node_modules/@jest/reporters/node_modules/glob",
+        "node_modules/jest-config/node_modules/glob",
+        "node_modules/jest-runtime/node_modules/glob",
+        "node_modules/mocha/node_modules/glob",
+        "node_modules/mv/node_modules/glob",
+        "node_modules/rimraf/node_modules/glob",
+        "node_modules/test-exclude/node_modules/glob"
+      ],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest": {
+      "name": "jest",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["@jest/core", "jest-cli"],
+      "effects": ["ts-jest"],
+      "range": ">=19.1.0-alpha.eed82034",
+      "nodes": ["node_modules/jest"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-circus": {
+      "name": "jest-circus",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/expect", "jest-runtime", "jest-snapshot"],
+      "effects": ["jest-config"],
+      "range": ">=25.2.4",
+      "nodes": ["node_modules/jest-circus"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-cli": {
+      "name": "jest-cli",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/core", "create-jest", "jest-config"],
+      "effects": ["jest"],
+      "range": ">=19.1.0-alpha.eed82034",
+      "nodes": ["node_modules/jest-cli"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-config": {
+      "name": "jest-config",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["babel-jest", "glob", "jest-circus", "jest-runner"],
+      "effects": ["create-jest", "jest-cli"],
+      "range": ">=19.1.0-alpha.eed82034",
+      "nodes": ["node_modules/jest-config"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-resolve-dependencies": {
+      "name": "jest-resolve-dependencies",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["jest-snapshot"],
+      "effects": [],
+      "range": ">=27.0.0-next.0",
+      "nodes": ["node_modules/jest-resolve-dependencies"],
+      "fixAvailable": true
+    },
+    "jest-runner": {
+      "name": "jest-runner",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/transform", "jest-runtime"],
+      "effects": ["jest-config"],
+      "range": ">=24.0.0-alpha.0",
+      "nodes": ["node_modules/jest-runner"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-runtime": {
+      "name": "jest-runtime",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/globals", "@jest/transform", "glob", "jest-snapshot"],
+      "effects": ["jest-circus", "jest-runner"],
+      "range": ">=24.0.0-alpha.0",
+      "nodes": ["node_modules/jest-runtime"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "jest-snapshot": {
+      "name": "jest-snapshot",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["@jest/transform"],
+      "effects": ["@jest/core", "@jest/expect", "jest-circus", "jest-resolve-dependencies", "jest-runtime"],
+      "range": ">=27.0.0-next.0",
+      "nodes": ["node_modules/jest-snapshot"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "minimatch": {
+      "name": "minimatch",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["brace-expansion"],
+      "effects": [
+        "@eslint/eslintrc",
+        "@humanwhocodes/config-array",
+        "eslint",
+        "eslint-plugin-import",
+        "glob",
+        "test-exclude"
+      ],
+      "range": "2.0.0 - 10.0.2",
+      "nodes": ["node_modules/minimatch"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "mocha": {
+      "name": "mocha",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob"],
+      "effects": [],
+      "range": "3.0.0-0 - 12.0.0-beta-1",
+      "nodes": ["node_modules/mocha"],
+      "fixAvailable": true
+    },
+    "mv": {
+      "name": "mv",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["rimraf"],
+      "effects": [],
+      "range": ">=2.1.0",
+      "nodes": ["node_modules/mv"],
+      "fixAvailable": true
+    },
+    "rimraf": {
+      "name": "rimraf",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob"],
+      "effects": ["flat-cache", "mv"],
+      "range": "2.3.0 - 3.0.2 || 4.2.0 - 5.0.10",
+      "nodes": ["node_modules/mv/node_modules/rimraf", "node_modules/rimraf"],
+      "fixAvailable": {
+        "name": "eslint",
+        "version": "10.8.0",
+        "isSemVerMajor": true
+      }
+    },
+    "test-exclude": {
+      "name": "test-exclude",
+      "severity": "high",
+      "isDirect": false,
+      "via": ["glob", "minimatch"],
+      "effects": ["babel-plugin-istanbul"],
+      "range": "4.2.2 || 5.0.0 - 7.0.2",
+      "nodes": ["node_modules/test-exclude"],
+      "fixAvailable": {
+        "name": "jest",
+        "version": "25.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "ts-jest": {
+      "name": "ts-jest",
+      "severity": "high",
+      "isDirect": true,
+      "via": ["@jest/transform", "babel-jest", "jest"],
+      "effects": [],
+      "range": ">=25.10.0-alpha.1",
+      "nodes": ["node_modules/ts-jest"],
+      "fixAvailable": {
+        "name": "ts-jest",
+        "version": "29.1.2",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 35,
+      "critical": 0,
+      "total": 35
+    },
+    "dependencies": {
+      "prod": 278,
+      "dev": 825,
+      "optional": 57,
+      "peer": 35,
+      "peerOptional": 0,
+      "total": 1111
+    }
+  }
+}
