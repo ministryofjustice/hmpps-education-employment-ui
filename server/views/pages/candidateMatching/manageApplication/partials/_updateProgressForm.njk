@@ -55,9 +55,15 @@
             errorMessage: errors.additionalInformation
         }) }}
 
+      {% if applicationProgress.length == 0 %}
+        <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link"
+                                                         href="{{ withFrom(addressLookup.candidateMatching.jobDetails(id, job.id)) }}"
+                                                         onclick="event.stopPropagation();" id="cancel-link">Cancel and return to job description</a></p>
+      {% else %}
         <p class="govuk-body govuk-!-margin-bottom-8"><a class="govuk-link"
                                                          href="{{ withFrom(addressLookup.candidateMatching.manageApplication(id, job.id)) }}"
                                                          onclick="event.stopPropagation();" id="cancel-link">Cancel update</a></p>
+      {% endif %}
 
         {{ govukButton({
             text: "Save and update",
