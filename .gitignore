@@ -130,3 +130,4 @@ integration_tests/cypress/screenshots/
 .DS_Store
 integration_tests/cypress/e2e/private/
 downloads/downloads.html
+audit.json
