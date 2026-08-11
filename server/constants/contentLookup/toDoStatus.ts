@@ -1,5 +1,5 @@
 export default {
-  NOT_STARTED: 'NOT STARTED',
-  IN_PROGRESS: 'IN PROGRESS',
-  COMPLETED: 'COMPLETED',
+  NOT_STARTED: 'Not started',
+  IN_PROGRESS: 'In progress',
+  COMPLETED: 'Completed',
 }
