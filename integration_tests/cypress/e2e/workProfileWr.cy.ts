@@ -49,7 +49,7 @@ context('SignIn', () => {
     cy.visit('/wr/profile/G6115VJ/view/overview')
     const workProfilePage = new WorkProfilePage("Test User1's work profile")
 
-    workProfilePage.overviewStatus().contains('NO RIGHT TO WORK')
+    workProfilePage.overviewStatus().contains('No right to work')
 
     workProfilePage.overviewChangeStatusLink().contains('Change').click()
 
