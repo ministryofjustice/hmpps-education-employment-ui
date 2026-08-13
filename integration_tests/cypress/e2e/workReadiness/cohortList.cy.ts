@@ -59,11 +59,11 @@ context('SignIn', () => {
       expect(offenders[0].viewLink).to.contain('/wr/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
-      expect(offenders[0].status).to.contain('DOES NOT WANT SUPPORT')
+      expect(offenders[0].status).to.contain('Does not want support')
       expect(offenders[0].workSummary).to.contain('Returning to work they had before prison')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
 
-      expect(offenders[5].status).to.contain('NOT STARTED')
+      expect(offenders[5].status).to.contain('Not started')
     })
   })
 
@@ -83,7 +83,7 @@ context('SignIn', () => {
       expect(offenders[0].viewLink).to.contain('/wr/profile/G6190UD/view/overview')
       expect(offenders[0].displayName).to.contain('Dool, Curt')
       expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
-      expect(offenders[0].status).to.contain('NEEDS SUPPORT')
+      expect(offenders[0].status).to.contain('Needs support')
       expect(offenders[0].workSummary).to.contain('Disclosure letter')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
     })
