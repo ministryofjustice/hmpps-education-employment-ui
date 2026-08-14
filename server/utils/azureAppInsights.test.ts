@@ -1,4 +1,5 @@
 import { DataTelemetry, EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
+import { Request, Response } from 'express'
 import * as appInsights from 'applicationinsights'
 import { addUserDataToRequests, appInsightsMiddleware, operationNameProcessor, ContextObject } from './azureAppInsights'
 
@@ -101,7 +102,7 @@ describe('appInsightsMiddleware', () => {
     ({
       method: 'GET',
       route: routePath ? { path: routePath } : undefined,
-    } as any)
+    } as unknown as Request)
 
   const mockRes = () => {
     const listeners: Record<string, (() => void)[]> = {}
@@ -111,7 +112,7 @@ describe('appInsightsMiddleware', () => {
         listeners[event].push(cb)
       },
       emit: (event: string) => listeners[event]?.forEach(cb => cb()),
-    } as any
+    } as unknown as Response
   }
 
   it('sets operationName on correlationContext when route is present', () => {
