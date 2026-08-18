@@ -51,6 +51,7 @@ export function appInsightsMiddleware(): RequestHandler {
         context.customProperties.setProperty('operationName', `${req.method} ${req.route?.path}`)
       }
     })
+    next()
   }
 }
 

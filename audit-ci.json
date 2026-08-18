@@ -2,5 +2,5 @@
   "low": true,
   "package-manager": "auto",
   "registry": "https://registry.npmjs.org",
-  "allowlist": ["GHSA-mh99-v99m-4gvg"]
+  "allowlist": []
 }
