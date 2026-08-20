@@ -1,5 +1,5 @@
 {% set defaultTimeUntilRelease = 'TWELVE_WEEKS' %}
-{% set defaultStatus = 'ALL' %}
+{% set defaultStatus = 'All' %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -18,12 +18,12 @@
 
       {# 3. No search term, but 0 results at DEFAULT filters #}
       {% elif selectStatus == defaultStatus and timeToRelease == defaultTimeUntilRelease %}
-      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[defaultTimeUntilRelease] }} in {{ contentLookup.fields.newStatus[selectStatus] }}</h2>
+      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[defaultTimeUntilRelease] }} in {{ defaultStatus }}</h2>
       <p class="govuk-body">Select another time to release.</p>
 
       {# 4. No search term, and 0 results at "Any" status (All) for a specific time #}
       {% elif selectStatus == defaultStatus %}
-      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[timeToRelease] }} in {{ contentLookup.fields.newStatus[selectStatus] }}</h2>
+      <h2 class="govuk-heading-m">0 results for {{ contentLookup.timeToRelease[timeToRelease] }} in {{ defaultStatus }}</h2>
       <p class="govuk-body">There are no prisoners with a release date at this time.</p>
 
       {# 5. 0 results for a specific status/time combination (No search term) #}
