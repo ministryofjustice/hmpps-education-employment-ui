@@ -47,7 +47,7 @@ export default class CohortListController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        status && status !== 'ALL' && `status=${status}`,
+        status && `status=${status}`,
         timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
         page && `page=${page}`,
@@ -127,7 +127,7 @@ export default class CohortListController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+        `status=${selectStatus || 'ALL'}`,
         timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
       ].filter(val => !!val)
