@@ -18,6 +18,8 @@ import jobApplicationApi from './integration_tests/mockApis/jobApplicationApi'
 import stubCohortListByReleaseDate from './integration_tests/mockData/cohortListData'
 import stubCohortListNameFilter from './integration_tests/mockData/cohortProfileFilterNameData'
 import stubCohortListNameNotExistFilter from './integration_tests/mockData/cohortProfileFilterNameNotExistData'
+import stubCohortListSearchTermNameNotExistWithSpecificStatusTimeFilter from './integration_tests/mockData/cohortProfileFilterSearchTermStatusTimeNameNotExistData'
+import stubCohortListNoSearchTermNotExistFilter from './integration_tests/mockData/cohortProfileFilterNoSearchTermNotExistData'
 import stubCohortListSortedByLastName from './integration_tests/mockData/cohortListSortedByLastNameData'
 import stubComponentApi from './integration_tests/mockApis/componentApi'
 
@@ -47,6 +49,8 @@ export default defineConfig({
         ...stubCohortListByReleaseDate,
         ...stubCohortListNameFilter,
         ...stubCohortListNameNotExistFilter,
+        ...stubCohortListSearchTermNameNotExistWithSpecificStatusTimeFilter,
+        ...stubCohortListNoSearchTermNotExistFilter,
         ...stubCohortListSortedByLastName,
         ...prisonApi,
         ...whereaboutsApi,
