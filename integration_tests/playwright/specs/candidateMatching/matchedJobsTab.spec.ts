@@ -2,6 +2,9 @@ import { expect, test } from '@playwright/test'
 
 import { login, resetStubs } from '../../testUtils'
 import MatchedJobsPage from '../../pages/candidateMatching/matchedJobs'
+import NationalJobsPage from '../../pages/candidateMatching/nationalJobs'
+import ArchivedJobsPage from '../../pages/candidateMatching/archivedJobs'
+import JobDetailsPage from '../../pages/candidateMatching/jobDetails'
 
 import manageUsersApi from '../../../mockApis/manageUsersApi'
 import nomisUserRolesApi from '../../../mockApis/nomisUserRolesApi'
@@ -46,9 +49,21 @@ test.describe('Matched Jobs Tab', () => {
   })
 
   test('Matched jobs tab - check content', async ({ page }) => {
+    await jobApi.getJob('1')
+    await jobApi.getMatchedJobs(
+      'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false',
+    )
+    await jobApi.getMatchedJobs(
+      'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true',
+    )
+    await jobApi.getArchivedJobs()
+    await jobApi.getEmployersWithNationalJobs()
+    await jobApi.getEmployer('01907e1e-bb85-7bb7-9018-33a2070a367d')
+
     await page.goto('/mjma/G6115VK/jobs/matched')
     const matchedJobsPage = await MatchedJobsPage.verifyOnPage(page, 'Test User7')
 
+    // Verify default filter settings
     await expect(matchedJobsPage.locationFilter()).toHaveValue('L15 7LR')
     await expect(matchedJobsPage.distanceFilter()).toHaveValue('50')
     await expect(matchedJobsPage.jobSectorFilter1()).not.toBeChecked()
@@ -56,12 +71,44 @@ test.describe('Matched Jobs Tab', () => {
     await expect(matchedJobsPage.jobSectorFilter3()).not.toBeChecked()
     await expect(matchedJobsPage.jobSectorFilterOther1()).not.toBeChecked()
     await expect(matchedJobsPage.jobSectorFilterOther2()).not.toBeChecked()
+
+    // Verify filter sections are collapsed by default and can be expanded and collapsed
     await expect(matchedJobsPage.jobSectorsFilterOtherSection()).not.toHaveAttribute('open')
     await expect(matchedJobsPage.offenceFilterSection()).not.toHaveAttribute('open')
 
-    await matchedJobsPage.applyButton().click()
-    // await expect(matchedJobsPage.resultsCounter()).toContainText('9 results')
-    await expect(matchedJobsPage.jobSectorFilter1().click())
+    await matchedJobsPage.jobSectorsFilterOtherSectionToggle().click()
+    await expect(matchedJobsPage.jobSectorsFilterOtherSection()).toHaveAttribute('open')
+    await matchedJobsPage.jobSectorsFilterOtherSectionToggle().click()
+    await expect(matchedJobsPage.jobSectorsFilterOtherSection()).not.toHaveAttribute('open')
+
+    await matchedJobsPage.offenceFilterSectionToggle().click()
+    await expect(matchedJobsPage.offenceFilterSection()).toHaveAttribute('open')
+    await matchedJobsPage.offenceFilterSectionToggle().click()
+    await expect(matchedJobsPage.offenceFilterSection()).not.toHaveAttribute('open')
+
+    // Follow links to other tabs
+    await matchedJobsPage.nationalJobsTab().click()
+    await expect(page).toHaveURL(
+      '/mjma/G6115VK/jobs/national-jobs?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
+    )
+    const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
+    await nationalJobsPage.matchedJobsTab().click()
+    await expect(page).toHaveURL(
+      '/mjma/G6115VK/jobs/matched?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
+    )
+
+    await matchedJobsPage.archivedJobsTab().click()
+    await expect(page).toHaveURL('/mjma/G6115VK/jobs/archived?sort=closingDate&order=ascending')
+    const archivedJobsPage = await ArchivedJobsPage.verifyOnPage(page, 'Test User7')
+    await archivedJobsPage.matchedJobsTab().click()
+    await expect(page).toHaveURL(
+      '/mjma/G6115VK/jobs/matched?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
+    )
+
+    // Print button - check that the print button triggers the print dialog (see https://playwright.dev/docs/dialogs#print-dialogs)
+    await page.evaluate('(() => {window.waitForPrintDialog = new Promise(f => window.print = f);})()')
+    await matchedJobsPage.printButton().click()
+    await page.waitForFunction('window.waitForPrintDialog')
   })
 
   test('Matched jobs tab - no results', async ({ page }) => {
@@ -133,3 +180,14 @@ test.describe('Matched Jobs Tab', () => {
     await expect(matchedJobsPage.resultsCounter()).toContainText('8 results')
   })
 })
+
+// Utility function to check all filters are set to default values
+async function expectDefaultFilters(matchedJobsPage: MatchedJobsPage) {
+  await expect(matchedJobsPage.locationFilter()).toHaveValue('L15 7LR')
+  await expect(matchedJobsPage.distanceFilter()).toHaveValue('50')
+  await expect(matchedJobsPage.jobSectorFilter1()).toBeChecked()
+  await expect(matchedJobsPage.jobSectorFilter2()).toBeChecked()
+  await expect(matchedJobsPage.jobSectorFilter3()).toBeChecked()
+  await expect(matchedJobsPage.jobSectorFilterOther1()).not.toBeChecked()
+  await expect(matchedJobsPage.jobSectorFilterOther2()).not.toBeChecked()
+}
