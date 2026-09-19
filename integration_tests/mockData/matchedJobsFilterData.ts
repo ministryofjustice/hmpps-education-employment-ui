@@ -164,6 +164,12 @@ const filterSectorCleaning =
 
 const filterOffencesArsonAndDriving =
   'page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false&offenceExclusions=ARSON%2CDRIVING'
+const filterOtherTypesOfWorkCleaning =
+  'page=0&size=20&distanceFilter=50&jobSectorFilterOther=CLEANING_AND_MAINTENANCE&locationFilter=L15%207LR&isNationalJob=false'
+const filterOtherTypesOfWorkCleaningAndOffencesArsonAndDriving =
+  'page=0&size=20&distanceFilter=50&jobSectorFilterOther=CLEANING_AND_MAINTENANCE&locationFilter=L15%207LR&isNationalJob=false&offenceFilter=ARSON%2CDRIVING'
+const filterOffenceFilterArsonAndDriving =
+  'page=0&size=20&distanceFilter=50&locationFilter=L15%207LR&isNationalJob=false&offenceFilter=ARSON%2CDRIVING'
 
 const filterReleaseAreaEmpty = 'page=0&size=20&prisonNumber=G6115VK&isNationalJob=false'
 
@@ -193,6 +199,35 @@ const filterSortByClosingDateAsc =
 
 const filterSortByClosingDateDesc =
   'page=0&size=20&sortBy=closingDate&sortOrder=desc&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
+
+export const matchedJobsFilters = {
+  filterDefault,
+  filterDefaultNational,
+  filterDistanceNoRestriction,
+  filterDistance1,
+  filterDistance5,
+  filterDistance10,
+  filterDistance20,
+  filterDistance50,
+  filterSectorConstruction,
+  filterSectorOutdoor,
+  filterSectorOutdoorAndCleaning,
+  filterSectorCleaning,
+  filterOffencesArsonAndDriving,
+  filterOtherTypesOfWorkCleaning,
+  filterOtherTypesOfWorkCleaningAndOffencesArsonAndDriving,
+  filterOffenceFilterArsonAndDriving,
+  filterReleaseAreaEmpty,
+  filterSectorOutdoorAndCleaningAndOffencesDrivingAndDistance20,
+  filterSectorOutdoorAndRetailAndCleaningAndOffencesDrivingAndDistance20,
+  filterSectorOutdoorAndRetailAndCleaningAndOffencesDriving,
+  filterSortByJobTitleAsc,
+  filterSortByJobTitleDesc,
+  filterSortByDistanceAsc,
+  filterSortByDistanceDesc,
+  filterSortByClosingDateAsc,
+  filterSortByClosingDateDesc,
+}
 
 export const matchedJobs = {
   [filterDefault]: {
@@ -435,6 +470,63 @@ export const matchedJobs = {
         content: [job1, job2, job3, job4, job5, job6, job8, job13],
         page: {
           size: 10,
+          number: 0,
+          totalElements: 8,
+          totalPages: 1,
+        },
+      },
+    },
+  },
+  [filterOtherTypesOfWorkCleaning]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterOtherTypesOfWorkCleaning}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [job2],
+        page: {
+          size: 20,
+          number: 0,
+          totalElements: 1,
+          totalPages: 1,
+        },
+      },
+    },
+  },
+  [filterOtherTypesOfWorkCleaningAndOffencesArsonAndDriving]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterOtherTypesOfWorkCleaningAndOffencesArsonAndDriving}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [job2],
+        page: {
+          size: 20,
+          number: 0,
+          totalElements: 1,
+          totalPages: 1,
+        },
+      },
+    },
+  },
+  [filterOffenceFilterArsonAndDriving]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterOffenceFilterArsonAndDriving}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [job1, job2, job3, job4, job5, job6, job8, job13],
+        page: {
+          size: 20,
           number: 0,
           totalElements: 8,
           totalPages: 1,
