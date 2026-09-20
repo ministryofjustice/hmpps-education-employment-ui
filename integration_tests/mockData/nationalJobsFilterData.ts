@@ -1,5 +1,21 @@
 import { stubFor } from '../mockApis/wiremock'
 
+export const nationalJobsQueries = {
+  matchedJobsDefault: 'page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false',
+  nationalJobsDefaultSorted:
+    'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true',
+  nationalJobsDefault: 'page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true',
+  nationalJobsNoResultsSorted:
+    'page=0&size=20&sortBy=closingDate&sortOrder=asc&prisonNumber=G6115VK&isNationalJob=true',
+  nationalJobsOffenceExclusions:
+    'page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
+  nationalJobsEmployerFilter: (employerId: string) =>
+    `page=0&size=20&prisonNumber=G6115VK&isNationalJob=true&employerId=${employerId}`,
+  nationalJobsOtherTypeOfWork: (otherSector: string) =>
+    `page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL%2C${otherSector}&prisonNumber=G6115VK&isNationalJob=true`,
+  nationalJobsOffenceOnly: 'page=0&size=20&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
+}
+
 export const defaultNationalJobsResponse = {
   content: [
     {

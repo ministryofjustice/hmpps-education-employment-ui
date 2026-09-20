@@ -13,6 +13,7 @@ import config from '../../../../server/config'
 import {
   defaultNationalJobsResponse,
   emptyNationalJobsResponse,
+  nationalJobsQueries,
   offenceExclusionNationalJobsResponse,
   stubNationalJobs,
 } from '../../../mockData/nationalJobsFilterData'
@@ -46,25 +47,11 @@ test.describe('National Jobs Tab', () => {
     await prisonerSearchApi.getPrisonerById('G6115VK')
     await esweProfileApi.getProfileById('G6115VK')
     await deliusIntegrationApi.getPrisonerAddress('G6115VK')
-    await jobApi.getMatchedJobs(
-      'page=0&size=20&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false',
-    )
-    await stubNationalJobs(
-      'page=0&size=20&sortBy=closingDate&sortOrder=asc&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true',
-      defaultNationalJobsResponse,
-    )
-    await stubNationalJobs(
-      'page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true',
-      defaultNationalJobsResponse,
-    )
-    await stubNationalJobs(
-      'page=0&size=20&sortBy=closingDate&sortOrder=asc&prisonNumber=G6115VK&isNationalJob=true',
-      emptyNationalJobsResponse,
-    )
-    await stubNationalJobs(
-      'page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
-      offenceExclusionNationalJobsResponse,
-    )
+    await jobApi.getMatchedJobs(nationalJobsQueries.matchedJobsDefault)
+    await stubNationalJobs(nationalJobsQueries.nationalJobsDefaultSorted, defaultNationalJobsResponse)
+    await stubNationalJobs(nationalJobsQueries.nationalJobsDefault, defaultNationalJobsResponse)
+    await stubNationalJobs(nationalJobsQueries.nationalJobsNoResultsSorted, emptyNationalJobsResponse)
+    await stubNationalJobs(nationalJobsQueries.nationalJobsOffenceExclusions, offenceExclusionNationalJobsResponse)
     await jobApi.getEmployersWithNationalJobs()
   })
 
@@ -84,10 +71,7 @@ test.describe('National Jobs Tab', () => {
   })
 
   test('National jobs tab - no results', async ({ page }) => {
-    await stubNationalJobs(
-      'page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
-      emptyNationalJobsResponse,
-    )
+    await stubNationalJobs(nationalJobsQueries.nationalJobsOffenceExclusions, emptyNationalJobsResponse)
 
     await page.goto('/mjma/G6115VK/jobs/national-jobs')
     const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
@@ -103,10 +87,7 @@ test.describe('National Jobs Tab', () => {
 
   test('National jobs tab - employer filter updates results', async ({ page }) => {
     const employerId = '019a15bc-2444-711d-83c0-892a1d9a57c0'
-    await stubNationalJobs(
-      `page=0&size=20&prisonNumber=G6115VK&isNationalJob=true&employerId=${employerId}`,
-      emptyNationalJobsResponse,
-    )
+    await stubNationalJobs(nationalJobsQueries.nationalJobsEmployerFilter(employerId), emptyNationalJobsResponse)
 
     await page.goto('/mjma/G6115VK/jobs/national-jobs')
     const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
@@ -119,10 +100,7 @@ test.describe('National Jobs Tab', () => {
 
   test('National jobs tab - other types of work selected count updates', async ({ page }) => {
     const otherSector = 'CLEANING_AND_MAINTENANCE'
-    await stubNationalJobs(
-      `page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL%2C${otherSector}&prisonNumber=G6115VK&isNationalJob=true`,
-      defaultNationalJobsResponse,
-    )
+    await stubNationalJobs(nationalJobsQueries.nationalJobsOtherTypeOfWork(otherSector), defaultNationalJobsResponse)
 
     await page.goto('/mjma/G6115VK/jobs/national-jobs')
     const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
@@ -136,10 +114,7 @@ test.describe('National Jobs Tab', () => {
   })
 
   test('National jobs tab - offence exclusions selected count updates', async ({ page }) => {
-    await stubNationalJobs(
-      'page=0&size=20&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
-      emptyNationalJobsResponse,
-    )
+    await stubNationalJobs(nationalJobsQueries.nationalJobsOffenceOnly, emptyNationalJobsResponse)
 
     await page.goto('/mjma/G6115VK/jobs/national-jobs')
     const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
