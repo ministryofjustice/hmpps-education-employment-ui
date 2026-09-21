@@ -19,6 +19,10 @@ export default class NationalJobsPage extends AbstractPage {
     return this.page.locator('.govuk-back-link')
   }
 
+  printButton(): Locator {
+    return this.page.locator('#printLink')
+  }
+
   // Sub-navigation elements
   matchedJobsTab(): Locator {
     return this.page.locator('[data-qa=matched-jobs-tab]')
@@ -50,11 +54,15 @@ export default class NationalJobsPage extends AbstractPage {
   }
 
   jobSectorsFilterOtherSection(): Locator {
-    return this.page.locator('[data-qa=other-job-sectors-filter-section]')
+    return this.page.locator('details').filter({ has: this.page.locator('#jobSectorFilterOther-1') })
   }
 
   jobSectorsFilterOtherSectionToggle(): Locator {
-    return this.page.locator('[data-qa=other-job-sectors-filter-section-toggle]')
+    return this.jobSectorsFilterOtherSection().locator('summary')
+  }
+
+  jobSectorsFilterOtherSelectedCount(): Locator {
+    return this.page.locator('#other-job-sectors-filter-hint')
   }
 
   jobSectorFilterOther1(): Locator {
@@ -66,11 +74,11 @@ export default class NationalJobsPage extends AbstractPage {
   }
 
   offenceFilterSection(): Locator {
-    return this.page.locator('[data-qa=offence-filter-section]')
+    return this.page.locator('details[data-qa="offence-filter-section"]')
   }
 
   offenceFilterSectionToggle(): Locator {
-    return this.page.locator('[data-qa=offence-filter-section-toggle]')
+    return this.offenceFilterSection().locator('summary')
   }
 
   offenceFilter1(): Locator {
@@ -81,12 +89,16 @@ export default class NationalJobsPage extends AbstractPage {
     return this.page.locator('#offenceFilter-2')
   }
 
+  offenceFilterSelectedCount(): Locator {
+    return this.page.locator('#offence-filter-hint')
+  }
+
   applyButton(): Locator {
     return this.page.locator('[data-qa=apply-button]')
   }
 
   clearFiltersButton(): Locator {
-    return this.page.locator('[data-qa=clear-filters-button]')
+    return this.page.getByRole('link', { name: 'Clear filters' })
   }
 
   // Results table elements
