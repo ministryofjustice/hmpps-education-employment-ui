@@ -69,9 +69,9 @@
         </fieldset>
     </details>
     <hr>
-    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4">
+    <details class="govuk-details govuk-!-margin-bottom-4 govuk-!-margin-top-4" data-qa="offence-filter-section">
         <summary class="govuk-details__summary">
-            <b class="govuk-details__summary-text govuk-link--no-underline">
+            <b class="govuk-details__summary-text govuk-link--no-underline" data-qa="offence-filter-section">
                 Hide jobs with offence exclusions
             </b>
             {% if offenceFilter.length > 0 %}
@@ -110,7 +110,7 @@
     <div class="govuk-grid-row govuk-!-display-none-print govuk-!-margin-top-4">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-0">
             <div class="govuk-!-margin-bottom-0">
-                <button class="govuk-button govuk-!-margin-bottom-4" data-module="govuk-button">
+                <button class="govuk-button govuk-!-margin-bottom-4" data-qa="apply-button" data-module="govuk-button">
                     Apply filters
                 </button>
             </div>

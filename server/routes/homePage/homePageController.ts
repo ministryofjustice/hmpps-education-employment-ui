@@ -67,8 +67,7 @@ const getTasks = (userRoles: any) => {
     {
       id: 'jobs-board-reporting',
       heading: 'Reporting dashboard',
-      description:
-        'View reporting information for all products within Get someone ready to work and Match jobs and manage applications.',
+      description: 'View reporting information for Get someone ready to work and Match jobs and manage applications.',
       href: config.jobsBoardReportingUrl,
       enabled: () => userHasRoles(['ROLE_WALP_DASHBOARD_INTERNAL', 'ROLE_WALP_DASHBOARD_EXTERNAL']),
     },

@@ -13,7 +13,6 @@ context('SignIn', () => {
     cy.task('stubReadinessProfileSearch')
     cy.task('stubCohortListByReleaseDate')
     cy.task('stubReadinessProfileSearch')
-    cy.task('stubCohortListByReleaseDate')
     cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
 
     cy.signIn()
@@ -59,11 +58,11 @@ context('SignIn', () => {
       expect(offenders[0].viewLink).to.contain('/wr/profile/G5336UH/view/overview')
       expect(offenders[0].displayName).to.contain('Prough, Conroy')
       expect(offenders[0].releaseDate).to.contain('19 Nov 2022')
-      expect(offenders[0].status).to.contain('DOES NOT WANT SUPPORT')
+      expect(offenders[0].status).to.contain('Does not want support')
       expect(offenders[0].workSummary).to.contain('Returning to work they had before prison')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
 
-      expect(offenders[5].status).to.contain('NOT STARTED')
+      expect(offenders[5].status).to.contain('Not started')
     })
   })
 
@@ -83,7 +82,7 @@ context('SignIn', () => {
       expect(offenders[0].viewLink).to.contain('/wr/profile/G6190UD/view/overview')
       expect(offenders[0].displayName).to.contain('Dool, Curt')
       expect(offenders[0].releaseDate).to.contain('14 Mar 2023')
-      expect(offenders[0].status).to.contain('NEEDS SUPPORT')
+      expect(offenders[0].status).to.contain('Needs support')
       expect(offenders[0].workSummary).to.contain('Disclosure letter')
       expect(offenders[0].updatedOn).to.contain('20 Oct 2022')
     })
@@ -98,7 +97,7 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?status=READY_TO_WORK`)
 
     cy.url().should('include', '?status=READY_TO_WORK')
-    cohortListPage.spanMessage().should('contain', '0 results in')
+    cohortListPage.spanMessage().should('contain', '0 results for')
   })
 
   it('Should filter result to return 1 row corresponding to the name typed', () => {
@@ -114,7 +113,7 @@ context('SignIn', () => {
     })
   })
 
-  it('Should return empty table when offender name does not exist', () => {
+  it('Should return empty table when offender name does not exist, with default search filters', () => {
     cy.task('stubCohortListNameNotExistFilter')
     const cohortListPage = new CohortListPage()
     cohortListPage.searchText().clear().type('unknown')
@@ -122,6 +121,71 @@ context('SignIn', () => {
     cy.visit(`${cohortListUrl}?searchTerm=unknown`)
 
     cy.url().should('include', '?searchTerm=unknown')
-    cohortListPage.spanMessage().should('contain', '0 results')
+    cohortListPage.spanMessage().should('contain', '0 results for "unknown"')
+  })
+
+  it('Should return empty table when offender name does not exist, and display correct error message when specific status and specific time to release', () => {
+    cy.task('stubCohortListSearchTermNameNotExistWithSpecificStatusTimeFilter')
+    const cohortListPage = new CohortListPage()
+    cohortListPage.searchText().clear().type('unknown')
+    cohortListPage.statusSelect().select('SUPPORT_NEEDED')
+    cohortListPage.timeToReleaseFilter().select('SIX_MONTHS')
+    cohortListPage.searchButton().click()
+    cy.visit(`${cohortListUrl}?searchTerm=unknown&status=SUPPORT_NEEDED&timeToRelease=SIX_MONTHS`)
+
+    cy.url().should('include', '?searchTerm=unknown&status=SUPPORT_NEEDED')
+    cohortListPage.spanMessage().should('contain', '0 results for "unknown" in 6 months from release in Needs support')
+  })
+})
+
+describe('Cohort list with no search term', () => {
+  beforeEach(() => {
+    cy.task('reset')
+
+    cy.task('stubSignIn')
+    cy.task('stubAuthUser')
+    cy.task('getUserRoles')
+    cy.task('getUserActiveCaseLoad')
+    cy.task('stubVerifyToken', true)
+    cy.task('stubReadinessProfileSearch')
+    cy.task('stubGetUser', { username: 'USER1', name: 'Joe Bloggs' })
+    cy.task('stubCohortListNoSearchTermNotExistFilter')
+
+    cy.signIn()
+  })
+
+  it('Should return empty table when offender name does not exist, and display correct error message when has NO search term and default status and time to release', () => {
+    cy.visit(`${cohortListUrl}?status=ALL&timeToRelease=TWELVE_WEEKS`)
+
+    const cohortListPage = new CohortListPage()
+    cohortListPage.searchText().clear()
+    cohortListPage.searchButton().click()
+
+    cy.url().should('include', 'status=ALL&timeToRelease=TWELVE_WEEKS')
+    cohortListPage.spanMessage().should('contain', '0 results for 12 weeks from release in All')
+  })
+
+  it('Should return empty table when offender name does not exist, and display correct error message when has NO search term and default status with a SPECIFIC time to release', () => {
+    cy.visit(`${cohortListUrl}?status=ALL&timeToRelease=SIX_MONTHS`)
+
+    const cohortListPage = new CohortListPage()
+    cohortListPage.searchText().clear()
+    cohortListPage.timeToReleaseFilter().select('SIX_MONTHS')
+    cohortListPage.searchButton().click()
+
+    cy.url().should('include', '?status=ALL&timeToRelease=SIX_MONTHS')
+    cohortListPage.spanMessage().should('contain', '0 results for 6 months from release in All')
+  })
+
+  it('Should return empty table when offender name does not exist, and display correct error message when has NO search term and SPECIFIC status with a default time to release', () => {
+    cy.visit(`${cohortListUrl}?status=SUPPORT_NEEDED&timeToRelease=TWELVE_WEEKS`)
+
+    const cohortListPage = new CohortListPage()
+    cohortListPage.searchText().clear()
+    cohortListPage.statusSelect().select('SUPPORT_NEEDED')
+    cohortListPage.searchButton().click()
+
+    cy.url().should('include', '?status=SUPPORT_NEEDED&timeToRelease=TWELVE_WEEKS')
+    cohortListPage.spanMessage().should('contain', '0 results for 12 weeks from release in Needs support')
   })
 })

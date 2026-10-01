@@ -24,6 +24,7 @@ import setUpLocals from './middleware/setUpLocals'
 import setUpEnvironmentName from './middleware/setUpEnvironmentName'
 import sanitizeBody from './middleware/sanitizeBody'
 import sanitizeQuery from './middleware/sanitizeQuery'
+import { appInsightsMiddleware } from './utils/azureAppInsights'
 import logger from '../logger'
 import config from './config'
 import navigationMiddleware from './middleware/navigationMiddleware'
@@ -51,6 +52,9 @@ export default function createApp(services: Services): express.Application {
   // Sanitize user input
   app.use(sanitizeBody)
   app.use(sanitizeQuery)
+
+  // AppInsight event emitter
+  app.use(appInsightsMiddleware())
 
   // Get front end components for the DPS header
   app.use(

@@ -7,6 +7,24 @@ import PaginationService from '../../../services/paginationServices'
 import config from '../../../config'
 import addressLookup from '../../addressLookup'
 import TimeToRelease from '../../../enums/timeToRelease'
+import logger from '../../../../logger'
+
+const isInvalidSearchTermName = (searchTerm: string): boolean => {
+  const parts = searchTerm.trim().split(/\s+/)
+  const validChars = /^[A-Z|a-z ,.'-]+$/
+
+  return (
+    parts.length < 1 ||
+    parts.length > 4 ||
+    parts.some(part => !validChars.test(part)) ||
+    parts.some(part => part.length > 35)
+  )
+}
+
+const isInvalidSearchTermPRN = (searchTerm: string): boolean => {
+  const validPRN = /^[A-Za-z]\d{4}[A-Za-z]{2}$/
+  return !validPRN.test(searchTerm)
+}
 
 export default class CohortListController {
   constructor(
@@ -29,7 +47,7 @@ export default class CohortListController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        status && status !== 'ALL' && `status=${status}`,
+        status && `status=${status}`,
         timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${decodeURIComponent(searchTerm as string)}`,
         page && `page=${page}`,
@@ -57,8 +75,13 @@ export default class CohortListController {
         selectStatus: status || 'ALL',
         timeToRelease: timeToRelease || TimeToRelease.TWELVE_WEEKS,
       }
+      const decodedSearchTerm = decodeURIComponent(searchTerm as string)
+      const searchTermNameValidationError = isInvalidSearchTermName(decodedSearchTerm)
+      const searchTermPRNValidationError = isInvalidSearchTermPRN(decodedSearchTerm)
 
-      if (config.apis.hmppsAudit.enabled) {
+      if (searchTermNameValidationError && searchTermPRNValidationError) {
+        logger.info('Invalid search term: audit message for cohort search not sent')
+      } else if (config.apis.hmppsAudit.enabled) {
         const correlationId = randomUUID()
         await Promise.all([
           auditService.sendAuditMessage({
@@ -104,7 +127,7 @@ export default class CohortListController {
       const uri = [
         sort && `sort=${sort}`,
         order && `order=${order}`,
-        selectStatus && selectStatus !== 'ALL' && `status=${selectStatus}`,
+        `status=${selectStatus || 'ALL'}`,
         timeToRelease && `timeToRelease=${timeToRelease}`,
         searchTerm && `searchTerm=${encodeURIComponent(searchTerm)}`,
       ].filter(val => !!val)

@@ -15,7 +15,7 @@ describe('WorkInterestsViewModel', () => {
     const workInterestsViewModel = plainToClass(WorkInterestsViewModel, workInterestsJson)
 
     expect(workInterestsViewModel.modifiedBy).toBe(workInterestsJson.modifiedBy)
-    expect(workInterestsViewModel.modifiedDateTime).toBe('20 April')
+    expect(workInterestsViewModel.modifiedDateTime).toBe('20 April 2022')
     expect(workInterestsViewModel.workTypesOfInterest).toEqual(workInterestsJson.workTypesOfInterest)
     expect(workInterestsViewModel.workTypesOfInterestOther).toBe(workInterestsJson.workTypesOfInterestOther)
     expect(workInterestsViewModel.jobOfParticularInterest).toBe(workInterestsJson.jobOfParticularInterest)

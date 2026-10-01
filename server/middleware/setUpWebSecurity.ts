@@ -37,6 +37,7 @@ export default function setUpWebSecurity(): Router {
           ],
           styleSrc: ["'self'", 'code.jquery.com', (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`],
           formAction: [`'self' ${config.apis.hmppsAuth.externalUrl}`],
+          ...(config.production ? {} : { upgradeInsecureRequests: null }),
           connectSrc: ['*.google-analytics.com', '*.googletagmanager.com', '*.analytics.google.com'],
           objectSrc: ["'none'"], // Disallow <object> or <embed> tags
         },

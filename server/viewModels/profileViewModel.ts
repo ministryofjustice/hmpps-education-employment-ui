@@ -4,7 +4,7 @@
 import 'reflect-metadata'
 import { Exclude, Expose, Transform, Type } from 'class-transformer'
 
-import { formatDateStringTodMMMM } from '../utils/index'
+import { formatDateStringTodMMMMyyyy } from '../utils/index'
 import ProfileDataSectionViewModel from './profileDataSectionViewModel'
 
 // Exclude all by default expose properties when needed
@@ -28,7 +28,7 @@ export default class ProfileViewModel {
 
   @Type(() => Date)
   @Expose()
-  @Transform(formatDateStringTodMMMM)
+  @Transform(formatDateStringTodMMMMyyyy)
   modifiedDateTime: string
 
   schemaVersion: string

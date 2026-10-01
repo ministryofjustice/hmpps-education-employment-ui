@@ -1,3 +1,5 @@
+# HMPPS Education employment UI
+
 [![Pipeline [test -> build -> deploy]](https://github.com/ministryofjustice/hmpps-education-employment-ui/actions/workflows/pipeline.yml/badge.svg?branch=main)](https://github.com/ministryofjustice/hmpps-education-employment-ui/actions/workflows/pipeline.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui/badge.svg)](https://snyk.io/test/github/ministryofjustice/hmpps-education-employment-ui)
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-education-employment-ui/badge)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-education-employment-ui)
@@ -15,7 +17,6 @@
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=postgres&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=flat&logo=redis&logoColor=white)](https://redis.io/)
 
-# HMPPS Education employment UI
 
 This is a front-end application used by staff in HMPPS to view and manage work prospects for offenders who
 are about to be released.
@@ -87,9 +88,13 @@ Additional tools are required to manage deployment: kubectl and helm.
 run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version
 of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
 
-## Running the app
+## Running the app locally
 
 The easiest way to run the app is to use docker compose to create the service and all dependencies.
+
+`docker compose pull`
+
+`docker compose up`
 
 The app requires:
 
@@ -102,7 +107,9 @@ This is probably the easiest way to run and develop on your machine: by hooking 
 in the `dev` environment.
 A user account is needed in hmpps-auth with the appropriate roles.
 
-Create a `.env` file and complete the following values:
+Create an environment file by copying `.env.example` -> `.env` and updating the secrets from kubernetes. 
+Environment variables set in here will be available when running `start:dev`
+
 
 | Environment variable            | Value                                                                              |
 |:--------------------------------|:-----------------------------------------------------------------------------------|
@@ -132,7 +139,8 @@ Create a `.env` file and complete the following values:
 | MANAGE_USERS_API                | https://manage-users-api-dev.hmpps.service.justice.gov.uk                          |
 | GET_SOMEONE_READY_FOR_WORK_URL  | https://get-ready-for-work-dev.hmpps.service.justice.gov.uk                        |
 
-There are several feature toggles that can be used to toggle functionality on and off
+There are several feature toggles that can be used to toggle functionality on and off. 
+The `.env.example` file contains the default values for these.
 
 |:--------------------------------------------------------------------------------------------------------------------------:|
 | Feature toggles                                                                                                            |

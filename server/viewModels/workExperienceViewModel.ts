@@ -1,11 +1,11 @@
 import { Transform, Type } from 'class-transformer'
-import { formatDateStringTodMMMM } from '../utils/index'
+import { formatDateStringTodMMMMyyyy } from '../utils/index'
 
 export default class WorkExperienceViewModel {
   modifiedBy: string
 
   @Type(() => Date)
-  @Transform(formatDateStringTodMMMM)
+  @Transform(formatDateStringTodMMMMyyyy)
   modifiedDateTime: string
 
   workTypesOfInterest: string[]

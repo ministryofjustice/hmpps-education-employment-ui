@@ -24,7 +24,7 @@ describe('ProfileViewModel', () => {
     expect(profileViewModel.createdDateTime).toBe(undefined)
     expect(profileViewModel.modifiedBy).toBe(profileJson.modifiedBy)
     expect(profileViewModel.modifiedByName).toBe(profileJson.modifiedByName)
-    expect(profileViewModel.modifiedDateTime).toBe('19 April')
+    expect(profileViewModel.modifiedDateTime).toBe('19 April 2022')
     expect(profileViewModel.schemaVersion).toBe(undefined)
   })
 })

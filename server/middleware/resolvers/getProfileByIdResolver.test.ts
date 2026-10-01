@@ -34,11 +34,11 @@ describe('getProfileByIdResolver', () => {
     expect(next).toHaveBeenCalledWith(error)
   })
 
-  it('On error - 400 error - Calls next without error', async () => {
+  it('On error - 404 error - Calls next without error', async () => {
     serviceMock.getProfileById.mockRejectedValue({
       data: {
-        status: 400,
-        userMessage: 'Readiness profile does not exist',
+        status: 404,
+        userMessage: `Readiness profile does not exist for offender ${req.id}`,
       },
     })
 

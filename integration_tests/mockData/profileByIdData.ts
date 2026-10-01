@@ -5,11 +5,11 @@ const profiles = {
       urlPattern: '/readiness-profiles/A00001A',
     },
     response: {
-      status: 400,
+      status: 404,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        status: 400,
-        userMessage: 'Readiness profile does not exist',
+        status: 404,
+        userMessage: 'Readiness profile does not exist for offender A00001A',
       },
     },
   },
