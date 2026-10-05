@@ -5,6 +5,7 @@ import path from 'path'
 import createError from 'http-errors'
 
 import { getFrontendComponents } from '@ministryofjustice/hmpps-connect-dps-components'
+import { telemetryMiddleware } from '@ministryofjustice/hmpps-azure-telemetry'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import authorisationMiddleware, { getAuthorisedRoles } from './middleware/authorisationMiddleware'
@@ -24,7 +25,6 @@ import setUpLocals from './middleware/setUpLocals'
 import setUpEnvironmentName from './middleware/setUpEnvironmentName'
 import sanitizeBody from './middleware/sanitizeBody'
 import sanitizeQuery from './middleware/sanitizeQuery'
-import { appInsightsMiddleware } from './utils/azureAppInsights'
 import logger from '../logger'
 import config from './config'
 import navigationMiddleware from './middleware/navigationMiddleware'
@@ -47,14 +47,12 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpLocals())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(telemetryMiddleware.addUserMetadataToTelemetry())
   app.use(expressContext())
 
   // Sanitize user input
   app.use(sanitizeBody)
   app.use(sanitizeQuery)
-
-  // AppInsight event emitter
-  app.use(appInsightsMiddleware())
 
   // Get front end components for the DPS header
   app.use(
