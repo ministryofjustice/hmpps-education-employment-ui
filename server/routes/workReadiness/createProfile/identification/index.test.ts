@@ -5,11 +5,13 @@ import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileB
 import parseCheckBoxValue from '../../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../../services'
 import routes from './index'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 jest.mock('./identificationController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../../middleware/parseCheckBoxValue')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('Identification routes', () => {
   let router: Router
@@ -29,6 +31,7 @@ describe('Identification routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for page', () => {
@@ -37,6 +40,7 @@ describe('Identification routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/create/:id/identification/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
       ],
       expect.any(Function), // controller.get
@@ -49,6 +53,7 @@ describe('Identification routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/create/:id/identification/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // parseCheckBoxValue
       ],
       expect.any(Function), // controller.post

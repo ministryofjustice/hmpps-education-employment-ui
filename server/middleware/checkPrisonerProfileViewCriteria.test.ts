@@ -14,15 +14,15 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
       params: { id, module },
     } as unknown as Request)
 
-  const makeRes = (overrides?: Partial<Response> & { locals?: Partial<Response['locals']> }) =>
+  const makeRes = (overrides?: { locals?: Partial<Response['locals']> }) =>
     ({
       locals: {
         userActiveCaseLoad: { caseLoadId: 'MDI' },
         username: 'username',
+        user: { token: 'token' },
         ...(overrides?.locals ?? {}),
       },
       status: statusMock,
-      ...(overrides ?? {}),
     } as unknown as Response)
 
   const prisonerSearchService = {
@@ -272,6 +272,7 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     const next: NextFunction = jest.fn()
     await middleware(req, res, next)
 
+    expect(prisonerProfileService.getProfileById).toHaveBeenCalledWith('token', 'A1234BC')
     expect(statusMock).toHaveBeenCalledWith(404)
     expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
       continueUrl: '/mjma/prisoners?sort=releaseDate&order=ascending',
@@ -316,9 +317,40 @@ describe('checkPrisonerInActiveCaseLoad middleware', () => {
     const next: NextFunction = jest.fn()
     await middleware(req, res, next)
 
+    expect(prisonerProfileService.getProfileById).toHaveBeenCalledWith('token', 'A1234BC')
     expect(statusMock).toHaveBeenCalledWith(404)
     expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
       continueUrl: '/mjma/prisoners?sort=releaseDate&order=ascending',
+    })
+    expect(next).not.toHaveBeenCalled()
+  })
+
+  it('should render notFoundPage with correct continue url for work readiness profile edits', async () => {
+    const prisonerFoundNoReleaseDate: PrisonerSearchByPrisonIdResponse = {
+      empty: false,
+      content: [
+        {
+          prisonerNumber: 'G3523GT',
+          pncNumber: 'PNC123456',
+          title: 'Mr',
+          firstName: 'EILLIPS',
+          lastName: 'XAVION',
+          prisonId: 'MDI',
+          // releaseDate intentionally missing
+        },
+      ],
+    }
+    prisonerSearchService.getPrisonerByCaseLoadIdAndOffenderId.mockResolvedValue(prisonerFoundNoReleaseDate)
+
+    const prisonId = 'A1234BC'
+    const req = { params: { id: prisonId } } as unknown as Request
+    const res = makeRes({ locals: { originalUrl: `/wr/profile/create/${prisonId}/ability-to-work/new` } })
+    const next: NextFunction = jest.fn()
+    await middleware(req, res, next)
+
+    expect(statusMock).toHaveBeenCalledWith(404)
+    expect(renderMock).toHaveBeenCalledWith('notFoundPage.njk', {
+      continueUrl: '/wr/cohort-list?sort=releaseDate&order=ascending',
     })
     expect(next).not.toHaveBeenCalled()
   })

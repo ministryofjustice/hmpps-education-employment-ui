@@ -5,11 +5,13 @@ import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileB
 import parseCheckBoxValue from '../../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../../services'
 import routes from './index'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 jest.mock('./manageDrugsAndAlcoholController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../../middleware/parseCheckBoxValue')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('Manage drugs and alcohol routes', () => {
   let router: Router
@@ -29,6 +31,7 @@ describe('Manage drugs and alcohol routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for page', () => {
@@ -37,6 +40,7 @@ describe('Manage drugs and alcohol routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
       ],
@@ -50,8 +54,9 @@ describe('Manage drugs and alcohol routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/create/:id/manage-drugs-and-alcohol/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
-        expect.any(Function), // getPrisonerByIdResolver
+        expect.any(Function), // getProfileByIdResolver
       ],
       expect.any(Function), // controller.post
     )

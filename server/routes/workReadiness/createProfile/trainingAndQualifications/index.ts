@@ -5,6 +5,7 @@ import getPrisonerByIdResolver from '../../../../middleware/resolvers/getPrisone
 import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileByIdResolver'
 import type { Services } from '../../../../services'
 import TrainingAndQualificationsController from './trainingAndQualificationsController'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 export default (router: Router, services: Services) => {
   const controller = new TrainingAndQualificationsController(services.prisonerProfileService)
@@ -12,6 +13,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/wr/profile/create/:id/training-and-qualifications/:mode',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
@@ -20,6 +22,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/wr/profile/create/:id/training-and-qualifications/:mode',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       parseCheckBoxValue('trainingAndQualifications'),
