@@ -5,7 +5,7 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class IdentificationPage extends Page {
   checkboxField = (): PageElement => cy.get('#identification')
 
-  checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  checkboxFieldValue = (value: string): PageElement => cy.get(`[value=${value}]`)
 
   textareaField = (): PageElement => cy.get('#identification')
 

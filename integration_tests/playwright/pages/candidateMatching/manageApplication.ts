@@ -1,12 +1,18 @@
-import { type Locator, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 import AbstractPage from '../abstractPage'
 
 export default class ManageApplicationPage extends AbstractPage {
-  readonly page: Page
+  readonly header: Locator
 
-  constructor(page: Page) {
-    super(page)
-    this.page = page
+  constructor(page: Page, title: string) {
+    super(page, title)
+    this.header = page.locator(`h1`, { hasText: title })
+  }
+
+  static async verifyOnPage(page: Page, title: string): Promise<ManageApplicationPage> {
+    const manageApplicationPage = new ManageApplicationPage(page, title)
+    await expect(manageApplicationPage.header).toBeVisible()
+    return manageApplicationPage
   }
 
   backLinkUrl(): Locator {

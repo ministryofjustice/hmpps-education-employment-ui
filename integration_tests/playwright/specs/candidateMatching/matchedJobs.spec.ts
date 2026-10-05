@@ -1,45 +1,24 @@
-import { expect, test } from '@playwright/test'
-
-import { login, resetStubs } from '../../testUtils'
+import { expect, test } from '../../fixtures/featureToggles'
+import { resetStubs } from '../../testUtils'
 import MatchedJobsPage from '../../pages/candidateMatching/matchedJobs'
 import NationalJobsPage from '../../pages/candidateMatching/nationalJobs'
 import ArchivedJobsPage from '../../pages/candidateMatching/archivedJobs'
 import JobDetailsPage from '../../pages/candidateMatching/jobDetails'
 
-import manageUsersApi from '../../../mockApis/manageUsersApi'
-import nomisUserRolesApi from '../../../mockApis/nomisUserRolesApi'
 import jobApi from '../../../mockApis/jobApi'
 import prisonerSearchApi from '../../../mockApis/prisonerSearchApi'
 import esweProfileApi from '../../../mockApis/esweProfileApi'
 import deliusIntegrationApi from '../../../mockApis/deliusIntegrationApi'
 import { matchedJobsFilters } from '../../../mockData/matchedJobsFilterData'
-import config from '../../../../server/config'
 
 test.describe('Matched Jobs Tab', () => {
-  const { offenceFilterEnabled } = config.featureToggles
-
-  if (!offenceFilterEnabled) {
-    test.skip()
-  }
+  test.use({ offenceFilterEnabled: true, nationalJobsEnabled: true })
 
   test.afterEach(async () => {
     await resetStubs()
   })
 
-  test.beforeEach(async ({ page }) => {
-    await manageUsersApi.stubAuthUser()
-    await nomisUserRolesApi.getUserActiveCaseLoad()
-    await manageUsersApi.stubGetUser({ username: 'USER1', name: 'Joe Bloggs' })
-    await login(page, {
-      name: 'Joe Bloggs',
-      roles: [
-        'ROLE_EDUCATION_WORK_PLAN_EDITOR',
-        'ROLE_EDUCATION_WORK_PLAN_VIEWER',
-        'ROLE_WORK_READINESS_EDITOR',
-        'ROLE_WORK_READINESS_VIEWER',
-      ],
-    })
-
+  test.beforeEach(async () => {
     await prisonerSearchApi.getPrisonerByCaseLoadIdAndOffenderId('G6115VK')
     await prisonerSearchApi.getPrisonerById('G6115VK')
     await esweProfileApi.getProfileById('G6115VK')
@@ -223,6 +202,19 @@ test.describe('Matched Jobs Tab', () => {
 
     await expect(matchedJobsPage.offenceFilterSection()).not.toHaveAttribute('open')
     await expect(matchedJobsPage.offenceFilterSelectedCount()).toContainText('2 selected')
+  })
+
+  test.describe('with offence filtering disabled', () => {
+    test.use({ offenceFilterEnabled: false })
+
+    test('Matched jobs tab - offence exclusions are hidden', async ({ page }) => {
+      await page.goto('/mjma/G6115VK/jobs/matched')
+      const matchedJobsPage = await MatchedJobsPage.verifyOnPage(page, 'Test User7')
+
+      await expect(matchedJobsPage.offenceFilterSection()).toHaveCount(0)
+      await expect(matchedJobsPage.offenceFilter1()).toHaveCount(0)
+      await expect(matchedJobsPage.jobSectorsFilterOtherSection()).toBeVisible()
+    })
   })
 
   test('Matched jobs tab - sorting columns', async ({ page }) => {

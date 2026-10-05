@@ -47,10 +47,10 @@ test.describe('Sign In', () => {
   test('Manage applications - check content', async ({ page }) => {
     await page.goto('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
-    const jobDetailsPage = new JobDetailsPage(page)
+    const jobDetailsPage = await JobDetailsPage.verifyOnPage(page, 'Test User7')
     await jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage(page)
+    const manageApplicationPage = new ManageApplicationPage(page, 'Manage applications')
 
     await expect(manageApplicationPage.jobTitle()).toContainText('Warehouse operator')
     await expect(manageApplicationPage.employerName()).toContainText('ASDA')
@@ -74,10 +74,10 @@ test.describe('Sign In', () => {
   test('Manage applications - validation and submit', async ({ page }) => {
     await page.goto('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
-    const jobDetailsPage = new JobDetailsPage(page)
+    const jobDetailsPage = await JobDetailsPage.verifyOnPage(page, 'Job details')
     await jobDetailsPage.manageApplicationsButton().click()
 
-    const manageApplicationPage = new ManageApplicationPage(page)
+    const manageApplicationPage = await ManageApplicationPage.verifyOnPage(page, 'Manage applications')
     await manageApplicationPage.updateProgressButton().click()
     await manageApplicationPage.submitButton().click()
 

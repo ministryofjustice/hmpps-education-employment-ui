@@ -1,4 +1,4 @@
-import { stubFor } from './wiremock'
+import { stubFor, stubFromMapping } from './wiremock'
 import { matchedJobs } from '../mockData/matchedJobsFilterData'
 
 // Get job
@@ -498,7 +498,7 @@ const deleteExpressionOfInterest = (params: { jobId: string; offenderNo: string 
     },
   })
 
-const getMatchedJobs = (filterString: string) => stubFor(matchedJobs[filterString])
+const getMatchedJobs = (filterString: string) => stubFromMapping(matchedJobs, filterString)
 
 export default {
   getJob,

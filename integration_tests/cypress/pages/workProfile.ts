@@ -27,7 +27,7 @@ export default class WorkProfilePage extends Page {
 
   overviewDeclinedChangesRequiredLink = (): PageElement => cy.get('#overview-declined-changes-required-link')
 
-  editActionLink = (toDoItem): PageElement => cy.get(`#overview-todo-${toDoItem}-link`)
+  editActionLink = (toDoItem: string): PageElement => cy.get(`#overview-todo-${toDoItem}-link`)
 
   releaseArea = (): PageElement => cy.get('#prisoner-release-area')
 
@@ -39,33 +39,34 @@ export default class WorkProfilePage extends Page {
 
   viewMatchedJobsLink = (): PageElement => cy.get('#view-matched-jobs-link')
 
-  matchedJobsByIndexTitle = (index): PageElement => cy.get(`#jobs_matched_title_${index}`)
+  matchedJobsByIndexTitle = (index: number): PageElement => cy.get(`#jobs_matched_title_${index}`)
 
-  matchedJobsByIndexEmployer = (index): PageElement => cy.get(`#jobs_matched_employer_${index}`)
+  matchedJobsByIndexEmployer = (index: number): PageElement => cy.get(`#jobs_matched_employer_${index}`)
 
-  matchedJobsByIndexClosingDate = (index): PageElement => cy.get(`#jobs_matched_closing_date_${index}`)
+  matchedJobsByIndexClosingDate = (index: number): PageElement => cy.get(`#jobs_matched_closing_date_${index}`)
 
-  jobsOfInterestByIndexTitle = (index): PageElement => cy.get(`#jobs_of_interest_title_${index}`)
+  jobsOfInterestByIndexTitle = (index: number): PageElement => cy.get(`#jobs_of_interest_title_${index}`)
 
-  jobsOfInterestByIndexEmployer = (index): PageElement => cy.get(`#jobs_of_interest_employer_${index}`)
+  jobsOfInterestByIndexEmployer = (index: number): PageElement => cy.get(`#jobs_of_interest_employer_${index}`)
 
-  jobsOfInterestByIndexClosingDate = (index): PageElement => cy.get(`#jobs_of_interest_closing_date_${index}`)
+  jobsOfInterestByIndexClosingDate = (index: number): PageElement => cy.get(`#jobs_of_interest_closing_date_${index}`)
 
-  openApplicationByIndexJob = (index): PageElement => cy.get(`#open_application_job_${index}`)
+  openApplicationByIndexJob = (index: number): PageElement => cy.get(`#open_application_job_${index}`)
 
-  openApplicationByIndexEmployer = (index): PageElement => cy.get(`#open_application_employer_${index}`)
+  openApplicationByIndexEmployer = (index: number): PageElement => cy.get(`#open_application_employer_${index}`)
 
-  openApplicationByIndexStatus = (index): PageElement => cy.get(`#open_application_status_${index}`)
+  openApplicationByIndexStatus = (index: number): PageElement => cy.get(`#open_application_status_${index}`)
 
-  openApplicationByIndexViewDetailsLink = (index): PageElement => cy.get(`#view_open_application_${index}_link`)
+  openApplicationByIndexViewDetailsLink = (index: number): PageElement => cy.get(`#view_open_application_${index}_link`)
 
-  closedApplicationByIndexJob = (index): PageElement => cy.get(`#closed_application_job_${index}`)
+  closedApplicationByIndexJob = (index: number): PageElement => cy.get(`#closed_application_job_${index}`)
 
-  closedApplicationByIndexEmployer = (index): PageElement => cy.get(`#closed_application_employer_${index}`)
+  closedApplicationByIndexEmployer = (index: number): PageElement => cy.get(`#closed_application_employer_${index}`)
 
-  closedApplicationByIndexStatus = (index): PageElement => cy.get(`#closed_application_status_${index}`)
+  closedApplicationByIndexStatus = (index: number): PageElement => cy.get(`#closed_application_status_${index}`)
 
-  closedApplicationByIndexViewDetailsLink = (index): PageElement => cy.get(`#view_closed_application_${index}_link`)
+  closedApplicationByIndexViewDetailsLink = (index: number): PageElement =>
+    cy.get(`#view_closed_application_${index}_link`)
 
   matchedJobsClosingSoonTableData = () =>
     cy

@@ -1,5 +1,5 @@
 import profiles from '../mockData/profileByIdData'
-import { stubFor } from './wiremock'
+import { stubFor, stubFromMapping } from './wiremock'
 
 const createProfile = (id = 'G6115VJ') =>
   stubFor({
@@ -31,7 +31,7 @@ const updateProfile = (id = 'G6115VJ') =>
     },
   })
 
-const getProfileById = (id = 'G6115VJ') => stubFor(profiles[id])
+const getProfileById = (id = 'G6115VJ') => stubFromMapping(profiles, id)
 
 const getNotes = ({ id = 'G6115VJ', toDoItem = 'BANK_ACCOUNT' }) =>
   stubFor({

@@ -1,12 +1,12 @@
-import { stubFor } from './wiremock'
+import { stubFor, stubFromMapping } from './wiremock'
 import { getTestCohortProfileData } from '../mockData/cohortProfileData'
 import { getTestCohortSupportNeeded } from '../mockData/cohortProfileFilterSupportData'
 import prisoners from '../mockData/prisonerByIdData'
 import prisonersByCaseloadIdAndOffenderId from '../mockData/prisonerByCaseloadIdAndOffenderIdData'
 
-const getPrisonerById = (id = 'G6115VJ') => stubFor(prisoners[id])
+const getPrisonerById = (id = 'G6115VJ') => stubFromMapping(prisoners, id)
 
-const getPrisonerByCaseLoadIdAndOffenderId = (id = 'G6115VJ') => stubFor(prisonersByCaseloadIdAndOffenderId[id])
+const getPrisonerByCaseLoadIdAndOffenderId = (id = 'G6115VJ') => stubFromMapping(prisonersByCaseloadIdAndOffenderId, id)
 
 const stubReadinessProfileSearch = () =>
   stubFor({
