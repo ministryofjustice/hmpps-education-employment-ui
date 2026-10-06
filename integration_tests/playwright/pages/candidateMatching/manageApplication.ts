@@ -2,15 +2,15 @@ import { expect, type Locator, type Page } from '@playwright/test'
 import AbstractPage from '../abstractPage'
 
 export default class ManageApplicationPage extends AbstractPage {
-  readonly header: Locator
+  readonly page: Page
 
-  constructor(page: Page, title: string) {
-    super(page, title)
-    this.header = page.locator(`h1`, { hasText: title })
+  constructor(page: Page, prisonerName: string) {
+    super(page, `Manage ${prisonerName}'s application`)
+    this.page = page
   }
 
-  static async verifyOnPage(page: Page, title: string): Promise<ManageApplicationPage> {
-    const manageApplicationPage = new ManageApplicationPage(page, title)
+  static async verifyOnPage(page: Page, prisonerName: string): Promise<ManageApplicationPage> {
+    const manageApplicationPage = new ManageApplicationPage(page, prisonerName)
     await expect(manageApplicationPage.header).toBeVisible()
     return manageApplicationPage
   }
