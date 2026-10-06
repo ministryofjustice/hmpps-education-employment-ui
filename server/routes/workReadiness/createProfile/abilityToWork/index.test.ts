@@ -5,17 +5,20 @@ import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileB
 import parseCheckBoxValue from '../../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../../services'
 import routes from './index'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 jest.mock('./abilityToWorkController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../../middleware/parseCheckBoxValue')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('Ability to work routes', () => {
   let router: Router
   let services: Services
 
   beforeEach(() => {
+    jest.clearAllMocks()
     router = { get: jest.fn(), post: jest.fn() } as unknown as Router
     services = {
       prisonerProfileService: {},
@@ -29,6 +32,7 @@ describe('Ability to work routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for page', () => {
@@ -37,6 +41,7 @@ describe('Ability to work routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/create/:id/ability-to-work/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria,
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
       ],
@@ -50,6 +55,7 @@ describe('Ability to work routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/create/:id/ability-to-work/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria,
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue

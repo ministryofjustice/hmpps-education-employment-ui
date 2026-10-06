@@ -5,11 +5,13 @@ import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileB
 import parseCheckBoxValue from '../../../../middleware/parseCheckBoxValue'
 import { Services } from '../../../../services'
 import routes from './index'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 jest.mock('./trainingAndQualificationsController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../../middleware/resolvers/getProfileByIdResolver')
 jest.mock('../../../../middleware/parseCheckBoxValue')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('Training and qualifications routes', () => {
   let router: Router
@@ -29,6 +31,7 @@ describe('Training and qualifications routes', () => {
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(parseCheckBoxValue as jest.Mock).mockImplementation(() => jest.fn())
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
   })
 
   it('should register GET route for page', () => {
@@ -37,6 +40,7 @@ describe('Training and qualifications routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/create/:id/training-and-qualifications/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
       ],
@@ -50,6 +54,7 @@ describe('Training and qualifications routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/create/:id/training-and-qualifications/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
         expect.any(Function), // parseCheckBoxValue

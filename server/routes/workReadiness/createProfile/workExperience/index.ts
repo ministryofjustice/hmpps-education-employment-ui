@@ -4,6 +4,7 @@ import getPrisonerByIdResolver from '../../../../middleware/resolvers/getPrisone
 import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileByIdResolver'
 import type { Services } from '../../../../services'
 import WorkExperienceController from './workExperienceController'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 export default (router: Router, services: Services) => {
   const controller = new WorkExperienceController(services.prisonerProfileService)
@@ -11,6 +12,7 @@ export default (router: Router, services: Services) => {
   router.get(
     '/wr/profile/create/:id/work-experience/:mode',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
@@ -19,6 +21,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/wr/profile/create/:id/work-experience/:mode',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
     ],
