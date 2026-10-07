@@ -10,6 +10,18 @@ type FeatureToggleOptions = {
   nationalJobsEnabled: boolean
 }
 
+//* ****************************************************************************************
+// Use this fixture for specs that require specific feature-flag states. It declares what
+// the spec needs; it doesn't turn the flags on or off. Feature flags variables should be set
+// in the following manner:
+// . Add feature flag variable in the type declaration above
+// • In export const test use the type above in the base.extend<>
+// • Include it in the page fixture parameters and compare it with the value from /api/features-enabled.
+// • Add a test.skip with the matching server environment variable, so tests skip when the running app’s flag doesn’t match.
+// • In a spec, set the expected value with test.use({ newFlag: true }).
+// Eg:
+// `test.use({ nationalJobsEnabled: true, offenceFilterEnabled: false })`
+//* ****************************************************************************************
 export const test = base.extend<FeatureToggleOptions>({
   offenceFilterEnabled: [true, { option: true }],
   nationalJobsEnabled: [true, { option: true }],

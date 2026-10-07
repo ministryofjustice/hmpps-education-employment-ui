@@ -153,12 +153,23 @@ The `.env.example` file contains the default values for these.
 | TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED | Enables the toggling of expression of interest for development and testing                           |
 | JOB_APPLICATIONS_ENABLED               | Toggles all job applications functions and views                                                     |
 | REPORTING_LINK_ENABLED                 | Enables reporting link on Work after leaving prison homepage                                         |
+| NATIONAL_JOBS                          | Enables national jobs functionality                                                                  |
 | OFFENCE_FILTER_ENABLED                 | Enables offence filter functionality                                                                 |
 
 
 
 
 
+
+### Note
+The matched and national jobs specs use the `featureToggles` fixture to state which feature flags they expect
+the application to have. For example, `test.use({ offenceFilterEnabled: true, nationalJobsEnabled: true })`
+means the tests in that suite expect both flags to be enabled. Both options default to `true`.
+
+The fixture checks the running application's `/api/features-enabled` response after login. If the actual flag
+values don't match the values declared by the tests, the fixture skips them. `test.use(...)` does not configure
+the application; it only declares what the tests expect. If you want to run the tests with different feature flags,
+you need  to set the environment variables in `.env` before starting the application.
 
 Run the application in development mode, in separate shell sessions:
 
@@ -242,13 +253,6 @@ And then either, run tests in headless mode with:
 
 `npm run int-test`
 
-The matched and national jobs specs use the `featureToggles` fixture to declare the required flag states with
-`test.use({ offenceFilterEnabled: true, nationalJobsEnabled: true })`. Both options default to `true`.
-The fixture checks `/api/features-enabled` after login and skips tests when the running server's flags do not
-match. It does not change the server configuration. These specs require `NATIONAL_JOBS=true` in `feature.env`.
-To run the offence-filter disabled-state tests, also set `OFFENCE_FILTER_ENABLED=false` and restart the server;
-restore it to `true` to run the enabled-state tests. The nested disabled-state suites inherit the national-jobs
-requirement and override only `offenceFilterEnabled`.
 
 Or run tests with the UI:
 
