@@ -1,15 +1,12 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../../fixtures/featureToggles'
 
-import { login, resetStubs } from '../../testUtils'
+import { resetStubs } from '../../testUtils'
 import NationalJobsPage from '../../pages/candidateMatching/nationalJobs'
 
-import manageUsersApi from '../../../mockApis/manageUsersApi'
-import nomisUserRolesApi from '../../../mockApis/nomisUserRolesApi'
 import jobApi from '../../../mockApis/jobApi'
 import prisonerSearchApi from '../../../mockApis/prisonerSearchApi'
 import esweProfileApi from '../../../mockApis/esweProfileApi'
 import deliusIntegrationApi from '../../../mockApis/deliusIntegrationApi'
-import config from '../../../../server/config'
 import {
   defaultNationalJobsResponse,
   emptyNationalJobsResponse,
@@ -19,30 +16,13 @@ import {
 } from '../../../mockData/nationalJobsFilterData'
 
 test.describe('National Jobs Tab', () => {
-  const { offenceFilterEnabled } = config.featureToggles
-
-  if (!offenceFilterEnabled) {
-    test.skip()
-  }
+  test.use({ offenceFilterEnabled: true, nationalJobsEnabled: true })
 
   test.afterEach(async () => {
     await resetStubs()
   })
 
-  test.beforeEach(async ({ page }) => {
-    await manageUsersApi.stubAuthUser()
-    await nomisUserRolesApi.getUserActiveCaseLoad()
-    await manageUsersApi.stubGetUser({ username: 'USER1', name: 'Joe Bloggs' })
-    await login(page, {
-      name: 'Joe Bloggs',
-      roles: [
-        'ROLE_EDUCATION_WORK_PLAN_EDITOR',
-        'ROLE_EDUCATION_WORK_PLAN_VIEWER',
-        'ROLE_WORK_READINESS_EDITOR',
-        'ROLE_WORK_READINESS_VIEWER',
-      ],
-    })
-
+  test.beforeEach(async ({ page: _page }) => {
     await prisonerSearchApi.getPrisonerByCaseLoadIdAndOffenderId('G6115VK')
     await prisonerSearchApi.getPrisonerById('G6115VK')
     await esweProfileApi.getProfileById('G6115VK')
@@ -127,5 +107,18 @@ test.describe('National Jobs Tab', () => {
     await expect(page.getByText('0 results')).toBeVisible()
     await expect(nationalJobsPage.offenceFilterSection()).not.toHaveAttribute('open')
     await expect(nationalJobsPage.offenceFilterSelectedCount()).toContainText('2 selected')
+  })
+
+  test.describe('with offence filtering disabled', () => {
+    test.use({ offenceFilterEnabled: false })
+
+    test('National jobs tab - offence exclusions are hidden', async ({ page }) => {
+      await page.goto('/mjma/G6115VK/jobs/national-jobs')
+      const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
+
+      await expect(nationalJobsPage.offenceFilterSection()).toHaveCount(0)
+      await expect(nationalJobsPage.offenceFilter1()).toHaveCount(0)
+      await expect(nationalJobsPage.jobSectorsFilterOtherSection()).toBeVisible()
+    })
   })
 })

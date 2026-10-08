@@ -146,7 +146,7 @@ const stubUser = (name: string) =>
     },
   })
 
-const stubGetUser = ({ username, name }) =>
+const stubGetUser = ({ username, name }: { username: string; name: string }) =>
   stubFor({
     request: {
       method: 'GET',

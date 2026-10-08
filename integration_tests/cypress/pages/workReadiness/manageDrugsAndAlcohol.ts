@@ -5,7 +5,7 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class ManageDrugsAndAlcoholPage extends Page {
   radioField = (): PageElement => cy.get('#manageDrugsAndAlcohol')
 
-  radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  radioFieldValue = (value: string): PageElement => cy.get(`[value=${value}]`)
 
   textareaField = (): PageElement => cy.get('#manageDrugsAndAlcohol')
 

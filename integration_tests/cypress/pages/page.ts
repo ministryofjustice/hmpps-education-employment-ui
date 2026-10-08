@@ -19,10 +19,13 @@ export default abstract class Page {
   }
 
   checkOnPage(): void {
+    if (this.title == null) {
+      throw new Error('A page title is required to check the current page.')
+    }
     cy.get('h1').contains(this.title)
   }
 
-  heading = (): PageElement => cy.get('h1')
+  heading = (): PageElement => cy.get<HTMLElement>('h1')
 
   signOut = (): PageElement => cy.get('[data-qa=signOut]')
 

@@ -5,11 +5,11 @@ export type PageElement = Cypress.Chainable<JQuery>
 export default class EditActionPage extends Page {
   radioField = (): PageElement => cy.get('#toDoStatus')
 
-  radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  radioFieldValue = (value: string): PageElement => cy.get(`[value=${value}]`)
 
   checkboxField = (): PageElement => cy.get('#identification')
 
-  checkboxFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  checkboxFieldValue = (value: string): PageElement => cy.get(`[value=${value}]`)
 
   textareaField = (): PageElement => cy.get('#noteText')
 

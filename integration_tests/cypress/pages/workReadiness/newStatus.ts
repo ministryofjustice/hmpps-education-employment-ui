@@ -9,7 +9,7 @@ export default class NewStatusPage extends Page {
 
   radioField = (): PageElement => cy.get('#newStatus')
 
-  radioFieldValue = (value): PageElement => cy.get(`[value=${value}]`)
+  radioFieldValue = (value: string): PageElement => cy.get(`[value=${value}]`)
 
   textareaField = (): PageElement => cy.get('#newStatus')
 

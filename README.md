@@ -107,7 +107,7 @@ This is probably the easiest way to run and develop on your machine: by hooking 
 in the `dev` environment.
 A user account is needed in hmpps-auth with the appropriate roles.
 
-Create an environment file by copying `.env.example` -> `.env` and updating the secrets from kubernetes. 
+Create an environment file by copying `.env.example` -> `.env` and updating the secrets from kubernetes.
 Environment variables set in here will be available when running `start:dev`
 
 
@@ -139,20 +139,37 @@ Environment variables set in here will be available when running `start:dev`
 | MANAGE_USERS_API                | https://manage-users-api-dev.hmpps.service.justice.gov.uk                          |
 | GET_SOMEONE_READY_FOR_WORK_URL  | https://get-ready-for-work-dev.hmpps.service.justice.gov.uk                        |
 
-There are several feature toggles that can be used to toggle functionality on and off. 
+There are several feature toggles that can be used to toggle functionality on and off.
 The `.env.example` file contains the default values for these.
 
-|:--------------------------------------------------------------------------------------------------------------------------:|
-| Feature toggles                                                                                                            |
-|:--------------------------------------------------------------------------------------------------------------------------:|
-| CANDIDATE_MATCHING_ENABLED - Enables all Work after leaving prison and candidate matching functionality, changes homepage to menu |
-| ARCHIVED_JOBS_ENABLED - Enables all archive jobs views and functions                                                       |
-| EXPRESSIONS_OF_INTEREST_ENABLED - Enables all expressions of interest views                                                |
-| TOGGLE_ARCHIVED_JOBS_ENABLED - Enables the toggling of archive status for development and testing                          |
-| TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED - Enables toggling of expression of interest for development and testing            |
-| JOB_APPLICATIONS_ENABLED - Toggles all job applications functions and views                                                |
-| REPORTING_LINK_ENABLED - Enables reporting link on Work after leaving prison homepage                                             |
-|:--------------------------------------------------------------------------------------------------------------------------:|
+### Feature toggles
+
+| Feature                                | Value  (default to false)                                                                            |
+|:---------------------------------------|:-----------------------------------------------------------------------------------------------------|
+| CANDIDATE_MATCHING_ENABLED             | Enables all Work after leaving prison and candidate matching functionality, changes homepage to menu |
+| ARCHIVED_JOBS_ENABLED                  | Enables all archive jobs views and functions                                                         |
+| EXPRESSIONS_OF_INTEREST_ENABLED        | Enables all expressions of interest views                                                            |
+| TOGGLE_ARCHIVED_JOBS_ENABLED           | Enables the toggling of archive status for development and testing                                   |
+| TOGGLE_EXPRESSIONS_OF_INTEREST_ENABLED | Enables the toggling of expression of interest for development and testing                           |
+| JOB_APPLICATIONS_ENABLED               | Toggles all job applications functions and views                                                     |
+| REPORTING_LINK_ENABLED                 | Enables reporting link on Work after leaving prison homepage                                         |
+| NATIONAL_JOBS                          | Enables national jobs functionality                                                                  |
+| OFFENCE_FILTER_ENABLED                 | Enables offence filter functionality                                                                 |
+
+
+
+
+
+
+### Note
+The matched and national jobs specs use the `featureToggles` fixture to state which feature flags they expect
+the application to have. For example, `test.use({ offenceFilterEnabled: true, nationalJobsEnabled: true })`
+means the tests in that suite expect both flags to be enabled. Both options default to `true`.
+
+The fixture checks the running application's `/api/features-enabled` response after login. If the actual flag
+values don't match the values declared by the tests, the fixture skips them. `test.use(...)` does not configure
+the application; it only declares what the tests expect. If you want to run the tests with different feature flags,
+you need  to set the environment variables in `.env` before starting the application.
 
 Run the application in development mode, in separate shell sessions:
 
@@ -198,7 +215,7 @@ pulled from AWS secrets at deployment time by the circle CI jobs - they are neve
 ### Running integration tests
 
 We have two sets of integration tests – older tests in cypress, newer tests in playwright.  All new test suites should be
-written in playwright. 
+written in playwright.
 
 #### Running cypress integration tests
 
@@ -235,6 +252,7 @@ After first install ensure playwright is initialised:
 And then either, run tests in headless mode with:
 
 `npm run int-test`
+
 
 Or run tests with the UI:
 
