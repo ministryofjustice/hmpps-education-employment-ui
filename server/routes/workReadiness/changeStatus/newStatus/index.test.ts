@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import Controller from './newStatusController'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 import getPrisonerByIdResolver from '../../../../middleware/resolvers/getPrisonerByIdResolver'
 import getProfileByIdResolver from '../../../../middleware/resolvers/getProfileByIdResolver'
 import { Services } from '../../../../services'
@@ -8,6 +9,7 @@ import routes from './index'
 jest.mock('./newStatusController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
 jest.mock('../../../../middleware/resolvers/getProfileByIdResolver')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('New status routes', () => {
   let router: Router
@@ -24,6 +26,7 @@ describe('New status routes', () => {
       get: jest.fn(),
       post: jest.fn(),
     }))
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
     ;(getProfileByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -34,6 +37,7 @@ describe('New status routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/change-status/:id/new-status',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
       ],
@@ -47,6 +51,7 @@ describe('New status routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/change-status/:id/new-status',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getProfileByIdResolver
       ],
