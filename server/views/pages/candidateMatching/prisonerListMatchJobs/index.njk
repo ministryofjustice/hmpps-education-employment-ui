@@ -13,7 +13,7 @@
 
 {% set offendersToBeReleased = prisonerSearchResults.content %}
 {% set activeStatus = filterStatus %}
-{% set title = 'Matched jobs and manage applications' %}
+{% set title = 'Match jobs and manage applications' %}
 
 {% block beforeContent %}
     {{ govukBreadcrumbs({
@@ -59,7 +59,7 @@
 
                     </div>
                 </div>
-                
+
                 {% include './partials/_prisonerListFilters.njk' %}
                 {% include './partials/_resultsPanel.njk' %}
                 {% include './partials/_prisonerListTable.njk' %}
@@ -68,6 +68,3 @@
         </div>
     </div>
 {% endblock %}
-
-
-
