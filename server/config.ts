@@ -50,7 +50,7 @@ export default {
   redis: {
     enabled: get('REDIS_ENABLED', 'false', requiredInProduction) === 'true',
     host: get('REDIS_HOST', 'localhost', requiredInProduction),
-    port: parseInt(get('REDIS_PORT', '6379', requiredInProduction), 10),
+    port: parseInt(process.env.REDIS_PORT ?? '6379', 10) || 6379,
     password: get('REDIS_AUTH_TOKEN', '', requiredInProduction),
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },
