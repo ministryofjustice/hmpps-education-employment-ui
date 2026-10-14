@@ -29,6 +29,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/mjma/:id/jobs/national-jobs',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       handleSortMiddleware('sortAction', 'releaseDate'),
       parseCheckBoxValue('jobSectorFilter'),
       parseCheckBoxValue('jobSectorFilterOther'),

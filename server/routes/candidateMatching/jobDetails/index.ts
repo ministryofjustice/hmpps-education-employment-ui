@@ -22,5 +22,9 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
 
-  router.post('/mjma/:id/job/:jobId/details', controller.post)
+  router.post(
+    '/mjma/:id/job/:jobId/details',
+    [checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService)],
+    controller.post,
+  )
 }

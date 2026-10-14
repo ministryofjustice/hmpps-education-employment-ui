@@ -53,6 +53,7 @@ describe('Right to work routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/mjma/:id/job/:jobId/application/:mode',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
         expect.any(Function), // getApplicationProgressResolver
       ],

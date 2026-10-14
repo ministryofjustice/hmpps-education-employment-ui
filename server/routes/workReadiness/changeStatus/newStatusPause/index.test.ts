@@ -3,9 +3,11 @@ import NewStatusPauseController from './newStatusPauseController'
 import getPrisonerByIdResolver from '../../../../middleware/resolvers/getPrisonerByIdResolver'
 import { Services } from '../../../../services'
 import routes from './index'
+import checkPrisonerProfileViewCriteria from '../../../../middleware/checkPrisonerProfileViewCriteria'
 
 jest.mock('./newStatusPauseController')
 jest.mock('../../../../middleware/resolvers/getPrisonerByIdResolver')
+jest.mock('../../../../middleware/checkPrisonerProfileViewCriteria')
 
 describe('New status pause routes', () => {
   let router: Router
@@ -21,6 +23,7 @@ describe('New status pause routes', () => {
       get: jest.fn(),
       post: jest.fn(),
     }))
+    ;(checkPrisonerProfileViewCriteria as jest.Mock).mockImplementation(() => jest.fn())
     ;(getPrisonerByIdResolver as jest.Mock).mockImplementation(() => jest.fn())
   })
 
@@ -30,6 +33,7 @@ describe('New status pause routes', () => {
     expect(router.get).toHaveBeenCalledWith(
       '/wr/profile/change-status/:id/pause',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
       ],
       expect.any(Function), // controller.get
@@ -42,6 +46,7 @@ describe('New status pause routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/wr/profile/change-status/:id/pause',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // getPrisonerByIdResolver
       ],
       expect.any(Function), // controller.post

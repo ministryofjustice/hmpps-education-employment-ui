@@ -24,6 +24,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/wr/profile/actions/:id/edit/:action',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getProfileByIdResolver(services.prisonerProfileService, services.userService),
       getNotesResolver(services.prisonerProfileService, services.userService),
