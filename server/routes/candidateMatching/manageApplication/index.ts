@@ -23,6 +23,7 @@ export default (router: Router, services: Services) => {
   router.post(
     '/mjma/:id/job/:jobId/application/:mode',
     [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
       getPrisonerByIdResolver(services.prisonerSearchService),
       getApplicationProgressResolver(services.jobApplicationService, services.userService),
     ],

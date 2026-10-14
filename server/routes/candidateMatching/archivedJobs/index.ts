@@ -21,5 +21,12 @@ export default (router: Router, services: Services) => {
     controller.get,
   )
 
-  router.post('/mjma/:id/jobs/archived', [handleSortMiddleware('sortAction', 'releaseDate')], controller.post)
+  router.post(
+    '/mjma/:id/jobs/archived',
+    [
+      checkPrisonerProfileViewCriteria(services.prisonerSearchService, services.prisonerProfileService),
+      handleSortMiddleware('sortAction', 'releaseDate'),
+    ],
+    controller.post,
+  )
 }

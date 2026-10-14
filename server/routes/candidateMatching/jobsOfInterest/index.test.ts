@@ -54,6 +54,7 @@ describe('interested jobs routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/mjma/:id/jobs/interested',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // handleSortMiddleware
       ],
       expect.any(Function), // controller.post

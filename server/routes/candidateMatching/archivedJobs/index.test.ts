@@ -54,6 +54,7 @@ describe('Archived jobs routes', () => {
     expect(router.post).toHaveBeenCalledWith(
       '/mjma/:id/jobs/archived',
       [
+        expect.any(Function), // checkPrisonerProfileViewCriteria
         expect.any(Function), // handleSortMiddleware
       ],
       expect.any(Function), // controller.post

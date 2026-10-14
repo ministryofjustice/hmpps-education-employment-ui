@@ -28,6 +28,8 @@ const wrRoutes = [
   wrCreateProfileUrl('what-needs-to-change/new'),
   wrCreateProfileUrl('work-experience/new'),
   `/wr/profile/actions/${PRISONER_ID}/edit/cv-and-covering-letter`,
+  `/wr/profile/change-status/${PRISONER_ID}/new-status`,
+  `/wr/profile/change-status/${PRISONER_ID}/pause`,
 ].map(url => ({ url, continueUrl: WR_CONTINUE_URL, mjma: false }))
 
 const mjmaRoutes = [
