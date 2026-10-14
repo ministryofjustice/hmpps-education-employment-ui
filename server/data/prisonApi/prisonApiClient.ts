@@ -3,7 +3,7 @@ import fs from 'fs'
 
 import path from 'path'
 import config from '../../config'
-import logger from '../../log'
+import logger from '../../../logger'
 import RestClient from '../restClient'
 import GetOffenderActivitiesResponse from './getOffenderActivitiesResponse'
 
