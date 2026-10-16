@@ -72,6 +72,7 @@ test.describe('Sign In', () => {
   })
 
   test('Manage applications - validation and submit', async ({ page }) => {
+    await jobApplicationApi.stubInterviewBookedUpdate()
     await page.goto('/mjma/G6115VK/job/0190a227-be75-7009-8ad6-c6b068b6754e/details')
 
     const jobDetailsPage = await JobDetailsPage.verifyOnPage(page, 'Warehouse operator')
@@ -87,9 +88,26 @@ test.describe('Sign In', () => {
     await expect(manageApplicationPage.applicationStatusFieldErrorMessage()).toContainText(
       "Select an application progress for Test User7's application",
     )
+    const rows = await manageApplicationPage.tableData()
+    expect(rows[0].status).not.toContain('Job offer')
+    expect(rows[0].moreInformation).not.toContain('Successful interview - job offered')
+    expect(rows).toHaveLength(2)
 
-    await manageApplicationPage.applicationStatus().selectOption('APPLICATION_MADE')
-    await manageApplicationPage.additionalInformation().fill('Some info')
+    // Select an updated status and submit it
+    await manageApplicationPage.applicationStatus().selectOption('JOB_OFFER')
+    await manageApplicationPage.additionalInformation().fill('Successful interview - job offered')
     await manageApplicationPage.submitButton().click()
+
+    await expect(manageApplicationPage.updateProgressButton()).toBeVisible()
+
+    // Check that the table has been updated with the new status and information
+    const updatedRows = await manageApplicationPage.tableData()
+    expect(updatedRows).toHaveLength(3)
+    expect(updatedRows[0].status).toContain('Application made')
+    expect(updatedRows[0].moreInformation).toContain('Some info')
+    expect(updatedRows[1].status).toContain('Interview booked')
+    expect(updatedRows[1].moreInformation).toContain('Interview on Monday')
+    expect(updatedRows[2].status).toContain('Job offer')
+    expect(updatedRows[2].moreInformation).toContain('Successful interview - job offered')
   })
 })

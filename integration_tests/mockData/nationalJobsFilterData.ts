@@ -14,6 +14,11 @@ export const nationalJobsQueries = {
   nationalJobsOtherTypeOfWork: (otherSector: string) =>
     `page=0&size=20&sectors=CONSTRUCTION%2COUTDOOR%2CRETAIL%2C${otherSector}&prisonNumber=G6115VK&isNationalJob=true`,
   nationalJobsOffenceOnly: 'page=0&size=20&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
+  nationalJobsCleaningAndArson:
+    'page=0&size=20&sectors=CLEANING_AND_MAINTENANCE&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON',
+  nationalJobsOutdoorAndWarehousingWithOffenceExclusions:
+    'page=0&size=20&sectors=OUTDOOR%2CWAREHOUSING&prisonNumber=G6115VK&isNationalJob=true&offenceExclusions=ARSON%2CDRIVING',
+  nationalJobsNoFilters: 'page=0&size=20&prisonNumber=G6115VK&isNationalJob=true',
 }
 
 export const defaultNationalJobsResponse = {
@@ -39,16 +44,62 @@ export const defaultNationalJobsResponse = {
   },
 }
 
+export const nationalJobsCleaningAndArsonResponse = {
+  content: [
+    {
+      id: 1,
+      employerName: 'Amazon',
+      jobTitle: 'Cleaner',
+      closingDate: null,
+      distance: null,
+      postcode: null,
+      sector: 'CLEANING_AND_MAINTENANCE',
+      hasExpressedInterest: false,
+      isNational: true,
+      numberOfVacancies: 1,
+    },
+  ],
+  page: {
+    size: 10,
+    number: 0,
+    totalElements: 1,
+    totalPages: 1,
+  },
+}
+
+export const employerFilterNationalJobsResponse = {
+  content: [
+    {
+      id: 1,
+      employerName: 'ABC Construction 10',
+      jobTitle: 'Builder',
+      closingDate: null,
+      distance: null,
+      postcode: null,
+      sector: 'CONSTRUCTION',
+      hasExpressedInterest: false,
+      isNational: true,
+      numberOfVacancies: 2,
+    },
+  ],
+  page: {
+    size: 10,
+    number: 0,
+    totalElements: 1,
+    totalPages: 1,
+  },
+}
+
 export const offenceExclusionNationalJobsResponse = {
   content: [
     {
       id: 1,
-      employerName: 'Tesco',
-      jobTitle: 'Sales manager',
+      employerName: 'ASDA',
+      jobTitle: 'National warehouse operator',
       closingDate: null,
       distance: null,
       postcode: null,
-      sector: 'RETAIL',
+      sector: 'WAREHOUSING',
       hasExpressedInterest: false,
       isNational: true,
       numberOfVacancies: 2,

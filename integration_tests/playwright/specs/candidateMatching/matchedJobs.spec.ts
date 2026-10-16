@@ -24,12 +24,14 @@ test.describe('Matched Jobs Tab', () => {
     await esweProfileApi.getProfileById('G6115VK')
     await deliusIntegrationApi.getPrisonerAddress('G6115VK')
     await jobApi.getMatchedJobs(matchedJobsFilters.filterDefault)
+    await jobApi.getMatchedJobs(matchedJobsFilters.filterDistance50)
   })
 
   test('Matched jobs tab - check content', async ({ page }) => {
     await jobApi.getJob('1')
     await jobApi.getMatchedJobs(matchedJobsFilters.filterReleaseAreaEmpty)
     await jobApi.getMatchedJobs(matchedJobsFilters.filterDistance50)
+    await jobApi.getMatchedJobs(matchedJobsFilters.filterDefaultNational)
 
     await jobApi.getArchivedJobs()
     await jobApi.getEmployersWithNationalJobs()
@@ -84,6 +86,12 @@ test.describe('Matched Jobs Tab', () => {
       '/mjma/G6115VK/jobs/national-jobs?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
     )
     const nationalJobsPage = await NationalJobsPage.verifyOnPage(page, 'Test User7')
+    const rowsNationalJobs = await nationalJobsPage.tableData()
+    expect(rowsNationalJobs).toHaveLength(1)
+    expect(rowsNationalJobs[0].jobRole).toContain('Assistant manager')
+    expect(rowsNationalJobs[0].jobRole).toContain('Carrefour')
+    expect(rowsNationalJobs[0].typeOfWork).toContain('Retail and sales')
+    expect(rowsNationalJobs[0].closingDate).toContain('No closing date')
     await nationalJobsPage.matchedJobsTab().click()
     await expect(page).toHaveURL(
       '/mjma/G6115VK/jobs/matched?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
@@ -92,6 +100,12 @@ test.describe('Matched Jobs Tab', () => {
     await matchedJobsPage.archivedJobsTab().click()
     await expect(page).toHaveURL('/mjma/G6115VK/jobs/archived?sort=closingDate&order=ascending')
     const archivedJobsPage = await ArchivedJobsPage.verifyOnPage(page, 'Test User7')
+    const rowsArchivedJobs = await archivedJobsPage.tableData()
+    expect(rowsArchivedJobs).toHaveLength(10)
+    expect(rowsArchivedJobs[0].jobRole).toContain('Forklift operator')
+    expect(rowsArchivedJobs[0].jobRole).toContain('Amazon')
+    // expect(rowsArchivedJobs[0].typeOfWork).toContain('Animal care and farming')
+    expect(rowsArchivedJobs[0].closingDate).toContain('03 Jun 2024')
     await archivedJobsPage.matchedJobsTab().click()
     await expect(page).toHaveURL(
       '/mjma/G6115VK/jobs/matched?sort=closingDate&order=ascending&jobSectorFilter=CONSTRUCTION,OUTDOOR,RETAIL',
@@ -215,6 +229,66 @@ test.describe('Matched Jobs Tab', () => {
       await expect(matchedJobsPage.offenceFilter1()).toHaveCount(0)
       await expect(matchedJobsPage.jobSectorsFilterOtherSection()).toBeVisible()
     })
+  })
+
+  // Combined filters test - check that applying multiple filters (postcode, search radius and other types of work and offence exclusions) returns the expected results
+  test('Matched jobs tab - combined filters return expected results', async ({ page }) => {
+    await jobApi.getMatchedJobs(matchedJobsFilters.filterSectorOutdoorAndCleaningAndOffencesDrivingAndDistance20)
+
+    await page.goto('/mjma/G6115VK/jobs/matched')
+    const matchedJobsPage = await MatchedJobsPage.verifyOnPage(page, 'Test User7')
+
+    await matchedJobsPage.distanceFilter().selectOption('20')
+
+    await matchedJobsPage.jobSectorsFilterOtherSectionToggle().click()
+    await matchedJobsPage.jobSectorFilterOther1().click()
+    await matchedJobsPage.jobSectorFilter2().click()
+
+    await matchedJobsPage.offenceFilterSectionToggle().click()
+    await matchedJobsPage.offenceFilter2().click()
+
+    await matchedJobsPage.applyButton().click()
+
+    await expect(matchedJobsPage.resultsCounter()).toContainText('6 results')
+
+    await expect(matchedJobsPage.jobSectorsFilterOtherSection()).not.toHaveAttribute('open')
+    await expect(matchedJobsPage.jobSectorsFilterOtherSelectedCount()).toContainText('1 selected')
+    await expect(matchedJobsPage.jobSectorFilterOther1()).toBeChecked()
+    await expect(matchedJobsPage.jobSectorFilter2()).toBeChecked()
+
+    await expect(matchedJobsPage.offenceFilterSection()).not.toHaveAttribute('open')
+    await expect(matchedJobsPage.offenceFilterSelectedCount()).toContainText('1 selected')
+    await expect(matchedJobsPage.offenceFilter2()).toBeChecked()
+  })
+
+  // Change or clear postcode test - check that changing or clearing the postcode returns the expected results
+  test('Matched jobs tab - change or clear postcode returns expected results', async ({ page }) => {
+    await jobApi.getMatchedJobs(matchedJobsFilters.filterChangeOfReleaseArea)
+
+    await page.goto('/mjma/G6115VK/jobs/matched')
+    const matchedJobsPage = await MatchedJobsPage.verifyOnPage(page, 'Test User7')
+
+    await matchedJobsPage.locationFilter().fill('M1 1AA')
+    await matchedJobsPage.applyButton().click()
+    await expect(matchedJobsPage.locationFilter()).toHaveValue('M1 1AA')
+    await expect(matchedJobsPage.resultsCounter()).toContainText('3 results')
+
+    await jobApi.getMatchedJobs(matchedJobsFilters.filterReleaseAreaEmpty)
+
+    await matchedJobsPage.locationFilter().fill('')
+    await matchedJobsPage.applyButton().click()
+    await expect(matchedJobsPage.locationFilter()).toHaveValue('')
+    await expect(matchedJobsPage.resultsCounter()).toContainText('8 results')
+  })
+
+  // Invalid postcode test - check that entering an invalid postcode returns an error message
+  test('Matched jobs tab - invalid postcode returns error message', async ({ page }) => {
+    await page.goto('/mjma/G6115VK/jobs/matched')
+    const matchedJobsPage = await MatchedJobsPage.verifyOnPage(page, 'Test User7')
+
+    await matchedJobsPage.locationFilter().fill('M')
+    await matchedJobsPage.applyButton().click()
+    await expect(page.locator('.govuk-error-summary')).toContainText('Release area postcode must be a valid postcode')
   })
 
   test('Matched jobs tab - sorting columns', async ({ page }) => {

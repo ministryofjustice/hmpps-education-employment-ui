@@ -104,6 +104,91 @@ const updateApplicationHistory = (id = '01934f07-3d8d-7773-acfa-48588b797a8b') =
     },
   })
 
+const stubInterviewBookedUpdate = async () => {
+  const scenarioName = `interview-booked-${Date.now()}`
+
+  await stubFor({
+    scenarioName,
+    requiredScenarioState: 'Started',
+    newScenarioState: 'Updated',
+    request: {
+      method: 'PUT',
+      url: `/applications/019320a4-a8a5-7667-aeb4-fdd8d7e48c2c`,
+      bodyPatterns: [
+        {
+          equalToJson: {
+            applicationStatus: 'JOB_OFFER',
+            additionalInformation: 'Successful interview - job offered',
+          },
+          ignoreExtraElements: true,
+        },
+      ],
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {},
+    },
+  })
+
+  await stubFor({
+    scenarioName,
+    requiredScenarioState: 'Updated',
+    request: {
+      method: 'GET',
+      url: '/applications/histories?jobId=0190a227-be75-7009-8ad6-c6b068b6754e&prisonNumber=G6115VK',
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: [
+        {
+          id: '019320a4-a8a5-7667-aeb4-fdd8d7e48c2c',
+          jobId: '0190a227-be75-7009-8ad6-c6b068b6754e',
+          prisonNumber: 'G6115VK',
+          prisonId: 'MDI',
+          firstName: 'BEAUREGARD',
+          lastName: 'YABUT',
+          applicationStatus: 'APPLICATION_MADE',
+          additionalInformation: 'Some info',
+          createdBy: 'USER1',
+          createdAt: '2024-11-12T13:51:22Z',
+          modifiedBy: 'USER1',
+          modifiedAt: '2024-11-12T13:51:22Z',
+        },
+        {
+          id: '019320a4-a8a5-7667-aeb4-fdd8d7e48c2c',
+          jobId: '0190a227-be75-7009-8ad6-c6b068b6754e',
+          prisonNumber: 'G6115VK',
+          prisonId: 'MDI',
+          firstName: 'BEAUREGARD',
+          lastName: 'YABUT',
+          applicationStatus: 'INTERVIEW_BOOKED',
+          additionalInformation: 'Interview on Monday',
+          createdBy: 'USER1',
+          createdAt: '2024-11-12T13:51:22Z',
+          modifiedBy: 'USER1',
+          modifiedAt: '2024-11-12T13:53:14Z',
+        },
+        {
+          id: '019320a4-a8a5-7667-aeb4-fdd8d7e48c2c',
+          jobId: '0190a227-be75-7009-8ad6-c6b068b6754e',
+          prisonNumber: 'G6115VK',
+          prisonId: 'MDI',
+          firstName: 'Test',
+          lastName: 'User7',
+          applicationStatus: 'JOB_OFFER',
+          additionalInformation: 'Successful interview - job offered',
+          createdBy: 'USER1',
+          createdAt: '2024-11-12T13:51:22Z',
+          modifiedBy: 'USER1',
+          modifiedAt: '2024-11-12T14:00:00Z',
+        },
+      ],
+    },
+  })
+}
+
 const applicationSearch = () =>
   stubFor({
     request: {
@@ -256,5 +341,6 @@ export default {
   getClosedApplications,
   getApplicationHistory,
   updateApplicationHistory,
+  stubInterviewBookedUpdate,
   applicationSearch,
 }

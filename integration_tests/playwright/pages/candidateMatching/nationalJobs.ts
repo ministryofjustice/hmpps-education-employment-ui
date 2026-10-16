@@ -53,6 +53,10 @@ export default class NationalJobsPage extends AbstractPage {
     return this.page.locator('#jobSectorFilter-2')
   }
 
+  jobSectorFilter3(): Locator {
+    return this.page.locator('#jobSectorFilter-3')
+  }
+
   jobSectorsFilterOtherSection(): Locator {
     return this.page.locator('details').filter({ has: this.page.locator('#jobSectorFilterOther-1') })
   }
@@ -120,6 +124,10 @@ export default class NationalJobsPage extends AbstractPage {
 
   closingDateColumnToggle(): Locator {
     return this.page.locator('#closingDate-sort-action')
+  }
+
+  jobLink1(): Locator {
+    return this.page.locator('[data-qa=job-link-0]')
   }
 
   async tableData(): Promise<
