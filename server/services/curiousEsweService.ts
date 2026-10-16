@@ -9,7 +9,7 @@ import {
   LearnerEmployabilitySkills,
   LearnerEducation,
 } from '../data/curious/types/Types'
-import log from '../log'
+import log from '../../logger'
 
 const curiousApi = CuriousApi.create(clientFactory({ baseUrl: config.apis.curiousApi.url }))
 

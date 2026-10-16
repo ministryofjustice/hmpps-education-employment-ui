@@ -3,7 +3,7 @@ import nock from 'nock'
 import config from '../../config'
 import PrisonApiClient from './prisonApiClient'
 
-jest.mock('../../log')
+jest.mock('../../../logger')
 
 describe('prisonApiClient', () => {
   let fakePrisonApi: nock.Scope
