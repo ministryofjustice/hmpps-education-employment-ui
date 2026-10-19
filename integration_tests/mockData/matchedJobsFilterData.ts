@@ -1,3 +1,5 @@
+import { defaultNationalJobsResponse } from './nationalJobsFilterData'
+
 const job1 = {
   id: 1,
   employerName: 'Amazon',
@@ -200,6 +202,9 @@ const filterSortByClosingDateAsc =
 const filterSortByClosingDateDesc =
   'page=0&size=20&sortBy=closingDate&sortOrder=desc&prisonNumber=G6115VK&releaseArea=L15%207LR&searchRadius=50&isNationalJob=false'
 
+const filterChangeOfReleaseArea =
+  'page=0&size=20&prisonNumber=G6115VK&releaseArea=M1%201AA&searchRadius=50&isNationalJob=false'
+
 export const matchedJobsFilters = {
   filterDefault,
   filterDefaultNational,
@@ -227,6 +232,7 @@ export const matchedJobsFilters = {
   filterSortByDistanceDesc,
   filterSortByClosingDateAsc,
   filterSortByClosingDateDesc,
+  filterChangeOfReleaseArea,
 }
 
 export const matchedJobs = {
@@ -258,13 +264,7 @@ export const matchedJobs = {
       status: 200,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       jsonBody: {
-        content: [], // TODO: Add national jobs
-        page: {
-          size: 10,
-          number: 0,
-          totalElements: 5,
-          totalPages: 1,
-        },
+        ...defaultNationalJobsResponse,
       },
     },
   },
@@ -719,6 +719,25 @@ export const matchedJobs = {
           size: 10,
           number: 0,
           totalElements: 9,
+          totalPages: 1,
+        },
+      },
+    },
+  },
+  [filterChangeOfReleaseArea]: {
+    request: {
+      method: 'GET',
+      url: `/jobs/matching-candidate?${filterChangeOfReleaseArea}`,
+    },
+    response: {
+      status: 200,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: {
+        content: [job3, job4, job13],
+        page: {
+          size: 10,
+          number: 0,
+          totalElements: 3,
           totalPages: 1,
         },
       },
