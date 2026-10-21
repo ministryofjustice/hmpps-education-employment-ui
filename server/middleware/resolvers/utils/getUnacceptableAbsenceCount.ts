@@ -1,11 +1,11 @@
-import WhereaboutsService from '../../../services/whereaboutsService'
+import ActivitiesService from '../../../services/activitiesService'
 
-const getUnacceptibleAbsenceCount = async (whereaboutsService: WhereaboutsService, username: string, id: string) => {
+const getUnacceptibleAbsenceCount = async (activitiesService: ActivitiesService, username: string, id: string) => {
   const fromDate = new Date()
   fromDate.setMonth(fromDate.getMonth() - 6)
   const toDate = new Date()
 
-  return whereaboutsService.getUnacceptibleAbsenceCount(username, id, fromDate, toDate)
+  return activitiesService.getUnacceptibleAbsenceCount(username, id, fromDate, toDate)
 }
 
 export default getUnacceptibleAbsenceCount

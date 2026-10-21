@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import WhereaboutsApiClient from './whereaboutsApiClient'
+import ActivitiesApiClient from './activitiesApiClient'
 import RestClient from '../restClient'
 import GetUnacceptibleAbsenceCountResult from './getUnacceptibleAbsenceCountResult'
 import config from '../../config'
 
 jest.mock('../restClient')
 
-describe('WhereaboutsApiClient', () => {
-  let client: WhereaboutsApiClient
+describe('ActivitiesApiClient', () => {
+  let client: ActivitiesApiClient
   let restClientMock: jest.Mocked<RestClient>
 
   const offenderNo = 'A1234BC'
@@ -15,9 +15,9 @@ describe('WhereaboutsApiClient', () => {
   const endDate = new Date('2023-04-13')
 
   beforeEach(() => {
-    restClientMock = new RestClient('Whereabouts API', config.apis.whereaboutsApi, 'token') as jest.Mocked<RestClient>
+    restClientMock = new RestClient('Activities API', config.apis.activitiesApi, 'token') as jest.Mocked<RestClient>
     ;(RestClient as any).mockImplementation(() => restClientMock)
-    client = new WhereaboutsApiClient('token')
+    client = new ActivitiesApiClient('token')
   })
 
   describe('getUnacceptibleAbsenceCount', () => {

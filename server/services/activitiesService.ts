@@ -1,8 +1,8 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
-import WhereaboutsApiClient from '../data/whereaboutsApi/whereaboutsApiClient'
-import GetUnacceptibleAbsenceCountResult from '../data/whereaboutsApi/getUnacceptibleAbsenceCountResult'
+import ActivitiesApiClient from '../data/activitiesApi/activitiesApiClient'
+import GetUnacceptibleAbsenceCountResult from '../data/activitiesApi/getUnacceptibleAbsenceCountResult'
 
-export default class WhereaboutsService {
+export default class ActivitiesService {
   constructor(private readonly hmppsAuthClient: HmppsAuthClient) {}
 
   async getUnacceptibleAbsenceCount(
@@ -13,6 +13,6 @@ export default class WhereaboutsService {
   ): Promise<GetUnacceptibleAbsenceCountResult> {
     const systemToken = await this.hmppsAuthClient.getSystemClientToken(username)
 
-    return new WhereaboutsApiClient(systemToken).getUnacceptibleAbsenceCount(id, startDate, endDate)
+    return new ActivitiesApiClient(systemToken).getUnacceptibleAbsenceCount(id, startDate, endDate)
   }
 }
