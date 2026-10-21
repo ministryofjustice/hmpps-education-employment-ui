@@ -10,7 +10,7 @@ describe('ActivitiesApiClient', () => {
   let client: ActivitiesApiClient
   let restClientMock: jest.Mocked<RestClient>
 
-  const offenderNo = 'A1234BC'
+  const prisonerNumber = 'A1234BC'
   const startDate = new Date('2023-04-01')
   const endDate = new Date('2023-04-13')
 
@@ -22,7 +22,7 @@ describe('ActivitiesApiClient', () => {
 
   describe('getUnacceptibleAbsenceCount', () => {
     it('should make a GET request to the correct endpoint with the correct parameters', async () => {
-      const expectedPath = `/attendances/offender/${offenderNo}/unacceptable-absence-count?fromDate=2023-04-01&toDate=2023-04-13`
+      const expectedPath = `/attendances/prisoner/${prisonerNumber}/attendance-summary?startDate=2023-04-01&endDate=2023-04-13`
       const expectedResult: GetUnacceptibleAbsenceCountResult = {
         acceptableAbsence: 2,
         unacceptableAbsence: 2,
@@ -31,7 +31,7 @@ describe('ActivitiesApiClient', () => {
 
       restClientMock.get.mockResolvedValue(expectedResult)
 
-      const result = await client.getUnacceptibleAbsenceCount(offenderNo, startDate, endDate)
+      const result = await client.getUnacceptibleAbsenceCount(prisonerNumber, startDate, endDate)
 
       expect(restClientMock.get).toHaveBeenCalledWith({
         path: expectedPath,

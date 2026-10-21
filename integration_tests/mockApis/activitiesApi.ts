@@ -4,7 +4,7 @@ const getUnacceptableAbsenceCount = (id = 'G6115VJ') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPathPattern: `/attendances/offender/${id}/unacceptable-absence-count`,
+      urlPathPattern: `/attendances/prisoner/${id}/attendance-summary`,
     },
     response: {
       status: 200,
