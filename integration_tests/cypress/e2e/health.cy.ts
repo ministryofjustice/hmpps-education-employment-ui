@@ -54,7 +54,7 @@ context('Healthcheck', () => {
         expect(response.body.components.nomisUserRolesApi.status).to.equal('UP')
         expect(response.body.components.esweProfileApi.status).to.equal('UP')
         expect(response.body.components.keyworkerApi.status).to.equal('UP')
-        expect(response.body.components.whereaboutsApi.status).to.equal('UP')
+        expect(response.body.components.activitiesApi.status).to.equal('UP')
         expect(response.body.components.deliusIntegrationApi.status).to.equal('UP')
         expect(response.body.components.manageUsersApi.status).to.equal('UP')
         expect(response.body.components.jobApi.status).to.equal('UP')

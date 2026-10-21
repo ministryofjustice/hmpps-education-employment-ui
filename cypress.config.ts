@@ -9,7 +9,7 @@ import prisonerSearchApi from './integration_tests/mockApis/prisonerSearchApi'
 import esweProfileApi from './integration_tests/mockApis/esweProfileApi'
 import nomisUserRolesApi from './integration_tests/mockApis/nomisUserRolesApi'
 import prisonApi from './integration_tests/mockApis/prisonApi'
-import whereaboutsApi from './integration_tests/mockApis/whereaboutsApi'
+import activitiesApi from './integration_tests/mockApis/activitiesApi'
 import keyworkerApi from './integration_tests/mockApis/keyworkerApi'
 import deliusIntegrationApi from './integration_tests/mockApis/deliusIntegrationApi'
 import allocationManagerApi from './integration_tests/mockApis/allocationManagerApi'
@@ -53,7 +53,7 @@ export default defineConfig({
         ...stubCohortListNoSearchTermNotExistFilter,
         ...stubCohortListSortedByLastName,
         ...prisonApi,
-        ...whereaboutsApi,
+        ...activitiesApi,
         ...keyworkerApi,
         ...allocationManagerApi,
         ...deliusIntegrationApi,

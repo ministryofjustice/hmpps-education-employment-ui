@@ -41,7 +41,7 @@ The UI application needs a suite of services to work:
 |                                 nomis-user-roles-api                                  | Authenticate and retrieve user name & email                                                | http://localhost:8097      | None - required locally |
 |                                      curiousApi                                       | Offenders employment, skills and neurodivergence data (3rd party API managed by MegaNexus) | No default                 | None - required locally |
 |                                     keyworker-api                                     | Key worker information                                                                     | No default                 | None - required locally |
-|                                    whereabouts-api                                    | Offenders location inc. absence figures from activities in prison                          | No default                 | None - required locally |
+|                               activities-management-api                               | Prisoner activity attendance and absence figures in prison                                 | No default                 | None - required locally |
 |                                allocation-manager-api                                 | Allocated POM for offenders                                                                | No default                 | None - required locally |
 
 More information about the template project including features can be
@@ -128,7 +128,7 @@ Environment variables set in here will be available when running `start:dev`
 | ESWE_PROFILE_API_URL            | https://education-employment-api-dev.hmpps.service.justice.gov.uk                  |
 | PRISONER_SEARCH_URL             | https://prisoner-search-dev.prison.service.justice.gov.uk                          |
 | KEYWORKER_API_URL               | https://keyworker-api-dev.prison.service.justice.gov.uk                            |
-| WHEREABOUTS_API_URL             | https://whereabouts-api-dev.service.justice.gov.uk                                 |
+| ACTIVITIES_API_URL              | https://activities-api-dev.prison.service.justice.gov.uk                           |
 | ALLOCATION_MANAGER_ENDPOINT_URL | https://allocation-manager-staging.apps.live.cloud-platform.service.justice.gov.uk |
 | SYSTEM_PHASE                    | DEV                                                                                |
 | WEEKS_BEFORE_RELEASE            | 12                                                                                 |

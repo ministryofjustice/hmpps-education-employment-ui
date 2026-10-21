@@ -89,7 +89,7 @@ const getContactTabData = async (req: any, res: any, services: Services): Promis
 const getTrainingTabData = async (req: any, res: any, services: Services): Promise<void> => {
   const { id } = req.params
   const { username } = res.locals.user
-  const { prisonService, curiousEsweService, whereaboutsService } = services
+  const { prisonService, curiousEsweService, activitiesService } = services
 
   const [
     currentOffenderActivities,
@@ -102,7 +102,7 @@ const getTrainingTabData = async (req: any, res: any, services: Services): Promi
     getEmployabilitySkills(curiousEsweService, username, id),
     getLearnerEducation(curiousEsweService, username, id),
     getLatestAssessment(curiousEsweService, username, id),
-    getUnacceptibleAbsenceCount(whereaboutsService, username, id),
+    getUnacceptibleAbsenceCount(activitiesService, username, id),
   ])
 
   req.context.currentOffenderActivities = currentOffenderActivities

@@ -1,23 +1,23 @@
 import HmppsAuthClient from '../data/hmppsAuthClient'
-import WhereaboutsApiClient from '../data/whereaboutsApi/whereaboutsApiClient'
-import GetUnacceptibleAbsenceCountResult from '../data/whereaboutsApi/getUnacceptibleAbsenceCountResult'
-import WhereaboutsService from './whereaboutsService'
+import ActivitiesApiClient from '../data/activitiesApi/activitiesApiClient'
+import GetUnacceptibleAbsenceCountResult from '../data/activitiesApi/getUnacceptibleAbsenceCountResult'
+import ActivitiesService from './activitiesService'
 
-jest.mock('../data/whereaboutsApi/whereaboutsApiClient')
+jest.mock('../data/activitiesApi/activitiesApiClient')
 
-describe('WhereaboutsService', () => {
+describe('ActivitiesService', () => {
   let hmppsAuthClient: HmppsAuthClient
-  let whereaboutsService: WhereaboutsService
+  let activitiesService: ActivitiesService
 
   beforeEach(() => {
     hmppsAuthClient = {
       getSystemClientToken: jest.fn().mockResolvedValue('system-token'),
     } as unknown as HmppsAuthClient
-    whereaboutsService = new WhereaboutsService(hmppsAuthClient)
+    activitiesService = new ActivitiesService(hmppsAuthClient)
   })
 
   describe('getUnacceptibleAbsenceCount', () => {
-    it('calls WhereaboutsApiClient with correct parameters', async () => {
+    it('calls ActivitiesApiClient with correct parameters', async () => {
       const id = '123'
       const startDate = new Date('2022-01-01')
       const endDate = new Date('2022-01-31')
@@ -28,17 +28,17 @@ describe('WhereaboutsService', () => {
         total: 7,
       } as GetUnacceptibleAbsenceCountResult
 
-      const whereAboutsApiClientMock = jest.fn().mockImplementation(() => {
+      const activitiesApiClientMock = jest.fn().mockImplementation(() => {
         return {
           getUnacceptibleAbsenceCount: jest.fn().mockResolvedValue(expectedUnacceptableAbsenceCountResult),
         }
       })
-      ;(WhereaboutsApiClient as jest.Mock).mockImplementation(whereAboutsApiClientMock)
+      ;(ActivitiesApiClient as jest.Mock).mockImplementation(activitiesApiClientMock)
 
-      const result = await whereaboutsService.getUnacceptibleAbsenceCount('current-username', id, startDate, endDate)
+      const result = await activitiesService.getUnacceptibleAbsenceCount('current-username', id, startDate, endDate)
 
       expect(hmppsAuthClient.getSystemClientToken).toHaveBeenCalledWith('current-username')
-      expect(whereAboutsApiClientMock).toHaveBeenCalledWith('system-token')
+      expect(activitiesApiClientMock).toHaveBeenCalledWith('system-token')
       expect(result).toEqual(expectedUnacceptableAbsenceCountResult)
     })
   })

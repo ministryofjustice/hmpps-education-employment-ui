@@ -150,8 +150,8 @@ export default {
       },
       agent: new AgentConfig(),
     },
-    whereaboutsApi: {
-      url: get('WHEREABOUTS_API_URL', 'http://localhost:8083', requiredInProduction),
+    activitiesApi: {
+      url: get('ACTIVITIES_API_URL', 'http://localhost:8083', requiredInProduction),
       healthPath: '/health/ping',
       timeout: {
         response: Number(get('ESWE_PROFILE_TIMEOUT_RESPONSE', 10000)),

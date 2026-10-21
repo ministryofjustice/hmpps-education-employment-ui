@@ -1,11 +1,11 @@
 import type { RequestHandler } from 'express'
-import WhereaboutsService from '../../services/whereaboutsService'
+import ActivitiesService from '../../services/activitiesService'
 import { getSessionData } from '../../utils/session'
 import getUnacceptibleAbsenceCount from './utils/getUnacceptableAbsenceCount'
 
 // Gets unacceptable Absences Count based on id parameter and puts it into request context
 const getUnacceptableAbsencesCountResolver =
-  (whereaboutsService: WhereaboutsService): RequestHandler =>
+  (activitiesService: ActivitiesService): RequestHandler =>
   async (req, res, next): Promise<void> => {
     const { id } = req.params
     const { username } = res.locals.user
@@ -18,7 +18,7 @@ const getUnacceptableAbsencesCountResolver =
         return
       }
 
-      const results = await getUnacceptibleAbsenceCount(whereaboutsService, username, id)
+      const results = await getUnacceptibleAbsenceCount(activitiesService, username, id)
       req.context.unacceptableAbsenceCount = results
 
       next()

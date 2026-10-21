@@ -4,18 +4,18 @@ import GetUnacceptibleAbsenceCountResult from './getUnacceptibleAbsenceCountResu
 
 const BASE_URL = '/attendances'
 
-export default class WhereaboutsApiClient {
+export default class ActivitiesApiClient {
   restClient: RestClient
 
   constructor(token: string) {
-    this.restClient = new RestClient('Whereabouts API', config.apis.whereaboutsApi, token)
+    this.restClient = new RestClient('Activities API', config.apis.activitiesApi, token)
   }
 
-  async getUnacceptibleAbsenceCount(offenderNo: string, startDate: Date, endDate: Date) {
+  async getUnacceptibleAbsenceCount(prisonerNumber: string, startDate: Date, endDate: Date) {
     const fromDate = startDate.toISOString().split('T')[0]
     const toDate = endDate.toISOString().split('T')[0]
     const result = await this.restClient.get<GetUnacceptibleAbsenceCountResult>({
-      path: `${BASE_URL}/offender/${offenderNo}/unacceptable-absence-count?fromDate=${fromDate}&toDate=${toDate}`,
+      path: `${BASE_URL}/prisoner/${prisonerNumber}/attendance-summary?startDate=${fromDate}&endDate=${toDate}`,
     })
 
     return result
